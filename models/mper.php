@@ -1,0 +1,570 @@
+<?php
+class Mper{   
+    //------------Persona-----------
+    private $idper;
+    private $nomper;
+    private $apeper;
+    private $idvtpd;
+    private $ndper;
+    private $emaper;
+    private $pasper;
+    private $cargo;
+    private $usured;
+    private $actper;
+
+    //------------Perfil-----------
+    private $idpef;
+
+    //------------Tarjeta-----------
+    private $idtaj;
+    private $numtajpar;
+    private $numtajofi;
+    private $idperent;
+    private $idperrec;
+    private $fecent;
+    private $idperentd;
+    private $idperrecd;
+    private $fecdev;
+    private $esttaj;
+
+
+
+    //------------Persona-----------
+    public function getIdper()
+    {
+        return $this->idper;
+    }
+    public function getNomper()
+    {
+        return $this->nomper;
+    }
+    public function getApeper()
+    {
+        return $this->apeper;
+    }
+    public function getIdvtpd()
+    {
+        return $this->idvtpd;
+    }
+    public function getNdper()
+    {
+        return $this->ndper;
+    }
+    public function getEmaper()
+    {
+        return $this->emaper;
+    }
+    public function getPasper()
+    {
+        return $this->pasper;
+    }
+    public function getCargo()
+    {
+        return $this->cargo;
+    }
+    public function getUsured()
+    {
+        return $this->usured;
+    }
+    public function getActper()
+    {
+        return $this->actper;
+    }
+
+    //------------Perfil-----------
+    public function getIdpef()
+    {
+        return $this->idpef;
+    }
+
+    //------------Tarjeta-----------
+    public function getIdtaj(){
+        return $this->idtaj;
+    }
+    public function getNumtajpar(){
+        return $this->numtajpar;
+    }
+    public function getNumtajofi(){
+        return $this->numtajofi;
+    }
+    public function getIdperent(){
+        return $this->idperent;
+    }
+    public function getIdperrec(){
+        return $this->idperrec;
+    }
+    public function getFecent(){
+        return $this->fecent;
+    }
+    public function getIdperentd(){
+        return $this->idperentd;
+    }
+    public function getIdperrecd(){
+        return $this->idperrecd;
+    }
+    public function getFecdev(){
+        return $this->fecdev;
+    }
+    public function getEsttaj(){
+        return $this->esttaj;
+    }
+
+    //------------Persona-----------
+    public function setIdper($idper)
+    {
+        $this->idper = $idper;
+    }
+    public function setNomper($nomper)
+    {
+        $this->nomper = $nomper;
+    }
+    public function setApeper($apeper)
+    {
+        $this->apeper = $apeper;
+    }
+    public function setIdvtpd($idvtpd)
+    {
+        $this->idvtpd = $idvtpd;
+    }
+    public function setNdper($ndper)
+    {
+        $this->ndper = $ndper;
+    }
+    public function setEmaper($emaper)
+    {
+        $this->emaper = $emaper;
+    }
+    public function setPasper($pasper)
+    {
+        $this->pasper = $pasper;
+    }
+    public function setCargo($cargo)
+    {
+        $this->cargo = $cargo;
+    }
+    public function setUsured($usured)
+    {
+        $this->usured = $usured;
+    }
+    public function setActper($actper)
+    {
+        $this->actper = $actper;
+    }
+
+    //------------Perfil-----------
+    public function setIdpef($idpef)
+    {
+        $this->idpef = $idpef;
+    }
+
+    //------------Tarjeta-----------
+    public function setIdtaj($idtaj){
+        $this->idtaj=$idtaj;
+    }
+    public function setNumtajpar($numtajpar){
+        $this->numtajpar=$numtajpar;
+    }
+    public function setNumtajofi($numtajofi){
+        $this->numtajofi=$numtajofi;
+    }
+    public function setIdperent($idperent){
+        $this->idperent=$idperent;
+    }
+    public function setIdperrec($idperrec){
+        $this->idperrec=$idperrec;
+    }
+    public function setFecent($fecent){
+        $this->fecent=$fecent;
+    }
+    public function setIdperentd($idperentd){
+        $this->idperentd=$idperentd;
+    }
+    public function setIdperrecd($idperrecd){
+        $this->idperrecd=$idperrecd;
+    }
+    public function setFecdev($fecdev){
+        $this->fecdev=$fecdev;
+    }
+    public function setEsttaj($esttaj){
+        $this->esttaj=$esttaj;
+    }
+
+    //------------Persona-----------
+    function getAll()
+    {
+        $sql = "SELECT DISTINCT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval INNER JOIN perxpef AS pf ON p.idper=pf.idper";
+        if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
+        $sql .= " GROUP BY p.idper";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        if($_SESSION['idpef']==3){
+            $idper = $_SESSION['idper'];
+            $result->bindParam(":idper", $idper);
+        }
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function getOne()
+    {
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval INNER JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.idper=:idper";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $idper = $this->getIdper();
+        $result->bindParam(":idper", $idper);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function save()
+    {
+        try {
+            $sql = "INSERT INTO persona(nomper, apeper, idvtpd, ndper, emaper, cargo, usured, actper";
+            if ($this->getPasper()) $sql .= ", pasper";
+            $sql .= ") VALUES (:nomper, :apeper, :idvtpd, :ndper, :emaper, :cargo, :usured, :actper";
+            if ($this->getPasper()) $sql .= ", :pasper";
+            $sql .= ")";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $nomper = $this->getNomper();
+            $result->bindParam(":nomper", $nomper);
+            $apeper = $this->getApeper();
+            $result->bindParam(":apeper", $apeper);
+            $idvtpd = $this->getIdvtpd();
+            $result->bindParam(":idvtpd", $idvtpd);
+            $ndper = $this->getNdper();
+            $result->bindParam(":ndper", $ndper);
+            $emaper = $this->getEmaper();
+            $result->bindParam(":emaper", $emaper);
+            $cargo = $this->getCargo();
+            $result->bindParam(":cargo", $cargo);
+            $usured = $this->getUsured();
+            $result->bindParam(":usured", $usured);
+            $actper = $this->getActper();
+            $result->bindParam(":actper", $actper);
+            if ($this->getPasper()) {
+                $pasper = $this->getPasper();
+                $pasper = sha1(md5($pasper)) . "sGlaqs2%";
+                $result->bindParam(":pasper", $pasper);
+            }
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function editAct()
+    {
+        $sql = "UPDATE persona SET actper=:actper WHERE idper=:idper";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $idper = $this->getIdper();
+        $result->bindParam(":idper", $idper);
+        $actper = $this->getActper();
+        $result->bindParam(":actper", $actper);
+        $result->execute();
+    }
+
+    function edit(){
+        try{
+            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, idvtpd=:idvtpd, ndper=:ndper, emaper=:emaper, cargo=:cargo, usured=:usured, actper=:actper";
+            if ($this->getPasper()) $sql .= ", pasper=:pasper";
+            $sql .= " WHERE idper=:idper";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idper = $this->getIdper();
+            $result->bindParam(":idper", $idper);
+            $nomper = $this->getNomper();
+            $result->bindParam(":nomper", $nomper);
+            $apeper = $this->getApeper();
+            $result->bindParam(":apeper", $apeper);
+            $idvtpd = $this->getIdvtpd();
+            $result->bindParam(":idvtpd", $idvtpd);
+            $ndper = $this->getNdper();
+            $result->bindParam(":ndper", $ndper);
+            $emaper = $this->getEmaper();
+            $result->bindParam(":emaper", $emaper);
+            $cargo = $this->getCargo();
+            $result->bindParam(":cargo", $cargo);
+            $usured = $this->getUsured();
+            $result->bindParam(":usured", $usured);
+            $actper = $this->getActper();
+            $result->bindParam(":actper", $actper);
+            if ($this->getPasper()) {
+                $pasper = $this->getPasper();
+                $pasper = sha1(md5($pasper)) . "sGlaqs2%";
+                $result->bindParam(":pasper", $pasper);
+            }
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function del()
+    {
+        try {
+            $sql = "DELETE FROM persona WHERE idper=:idper";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idper = $this->getIdper();
+            $result->bindParam(":idper", $idper);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function getExPE($idper){
+        $res = null;
+        $modelo = new conexion();
+		$sql = "SELECT COUNT(idperent) AS can FROM asignar WHERE idperent=:idper";
+		$conexion = $modelo->get_conexion();
+		$result = $conexion->prepare($sql);
+		$result->bindParam(':idper',$idper);
+		$result->execute();
+		$res = $result-> fetchall(PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+    function getExPR($idper){
+        $res = null;
+        $modelo = new conexion();
+		$sql = "SELECT COUNT(idperrec) AS can FROM asignar WHERE idperrec=:idper";
+		$conexion = $modelo->get_conexion();
+		$result = $conexion->prepare($sql);
+		$result->bindParam(':idper',$idper);
+		$result->execute();
+		$res = $result-> fetchall(PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+    function getPFxP($idper){
+        $res = null;
+        $modelo = new conexion();
+		$sql = "SELECT COUNT(idper) AS can FROM perxpef WHERE idper=:idper";
+		$conexion = $modelo->get_conexion();
+		$result = $conexion->prepare($sql);
+		$result->bindParam(':idper',$idper);
+		$result->execute();
+		$res = $result-> fetchall(PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+    //------------Perfil-----------
+    
+    function getOnePxF()
+    {
+        $sql = "SELECT idpef AS idpag FROM perxpef WHERE idper=:idper";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $idper = $this->getIdper();
+        $result->bindParam(":idper", $idper);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function getOneSPxF($ndper)
+    {
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.ndper=:ndper";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->bindParam(":ndper", $ndper);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function getOnePef($idmod)
+    {
+        $sql = "SELECT idpef, nompef, idmod, idpag FROM perfil WHERE idmod=:idmod";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->bindParam(":idmod", $idmod);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function savePxF()
+    {
+        try{
+            $sql = "INSERT INTO perxpef (idper, idpef) VALUES (:idper,:idpef)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idper = $this->getIdper();
+            $result->bindParam(":idper", $idper);
+            $idpef = $this->getIdpef();
+            $result->bindParam(":idpef", $idpef);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function savePxFAut($idper,$idpef)
+    {
+        try{
+            $sql = "INSERT INTO perxpef (idper, idpef) VALUES (:idper,:idpef)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":idper", $idper);
+            $result->bindParam(":idpef", $idpef);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function delPxF()
+    {
+        try{
+            $sql = "DELETE FROM perxpef WHERE idper=:idper";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idper = $this->getIdper();
+            $result->bindParam(":idper", $idper);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    //------------Tarjeta-----------
+
+    function getAllTaj()
+    {
+        $sql = "SELECT t.idtaj, p.ndper, CONCAT(p.apeper,' ',p.nomper) AS nomper, p.cargo, t.numtajpar, t.numtajofi, t.fecent, t.fecdev, t.esttaj FROM tarjeta AS t INNER JOIN persona AS p ON t.idperrec=p.idper ORDER BY t.esttaj, nomper";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function getAllTajPer($id)
+    {
+        $sql = "SELECT idtaj, numtajpar, numtajofi, idperent, idperrec, fecent, idperentd, idperrecd, fecdev, esttaj FROM tarjeta WHERE idperrec=:id AND esttaj=2";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->bindParam(":id", $id);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function getOneTaj($id)
+    {
+        $sql = "SELECT idtaj, numtajpar, numtajofi, idperent, idperrec, fecent, idperentd, idperrecd, fecdev, esttaj FROM tarjeta WHERE idperrec=:id AND esttaj=1";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->bindParam(":id", $id);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function saveTaj()
+    {
+        try{
+            $numtajpar = $this->getNumtajpar();
+            $numtajofi = $this->getNumtajofi();
+            $sql = "INSERT INTO tarjeta (";
+            if($numtajpar) $sql .= "numtajpar, ";
+            if($numtajofi) $sql .= "numtajofi, ";
+            $sql .= "idperent, idperrec, fecent, esttaj) VALUES (";
+            if($numtajpar) $sql .= ":numtajpar,";
+            if($numtajofi) $sql .= ":numtajofi,";
+            $sql .= ":idperent, :idperrec, :fecent, :esttaj)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            if($numtajpar) $result->bindParam(":numtajpar", $numtajpar);
+            if($numtajofi) $result->bindParam(":numtajofi", $numtajofi);
+            $idperent = $this->getIdperent();
+            $result->bindParam(":idperent", $idperent);
+            $idperrec = $this->getIdperrec();
+            $result->bindParam(":idperrec", $idperrec);
+            $fecent = $this->getFecent();
+            $result->bindParam(":fecent", $fecent);
+            $esttaj = $this->getEsttaj();
+            $result->bindParam(":esttaj", $esttaj);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function updTaj()
+    {
+        try{
+            $numtajpar = $this->getNumtajpar();
+            $numtajofi = $this->getNumtajofi();
+            $sql = "UPDATE tarjeta SET ";
+            if($numtajpar) $sql .= "numtajpar=:numtajpar, ";
+            if($numtajofi) $sql .= "numtajofi=:numtajofi, ";
+            $sql .= "idperentd=:idperentd, idperrecd=:idperrecd, fecdev=:fecdev, esttaj=:esttaj WHERE idtaj=:idtaj";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idtaj = $this->getIdtaj();
+            $result->bindParam(":idtaj", $idtaj);
+            $idperentd = $this->getIdperentd();
+            if($numtajpar) $result->bindParam(":numtajpar", $numtajpar);
+            if($numtajofi) $result->bindParam(":numtajofi", $numtajofi);
+            $result->bindParam(":idperentd", $idperentd);
+            $idperrecd = $this->getIdperrecd();
+            $result->bindParam(":idperrecd", $idperrecd);
+            $fecdev = $this->getFecdev();
+            $result->bindParam(":fecdev", $fecdev);
+            $esttaj = $this->getEsttaj();
+            $result->bindParam(":esttaj", $esttaj);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    //------------Traer valores-----------
+
+    function getAllTpd($iddom)
+    {
+        $sql = "SELECT idval, nomval FROM valor WHERE iddom=:iddom";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->bindParam(":iddom", $iddom);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function getAllMod()
+    {
+        $sql = "SELECT idmod, nommod FROM modulo";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+}

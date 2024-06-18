@@ -1,0 +1,342 @@
+<?php
+    class Masg{
+
+        //------------Asignar-----------
+        private $ideqxpr;
+        private $idequ;
+        private $idperent;
+        private $idperrec;
+        private $fecent;
+        private $observ;
+        private $idperentd;
+        private $idperrecd;
+        private $fecdev;
+        private $observd;
+        private $numcel;
+        private $opecel;
+        private $estexp;
+        private $difasg;
+
+        //------------Accesorios-----------
+        private $idvacc;
+
+        //------------Asignar-----------
+        public function getIdeqxpr(){
+            return $this->ideqxpr;
+        }
+        public function getIdequ(){
+            return $this->idequ;
+        }
+        public function getIdperent(){
+            return $this->idperent;
+        }
+        public function getIdperrec(){
+            return $this->idperrec;
+        }
+        public function getFecent(){
+            return $this->fecent;
+        }
+        public function getObserv(){
+            return $this->observ;
+        }
+        public function getIdperentd(){
+            return $this->idperentd;
+        }
+        public function getIdperrecd(){
+            return $this->idperrecd;
+        }
+        public function getFecdev(){
+            return $this->fecdev;
+        }
+        public function getObservd(){
+            return $this->observd;
+        }
+        public function getNumcel(){
+            return $this->numcel;
+        }
+        public function getOpecel(){
+            return $this->opecel;
+        }
+        public function getEstexp(){
+            return $this->estexp;
+        }
+        public function getDifasg(){
+            return $this->difasg;
+        }
+
+        //------------Accesorios-----------
+        public function getIdvacc(){
+            return $this->idvacc;
+        }
+
+        //------------Asignar-----------
+        public function setIdeqxpr($ideqxpr){
+            $this->ideqxpr=$ideqxpr;
+        }
+        public function setIdequ($idequ){
+            $this->idequ=$idequ;
+        }
+        public function setIdperent($idperent){
+            $this->idperent=$idperent;
+        }
+        public function setIdperrec($idperrec){
+            $this->idperrec=$idperrec;
+        }
+        public function setFecent($fecent){
+            $this->fecent=$fecent;
+        }
+        public function setObserv($observ){
+            $this->observ=$observ;
+        }
+        public function setIdperentd($idperentd){
+            $this->idperentd=$idperentd;
+        }
+        public function setIdperrecd($idperrecd){
+            $this->idperrecd=$idperrecd;
+        }
+        public function setFecdev($fecdev){
+            $this->fecdev=$fecdev;
+        }
+        public function setObservd($observd){
+            $this->observd=$observd;
+        }
+        public function setNumcel($numcel){
+            $this->numcel=$numcel;
+        }
+        public function setOpecel($opecel){
+            $this->opecel=$opecel;
+        }
+        public function setEstexp($estexp){
+            $this->estexp=$estexp;
+        }
+        public function setDifasg($difasg){
+            $this->difasg=$difasg;
+        }
+
+        //------------Accesorios-----------
+        public function setIdvacc($idvacc){
+            $this->idvacc=$idvacc;
+        }
+
+        //------------Asignar-----------
+        function getAllAsig(){
+            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, e.pagequ, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e INNER JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON e.opecel=vo.idval WHERE e.actqu=1";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function getOne(){
+            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e INNER JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON e.opecel=vo.idval WHERE e.idequ=:idequ";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idequ = $this->getIdequ();
+            $result->bindParam(":idequ",$idequ);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function save($asg){
+            // try{
+                $sql = "INSERT INTO asignar (idequ, idperent, idperrec, fecent, observ, estexp, difasg";
+                if($asg=="cel") $sql .= ", numcel, opecel"; 
+                $sql .= ") VALUES (:idequ, :idperent, :idperrec, :fecent, :observ, :estexp, :difasg";
+                if($asg=="cel") $sql .= ", :numcel, :opecel";
+                $sql .= ")";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $idequ = $this->getIdequ();
+                $result->bindParam(":idequ", $idequ);
+                $idperent = $_SESSION['idper'];
+                $result->bindParam(":idperent", $idperent);
+                $idperrec = $this->getIdperrec();
+                $result->bindParam(":idperrec", $idperrec);
+                $fecent = $this->getFecent();
+                $result->bindParam(":fecent", $fecent);
+                $observ = $this->getObserv();
+                $result->bindParam(":observ", $observ);
+                $estexp = $this->getEstexp();
+                $result->bindParam(":estexp", $estexp);
+                $difasg = $this->getDifasg();
+                $result->bindParam(":difasg", $difasg);
+                if($asg=="cel"){
+                    $numcel = $this->getNumcel();
+                    $result->bindParam(":numcel", $numcel);
+                    $opecel = $this->getOpecel();
+                    $result->bindParam(":opecel", $opecel);
+                }
+                $result->execute();
+            // } catch (Exception $e) {
+            //     ManejoError($e);
+            // }
+        }
+
+        function edit(){
+            try{
+                $numcel = $this->getNumcel();
+                $opecel = $this->getOpecel();
+                $sql = "UPDATE asignar SET ";
+                if($numcel) $sql .= "numcel=:numcel, "; 
+                if($opecel) $sql .= "opecel=:opecel, "; 
+                $sql .= "observ=:observ WHERE ideqxpr=:ideqxpr"; 
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $ideqxpr = $this->getIdeqxpr();
+                $result->bindParam(":ideqxpr", $ideqxpr);
+                if($numcel) $result->bindParam(":numcel", $numcel);
+                if($opecel) $result->bindParam(":opecel", $opecel);
+                $observ = $this->getObserv();
+                $result->bindParam(":observ", $observ);
+                $result->execute();
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
+        }
+
+        function dev(){
+            try{
+                $sql = "UPDATE asignar SET idperentd=:idperentd, idperrecd=:idperrecd, fecdev=:fecdev, observd=:observd, estexp=:estexp WHERE ideqxpr=:ideqxpr";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $ideqxpr = $this->getIdeqxpr();
+                $result->bindParam(":ideqxpr", $ideqxpr);
+                $idperentd = $this->getIdperentd();
+                $result->bindParam(":idperentd", $idperentd);
+                $idperrecd = $this->getIdperrecd();
+                $result->bindParam(":idperrecd", $idperrecd);
+                $fecdev = $this->getFecdev();
+                $result->bindParam(":fecdev", $fecdev);
+                $observd = $this->getObservd();
+                $result->bindParam(":observd", $observd);
+                $estexp = $this->getEstexp();
+                $result->bindParam(":estexp", $estexp);
+                $result->execute();
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
+        }
+    
+        function getAcxAs($ideqxpr){
+            $res = null;
+            $modelo = new conexion();
+            $sql = "SELECT COUNT(ideqxper) AS can FROM accxequi WHERE ideqxpr=:ideqxpr";
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(':ideqxpr',$ideqxpr);
+            $result->execute();
+            $res = $result-> fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        //------------Accesorios-----------
+
+        function getAllAxE()
+            {
+                $sql = "SELECT idvacc AS acc FROM accxequi WHERE ideqxpr=:ideqxpr";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $ideqxpr = $this->getIdeqxpr();
+                $result->bindParam(":ideqxpr", $ideqxpr);
+                $result->execute();
+                $res = $result->fetchall(PDO::FETCH_ASSOC);
+                return $res;
+            }
+
+        function getOneAsg($difasg)
+        {
+            $sql = "SELECT ideqxpr FROM asignar WHERE difasg=:difasg";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":difasg", $difasg);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function saveAxE()
+        {
+            // try{
+                $sql = "INSERT INTO accxequi (ideqxpr, idvacc) VALUES (:ideqxpr, :idvacc)";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $ideqxpr = $this->getIdeqxpr();
+                $result->bindParam(":ideqxpr", $ideqxpr);
+                $idvacc = $this->getIdvacc();
+                $result->bindParam(":idvacc", $idvacc);
+                $result->execute();
+            // } catch (Exception $e) {
+            //     ManejoError($e);
+            // }
+        }
+
+        function delAxE()
+        {
+            try{
+                $sql = "DELETE FROM accxequi WHERE ideqxpr=:ideqxpr";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $ideqxpr = $this->getIdeqxpr();
+                $result->bindParam(":ideqxpr", $ideqxpr);
+                $result->execute();
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
+        }
+
+        //------------Traer valores-----------
+        function getAllOpe($iddom){
+            $sql = "SELECT idval, nomval FROM valor WHERE iddom=:iddom";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":iddom", $iddom);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function getAllAcc($iddom){
+            $sql = "SELECT idval, nomval FROM valor WHERE iddom=:iddom";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":iddom", $iddom);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function getAllPer(){
+            $sql = "SELECT DISTINCT idper, nomper, apeper, ndper FROM persona WHERE actper=1";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function getAllEquDis($pg){
+            $sql = "SELECT idequ, marca, modelo, serialeq FROM equipo WHERE pagequ=:pg AND actequ=1";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":pg", $pg);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+    }
+?>
