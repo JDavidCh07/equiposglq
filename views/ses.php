@@ -51,6 +51,9 @@
 					<div class="div">
 						<input type="password" required="true" name="password" placeholder=" CONTRASEÑA" id="password" required>
 					</div>
+					<div class="i">
+						<i id="vpass" class="fas fa-eye" onclick="verpass()"></i>
+					</div>
 				</div>
 				<?php
 					$err = isset($_GET['err']) ? $_GET['err'] : NULL;
