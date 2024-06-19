@@ -4,7 +4,7 @@
     $masg = new Masg();
 
     //------------Asignar-----------
-    $ideqxpr = isset($_POST['ideqxpr']) ? $_POST['ideqxpr']:NULL;
+    $ideqxpr = isset($_REQUEST['ideqxpr']) ? $_REQUEST['ideqxpr']:NULL;
     $idequ = isset($_POST['idequ']) ? $_POST['idequ']:NULL;
     $idperent = isset($_POST['idperent']) ? $_POST['idperent']:NULL;
     $idperrec = isset($_POST['idperrec']) ? $_POST['idperrec']:NULL;
@@ -12,11 +12,11 @@
     $observ = isset($_POST['observ']) ? $_POST['observ']:NULL;
     $idperentd = isset($_POST['idperentd']) ? $_POST['idperentd']:NULL;
     $idperrecd = isset($_POST['idperrecd']) ? $_POST['idperrecd']:NULL;
-    $fecdev = date('Y-m-d H:i:s');
+    $fecdev = isset($_POST['fecdev']) ? $_POST['fecdev']:NULL;
     $observd = isset($_POST['observd']) ? $_POST['observd']:NULL;
     $numcel = isset($_POST['numcel']) ? $_POST['numcel']:NULL;
     $opecel = isset($_POST['opecel']) ? $_POST['opecel']:NULL;
-    $estexp = isset($_POST['estexp']) ? $_POST['estexp']:NULL;
+    $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:NULL;
     $difasg = $nmfl;
     
     //------------Accesorios-----------
@@ -67,35 +67,21 @@
 
     if($ope=="edi" && $ideqxpr) {
         $datOne = $masg->getOne();
-        $datAxE = $masg->getAllAxE();
+        $datAxE = $masg->getAllAxE($ideqxpr);
     }
-    
-
-    // //------------Programa-----------
-    // if($ope=="savepxe"){
-    //     $i = 0;
-    //     if($idequ) $masg->delPxE();
-    //     if($idvprg){ foreach ($idvprg as $prg) {
-    //         if($prg && $verprg){
-    //             $masg->setIdvprg($prg);
-    //             $masg->setVerprg($verprg[$i]);
-    //             $masg->savePxE();
-    //             $i++;
-    //         }
-    //     }}
-    // }
     
     //------------Traer valores-----------
 
-    $datAll = NULL;
     $datOpe = $masg->getAllOpe(9);
-    $datPer = $masg->getAllPer(9);
+    $datPer = $masg->getAllPer();
     
     if($asg=="equ"){
+        $datAll = $masg->getAllAsig(52);
         $datEqu = $masg->getAllEquDis(52);
         $datAcc = $masg->getAllAcc(3);
     }else if($asg=="cel"){
-        $datAcc = $masg->getAllAcc(5);
+        $datAll = $masg->getAllAsig(54);
         $datEqu = $masg->getAllEquDis(54);
+        $datAcc = $masg->getAllAcc(5);
     }
 ?>

@@ -141,7 +141,7 @@
 
         // ------------Equipo-----------
         function getAll($pg){
-            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e INNER JOIN valor AS vt ON e.idvtpeq=vt.idval INNER JOIN valor AS vc ON e.tipcon=vc.idval";
+            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval";
             if($pg==52) $sql .= " WHERE pagequ=52";
             if($pg==54) $sql .= " WHERE pagequ=54";
             $modelo = new conexion();
@@ -153,7 +153,7 @@
         }
 
         function getOne(){
-            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e INNER JOIN valor AS vt ON e.idvtpeq=vt.idval INNER JOIN valor AS vc ON e.tipcon=vc.idval WHERE e.idequ=:idequ";
+            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval WHERE e.idequ=:idequ";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);

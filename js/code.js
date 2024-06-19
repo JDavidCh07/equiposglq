@@ -191,7 +191,7 @@ $( function() {
  
       _createAutocomplete: function() {
         var selected = this.element.children( ":selected" ),
-          value = selected.val() ? selected.text() : "";
+          value = selected.val() ? selected.text().trim() : "";
  
         this.input = $( "<input>" )
           .appendTo( this.wrapper )
@@ -208,7 +208,11 @@ $( function() {
               "ui-tooltip": "ui-state-highlight"
             }
           });
- 
+        
+        if (this.element.prop('disabled')) {
+            this.input.prop('disabled', true);
+        }
+
         this._on( this.input, {
           autocompleteselect: function( event, ui ) {
             ui.item.option.selected = true;
@@ -257,7 +261,7 @@ $( function() {
       _source: function( request, response ) {
         var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
         response( this.element.children( "option" ).map(function() {
-          var text = $( this ).text();
+          var text = $( this ).text().trim();
           if ( this.value && ( !request.term || matcher.test(text) ) )
             return {
               label: text,
@@ -275,11 +279,11 @@ $( function() {
         }
  
         // Search for a match (case-insensitive)
-        var value = this.input.val(),
+        var value = this.input.val().trim(),
           valueLowerCase = value.toLowerCase(),
           valid = false;
         this.element.children( "option" ).each(function() {
-          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+          if ( $( this ).text().trim().toLowerCase() === valueLowerCase ) {
             this.selected = valid = true;
             return false;
           }
@@ -329,7 +333,7 @@ $( function() {
 
     _createAutocomplete: function() {
       var selected = this.element.children( ":selected" ),
-        value = selected.val() ? selected.text() : "";
+        value = selected.val() ? selected.text().trim() : "";
 
       this.input = $( "<input>" )
         .appendTo( this.wrapper )
@@ -346,6 +350,10 @@ $( function() {
             "ui-tooltip": "ui-state-highlight"
           }
         });
+      
+      if (this.element.prop('disabled')) {
+          this.input.prop('disabled', true);
+      }
 
       this._on( this.input, {
         autocompleteselect: function( event, ui ) {
@@ -395,7 +403,7 @@ $( function() {
     _source: function( request, response ) {
       var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
       response( this.element.children( "option" ).map(function() {
-        var text = $( this ).text();
+        var text = $( this ).text().trim();
         if ( this.value && ( !request.term || matcher.test(text) ) )
           return {
             label: text,
@@ -413,11 +421,11 @@ $( function() {
       }
 
       // Search for a match (case-insensitive)
-      var value = this.input.val(),
+      var value = this.input.val().trim(),
         valueLowerCase = value.toLowerCase(),
         valid = false;
       this.element.children( "option" ).each(function() {
-        if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+        if ( $( this ).text().trim().toLowerCase() === valueLowerCase ) {
           this.selected = valid = true;
           return false;
         }
@@ -451,3 +459,35 @@ $( function() {
     $( "#combobox2" ).toggle();
   });
 } );
+
+document.addEventListener('DOMContentLoaded', function() {
+  const textarea = document.getElementById('observ');
+  
+  if (textarea) {
+      const initialContent = textarea.value;
+
+      textarea.addEventListener('keydown', function(e) {
+          const cursorPosition = textarea.selectionStart;
+          const textLength = textarea.value.length;
+
+          // Prevent deletion
+          if (e.key === 'Backspace' && cursorPosition <= initialContent.length) {
+              e.preventDefault();
+          }
+          if (e.key === 'Delete' && cursorPosition < initialContent.length) {
+              e.preventDefault();
+          }
+          // Prevent selection and replacement
+          if (textarea.selectionStart < initialContent.length || textarea.selectionEnd < initialContent.length) {
+              e.preventDefault();
+          }
+      });
+
+      textarea.addEventListener('input', function(e) {
+          // Ensure the initial content remains unchanged
+          if (textarea.value.substring(0, initialContent.length) !== initialContent) {
+              textarea.value = initialContent + textarea.value.substring(initialContent.length);
+          }
+      });
+  }
+});

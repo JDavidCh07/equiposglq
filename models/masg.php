@@ -119,8 +119,10 @@
         }
 
         //------------Asignar-----------
-        function getAllAsig(){
-            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, e.pagequ, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e INNER JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON e.opecel=vo.idval WHERE e.actqu=1";
+        function getAllAsig($asg){
+            $sql = "SELECT a.ideqxpr, a.fecent, a.observ, a.fecdev, a.observd, a.numcel, a.opecel, vo.nomval, a.estexp, e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.tipcon, e.pagequ, vt.nomval AS tpe, vc.nomval AS tpc, pe.idper AS idpent, CONCAT (pe.apeper,' ',pe.nomper) AS pent, pe.ndper AS dpent, vpe.nomval AS tdpent, pe.cargo AS cpent, pr.idper AS idprec, prd.idper AS idprecd, CONCAT (prd.apeper,' ',prd.nomper) AS precd, prd.ndper AS dprecd, vprd.nomval AS tdprecd, prd.cargo AS cprecd FROM asignar AS a INNER JOIN equipo AS e ON a.idequ=e.idequ INNER JOIN persona AS pe ON a.idperent=pe.idper INNER JOIN persona AS pr ON a.idperrec=pr.idper LEFT JOIN persona AS prd ON a.idperrecd=prd.idper INNER JOIN valor AS vpe ON pe.idvtpd=vpe.idval LEFT JOIN valor AS vprd ON prd.idvtpd=vprd.idval LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON a.opecel=vo.idval";
+            if($asg==52) $sql .= " WHERE e.pagequ=52";
+            else if($asg==54) $sql .= " WHERE e.pagequ=54";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -130,19 +132,19 @@
         }
 
         function getOne(){
-            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e INNER JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON e.opecel=vo.idval WHERE e.idequ=:idequ";
+            $sql = "SELECT a.ideqxpr, a.fecent, a.observ, a.fecdev, a.observd, a.numcel, a.opecel, vo.nomval, a.estexp, e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.tipcon, e.pagequ, vt.nomval AS tpe, vc.nomval AS tpc, pe.idper AS idpent, CONCAT (pe.apeper,' ',pe.nomper) AS pent, pe.ndper AS dpent, vpe.nomval AS tdpent, pe.cargo AS cpent, pr.idper AS idprec, prd.idper AS idprecd, CONCAT (prd.apeper,' ',prd.nomper) AS precd, prd.ndper AS dprecd, vprd.nomval AS tdprecd, prd.cargo AS cprecd FROM asignar AS a INNER JOIN equipo AS e ON a.idequ=e.idequ INNER JOIN persona AS pe ON a.idperent=pe.idper INNER JOIN persona AS pr ON a.idperrec=pr.idper LEFT JOIN persona AS prd ON a.idperrecd=prd.idper INNER JOIN valor AS vpe ON pe.idvtpd=vpe.idval LEFT JOIN valor AS vprd ON prd.idvtpd=vprd.idval LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON a.opecel=vo.idval WHERE a.ideqxpr=:ideqxpr";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
-            $idequ = $this->getIdequ();
-            $result->bindParam(":idequ",$idequ);
+            $ideqxpr = $this->getIdeqxpr();
+            $result->bindParam(":ideqxpr",$ideqxpr);
             $result->execute();
             $res = $result->fetchall(PDO::FETCH_ASSOC);
             return $res;
         }
 
         function save($asg){
-            // try{
+            try{
                 $sql = "INSERT INTO asignar (idequ, idperent, idperrec, fecent, observ, estexp, difasg";
                 if($asg=="cel") $sql .= ", numcel, opecel"; 
                 $sql .= ") VALUES (:idequ, :idperent, :idperrec, :fecent, :observ, :estexp, :difasg";
@@ -172,9 +174,9 @@
                     $result->bindParam(":opecel", $opecel);
                 }
                 $result->execute();
-            // } catch (Exception $e) {
-            //     ManejoError($e);
-            // }
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
         }
 
         function edit(){
@@ -227,7 +229,7 @@
         function getAcxAs($ideqxpr){
             $res = null;
             $modelo = new conexion();
-            $sql = "SELECT COUNT(ideqxper) AS can FROM accxequi WHERE ideqxpr=:ideqxpr";
+            $sql = "SELECT COUNT(ideqxpr) AS can FROM accxequi WHERE ideqxpr=:ideqxpr";
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
             $result->bindParam(':ideqxpr',$ideqxpr);
@@ -238,13 +240,12 @@
 
         //------------Accesorios-----------
 
-        function getAllAxE()
+        function getAllAxE($ideqxpr)
             {
-                $sql = "SELECT idvacc AS acc FROM accxequi WHERE ideqxpr=:ideqxpr";
+                $sql = "SELECT ae.idvacc, v.nomval FROM accxequi AS ae INNER JOIN valor AS v ON ae.idvacc=v.idval WHERE ideqxpr=:ideqxpr";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
-                $ideqxpr = $this->getIdeqxpr();
                 $result->bindParam(":ideqxpr", $ideqxpr);
                 $result->execute();
                 $res = $result->fetchall(PDO::FETCH_ASSOC);
@@ -265,7 +266,7 @@
 
         function saveAxE()
         {
-            // try{
+            try{
                 $sql = "INSERT INTO accxequi (ideqxpr, idvacc) VALUES (:ideqxpr, :idvacc)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -275,9 +276,9 @@
                 $idvacc = $this->getIdvacc();
                 $result->bindParam(":idvacc", $idvacc);
                 $result->execute();
-            // } catch (Exception $e) {
-            //     ManejoError($e);
-            // }
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
         }
 
         function delAxE()
