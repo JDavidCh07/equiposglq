@@ -12,14 +12,14 @@
 </a>
 
 <?php if($asg){ ?>
-    <form action="home.php?pg=<?= $pg; ?>" method="POST">
+    <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
         <div class="row">
             <div <?php if($asg=="equ") echo 'class="form-group col-md-4 ui-widget"'; else if($asg=="cel") echo 'class="form-group col-md-6 ui-widget"';?>>
                 <label for="idperrec"><strong>Usuario:</strong></label>
-                <select id="combobox1" name="idperrec" class="form-control form-select" <?php if ($datOne) echo 'disabled'; else echo 'required';?>>
+                <select id="combobox1" name="idperrec" class="form-control form-select" <?php if ($datOneA) echo 'disabled'; else echo 'required';?>>
                     <option value="0"></option>
                     <?php if ($datPer) { foreach ($datPer as $dpr) { ?>
-                            <option value="<?= $dpr['idper']; ?>" <?php if ($datOne && $dpr['idper'] == $datOne[0]['idprec']) echo " selected "; ?>>
+                            <option value="<?= $dpr['idper']; ?>" <?php if ($datOneA && $dpr['idper'] == $datOneA[0]['idprec']) echo " selected "; ?>>
                                 <?= $dpr['ndper']." - ".$dpr['apeper']." ".$dpr['nomper']; ?>    
                             </option>
                     <?php }} ?>
@@ -27,10 +27,10 @@
             </div>
             <div <?php if($asg=="equ"){ echo 'class="form-group col-md-4 ui-widget"'; } else if($asg=="cel") { echo 'class="form-group col-md-6 ui-widget"'; }?>>
                 <label for="idequ"><strong><?php if($asg=="equ") echo "Equipo"; else if($asg=="cel") echo "Celular";?>:</strong></label>
-                <select id="combobox2" name="idequ" class="form-control form-select" <?php if ($datOne) echo 'disabled'; else echo 'required';?>>
+                <select id="combobox2" name="idequ" class="form-control form-select" <?php if ($datOneA) echo 'disabled'; else echo 'required';?>>
                     <option value="0"></option>
                     <?php if ($datEqu) { foreach ($datEqu as $deq) { ?>
-                            <option value="<?= $deq['idequ']; ?>" <?php if ($datOne && $deq['idequ'] == $datOne[0]['idequ']) echo " selected "; ?>>
+                            <option value="<?= $deq['idequ']; ?>" <?php if ($datOneA && $deq['idequ'] == $datOneA[0]['idequ']) echo " selected "; ?>>
                                 <?= $deq['serialeq']." - ".$deq['marca']." ".$deq['modelo']; ?>
                             </option>
                     <?php }} ?>
@@ -39,13 +39,13 @@
             <?php if($asg=="cel") { ?>
                 <div class="form-group col-md-4">
                     <label for="numcel"><strong>Número:</strong></label>
-                    <input class="form-control" type="text" id="numcel" name="numcel" value="<?php if ($datOne) echo $datOne[0]['numcel']; ?>" onkeypress="return solonum(event);">
+                    <input class="form-control" type="text" id="numcel" name="numcel" value="<?php if ($datOneA) echo $datOneA[0]['numcel']; ?>" onkeypress="return solonum(event);">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="opecel"><strong>Operador:</strong></label>
                     <select id="opecel" name="opecel" class="form-control form-select" required>
                         <?php if ($datOpe) { foreach ($datOpe as $dop) { ?>
-                                <option value="<?= $dop['idval']; ?>" <?php if ($datOne && $dop['idval'] == $datOne[0]['opecel']) echo " selected "; ?>>
+                                <option value="<?= $dop['idval']; ?>" <?php if ($datOneA && $dop['idval'] == $datOneA[0]['opecel']) echo " selected "; ?>>
                                     <?= $dop['nomval']; ?>
                                 </option>
                         <?php }} ?>
@@ -54,7 +54,7 @@
             <?php } ?>
             <div class="form-group col-md-4">
                 <label for="fecent"><strong>F. Entrega:</strong></label>
-                <input class="form-control" type="date" id="fecent" name="fecent" max=<?php echo $hoy;?> <?php if ($datOne) echo 'value="'.$datOne[0]['fecent'].'" disabled'; else echo 'value="'.$hoy.'" required';?>>
+                <input class="form-control" type="date" id="fecent" name="fecent" max=<?php echo $hoy;?> <?php if ($datOneA) echo 'value="'.$datOneA[0]['fecent'].'" disabled'; else echo 'value="'.$hoy.'" required';?>>
             </div>
             <div class="form-group col-md-12"><br></div>
             <?php if($datAcc){ foreach($datAcc as $dac){?>
@@ -66,22 +66,22 @@
             <div class="form-group col-md-12">
                 <br>
                 <label for="observ"><strong>Observaciones entrega:</strong></label>
-                <textarea class="form-control" type="text" id="observ" name="observ" <?php if ($datOne) echo 'required';?>><?php if ($datOne) echo $datOne[0]['observ']; ?></textarea>
+                <textarea class="form-control" type="text" id="observ" name="observ" <?php if ($datOneA) echo 'required';?>><?php if ($datOneA) echo $datOneA[0]['observ']; ?></textarea>
             </div>
             <!-- <div class="form-group col-md-4">
                 <label for="fecdev"><strong>F. Devolución:</strong></label>
-                <input class="form-control" type="date" id="fecdev" name="fecdev" max=<?php echo $hoy;?> value="<?php if ($datOne) echo $datOne[0]['fecdev']; ?>" required>
+                <input class="form-control" type="date" id="fecdev" name="fecdev" max=<?php echo $hoy;?> value="<?php if ($datOneA) echo $datOneA[0]['fecdev']; ?>" required>
             </div>
             <div class="form-group col-md-12">
                 <label for="observd"><strong>Observaciones devolución:</strong></label>
-                <textarea class="form-control" type="text" id="observd" name="observd" value="<?php if ($datOne) echo $datOne[0]['observd']; ?>" required></textarea>
+                <textarea class="form-control" type="text" id="observd" name="observd" value="<?php if ($datOneA) echo $datOneA[0]['observd']; ?>" required></textarea>
             </div> -->
             <div class="form-group col-md-12" id="boxbtn">
                 <br><br>
                 <input class="btn btn-primary" type="submit" value="Registrar">
                 <input type="hidden" name="ope" value="save">
                 <input type="hidden" name="asg" value="<?php echo $asg?>">
-                <input type="hidden" name="ideqxpr" value="<?php if ($datOne) echo $datOne[0]['ideqxpr']; ?>">
+                <input type="hidden" name="ideqxpr" value="<?php if ($datOneA) echo $datOneA[0]['ideqxpr']; ?>">
             </div>
         </div>
     </form>
@@ -94,91 +94,69 @@
             </tr>
         </thead>
         <tbody>
-            <?php if ($datAll) { foreach ($datAll as $dta) { ?>
+            <?php if ($datAllA) { foreach ($datAllA as $dta) { ?>
                 <tr>
                     <td>
                         <div class="row">
                             <div class="form-group col-md-10">
-                                <BIG><strong><?= $dta['marca']." ".$dta['modelo']; ?></strong></BIG>
+                                <BIG><strong><?= $dta['prec']." - ".$dta['marca']." ".$dta['modelo']; ?></strong></BIG>
                                 <small>
                                     <div class="row">
-                                        <?php if ($dta['serialeq']) { ?>
-                                            <div class="form-group col-md-12">
-                                                <strong><?php if($pg==52){ echo "Serial"; } else { echo "IMEI"; }?>: </strong> <?= $dta['serialeq']; ?>
+                                        <?php if ($dta['tpe'] && $asg="equ") { ?>
+                                            <div class="form-group col-md-6">
+                                                <strong>T. Equipo: </strong> <?= $dta['tpe']; ?>
                                             </div>
-                                        <?php } if ($dta['nomred'] && $pg==52) { ?>
+                                        <?php } if ($dta['serialeq']) { ?>
+                                            <div <?php if($asg=="equ"){ echo 'class="form-group col-md-6"'; } else if($asg=="cel") { echo 'class="form-group col-md-12"'; }?>>
+                                                <strong><?php if($asg=="equ"){ echo "Serial"; } else { echo "IMEI"; }?>: </strong> <?= $dta['serialeq']; ?>
+                                            </div>
+                                        <?php } if ($dta['nomred'] && $asg=="equ") { ?>
                                             <div class="form-group col-md-12">
                                                 <strong>Red: </strong> <?= $dta['nomred']; ?>
                                             </div>
-                                        <?php } if ($dta['idvtpeq'] && $pg==52) { ?>
-                                            <div class="form-group col-md-12">
-                                                <strong>Tipo: </strong> <?= $dta['tpe']; ?>
+                                        <?php } if ($dta['fecent']) { ?>
+                                            <div class="form-group col-md-6">
+                                                <strong>F. Entrega: </strong> <?= $dta['fecent']; ?>
                                             </div>
-                                        <?php } if ($dta['tipcon'] && $pg==52) { ?>
-                                            <div class="form-group col-md-12">
-                                                <strong>Estado: </strong> <?= $dta['tpc']; ?> 
-                                            </div>
-                                        <?php } if ($dta['ram'] && $pg==54) { ?>
-                                            <div class="form-group col-md-12">
-                                                <strong>RAM: </strong> <?= $dta['ram']; echo " GB"?>
-                                            </div>
-                                        <?php } if ($dta['capgb'] && $pg==54) { ?>
-                                            <div class="form-group col-md-12">
-                                                <strong>Almacenamiento: </strong> <?= $dta['capgb']; echo " GB"?>
+                                        <?php } if ($dta['fecdev']) { ?>
+                                            <div class="form-group col-md-6">
+                                                <strong>F. Devolución: </strong> <?= $dta['fecdev']; ?>
                                             </div>
                                         <?php } ?>
                                     </div>
                                 </small>
                             </div>
-                            <?php if($pg==52){ ?>
-                                <div class="form-group col-md-2">
-                                    <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbinf<?= $dta['idequ']; ?>" title="Detalles"></i>
-                                    <?php
-                                        $mequ->setIdequ($dta['idequ']);
-                                        $prgs = $mequ->getOnePxE();
-                                        modalDet("mcbinf", $dta['idequ'], $dta['marca'].' '.$dta['modelo'].' - '.$dta['serialeq'], $dta['capgb'], $dta['ram'], $dta['procs'], $dta['fecultman'], $dta['fecproman'], $dta['tipcon'], $dta['contrato'], $dta['valrcont'], $prgs);
-                                    ?>
-                                </div>
-                            <?php } ?>
+                            <div class="form-group col-md-2">
+                                <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbinf<?= $dta['ideqxpr']; ?>" title="Detalles"></i>
+                                <?php
+                                    $mequ->setIdequ($dta['idequ']);
+                                    $prgs = $mequ->getOnePxE();
+                                    $acc = $masg->getAllAxE($dta['ideqxpr']);
+                                    modalInfAsg("mcbinf", $dta['ideqxpr'], $dta['prec']." - ".$dta['marca'].' '.$dta['modelo'], $prgs, $acc, $dta['pent'], $dta['cpent'], $dta['prec'], $dta['cprec'], $dta['observ'], $dta['pentd'], $dta['cpentd'], $dta['precd'], $dta['cprecd'], $dta['observd'], $dta['numcel'], $dta['operador'], $asg);
+                                ?>
+                            </div>
                         </div>
                     </td>
                     <td style="text-align: left;">
                         <?php if ($dta['estexp'] == 1) { ?>
                             <span style="font-size: 1px;opacity: 0;">1</span>
-                            <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&estexp=2&ope=act" title="Activo">
-                                <i class="fa fa-solid fa-circle-check fa-2x act"></i>
-                            </a>
+                            <i class="fa fa-solid fa-circle-check fa-2x act"></i>
                         <?php } else if ($dta['estexp'] == 2) { ?>
                             <span style="font-size: 1px;">2</span>
                             <i class="fa fa-solid fa-circle-xmark fa-2x desact" title="Devuelto"></i>
                         <?php } ?>
                     </td>
                     <td style="text-align: right;">
-                        <?php if($pg==52){ ?>
-                            <i class="fa fa-solid fa-key fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbpxe<?= $dta['idequ']; ?>" title="Licencias"></i>
-                            <?php 
-                                $mequ->setIdequ($dta['idequ']);
-                                $dga = $mequ->getOnePxE();
-                                $dm = arrstrprg($dga);
-                                modalPxE("mcbpxe", $dta['idequ'], $dta['marca'].' '.$dta['modelo'].' - '.$dta['serialeq'], $dom, $pg, $dm, $dga);
-                        } ?>
                         <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
                             <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
                         </a>
-                        <?php
-                            $aa = $masg->getAcxAs($dta['ideqxpr']);
-                            if ($aa && $aa[0]['can'] == 0) { ?>
-                                <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=eli" onclick="return eliminar('<?= $dta['marca'].' '.$dta['modelo']; ?>');" title="Eliminar">
-                                    <i class="fa fa-solid fa-trash-can fa-2x iconi"></i>
-                                </a>
-                        <?php } ?>
                     </td>
                 </tr>
             <?php }} ?>
         </tbody>
         <tfoot>
             <tr>
-                <th>Datos <?php if($pg==52){ echo "equipo"; } else { echo "celular"; }?></th>
+                <th>Datos asignados</th>
                 <th>Estado</th>
                 <th></th>
             </tr>

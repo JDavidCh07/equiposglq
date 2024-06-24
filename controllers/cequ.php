@@ -13,8 +13,6 @@
     $capgb = isset($_POST['capgb']) ? $_POST['capgb']:NULL;
     $ram = isset($_POST['ram']) ? $_POST['ram']:NULL;
     $procs = isset($_POST['procs']) ? $_POST['procs']:NULL;
-    $fecultman = isset($_POST['fecultman']) ? $_POST['fecultman']:NULL;
-    $fecproman = isset($_POST['fecproman']) ? $_POST['fecproman']:NULL;
     $actequ = isset($_REQUEST['actequ']) ? $_REQUEST['actequ']:NULL;
     $tipcon = isset($_POST['tipcon']) ? $_POST['tipcon']:NULL;
     $contrato = isset($_POST['contrato']) ? $_POST['contrato']:NULL;
@@ -40,8 +38,6 @@
         $mequ->setCapgb($capgb);
         $mequ->setRam($ram);
         $mequ->setProcs($procs);
-        $mequ->setFecultman($fecultman);
-        $mequ->setFecproman($fecproman);
         $mequ->setActequ($actequ);
         $mequ->setTipcon($tipcon);
         $mequ->setContrato($contrato);

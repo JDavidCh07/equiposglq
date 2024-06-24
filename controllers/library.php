@@ -11,7 +11,7 @@ function titulo($ico, $tit, $mos, $pg)
 			$txt .= ' ' . $tit;
 			$txt .= '<hr class="hrtitu">';
 		$txt .= '</div>';
-		if ($mos == 1 && $pg!=51) {
+		if ($mos == 1) {
 			$txt .= '<div class="titaju" style="float: right;">';
 				$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
 				$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ');"></i>';
@@ -119,7 +119,7 @@ function modalCmb($nm, $id, $tit, $idmod, $pg, $dms)
 }
 
 //------------Modal vequ, info equipos-----------
-function modalDet($nm, $id, $titulo, $capgb, $ram, $procs, $fecultman, $fecproman, $tipcon, $contrato, $valrcont, $prgs)
+function modalDet($nm, $id, $titulo, $capgb, $ram, $procs, $tipcon, $contrato, $valrcont, $prgs)
 {
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
@@ -144,14 +144,57 @@ function modalDet($nm, $id, $titulo, $capgb, $ram, $procs, $fecultman, $fecproma
 								$txt .= number_format($frmt,1,".",",").' TB</td></tr>';
 							}
 							else $txt .= $capgb.' GB</td></tr>';
-							$txt .= '<tr><td><strong>Último mantenimiento: </strong></td><td class="infpc">'.$fecultman.'</td></tr>';
-							$txt .= '<tr><td><strong>Próximo mantenimiento: </strong></td><td class="infpc">'.$fecproman.'</td></tr>';
 							if ($tipcon && $tipcon==11){
 								if ($contrato) $txt .= '<tr><td><strong>Contrato: </strong></td><td class="infpc">'.$contrato.' GB</td></tr>';
 								if ($valrcont) $txt .= '<tr><td><strong>Valor contrato: </strong></td><td class="infpc">$'.$valrcont.'</td></tr>';
 							}
 						$txt .= '</table>';
 					$txt .= '</div>';
+				$txt .= '</div>';
+				$txt .= '<div class="modal-footer">';
+					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+				$txt .= '</div>';
+			$txt .= '</div>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal vasg, info asignacioon-----------
+function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $pent, $cpent, $prec, $cprec, $observ, $pentd, $cpentd, $precd, $cprecd, $observd, $numcel, $operador, $asg)
+{
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<div class="modal-content">';
+				$txt .= '<div class="modal-header">';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$titulo.'</strong></h1>';
+					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
+				$txt .= '</div>';
+				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
+				$txt .= '<div class="row">';
+					if($asg=="equ"){
+						$txt .= '<big><strong>Programas</strong></big><hr>';
+						if($prgs){ foreach($prgs AS $pr)
+							$txt .= '<div class="form-group col-md-6"><strong>'.$pr['nomdom'].': </strong>'.$pr['nomval'].' '.$pr['verprg'].'</div>';
+					}}
+					if($asg=="cel"){
+						$txt .= '<big><strong>Plan</strong></big><hr>';
+						$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>'.$numcel.'</div>';
+						$txt .= '<div class="form-group col-md-6"><strong>Operador: </strong>'.$operador.'</div>';
+					}
+					$txt .= '<big><br><strong>Accesorios</strong></big><hr>';
+					if($acc){ foreach($acc AS $ac){
+						$txt .= '<div class="form-group col-md-6">'.$ac['nomval'].'</div>';
+					}}
+					$txt .= '<big><br><strong>Asignación</strong></big><hr>';
+					$txt .= '<div class="form-group col-md-12"><strong>Entrega: </strong>'.$pent.' - '.$cpent.'</div>';
+					$txt .= '<div class="form-group col-md-12"><strong>Recibe: </strong>'.$prec.' - '.$cprec.'</div>';
+					if($pentd && $precd){
+						$txt .= '<big><br><strong>Devolución</strong></big><hr>';
+						$txt .= '<div class="form-group col-md-12"><strong>Entrega: </strong>'.$pentd.' - '.$cpentd.'</div>';
+						$txt .= '<div class="form-group col-md-12"><strong>Recibe: </strong>'.$precd.' - '.$cprecd.'</div>';
+					}
 				$txt .= '</div>';
 				$txt .= '<div class="modal-footer">';
 					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';

@@ -1,7 +1,9 @@
 <?php
     require_once("models/masg.php");
+    require_once('models/mequ.php');
 
     $masg = new Masg();
+    $mequ = new Mequ();
 
     //------------Asignar-----------
     $ideqxpr = isset($_REQUEST['ideqxpr']) ? $_REQUEST['ideqxpr']:NULL;
@@ -25,7 +27,7 @@
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
     $asg = isset($_REQUEST['asg']) ? $_REQUEST['asg']:NULL;
     
-    $datOne = NULL;
+    $datOneA = NULL;
     $datAxE = NULL;
     $pg = 51;
 
@@ -66,7 +68,7 @@
     }
 
     if($ope=="edi" && $ideqxpr) {
-        $datOne = $masg->getOne();
+        $datOneA = $masg->getOne();
         $datAxE = $masg->getAllAxE($ideqxpr);
     }
     
@@ -76,11 +78,11 @@
     $datPer = $masg->getAllPer();
     
     if($asg=="equ"){
-        $datAll = $masg->getAllAsig(52);
+        $datAllA = $masg->getAllAsig(52);
         $datEqu = $masg->getAllEquDis(52);
         $datAcc = $masg->getAllAcc(3);
     }else if($asg=="cel"){
-        $datAll = $masg->getAllAsig(54);
+        $datAllA = $masg->getAllAsig(54);
         $datEqu = $masg->getAllEquDis(54);
         $datAcc = $masg->getAllAcc(5);
     }

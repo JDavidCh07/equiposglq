@@ -47,14 +47,6 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                 <label for="procs"><strong>Procesador:</strong></label>
                 <input class="form-control" type="text" id="procs" name="procs" value="<?php if ($datOne) echo $datOne[0]['procs']; ?>" required>
             </div>
-            <div class="form-group col-md-4">
-                <label for="fecultman"><strong>Último Mantenimiento:</strong></label>
-                <input class="form-control" max=<?php echo $hoy;?> type="date" id="fecultman" name="fecultman" value="<?php if ($datOne) echo $datOne[0]['fecultman']; ?>" required>
-            </div> 
-            <div class="form-group col-md-4">
-                <label for="fecproman"><strong>Próximo Mantenimiento:</strong></label>
-                <input class="form-control" min=<?php echo $mañana;?> type="date" id="fecproman" name="fecproman" value="<?php if ($datOne) echo $datOne[0]['fecproman']; ?>" required >
-            </div>
         <?php } ?>
         <div class="form-group col-md-4">
             <label for="actequ" class="titulo"><strong>Activo:</strong></label>
@@ -143,7 +135,7 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                                 <?php
                                     $mequ->setIdequ($dta['idequ']);
                                     $prgs = $mequ->getOnePxE();
-                                    modalDet("mcbinf", $dta['idequ'], $dta['marca'].' '.$dta['modelo'].' - '.$dta['serialeq'], $dta['capgb'], $dta['ram'], $dta['procs'], $dta['fecultman'], $dta['fecproman'], $dta['tipcon'], $dta['contrato'], $dta['valrcont'], $prgs);
+                                    modalDet("mcbinf", $dta['idequ'], $dta['marca'].' '.$dta['modelo'].' - '.$dta['serialeq'], $dta['capgb'], $dta['ram'], $dta['procs'], $dta['tipcon'], $dta['contrato'], $dta['valrcont'], $prgs);
                                 ?>
                             </div>
                         <?php } ?>
@@ -179,9 +171,8 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                     </a>
                     <?php
                         $ee = $mequ->getEqxEp($dta['idequ']);
-                        $me = $mequ->getMnxEq($dta['idequ']);
                         $pe = $mequ->getEqprxEq($dta['idequ']);
-                        if ($ee && $me && $pe && $ee[0]['can'] == 0 && $me[0]['can'] == 0 && $pe[0]['can'] == 0) { ?>
+                        if ($ee && $pe && $ee[0]['can'] == 0 && $pe[0]['can'] == 0) { ?>
                             <a href="home.php?pg=<?= $pg; ?>&idequ=<?= $dta['idequ']; ?>&ope=eli" onclick="return eliminar('<?= $dta['marca'].' '.$dta['modelo']; ?>');" title="Eliminar">
                                 <i class="fa fa-solid fa-trash-can fa-2x iconi"></i>
                             </a>

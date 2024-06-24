@@ -11,8 +11,6 @@
         private $capgb;
         private $ram;
         private $procs;
-        private $fecultman;
-        private $fecproman;
         private $actequ;
         private $tipcon;
         private $contrato;
@@ -50,12 +48,6 @@
         }
         public function getProcs(){
             return $this->procs;
-        }
-        public function getFecultman(){
-            return $this->fecultman;
-        }
-        public function getFecproman(){
-            return $this->fecproman;
         }
         public function getActequ(){
             return $this->actequ;
@@ -109,12 +101,6 @@
         public function setProcs($procs){
             $this->procs=$procs;
         }
-        public function setFecultman($fecultman){
-            $this->fecultman=$fecultman;
-        }
-        public function setFecproman($fecproman){
-            $this->fecproman=$fecproman;
-        }
         public function setActequ($actequ){
             $this->actequ=$actequ;
         }
@@ -141,7 +127,7 @@
 
         // ------------Equipo-----------
         function getAll($pg){
-            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval";
+            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval";
             if($pg==52) $sql .= " WHERE pagequ=52";
             if($pg==54) $sql .= " WHERE pagequ=54";
             $modelo = new conexion();
@@ -153,7 +139,7 @@
         }
 
         function getOne(){
-            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.fecultman, e.fecproman, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval WHERE e.idequ=:idequ";
+            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval WHERE e.idequ=:idequ";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -166,7 +152,7 @@
 
         function save(){
             try {
-                $sql = "INSERT INTO equipo (marca, modelo, serialeq, nomred, idvtpeq, capgb, ram, procs, fecultman, fecproman, actequ, tipcon, contrato, valrcont, pagequ) VALUES (:marca, :modelo, :serialeq, :nomred, :idvtpeq, :capgb, :ram, :procs, :fecultman, :fecproman, :actequ, :tipcon, :contrato, :valrcont, :pagequ)";
+                $sql = "INSERT INTO equipo (marca, modelo, serialeq, nomred, idvtpeq, capgb, ram, procs, actequ, tipcon, contrato, valrcont, pagequ) VALUES (:marca, :modelo, :serialeq, :nomred, :idvtpeq, :capgb, :ram, :procs, :actequ, :tipcon, :contrato, :valrcont, :pagequ)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -186,10 +172,6 @@
                 $result->bindParam(":ram", $ram);
                 $procs = $this->getProcs();
                 $result->bindParam(":procs", $procs);
-                $fecultman = $this->getFecultman();
-                $result->bindParam(":fecultman", $fecultman);
-                $fecproman = $this->getFecproman();
-                $result->bindParam(":fecproman", $fecproman);
                 $actequ = $this->getActequ();
                 $result->bindParam(":actequ", $actequ);
                 $tipcon = $this->getTipcon();
@@ -224,7 +206,7 @@
 
         function edit(){
             try {
-                $sql = "UPDATE equipo SET marca=:marca, modelo=:modelo, serialeq=:serialeq, nomred=:nomred, idvtpeq=:idvtpeq, capgb=:capgb, ram=:ram, procs=:procs, fecultman=:fecultman, fecproman=:fecproman, actequ=:actequ, tipcon=:tipcon, contrato=:contrato, valrcont=:valrcont WHERE idequ=:idequ";
+                $sql = "UPDATE equipo SET marca=:marca, modelo=:modelo, serialeq=:serialeq, nomred=:nomred, idvtpeq=:idvtpeq, capgb=:capgb, ram=:ram, procs=:procs, actequ=:actequ, tipcon=:tipcon, contrato=:contrato, valrcont=:valrcont WHERE idequ=:idequ";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -246,10 +228,6 @@
                 $result->bindParam(":ram", $ram);
                 $procs = $this->getProcs();
                 $result->bindParam(":procs", $procs);
-                $fecultman = $this->getFecultman();
-                $result->bindParam(":fecultman", $fecultman);
-                $fecproman = $this->getFecproman();
-                $result->bindParam(":fecproman", $fecproman);
                 $actequ = $this->getActequ();
                 $result->bindParam(":actequ", $actequ);
                 $tipcon = $this->getTipcon();
@@ -282,18 +260,6 @@
             $res = null;
             $modelo = new conexion();
             $sql = "SELECT COUNT(idequ) AS can FROM prgxequi WHERE idequ=:idequ";
-            $conexion = $modelo->get_conexion();
-            $result = $conexion->prepare($sql);
-            $result->bindParam(':idequ',$idequ);
-            $result->execute();
-            $res = $result-> fetchall(PDO::FETCH_ASSOC);
-            return $res;
-        }
-
-        function getMnxEq($idequ){
-            $res = null;
-            $modelo = new conexion();
-            $sql = "SELECT COUNT(idequ) AS can FROM mantenimiento WHERE idequ=:idequ";
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
             $result->bindParam(':idequ',$idequ);
