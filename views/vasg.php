@@ -127,12 +127,14 @@
                                 </small>
                             </div>
                             <div class="form-group col-md-2">
-                                <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbinf<?= $dta['ideqxpr']; ?>" title="Detalles"></i>
+                                <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdet<?= $dta['ideqxpr']; ?>" title="Detalles"></i>
                                 <?php
                                     $mequ->setIdequ($dta['idequ']);
+                                    $masg->setIdeqxpr($dta['ideqxpr']);
                                     $prgs = $mequ->getOnePxE();
                                     $acc = $masg->getAllAxE($dta['ideqxpr']);
-                                    modalInfAsg("mcbinf", $dta['ideqxpr'], $dta['prec']." - ".$dta['marca'].' '.$dta['modelo'], $prgs, $acc, $dta['pent'], $dta['cpent'], $dta['prec'], $dta['cprec'], $dta['observ'], $dta['pentd'], $dta['cpentd'], $dta['precd'], $dta['cprecd'], $dta['observd'], $dta['numcel'], $dta['operador'], $asg);
+                                    $det = $masg->getOne();
+                                    modalInfAsg("mcbdet", $dta['ideqxpr'], $dta['prec']." - ".$dta['marca'].' '.$dta['modelo'], $prgs, $acc, $det, $asg);
                                 ?>
                             </div>
                         </div>
@@ -140,7 +142,7 @@
                     <td style="text-align: left;">
                         <?php if ($dta['estexp'] == 1) { ?>
                             <span style="font-size: 1px;opacity: 0;">1</span>
-                            <i class="fa fa-solid fa-circle-check fa-2x act"></i>
+                            <i class="fa fa-solid fa-circle-check fa-2x act" title="Asignado"></i>
                         <?php } else if ($dta['estexp'] == 2) { ?>
                             <span style="font-size: 1px;">2</span>
                             <i class="fa fa-solid fa-circle-xmark fa-2x desact" title="Devuelto"></i>
@@ -150,6 +152,13 @@
                         <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
                             <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
                         </a>
+                        <i class="fa fa-solid fa-id-card-clip fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ideqxpr']; ?>" title="Devolver"></i>
+                        <?php
+                        // $mper->setIdper($dta['idper']);
+                        // $dga = $mper->getOnePxF();
+                        // $dm = arrstr($dga);
+                        // modalCmb("mcb", $dta['idper'], $dta['nomper']." ".$dta['apeper'], $idmod, $pg, $dm);
+                        ?>
                     </td>
                 </tr>
             <?php }} ?>

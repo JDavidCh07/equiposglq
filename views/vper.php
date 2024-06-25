@@ -76,24 +76,26 @@ require_once('controllers/cper.php');
         <?php if ($datAll) { foreach ($datAll as $dta) { ?>
             <tr>
                 <td>
-                    <BIG><strong><?= $dta['nomval'].". ".$dta['ndper']." - ".$dta['apeper']." ".$dta['nomper'] ?></strong></BIG>
-                    <small>
-                        <div class="row">
-                            <?php if ($dta['emaper']) { ?>
-                                <div class="form-group col-md-12">
-                                    <strong>Email: </strong> <?= $dta['emaper']; ?>
-                                </div>
-                            <?php } if ($dta['cargo']) { ?>
-                                <div class="form-group col-md-12">
-                                    <strong>Cargo: </strong> <?= $dta['cargo']; ?>
-                                </div>
-                            <?php } if ($dta['usured']) { ?>
-                                <div class="form-group col-md-12">
-                                    <strong>Red: </strong> <?= $dta['usured']; ?>
-                                </div>
-                            <?php } ?>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <BIG><strong><?= $dta['nomval'].". ".$dta['ndper']." - ".$dta['apeper']." ".$dta['nomper'] ?></strong></BIG>
+                            <small>
+                                <?php if ($dta['emaper']) { ?>
+                                    <div class="form-group col-md-12">
+                                        <strong>Email: </strong> <?= $dta['emaper']; ?>
+                                    </div>
+                                <?php } if ($dta['cargo']) { ?>
+                                    <div class="form-group col-md-12">
+                                        <strong>Cargo: </strong> <?= $dta['cargo']; ?>
+                                    </div>
+                                <?php } if ($dta['usured']) { ?>
+                                    <div class="form-group col-md-12">
+                                        <strong>Red: </strong> <?= $dta['usured']; ?>
+                                    </div>
+                                <?php } ?>
+                            </small>
                         </div>
-                    </small>
+                    </div>
                 </td>
                 <?php if ($_SESSION['idpef'] != 3) { ?>
                     <td style="text-align: left;">

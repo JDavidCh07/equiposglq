@@ -119,7 +119,7 @@ function modalCmb($nm, $id, $tit, $idmod, $pg, $dms)
 }
 
 //------------Modal vequ, info equipos-----------
-function modalDet($nm, $id, $titulo, $capgb, $ram, $procs, $tipcon, $contrato, $valrcont, $prgs)
+function modalDet($nm, $id, $titulo, $prgs, $info)
 {
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
@@ -136,17 +136,17 @@ function modalDet($nm, $id, $titulo, $capgb, $ram, $procs, $tipcon, $contrato, $
 							if($prgs){ foreach($prgs AS $pr){
 								$txt .= '<tr><td><strong>'.$pr['nomdom'].': </strong></td><td class="infpc">'.$pr['nomval'].' '.$pr['verprg'].'</td></tr>';
 							}}
-							$txt .= '<tr><td><strong>Procesador: </strong></td><td class="infpc">'.$procs.'</td></tr>';
-							$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$ram.' GB</td></tr>';
+							$txt .= '<tr><td><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
+							$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$info[0]["ram"].' GB</td></tr>';
 							$txt .= '<tr><td><strong>Almacenamiento: </strong></td><td class="infpc">';
-							if($capgb>1000){
-								$frmt = $capgb/1000;
+							if($info[0]["capgb"]>1000){
+								$frmt = $info[0]["capgb"]/1000;
 								$txt .= number_format($frmt,1,".",",").' TB</td></tr>';
 							}
-							else $txt .= $capgb.' GB</td></tr>';
-							if ($tipcon && $tipcon==11){
-								if ($contrato) $txt .= '<tr><td><strong>Contrato: </strong></td><td class="infpc">'.$contrato.' GB</td></tr>';
-								if ($valrcont) $txt .= '<tr><td><strong>Valor contrato: </strong></td><td class="infpc">$'.$valrcont.'</td></tr>';
+							else $txt .= $info[0]["capgb"].' GB</td></tr>';
+							if ($info[0]["tipcon"] && $info[0]["tipcon"]==11){
+								if ($info[0]["contrato"]) $txt .= '<tr><td><strong>Contrato: </strong></td><td class="infpc">'.$info[0]["contrato"].' GB</td></tr>';
+								if ($info[0]["valrcont"]) $txt .= '<tr><td><strong>Valor contrato: </strong></td><td class="infpc">$'.$info[0]["valrcont"].'</td></tr>';
 							}
 						$txt .= '</table>';
 					$txt .= '</div>';
@@ -161,8 +161,9 @@ function modalDet($nm, $id, $titulo, $capgb, $ram, $procs, $tipcon, $contrato, $
 }
 
 //------------Modal vasg, info asignacioon-----------
-function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $pent, $cpent, $prec, $cprec, $observ, $pentd, $cpentd, $precd, $cprecd, $observd, $numcel, $operador, $asg)
-{
+function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $det, $asg)
+{	
+	
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
@@ -180,23 +181,28 @@ function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $pent, $cpent, $prec, $cpre
 					}}
 					if($asg=="cel"){
 						$txt .= '<big><strong>Plan</strong></big><hr>';
-						$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>'.$numcel.'</div>';
-						$txt .= '<div class="form-group col-md-6"><strong>Operador: </strong>'.$operador.'</div>';
+						$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>'.$det[0]["numcel"].'</div>';
+						$txt .= '<div class="form-group col-md-6"><strong>Operador: </strong>'.$det[0]["operador"].'</div>';
 					}
 					$txt .= '<big><br><strong>Accesorios</strong></big><hr>';
 					if($acc){ foreach($acc AS $ac){
-						$txt .= '<div class="form-group col-md-6">'.$ac['nomval'].'</div>';
+						$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
 					}}
 					$txt .= '<big><br><strong>Asignación</strong></big><hr>';
-					$txt .= '<div class="form-group col-md-12"><strong>Entrega: </strong>'.$pent.' - '.$cpent.'</div>';
-					$txt .= '<div class="form-group col-md-12"><strong>Recibe: </strong>'.$prec.' - '.$cprec.'</div>';
-					if($pentd && $precd){
-						$txt .= '<big><br><strong>Devolución</strong></big><hr>';
-						$txt .= '<div class="form-group col-md-12"><strong>Entrega: </strong>'.$pentd.' - '.$cpentd.'</div>';
-						$txt .= '<div class="form-group col-md-12"><strong>Recibe: </strong>'.$precd.' - '.$cprecd.'</div>';
+					$txt .= '<div class="form-group col-md-4"><strong>Entrega: </strong></div>';
+					$txt .= '<div class="form-group col-md-8">'.$det[0]["pent"].' - '.$det[0]["cpent"].'</div>';
+					$txt .= '<div class="form-group col-md-4"><strong>Recibe: </strong></div>';
+					$txt .= '<div class="form-group col-md-8">'.$det[0]["prec"].' - '.$det[0]["cprec"].'</div>';
+					if($det[0]["observ"]) $txt .= '<div class="form-group col-md-12"><br><strong>Observación: </strong><br>'.$det[0]["observ"].'</div>';
+					if($det[0]["pentd"] && $det[0]["precd"]){
+						$txt .= '<div class="form-group col-md-4"><strong>Entrega: </strong></div>';
+						$txt .= '<div class="form-group col-md-8">'.$det[0]["pentd"].' - '.$det[0]["cpentd"].'</div>';
+						$txt .= '<div class="form-group col-md-4"><strong>Recibe: </strong></div>';
+						$txt .= '<div class="form-group col-md-8">'.$det[0]["precd"].' - '.$det[0]["cprecd"].'</div>';
+						if($det[0]["observd"]) $txt .= '<div class="form-group col-md-12"><br><strong>Observación: </strong><br>'.$det[0]["observd"].'</div>';
 					}
 				$txt .= '</div>';
-				$txt .= '<div class="modal-footer">';
+				$txt .= '<br><div class="modal-footer">';
 					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 				$txt .= '</div>';
 			$txt .= '</div>';

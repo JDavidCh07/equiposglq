@@ -25,7 +25,7 @@
     $idvacc = isset($_POST['idvacc']) ? $_POST['idvacc']:NULL;
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
-    $asg = isset($_REQUEST['asg']) ? $_REQUEST['asg']:NULL;
+    $asg = isset($_REQUEST['asg']) ? $_REQUEST['asg']:"equ";
     
     $datOneA = NULL;
     $datAxE = NULL;
