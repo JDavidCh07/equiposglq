@@ -2,8 +2,7 @@
 // require_once("models/mper.php");
 
 //------------Titulos-----------
-function titulo($ico, $tit, $mos, $pg)
-{
+function titulo($ico, $tit, $mos, $pg){
 	$txt = '';
 	$txt .= '<div class="titu">';
 		$txt .= '<div class="titaju">';
@@ -22,8 +21,7 @@ function titulo($ico, $tit, $mos, $pg)
 }
 
 //------------Errores try-catch-----------
-function ManejoError($e)
-{
+function ManejoError($e){
 	if (strpos($e->getMessage(), '1451')) {
 		echo '<script>err("No se puede eliminar este registro. Por que se encuentra relacionado en otra opción.");</script>';
 	} elseif (strpos($e->getMessage(), '1062')) {
@@ -34,8 +32,7 @@ function ManejoError($e)
 }
 
 //------------Modal vpef, pagxpef-----------
-function modalChk($nm, $id, $tit, $mt, $pg, $dms)
-{
+function modalChk($nm, $id, $tit, $mt, $pg, $dms){
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
@@ -73,8 +70,7 @@ function modalChk($nm, $id, $tit, $mt, $pg, $dms)
 }
 
 //------------Modal vper, pefxper-----------
-function modalCmb($nm, $id, $tit, $idmod, $pg, $dms)
-{
+function modalCmb($nm, $id, $tit, $idmod, $pg, $dms){
 	$mper = new Mper();
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
@@ -119,8 +115,7 @@ function modalCmb($nm, $id, $tit, $idmod, $pg, $dms)
 }
 
 //------------Modal vequ, info equipos-----------
-function modalDet($nm, $id, $titulo, $prgs, $info)
-{
+function modalDet($nm, $id, $titulo, $prgs, $info){
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
@@ -130,25 +125,26 @@ function modalDet($nm, $id, $titulo, $prgs, $info)
 					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
 				$txt .= '</div>';
 				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
-				$txt .= '<div class="row"';
-					$txt .= '<div">';
-						$txt .= '<table>';
-							if($prgs){ foreach($prgs AS $pr){
-								$txt .= '<tr><td><strong>'.$pr['nomdom'].': </strong></td><td class="infpc">'.$pr['nomval'].' '.$pr['verprg'].'</td></tr>';
-							}}
-							$txt .= '<tr><td><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
-							$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$info[0]["ram"].' GB</td></tr>';
-							$txt .= '<tr><td><strong>Almacenamiento: </strong></td><td class="infpc">';
-							if($info[0]["capgb"]>1000){
-								$frmt = $info[0]["capgb"]/1000;
-								$txt .= number_format($frmt,1,".",",").' TB</td></tr>';
-							}
-							else $txt .= $info[0]["capgb"].' GB</td></tr>';
-							if ($info[0]["tipcon"] && $info[0]["tipcon"]==11){
-								if ($info[0]["contrato"]) $txt .= '<tr><td><strong>Contrato: </strong></td><td class="infpc">'.$info[0]["contrato"].' GB</td></tr>';
-								if ($info[0]["valrcont"]) $txt .= '<tr><td><strong>Valor contrato: </strong></td><td class="infpc">$'.$info[0]["valrcont"].'</td></tr>';
-							}
-						$txt .= '</table>';
+					$txt .= '<div class="row"';
+						$txt .= '<div">';
+							$txt .= '<table>';
+								if($prgs){ foreach($prgs AS $pr){
+									$txt .= '<tr><td><strong>'.$pr['nomdom'].': </strong></td><td class="infpc">'.$pr['nomval'].' '.$pr['verprg'].'</td></tr>';
+								}}
+								$txt .= '<tr><td><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
+								$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$info[0]["ram"].' GB</td></tr>';
+								$txt .= '<tr><td><strong>Almacenamiento: </strong></td><td class="infpc">';
+								if($info[0]["capgb"]>1000){
+									$frmt = $info[0]["capgb"]/1000;
+									$txt .= number_format($frmt,1,".",",").' TB</td></tr>';
+								}
+								else $txt .= $info[0]["capgb"].' GB</td></tr>';
+								if ($info[0]["tipcon"] && $info[0]["tipcon"]==11){
+									if ($info[0]["contrato"]) $txt .= '<tr><td><strong>Contrato: </strong></td><td class="infpc">'.$info[0]["contrato"].' GB</td></tr>';
+									if ($info[0]["valrcont"]) $txt .= '<tr><td><strong>Valor contrato: </strong></td><td class="infpc">$'.$info[0]["valrcont"].'</td></tr>';
+								}
+							$txt .= '</table>';
+						$txt .= '</div>';
 					$txt .= '</div>';
 				$txt .= '</div>';
 				$txt .= '<div class="modal-footer">';
@@ -160,10 +156,55 @@ function modalDet($nm, $id, $titulo, $prgs, $info)
 	echo $txt;
 }
 
-//------------Modal vasg, info asignacioon-----------
-function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $det, $asg)
-{	
-	
+//------------Modal vasg, devolucion-----------
+function modalDev($nm, $id, $acc, $det){
+	$hoy = date("Y-m-d");
+	$pasmañ = date("Y-m-d", strtotime($hoy . ' +3 day'));
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<div class="modal-content">';
+				$txt .= '<div class="modal-header">';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Datos Asiganación</strong></h1>';
+					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
+				$txt .= '</div>';
+				$txt .= '<div class="modal-body" style="margin: 0px 25px; text-align: left;">';
+					$txt .= '<div class="row">';
+						$txt .= '<strong>Entrega:</strong><hr>';
+						$txt .= '<div class="form-group col-md-4"><strong>Persona:</strong></div>';
+						$txt .= '<div class="form-group col-md-8">'.$det[0]['prec'].' - '.$det[0]['cprec'].'</div>';
+						$txt .= '<div class="form-group col-md-4"><strong>Equipo:</strong></div>';
+						$txt .= '<div class="form-group col-md-8">';
+							if($det[0]['idvtpeq']!=8) $txt .= $det[0]['tpe'].' '.$det[0]['marca'].' '.$det[0]['modelo'];
+							else $txt .= $det[0]['marca'].' '.$det[0]['tpe'].' '.$det[0]['modelo'];
+						$txt .= '</div>';
+						if($acc){
+							$txt .= '<strong><br>Accesorios:</strong><hr>';
+							foreach($acc AS $ac){
+								$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
+							}}
+						$txt .= '<strong><br>Devolución:</strong><hr>';
+						$txt .= '<div class="form-group col-md-6">';
+							$txt .= '<label for="fecdev" class="titulo"><strong>F. Entrega: </strong></label>';
+							$txt .= '<input class="form-control" max='.$pasmañ.' type="date" id="fecdev" name="fecdev" value="'.$hoy.'" required>';
+						$txt .= '</div>';
+						$txt .= '<div class="form-group col-md-12">';
+							$txt .= '<label for="observd" class="titulo"><strong>Observaciones: </strong></label>';
+							$txt .= '<textarea class="form-control" type="text" id="observd" name="observd" required></textarea>';
+						$txt .= '</div>';
+					$txt .= '</div>';
+				$txt .= '</div>';
+				$txt .= '<br><div class="modal-footer">';
+					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+				$txt .= '</div>';
+			$txt .= '</div>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal vasg, info asignacion-----------
+function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $det, $asg){		
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
@@ -173,34 +214,36 @@ function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $det, $asg)
 					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
 				$txt .= '</div>';
 				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
-				$txt .= '<div class="row">';
-					if($asg=="equ"){
-						$txt .= '<big><strong>Programas</strong></big><hr>';
-						if($prgs){ foreach($prgs AS $pr)
-							$txt .= '<div class="form-group col-md-6"><strong>'.$pr['nomdom'].': </strong>'.$pr['nomval'].' '.$pr['verprg'].'</div>';
-					}}
-					if($asg=="cel"){
-						$txt .= '<big><strong>Plan</strong></big><hr>';
-						$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>'.$det[0]["numcel"].'</div>';
-						$txt .= '<div class="form-group col-md-6"><strong>Operador: </strong>'.$det[0]["operador"].'</div>';
-					}
-					$txt .= '<big><br><strong>Accesorios</strong></big><hr>';
-					if($acc){ foreach($acc AS $ac){
-						$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
-					}}
-					$txt .= '<big><br><strong>Asignación</strong></big><hr>';
-					$txt .= '<div class="form-group col-md-4"><strong>Entrega: </strong></div>';
-					$txt .= '<div class="form-group col-md-8">'.$det[0]["pent"].' - '.$det[0]["cpent"].'</div>';
-					$txt .= '<div class="form-group col-md-4"><strong>Recibe: </strong></div>';
-					$txt .= '<div class="form-group col-md-8">'.$det[0]["prec"].' - '.$det[0]["cprec"].'</div>';
-					if($det[0]["observ"]) $txt .= '<div class="form-group col-md-12"><br><strong>Observación: </strong><br>'.$det[0]["observ"].'</div>';
-					if($det[0]["pentd"] && $det[0]["precd"]){
+					$txt .= '<div class="row">';
+						if($asg=="equ"){
+							$txt .= '<big><strong>Programas</strong></big><hr>';
+							if($prgs){ foreach($prgs AS $pr)
+								$txt .= '<div class="form-group col-md-6"><strong>'.$pr['nomdom'].': </strong>'.$pr['nomval'].' '.$pr['verprg'].'</div>';
+						}}
+						if($asg=="cel"){
+							$txt .= '<big><strong>Plan</strong></big><hr>';
+							$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>'.$det[0]["numcel"].'</div>';
+							$txt .= '<div class="form-group col-md-6"><strong>Operador: </strong>'.$det[0]["operador"].'</div>';
+						}
+						if($acc){
+							$txt .= '<big><br><strong>Accesorios</strong></big><hr>';
+							foreach($acc AS $ac){
+								$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
+						}}
+						$txt .= '<big><br><strong>Asignación</strong></big><hr>';
 						$txt .= '<div class="form-group col-md-4"><strong>Entrega: </strong></div>';
-						$txt .= '<div class="form-group col-md-8">'.$det[0]["pentd"].' - '.$det[0]["cpentd"].'</div>';
+						$txt .= '<div class="form-group col-md-8">'.$det[0]["pent"].' - '.$det[0]["cpent"].'</div>';
 						$txt .= '<div class="form-group col-md-4"><strong>Recibe: </strong></div>';
-						$txt .= '<div class="form-group col-md-8">'.$det[0]["precd"].' - '.$det[0]["cprecd"].'</div>';
-						if($det[0]["observd"]) $txt .= '<div class="form-group col-md-12"><br><strong>Observación: </strong><br>'.$det[0]["observd"].'</div>';
-					}
+						$txt .= '<div class="form-group col-md-8">'.$det[0]["prec"].' - '.$det[0]["cprec"].'</div>';
+						if($det[0]["observ"]) $txt .= '<div class="form-group col-md-12"><br><strong>Observación: </strong><br>'.$det[0]["observ"].'</div>';
+						if($det[0]["pentd"] && $det[0]["precd"]){
+							$txt .= '<div class="form-group col-md-4"><strong>Entrega: </strong></div>';
+							$txt .= '<div class="form-group col-md-8">'.$det[0]["pentd"].' - '.$det[0]["cpentd"].'</div>';
+							$txt .= '<div class="form-group col-md-4"><strong>Recibe: </strong></div>';
+							$txt .= '<div class="form-group col-md-8">'.$det[0]["precd"].' - '.$det[0]["cprecd"].'</div>';
+							if($det[0]["observd"]) $txt .= '<div class="form-group col-md-12"><br><strong>Observación: </strong><br>'.$det[0]["observd"].'</div>';
+						}
+					$txt .= '</div>';
 				$txt .= '</div>';
 				$txt .= '<br><div class="modal-footer">';
 					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
@@ -212,8 +255,7 @@ function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $det, $asg)
 }
 
 //------------Modal vequ, prgxequi-----------
-function modalPxE($nm, $id, $tit, $dom, $pg, $dms, $dga)
-{
+function modalPxE($nm, $id, $tit, $dom, $pg, $dms, $dga){
 	$mequ = new Mequ();
 	$i = 0;
 	$txt = '';
@@ -268,8 +310,7 @@ function modalPxE($nm, $id, $tit, $dom, $pg, $dms, $dga)
 }
 
 //------------Modal vper, tajxper-----------
-function modalTj($nm, $id, $perent, $pg)
-{
+function modalTj($nm, $id, $perent, $pg){
 	$mper = new Mper();
 	$dtj = NULL;
 	$dtj = $mper->getOneTaj($id);
@@ -356,8 +397,7 @@ function modalTj($nm, $id, $perent, $pg)
 }
 
 //------------Array-string vpef, pagxpef-----------
-function arrstr($dt)
-{
+function arrstr($dt){
 	$txt = "";
 	if ($dt) {
 		foreach ($dt as $d) {
@@ -368,8 +408,7 @@ function arrstr($dt)
 }
 
 //------------Array-string vequ, prgxequi-----------
-function arrstrprg($dt)
-{
+function arrstrprg($dt){
 	$txt = "";
 	if ($dt) {
 		foreach ($dt as $d) {

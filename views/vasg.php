@@ -68,14 +68,6 @@
                 <label for="observ"><strong>Observaciones entrega:</strong></label>
                 <textarea class="form-control" type="text" id="observ" name="observ" <?php if ($datOneA) echo 'required';?>><?php if ($datOneA) echo $datOneA[0]['observ']; ?></textarea>
             </div>
-            <!-- <div class="form-group col-md-4">
-                <label for="fecdev"><strong>F. Devolución:</strong></label>
-                <input class="form-control" type="date" id="fecdev" name="fecdev" max=<?php echo $hoy;?> value="<?php if ($datOneA) echo $datOneA[0]['fecdev']; ?>" required>
-            </div>
-            <div class="form-group col-md-12">
-                <label for="observd"><strong>Observaciones devolución:</strong></label>
-                <textarea class="form-control" type="text" id="observd" name="observd" value="<?php if ($datOneA) echo $datOneA[0]['observd']; ?>" required></textarea>
-            </div> -->
             <div class="form-group col-md-12" id="boxbtn">
                 <br><br>
                 <input class="btn btn-primary" type="submit" value="Registrar">
@@ -149,16 +141,16 @@
                         <?php } ?>
                     </td>
                     <td style="text-align: right;">
+                        <i class="fa fa-solid fa-arrows-turn-to-dots fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ideqxpr']; ?>" title="Devolver"></i>
+                        <?php
+                            $masg->setIdeqxpr($dta['ideqxpr']);
+                            $acc = $masg->getAllAxE($dta['ideqxpr']);
+                            $det = $masg->getOne();
+                            modalDev("mcbdev", $dta['ideqxpr'], $acc, $det);
+                        ?>
                         <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
                             <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
                         </a>
-                        <i class="fa fa-solid fa-id-card-clip fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ideqxpr']; ?>" title="Devolver"></i>
-                        <?php
-                        // $mper->setIdper($dta['idper']);
-                        // $dga = $mper->getOnePxF();
-                        // $dm = arrstr($dga);
-                        // modalCmb("mcb", $dta['idper'], $dta['nomper']." ".$dta['apeper'], $idmod, $pg, $dm);
-                        ?>
                     </td>
                 </tr>
             <?php }} ?>
