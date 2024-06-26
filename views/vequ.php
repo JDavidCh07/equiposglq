@@ -136,7 +136,7 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                                     $mequ->setIdequ($dta['idequ']);
                                     $prgs = $mequ->getOnePxE();
                                     $info = $mequ->getOne();
-                                    modalDet("mcbinf", $dta['idequ'], $dta['marca'].' '.$dta['modelo'].' - '.$dta['serialeq'], $prgs, $info);
+                                    modalDet("mcbinf", $dta['idequ'], $prgs, $info);
                                 ?>
                             </div>
                         <?php } ?>

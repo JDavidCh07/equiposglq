@@ -115,13 +115,13 @@ function modalCmb($nm, $id, $tit, $idmod, $pg, $dms){
 }
 
 //------------Modal vequ, info equipos-----------
-function modalDet($nm, $id, $titulo, $prgs, $info){
+function modalDet($nm, $id, $prgs, $info){
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<div class="modal-content">';
 				$txt .= '<div class="modal-header">';
-					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$titulo.'</strong></h1>';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$info[0]['marca'].' '.$info[0]['modelo'].' - '.$info[0]['serialeq'].'</strong></h1>';
 					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
 				$txt .= '</div>';
 				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
@@ -212,13 +212,13 @@ function modalDev($nm, $id, $acc, $det, $pg){
 }
 
 //------------Modal vasg, info asignacion-----------
-function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $det, $asg){		
+function modalInfAsg($nm, $id, $prgs, $acc, $det, $asg){		
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<div class="modal-content">';
 				$txt .= '<div class="modal-header">';
-					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$titulo.'</strong></h1>';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$det[0]['prec']." - ".$det[0]['marca'].' '.$det[0]['modelo'].'</strong></h1>';
 					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
 				$txt .= '</div>';
 				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
@@ -273,7 +273,7 @@ function modalPxE($nm, $id, $tit, $dom, $pg, $dms, $dga){
 			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
 				$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>' . $tit . '</strong></h1>';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$tit.'</strong></h1>';
 						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-body">';

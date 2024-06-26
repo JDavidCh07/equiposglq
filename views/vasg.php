@@ -4,12 +4,22 @@
     $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
 ?>
 
-<a href="home.php?pg=51&asg=equ" title="Equipo">
-    <i class="fa fa-solid fa-laptop fa-2x iconi"></i>
-</a>
-<a href="home.php?pg=51&asg=cel" title="Celular">
-    <i class="fa fa-solid fa-mobile fa-2x iconi"></i>
-</a>
+<div class="row">
+    <div class="col-8">
+    <a href="home.php?pg=51&asg=equ" title="Equipo">
+        <i class="fa fa-solid fa-laptop fa-2x iconi"></i>
+    </a>
+    <a href="home.php?pg=51&asg=cel" title="Celular">
+        <i class="fa fa-solid fa-mobile fa-2x iconi"></i>
+    </a>
+    </div>
+    <div class="col-4" style="text-align: right;">
+        <a href="excel/xasg.php?&asg=<?= $asg; ?>" title="Exportar">
+            <i class="fa fa-solid fa-file-excel fa-2x xls"></i>
+        </a>
+    </div>
+</div>
+
 
 <?php if($asg){ ?>
     <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
@@ -126,7 +136,7 @@
                                     $prgs = $mequ->getOnePxE();
                                     $acc = $masg->getAllAxE($dta['ideqxpr']);
                                     $det = $masg->getOne();
-                                    modalInfAsg("mcbdet", $dta['ideqxpr'], $dta['prec']." - ".$dta['marca'].' '.$dta['modelo'], $prgs, $acc, $det, $asg);
+                                    modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
                                 ?>
                             </div>
                         </div>
