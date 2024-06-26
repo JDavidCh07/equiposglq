@@ -13,12 +13,12 @@
     $fecent = isset($_POST['fecent']) ? $_POST['fecent']:NULL;
     $observ = isset($_POST['observ']) ? $_POST['observ']:NULL;
     $idperentd = isset($_POST['idperentd']) ? $_POST['idperentd']:NULL;
-    $idperrecd = isset($_POST['idperrecd']) ? $_POST['idperrecd']:NULL;
+    $idperrecd = isset($_POST['idperrecd']) ? $_POST['idperrecd']:$_SESSION['idper'];
     $fecdev = isset($_POST['fecdev']) ? $_POST['fecdev']:NULL;
     $observd = isset($_POST['observd']) ? $_POST['observd']:NULL;
     $numcel = isset($_POST['numcel']) ? $_POST['numcel']:NULL;
     $opecel = isset($_POST['opecel']) ? $_POST['opecel']:NULL;
-    $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:NULL;
+    $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:1;
     $difasg = $nmfl;
     
     //------------Accesorios-----------
@@ -42,7 +42,7 @@
         $masg->setObserv($observ);
         $masg->setNumcel($numcel);
         $masg->setOpecel($opecel);
-        $masg->setEstexp(1);    
+        $masg->setEstexp($estexp);    
         $masg->setDifasg($difasg);    
         if(!$ideqxpr){
             $masg->save($asg);
@@ -63,7 +63,7 @@
         $masg->setIdperrecd($idperrecd);
         $masg->setFecdev($fecdev);
         $masg->setObservd($observd);
-        $masg->setEstexp(2);
+        $masg->setEstexp($estexp);
         $masg->dev();
     }
 

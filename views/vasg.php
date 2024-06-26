@@ -141,16 +141,18 @@
                         <?php } ?>
                     </td>
                     <td style="text-align: right;">
-                        <i class="fa fa-solid fa-arrows-turn-to-dots fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ideqxpr']; ?>" title="Devolver"></i>
-                        <?php
-                            $masg->setIdeqxpr($dta['ideqxpr']);
-                            $acc = $masg->getAllAxE($dta['ideqxpr']);
-                            $det = $masg->getOne();
-                            modalDev("mcbdev", $dta['ideqxpr'], $acc, $det);
-                        ?>
-                        <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
-                            <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
-                        </a>
+                        <?php if ($dta['estexp'] != 2) { ?>
+                            <i class="fa fa-solid fa-arrows-turn-to-dots fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ideqxpr']; ?>" title="Devolver"></i>
+                            <?php
+                                $masg->setIdeqxpr($dta['ideqxpr']);
+                                $acc = $masg->getAllAxE($dta['ideqxpr']);
+                                $det = $masg->getOne();
+                                modalDev("mcbdev", $dta['ideqxpr'], $acc, $det, $pg);
+                            ?>
+                            <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
+                                <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
+                            </a>
+                        <?php } ?>
                     </td>
                 </tr>
             <?php }} ?>

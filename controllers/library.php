@@ -157,47 +157,55 @@ function modalDet($nm, $id, $titulo, $prgs, $info){
 }
 
 //------------Modal vasg, devolucion-----------
-function modalDev($nm, $id, $acc, $det){
+function modalDev($nm, $id, $acc, $det, $pg){
 	$hoy = date("Y-m-d");
 	$pasmañ = date("Y-m-d", strtotime($hoy . ' +3 day'));
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
-			$txt .= '<div class="modal-content">';
-				$txt .= '<div class="modal-header">';
-					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Datos Asiganación</strong></h1>';
-					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
-				$txt .= '</div>';
-				$txt .= '<div class="modal-body" style="margin: 0px 25px; text-align: left;">';
-					$txt .= '<div class="row">';
-						$txt .= '<strong>Entrega:</strong><hr>';
-						$txt .= '<div class="form-group col-md-4"><strong>Persona:</strong></div>';
-						$txt .= '<div class="form-group col-md-8">'.$det[0]['prec'].' - '.$det[0]['cprec'].'</div>';
-						$txt .= '<div class="form-group col-md-4"><strong>Equipo:</strong></div>';
-						$txt .= '<div class="form-group col-md-8">';
-							if($det[0]['idvtpeq']!=8) $txt .= $det[0]['tpe'].' '.$det[0]['marca'].' '.$det[0]['modelo'];
-							else $txt .= $det[0]['marca'].' '.$det[0]['tpe'].' '.$det[0]['modelo'];
-						$txt .= '</div>';
-						if($acc){
-							$txt .= '<strong><br>Accesorios:</strong><hr>';
-							foreach($acc AS $ac){
-								$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
-							}}
-						$txt .= '<strong><br>Devolución:</strong><hr>';
-						$txt .= '<div class="form-group col-md-6">';
-							$txt .= '<label for="fecdev" class="titulo"><strong>F. Entrega: </strong></label>';
-							$txt .= '<input class="form-control" max='.$pasmañ.' type="date" id="fecdev" name="fecdev" value="'.$hoy.'" required>';
-						$txt .= '</div>';
-						$txt .= '<div class="form-group col-md-12">';
-							$txt .= '<label for="observd" class="titulo"><strong>Observaciones: </strong></label>';
-							$txt .= '<textarea class="form-control" type="text" id="observd" name="observd" required></textarea>';
+			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
+				$txt .= '<div class="modal-content">';
+					$txt .= '<div class="modal-header">';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Datos Asiganación</strong></h1>';
+						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-body" style="margin: 0px 25px; text-align: left;">';
+						$txt .= '<div class="row">';
+							$txt .= '<strong>Entrega:</strong><hr>';
+							$txt .= '<div class="form-group col-md-4"><strong>Persona:</strong></div>';
+							$txt .= '<div class="form-group col-md-8">'.$det[0]['prec'].' - '.$det[0]['cprec'].'</div>';
+							$txt .= '<div class="form-group col-md-4"><strong>Equipo:</strong></div>';
+							$txt .= '<div class="form-group col-md-8">';
+								if($det[0]['idvtpeq']!=8) $txt .= $det[0]['tpe'].' '.$det[0]['marca'].' '.$det[0]['modelo'];
+								else $txt .= $det[0]['marca'].' '.$det[0]['tpe'].' '.$det[0]['modelo'];
+							$txt .= '</div>';
+							if($acc){
+								$txt .= '<strong><br>Accesorios:</strong><hr>';
+								foreach($acc AS $ac){
+									$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
+								}}
+							$txt .= '<strong><br>Devolución:</strong><hr>';
+							$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
+								$txt .= '<div class="form-group col-md-6">';
+									$txt .= '<label for="fecdev" class="titulo"><strong>F. Devolución: </strong></label>';
+									$txt .= '<input class="form-control" max='.$pasmañ.' type="date" id="fecdev" name="fecdev" value="'.$hoy.'" required>';
+								$txt .= '</div>';
+								$txt .= '<div class="form-group col-md-12">';
+									$txt .= '<label for="observd" class="titulo"><strong>Observaciones: </strong></label>';
+									$txt .= '<textarea class="form-control" type="text" id="observd" name="observd" required></textarea>';
+								$txt .= '</div>';
 						$txt .= '</div>';
 					$txt .= '</div>';
+					$txt .= '<br><div class="modal-footer">';
+						$txt .= '<input type="hidden" value="'.$det[0]['idprec'].'" name="idperentd">';
+						$txt .= '<input type="hidden" value="'.$det[0]['ideqxpr'].'" name="ideqxpr">';
+						$txt .= '<input type="hidden" value="dev" name="ope">';
+						$txt .= '<input type="hidden" value="2" name="estexp">';
+						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';	
+						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+					$txt .= '</div>';
 				$txt .= '</div>';
-				$txt .= '<br><div class="modal-footer">';
-					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-				$txt .= '</div>';
-			$txt .= '</div>';
+			$txt .= '</form>';
 		$txt .= '</div>';
 	$txt .= '</div>';
 	echo $txt;
@@ -237,6 +245,7 @@ function modalInfAsg($nm, $id, $titulo, $prgs, $acc, $det, $asg){
 						$txt .= '<div class="form-group col-md-8">'.$det[0]["prec"].' - '.$det[0]["cprec"].'</div>';
 						if($det[0]["observ"]) $txt .= '<div class="form-group col-md-12"><br><strong>Observación: </strong><br>'.$det[0]["observ"].'</div>';
 						if($det[0]["pentd"] && $det[0]["precd"]){
+							$txt .= '<big><br><strong>Devolución</strong></big><hr>';
 							$txt .= '<div class="form-group col-md-4"><strong>Entrega: </strong></div>';
 							$txt .= '<div class="form-group col-md-8">'.$det[0]["pentd"].' - '.$det[0]["cpentd"].'</div>';
 							$txt .= '<div class="form-group col-md-4"><strong>Recibe: </strong></div>';
@@ -268,7 +277,6 @@ function modalPxE($nm, $id, $tit, $dom, $pg, $dms, $dga){
 						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-body">';
-						$txt .= '<input type="hidden" value="' . $id . '" name="idper">';
 						$txt .= '<div class="row">';
 							if ($dom) { foreach ($dom as $dom) {
 								$dtpg = $mequ->getOnePrg($dom['iddom']);
@@ -298,6 +306,7 @@ function modalPxE($nm, $id, $tit, $dom, $pg, $dms, $dga){
 						$txt .= '</div>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" value="' . $id . '" name="idper">';
 						$txt .= '<input type="hidden" value="savepxe" name="ope">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';

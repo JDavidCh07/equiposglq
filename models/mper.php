@@ -527,9 +527,9 @@ class Mper{
             $result = $conexion->prepare($sql);
             $idtaj = $this->getIdtaj();
             $result->bindParam(":idtaj", $idtaj);
-            $idperentd = $this->getIdperentd();
             if($numtajpar) $result->bindParam(":numtajpar", $numtajpar);
             if($numtajofi) $result->bindParam(":numtajofi", $numtajofi);
+            $idperentd = $this->getIdperentd();
             $result->bindParam(":idperentd", $idperentd);
             $idperrecd = $this->getIdperrecd();
             $result->bindParam(":idperrecd", $idperrecd);

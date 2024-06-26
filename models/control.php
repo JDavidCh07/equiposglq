@@ -42,8 +42,4 @@ function valdat($usu,$pas){
 	$res = $result->fetchall(PDO::FETCH_ASSOC);
 	return $res;
 }
-
-
-$pas = sha1(md5("tu_contraseña"))."sGlaqs2%";
-var_dump($pas);	
 ?>

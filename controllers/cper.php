@@ -29,7 +29,7 @@
     $idperentd = isset($_POST['idperentd']) ? $_POST['idperentd']:NULL;
     $idperrecd = isset($_POST['idperrecd']) ? $_POST['idperrecd']:NULL;
     $fecdev = isset($_POST['fecdev']) ? $_POST['fecdev']:NULL;
-    $esttaj = isset($_POST['esttaj']) ? $_POST['esttaj']:NULL;
+    $esttaj = isset($_POST['esttaj']) ? $_POST['esttaj']:1;
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
     $datOne=NULL;
@@ -93,11 +93,13 @@
         $mper->setIdperent($idperent);
         $mper->setIdperrec($idperrec);
         $mper->setFecent($fecent);
-        $mper->setIdperentd($idperentd);
-        $mper->setIdperrecd($idperrecd);
         $mper->setFecdev($fecdev);
-        $mper->setEsttaj(1);
-        if($fecdev) $mper->setEsttaj(2);
+        $mper->setEsttaj($esttaj);
+        if($fecdev){
+            $mper->setIdperentd($idperentd);
+            $mper->setIdperrecd($idperrecd);
+            $mper->setEsttaj(2);
+        }
         if(!$idtaj) $mper->saveTaj();
         else $mper->updTaj();
     }
