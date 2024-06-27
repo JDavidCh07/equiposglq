@@ -125,26 +125,24 @@ function modalDet($nm, $id, $prgs, $info){
 					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
 				$txt .= '</div>';
 				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
-					$txt .= '<div class="row"';
-						$txt .= '<div">';
-							$txt .= '<table>';
-								if($prgs){ foreach($prgs AS $pr){
-									$txt .= '<tr><td><strong>'.$pr['nomdom'].': </strong></td><td class="infpc">'.$pr['nomval'].' '.$pr['verprg'].'</td></tr>';
-								}}
-								$txt .= '<tr><td><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
-								$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$info[0]["ram"].' GB</td></tr>';
-								$txt .= '<tr><td><strong>Almacenamiento: </strong></td><td class="infpc">';
-								if($info[0]["capgb"]>1000){
-									$frmt = $info[0]["capgb"]/1000;
-									$txt .= number_format($frmt,1,".",",").' TB</td></tr>';
-								}
-								else $txt .= $info[0]["capgb"].' GB</td></tr>';
-								if ($info[0]["tipcon"] && $info[0]["tipcon"]==11){
-									if ($info[0]["contrato"]) $txt .= '<tr><td><strong>Contrato: </strong></td><td class="infpc">'.$info[0]["contrato"].' GB</td></tr>';
-									if ($info[0]["valrcont"]) $txt .= '<tr><td><strong>Valor contrato: </strong></td><td class="infpc">$'.$info[0]["valrcont"].'</td></tr>';
-								}
-							$txt .= '</table>';
-						$txt .= '</div>';
+					$txt .= '<div class="row">';
+						$txt .= '<table>';
+							if($prgs){ foreach($prgs AS $pr){
+								$txt .= '<tr><td><strong>'.$pr['nomdom'].': </strong></td><td class="infpc">'.$pr['nomval'].' '.$pr['verprg'].'</td></tr>';
+							}}
+							$txt .= '<tr><td><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
+							$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$info[0]["ram"].' GB</td></tr>';
+							$txt .= '<tr><td><strong>Almacenamiento: </strong></td><td class="infpc">';
+							if($info[0]["capgb"]>1000){
+								$frmt = $info[0]["capgb"]/1000;
+								$txt .= number_format($frmt,1,".",",").' TB</td></tr>';
+							}
+							else $txt .= $info[0]["capgb"].' GB</td></tr>';
+							if ($info[0]["tipcon"] && $info[0]["tipcon"]==11){
+								if ($info[0]["contrato"]) $txt .= '<tr><td><strong>Contrato: </strong></td><td class="infpc">'.$info[0]["contrato"].' GB</td></tr>';
+								if ($info[0]["valrcont"]) $txt .= '<tr><td><strong>Valor contrato: </strong></td><td class="infpc">$'.$info[0]["valrcont"].'</td></tr>';
+							}
+						$txt .= '</table>';
 					$txt .= '</div>';
 				$txt .= '</div>';
 				$txt .= '<div class="modal-footer">';
@@ -166,7 +164,7 @@ function modalDev($nm, $id, $acc, $det, $pg){
 			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
 				$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Datos Asiganación</strong></h1>';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Datos Asignación</strong></h1>';
 						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-body" style="margin: 0px 25px; text-align: left;">';
@@ -363,27 +361,29 @@ function modalTj($nm, $id, $perent, $pg){
 								$txt .= '>';
 							$txt .= '</div>';
 						$txt .= '</div><br>';
-						$txt .= '<table id="mytable" class="table table-striped" style="width:100%; text-align: left">';	
-							$txt .= "<thead>";
-								$txt .= "<tr>";
-									$txt .= "<th><small><small>Número</small></small></th>";
-									$txt .= "<th><small><small>Devolución</small></small></th>";
-								$txt .= "<tr>";
-							$txt .= "<thead>";
-							$txt .= "<tbody>";
-							if ($datj){ foreach ($datj as $dta) { 
-								$txt .= "<tr>";
-                    				$txt .= "<td><small><small>";
-										if($dta['numtajpar']) $txt .= "<div class='form-group col-md-12'><strong>P. </strong>".$dta['numtajpar']."</div>";
-										if($dta['numtajofi'])$txt .= "<div class='form-group col-md-12'><strong>B. </strong>".$dta['numtajofi']."</div>";
-                    				$txt .= "</small></small></td>";
-									$txt .= "<td><small><small>";
-										if($dta['fecdev'])$txt .= $dta['fecdev'];
-                    				$txt .= "</small></small></td>";
-								$txt .= "</tr>";
-							}}
-							$txt .= "</tbody>";
-						$txt .= "</table>";
+						if ($datj){
+							$txt .= '<table id="mytable" class="table table-striped" style="width:100%; text-align: left">';	
+								$txt .= "<thead>";
+									$txt .= "<tr>";
+										$txt .= "<th><small><small>Número</small></small></th>";
+										$txt .= "<th><small><small>Devolución</small></small></th>";
+									$txt .= "<tr>";
+								$txt .= "<thead>";
+								$txt .= "<tbody>";
+								foreach ($datj as $dta) { 
+									$txt .= "<tr>";
+                    					$txt .= "<td><small><small>";
+											if($dta['numtajpar']) $txt .= "<div class='form-group col-md-12'><strong>P. </strong>".$dta['numtajpar']."</div>";
+											if($dta['numtajofi'])$txt .= "<div class='form-group col-md-12'><strong>B. </strong>".$dta['numtajofi']."</div>";
+                    					$txt .= "</small></small></td>";
+										$txt .= "<td><small><small>";
+											if($dta['fecdev'])$txt .= $dta['fecdev'];
+                    					$txt .= "</small></small></td>";
+									$txt .= "</tr>";
+								}
+								$txt .= "</tbody>";
+							$txt .= "</table>";
+						}
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
 					$txt .= '<input type="hidden" value="savetxp" name="ope">';
