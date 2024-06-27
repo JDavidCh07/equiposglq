@@ -4,11 +4,30 @@ require_once ('../models/conexion.php');
 require_once ('../models/masg.php');
 require_once ('../models/mequ.php');
 
+require ('../vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+ 
+$spreadsheet = new Spreadsheet();
+$writer = new Xlsx($spreadsheet);
+$drawing = new Drawing();
+ 
+$sheet = $spreadsheet->getActiveSheet();
+
+date_default_timezone_set('America/Bogota');
+$nmfl = date('d-m-Y H-i-s');
+
 $masg = new Masg();
 $mequ = new Mequ();
 
 $asg = isset($_REQUEST['asg']) ? $_REQUEST['asg']:NULL;
-
+var_dump($asg);
+die;
 
 if($asg=="equ"){
     $datAllA = $masg->getAllAsig(52);
@@ -18,101 +37,155 @@ if($asg=="equ"){
     $datAcc = $masg->getAllAcc(5);
 }
 
-$msj = '';
-$msj .= '<table>';
-    $msj .= '<thead>';
-        $msj .= '<tr>';
-            $msj .= '<th colspan="4">DATOS DEL TRABAJADOR</th>';
-            $msj .= '<th colspan="'; 
-                if($asg=="equ") $msj .= '7';
-                else $msj .= '5';
-            $msj .= '">DATOS DEL EQUIPO</th>';
-            $msj .= '<th colspan="'; 
-                if($asg=="equ") $msj .= '5';
-                else $msj .= '7';
-            $msj .= '">ACCESORIOS</th>';
-            $msj .= '<th colspan="6">ENTREGA</th>';
-            $msj .= '<th colspan="6">DEVOLUCION</th>';
-        $msj .= '</tr>';
-    $msj .= '</thead>';
-    $msj .= '<tbody>';
-        $msj .= '<tr>';
-            $msj .= '<td>CEDULA</td>';
-            $msj .= '<td>NOMBRE</td>';
-            $msj .= '<td>CARGO</td>';
-            $msj .= '<td>CORREO</td>';
-                if($asg=="equ") $msj .= '<td>TIPO</td>';
-            $msj .= '<td>MARCA</td>';
-            $msj .= '<td>MODELO</td>';
-            $msj .= '<td>';
-                if($asg=="equ") $msj .= 'SERIAL';
-                else $msj .= 'SERIAL';
-            $msj .= '</td>';
-            if($asg=="equ"){
-                $msj .= '<td>RED</td>';
-                $msj .= '<td>OFFICE</td>';
-                $msj .= '<td>WINDOWS</td>';
-            } else if($asg=="cel"){
-                $msj .= '<td>NUMERO</td>';
-                $msj .= '<td>OPERADOR</td>';
-            } if($datAcc){ foreach($datAcc AS $dtac){
-                $msj .= '<td>'.$dtac["nomval"].'</td>';
-            }}
-            $msj .= '<td>FECHA ENTREGA</td>';
-            $msj .= '<td>NOMBRE ENTREGA</td>';
-            $msj .= '<td>CARGO</td>';
-            $msj .= '<td>NOMBRE RECIBE</td>';
-            $msj .= '<td>CARGO</td>';
-            $msj .= '<td>OBSERVACIONES</td>';
-            $msj .= '<td>FECHA DEVOLUCION</td>';
-            $msj .= '<td>NOMBRE ENTREGA</td>';
-            $msj .= '<td>CARGO</td>';
-            $msj .= '<td>NOMBRE RECIBE</td>';
-            $msj .= '<td>CARGO</td>';
-            $msj .= '<td>OBSERVACIONES</td>';
-        $msj .= '</tr>';
-        if($datAllA){ foreach($datAllA as $dta){
-            $msj .= '<tr>';
-                $msj .= '<td>'.$dta["dprec"].'</td>';
-                $msj .= '<td>'.$dta["prec"].'</td>';
-                $msj .= '<td>'.$dta["cprec"].'</td>';
-                $msj .= '<td>'.$dta["eprec"].'</td>';
-                if($asg=="equ") $msj .= '<td>'.$dta["tpe"].'</td>';
-                $msj .= '<td>'.$dta["marca"].'</td>';
-                $msj .= '<td>'.$dta["modelo"].'</td>';
-                $msj .= '<td>'.$dta["serialeq"].'</td>';
-                if($asg=="equ"){
-                    $msj .= '<td>'.$dta["nomred"].'</td>';
-                    $mequ->setIdequ($dta["idequ"]);
-                    $prgs = $mequ->getOnePxE();
-                    if($prgs){ foreach($prgs AS $pr){
-                        $msj .= '<td>'.$pr['nomdom'].' '.$pr['nomval'].' '.$pr['verprg'].'</td>';
-                    }}
-                } else if($asg=="cel"){
-                    $msj .= '<td>'.$dta["numcel"].'</td>';
-                    $msj .= '<td>'.$dta["operador"].'</td>';
-                } 
-                $datAxE = $masg->getAllAxE($dta["ideqxpr"]);
-                if($datAcc){ foreach($datAcc as $dac){
-                    if ($datAxE){ foreach($datAxE as $dae){ 
-                        if($dac['idval'] == $dae['idvacc']) $msj .= '<td>X</td>';
-                }}}}
-                $msj .= '<td>'.$dta["fecent"].'</td>';
-                $msj .= '<td>'.$dta["pent"].'</td>';
-                $msj .= '<td>'.$dta["cpent"].'</td>';
-                $msj .= '<td>'.$dta["prec"].'</td>';
-                $msj .= '<td>'.$dta["cprec"].'</td>';
-                $msj .= '<td>'.$dta["observ"].'</td>';
-                $msj .= '<td>'.$dta["fecdev"].'</td>';
-                $msj .= '<td>'.$dta["pentd"].'</td>';
-                $msj .= '<td>'.$dta["cpentd"].'</td>';
-                $msj .= '<td>'.$dta["precd"].'</td>';
-                $msj .= '<td>'.$dta["cprecd"].'</td>';
-                $msj .= '<td>'.$dta["observd"].'</td>';
-            $msj .= '</tr>';
-        }}
-    $msj .= '</tbody>';
-$msj .= '</table>';
+// Agregar titulo
+$sheet->setCellValue('A1', 'BASE DE DATOS');
+$sheet->mergeCells('A1:AB1');
+$style = $sheet->getStyle('A1');
+$style->getFont()->setBold(true)->setSize(30);
+$style->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('99A9D08E');
 
-var_dump($msj);
+// Agregar encabezados
+$sheet->setCellValue('A2', 'DATOS DE TRABAJADOR');
+$sheet->mergeCells('A2:D2');
+$sheet->setCellValue('E2', 'DATOS DEL EQUIPO');
+$merge = ($asg="equ") ? 'E2:K2':'E2:I2';
+$sheet->mergeCells($merge);
+$sheet->setCellValue('L2', 'ACCESORIOS');
+$merge = ($asg="equ") ? 'L2:P2':'J2:P2';
+$sheet->mergeCells($merge);
+$sheet->setCellValue('Q2', 'DEVOLUCION');
+$sheet->mergeCells('Q2:V2');
+$sheet->setCellValue('W2', 'ENTREGA');
+$sheet->mergeCells('W2:AB2');
+$style = $sheet->getStyle('A2:AB2');
+$style->getFont()->setBold(true)->setSize(18);
+$style->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('99A9D08E');
+
+// Agregar titulos
+$titulo = ['CEDULA', 'NOMBRE', 'CARGO', 'CORREO',];
+
+if ($asg == "equ") $titulo[] = 'TIPO';
+$titulo = array_merge($titulo, ['MARCA', 'MODELO', ($asg == "equ") ? 'SERIAL' : 'IMEI',]);
+if ($asg == "equ") $titulo = array_merge($titulo, ['RED', 'OFFICE', 'WINDOWS',]);
+if ($asg == "cel") $titulo = array_merge($titulo, ['NUMERO','OPERADOR',]);
+if($datAcc){ foreach($datAcc AS $dtac) $titulo[] = strtoupper($dtac["nomval"]);}
+$titulo = array_merge($titulo, ['FECHA ENTREGA', 'NOMBRE ENTREGA', 'CARGO', 'NOMBRE RECIBE', 'CARGO', 'OBSERVACIONES', 'FECHA DEVOLUCION', 'NOMBRE ENTREGA', 'CARGO', 'NOMBRE RECIBE', 'CARGO', 'OBSERVACIONES',
+]);
+
+$sheet->fromArray([$titulo], NULL, 'A3');
+$style = $sheet->getStyle('A3:AB3');
+$style->getFont()->setBold(true);
+
+//información
+$datos = [];
+
+if ($datAllA) {
+    foreach ($datAllA as $dat) {
+        $filaDatos = [$dat['dprec'], $dat['prec'], $dat['cprec'], $dat['eprec'],];
+
+        if ($asg == "equ") $filaDatos[] = $dat['tpe'];
+
+        $filaDatos = array_merge($filaDatos, [ $dat['marca'], $dat['modelo'], $dat['serialeq'],]);
+
+        if ($asg == "equ") {
+            $filaDatos[] = $dat['nomred'];
+            // Obtener y agregar datos adicionales de $mequ
+            $mequ->setIdequ($dat["idequ"]);
+            $prgs = $mequ->getOnePxE();
+            if ($prgs) {
+                foreach ($prgs as $pr) {
+                    $filaDatos[] = $pr['nomdom'].' '.$pr['nomval'].' '.$pr['verprg'];
+                }
+            } else $filaDatos = array_merge($filaDatos, [ '', '',]);
+        } elseif ($asg == "cel") {
+            $filaDatos = array_merge($filaDatos, [ $dat['numcel'], $dat['operador'],]);
+        }
+
+        // Agregar marcadores 'X' según la condición
+        $datAxE = $masg->getAllAxE($dat["ideqxpr"]);
+        if ($datAcc && $datAxE) {
+            foreach ($datAcc as $dac) {
+                $marcadorEncontrado = false;
+                foreach ($datAxE as $dae) {
+                    if ($dac['idval'] == $dae['idvacc']) {
+                        $filaDatos[] = 'X';
+                        $marcadorEncontrado = true;
+                        break; // Terminar el bucle interno si se encuentra el marcador
+                    }
+                }
+                if (!$marcadorEncontrado) {
+                    $filaDatos[] = ''; // Opcional: dejar en blanco si no hay coincidencia
+                }
+            }
+        }
+
+        // Agregar datos finales
+        $filaDatos = array_merge($filaDatos, [ $dat['fecent'], $dat['pent'], $dat['cpent'], $dat['prec'], $dat['cprec'], $dat['observ'], $dat['fecdev'], $dat['pentd'], $dat['cpentd'], $dat['precd'], $dat['cprecd'], $dat['observd'],
+        ]);
+
+        // Agregar la fila completa al array $datos
+        $datos[] = $filaDatos;
+    }
+}
+
+// Agregar datos dinámicos
+$fila = 4; // Comienza en la fila 3 porque la fila 1 y 2 tiene encabezados
+foreach ($datos as $dato) {
+    $sheet->fromArray($dato, NULL, 'A' . $fila);
+    $fila++;
+}
+
+// Definir estilo de borde
+$styleArray = [
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => Border::BORDER_THIN,
+            'color' => ['argb' => '00000000'],
+        ],
+    ],
+];
+
+// Definir estilo de alineación
+$alignmentStyle = [
+    'alignment' => [
+        'horizontal' => Alignment::HORIZONTAL_CENTER,
+        'vertical' => Alignment::VERTICAL_CENTER,
+    ],
+];
+
+
+// Aplicar estilo de borde y alineación a todo el rango de datos
+$range = 'A1:AB' . ($fila - 1); // Rango que cubre todos los datos
+$sheet->getStyle($range)->applyFromArray($styleArray);
+$sheet->getStyle($range)->applyFromArray($alignmentStyle);
+
+// Ajustar la altura de las filas y el ancho de las columnas
+foreach (range('A1', 'AB'.$fila - 1) as $columnID) {
+    $sheet->getColumnDimension($columnID)->setAutoSize(true);
+}
+foreach (range(1, $fila - 1) as $rowID) {
+    $sheet->getRowDimension($rowID)->setRowHeight(-1);
+}
+
+// Agregar imagen
+$drawing = new Drawing();
+$drawing->setName('Logo');
+$drawing->setDescription('Logo');
+$drawing->setPath('../img/logoynombre.png'); // Ruta a tu imagen
+$drawing->setHeight(50); // Altura de la imagen
+$drawing->setCoordinates('B1'); // Celda donde se ubicará la imagen
+$drawing->setWorksheet($sheet);
+
+$filename = "REGISTRO EQUIPOS GALQUI ";
+
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header("Content-Disposition: attachment; filename=".$filename.$nmfl.".xlsx");
+header('Cache-Control: max-age=0');
+
+// Crear el archivo Excel y enviarlo al navegador
+$writer = new Xlsx($spreadsheet);
+$writer->save('php://output');
+exit;
+
+// var_dump($datos)
 ?>
