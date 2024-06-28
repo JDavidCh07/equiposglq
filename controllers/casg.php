@@ -32,7 +32,6 @@
     $pg = 51;
 
     $masg->setIdeqxpr($ideqxpr);
-
     //------------Asignar-----------
     if($ope=="save"){
         $masg->setIdequ($idequ);
@@ -48,6 +47,9 @@
             $masg->save($asg);
             $id = $masg->getOneAsg($difasg);
             $ideqxpr = $id[0]['ideqxpr'];
+            $mequ->setIdequ($idequ);
+            $mequ->setActequ(2);
+            $mequ->editAct();
         }
         else $masg->edit();
         if($ideqxpr) $masg->delAxE();
@@ -58,13 +60,16 @@
         }}
     }
 
-    if($ope=="dev" && $ideqxpr){
+    if($ope=="dev" && $ideqxpr && $idequ){
         $masg->setIdperentd($idperentd);
         $masg->setIdperrecd($idperrecd);
         $masg->setFecdev($fecdev);
         $masg->setObservd($observd);
         $masg->setEstexp($estexp);
         $masg->dev();
+        $mequ->setIdequ($idequ);
+        $mequ->setActequ(1);
+        $mequ->editAct();
     }
 
     if($ope=="edi" && $ideqxpr) {

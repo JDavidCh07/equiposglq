@@ -197,6 +197,7 @@ function modalDev($nm, $id, $acc, $det, $pg){
 					$txt .= '<br><div class="modal-footer">';
 						$txt .= '<input type="hidden" value="'.$det[0]['idprec'].'" name="idperentd">';
 						$txt .= '<input type="hidden" value="'.$det[0]['ideqxpr'].'" name="ideqxpr">';
+						$txt .= '<input type="hidden" value="'.$det[0]['idequ'].'" name="idequ">';
 						$txt .= '<input type="hidden" value="dev" name="ope">';
 						$txt .= '<input type="hidden" value="2" name="estexp">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';	
