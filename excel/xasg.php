@@ -192,6 +192,8 @@ foreach($asgs AS $index=>$asg){
     $drawing->setWorksheet($sheet);
 }
 
+$spreadsheet->setActiveSheetIndex(0);
+
 $filename = "REGISTRO EQUIPOS GALQUI ";
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
