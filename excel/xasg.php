@@ -30,7 +30,7 @@ foreach($asgs AS $index=>$asg){
     if($asg=="equ"){
         $datAllA = $masg->getAllAsig(52);
         $datAcc = $masg->getAllAcc(3);
-    }else if($asg=="cel"){
+    }elseif($asg=="cel"){
         $datAllA = $masg->getAllAsig(54);
         $datAcc = $masg->getAllAcc(5);
     }
@@ -104,7 +104,7 @@ foreach($asgs AS $index=>$asg){
                 $prgs = $mequ->getOnePxE();
                 if ($prgs) {
                     foreach ($prgs as $pr) {
-                        $filaDatos[] = $pr['nomdom'].' '.$pr['nomval'].' '.$pr['verprg'];
+                        $filaDatos[] = $pr['nomval'].' '.$pr['verprg'];
                     }
                 } else $filaDatos = array_merge($filaDatos, [ '', '',]);
             } elseif ($asg == "cel") {
@@ -194,7 +194,7 @@ foreach($asgs AS $index=>$asg){
 
 $spreadsheet->setActiveSheetIndex(0);
 
-$filename = "REGISTRO EQUIPOS GALQUI ";
+$filename = "ASIGNACION EQUIPOS GALQUI ";
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header("Content-Disposition: attachment; filename=".$filename.$nmfl.".xlsx");

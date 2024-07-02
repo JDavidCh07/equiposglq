@@ -33,7 +33,7 @@
 
     $masg->setIdeqxpr($ideqxpr);
     //------------Asignar-----------
-    if($ope=="save"){
+    if($ope=="save"){   
         $masg->setIdequ($idequ);
         $masg->setIdperent($idperent);
         $masg->setIdperrec($idperrec);

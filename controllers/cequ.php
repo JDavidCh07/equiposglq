@@ -15,8 +15,6 @@
     $procs = isset($_POST['procs']) ? $_POST['procs']:NULL;
     $actequ = isset($_REQUEST['actequ']) ? $_REQUEST['actequ']:NULL;
     $tipcon = isset($_POST['tipcon']) ? $_POST['tipcon']:NULL;
-    $contrato = isset($_POST['contrato']) ? $_POST['contrato']:NULL;
-    $valrcont = isset($_POST['valrcont']) ? $_POST['valrcont']:NULL;
     $pagequ = isset($_POST['pagequ']) ? $_POST['pagequ']:NULL;
 
     //------------Programa-----------
@@ -40,8 +38,6 @@
         $mequ->setProcs($procs);
         $mequ->setActequ($actequ);
         $mequ->setTipcon($tipcon);
-        $mequ->setContrato($contrato);
-        $mequ->setValrcont($valrcont);
         if($pg==52) $mequ->setPagequ(52);
         if($pg==54) $mequ->setPagequ(54);
         if(!$idequ) $mequ->save();

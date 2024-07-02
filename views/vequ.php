@@ -4,6 +4,11 @@ $hoy = date("Y-m-d");
 $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
 ?>
 
+<div style="text-align: right;">
+    <a href="excel/xequ.php" title="Exportar">
+        <i class="fa fa-solid fa-file-excel fa-2x xls"></i>
+    </a>
+</div>
 <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
     <div class="row">
         <div class="form-group col-md-4">
@@ -65,14 +70,6 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
                         </option>
                     <?php } ?>
                 </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="contrato"><strong>Contrato:</strong></label>
-                <input class="form-control" type="text" id="contrato" name="contrato" value="<?php if ($datOne) echo $datOne[0]['contrato']; ?>">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="valrcont"><strong>Valor Contrato:</strong></label>
-                <input class="form-control" type="text" id="valrcont" name="valrcont" value="<?php if ($datOne) echo $datOne[0]['valrcont']; ?>" onkeypress="return solonum(event);">
             </div>
         <?php } ?>
         <div class="form-group col-md-12" id="boxbtn">

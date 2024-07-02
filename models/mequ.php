@@ -127,7 +127,7 @@
 
         // ------------Equipo-----------
         function getAll($pg){
-            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval";
+            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.actequ, e.tipcon, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval";
             if($pg==52) $sql .= " WHERE pagequ=52";
             if($pg==54) $sql .= " WHERE pagequ=54";
             $modelo = new conexion();
@@ -139,7 +139,7 @@
         }
 
         function getOne(){
-            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.actequ, e.tipcon, e.contrato, e.valrcont, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval WHERE e.idequ=:idequ";
+            $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.actequ, e.tipcon, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval WHERE e.idequ=:idequ";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -152,7 +152,7 @@
 
         function save(){
             try {
-                $sql = "INSERT INTO equipo (marca, modelo, serialeq, nomred, idvtpeq, capgb, ram, procs, actequ, tipcon, contrato, valrcont, pagequ) VALUES (:marca, :modelo, :serialeq, :nomred, :idvtpeq, :capgb, :ram, :procs, :actequ, :tipcon, :contrato, :valrcont, :pagequ)";
+                $sql = "INSERT INTO equipo (marca, modelo, serialeq, nomred, idvtpeq, capgb, ram, procs, actequ, tipcon, pagequ) VALUES (:marca, :modelo, :serialeq, :nomred, :idvtpeq, :capgb, :ram, :procs, :actequ, :tipcon, :pagequ)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -176,10 +176,6 @@
                 $result->bindParam(":actequ", $actequ);
                 $tipcon = $this->getTipcon();
                 $result->bindParam(":tipcon", $tipcon);
-                $contrato = $this->getContrato();
-                $result->bindParam(":contrato", $contrato);
-                $valrcont = $this->getValrcont();
-                $result->bindParam(":valrcont", $valrcont);
                 $pagequ = $this->getPagequ();
                 $result->bindParam(":pagequ", $pagequ);
                 $result->execute();
@@ -206,7 +202,7 @@
 
         function edit(){
             try {
-                $sql = "UPDATE equipo SET marca=:marca, modelo=:modelo, serialeq=:serialeq, nomred=:nomred, idvtpeq=:idvtpeq, capgb=:capgb, ram=:ram, procs=:procs, actequ=:actequ, tipcon=:tipcon, contrato=:contrato, valrcont=:valrcont WHERE idequ=:idequ";
+                $sql = "UPDATE equipo SET marca=:marca, modelo=:modelo, serialeq=:serialeq, nomred=:nomred, idvtpeq=:idvtpeq, capgb=:capgb, ram=:ram, procs=:procs, actequ=:actequ, tipcon=:tipcon WHERE idequ=:idequ";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -232,10 +228,6 @@
                 $result->bindParam(":actequ", $actequ);
                 $tipcon = $this->getTipcon();
                 $result->bindParam(":tipcon", $tipcon);
-                $contrato = $this->getContrato();
-                $result->bindParam(":contrato", $contrato);
-                $valrcont = $this->getValrcont();
-                $result->bindParam(":valrcont", $valrcont);
                 $result->execute();
             } catch (Exception $e) {
                 ManejoError($e);
