@@ -188,7 +188,7 @@ foreach($asgs AS $index=>$asg){
     $drawing->setDescription('Logo');
     $drawing->setPath('../img/logoynombre.png'); // Ruta a tu imagen
     $drawing->setHeight(50); // Altura de la imagen
-    $drawing->setCoordinates('B1'); // Celda donde se ubicará la imagen
+    $drawing->setCoordinates('A1'); // Celda donde se ubicará la imagen
     $drawing->setWorksheet($sheet);
 }
 

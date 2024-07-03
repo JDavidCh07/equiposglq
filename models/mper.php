@@ -449,7 +449,7 @@ class Mper{
 
     function getAllTaj()
     {
-        $sql = "SELECT t.idtaj, p.ndper, CONCAT(p.apeper,' ',p.nomper) AS nomper, p.cargo, t.numtajpar, t.numtajofi, t.fecent, t.fecdev, t.esttaj FROM tarjeta AS t INNER JOIN persona AS p ON t.idperrec=p.idper ORDER BY t.esttaj, nomper";
+        $sql = "SELECT t.idtaj, p.ndper, CONCAT(p.apeper,' ',p.nomper) AS nomper, p.cargo, t.numtajpar, t.numtajofi, t.fecent, t.fecdev, t.esttaj FROM tarjeta AS t INNER JOIN persona AS p ON t.idperrec=p.idper WHERE t.esttaj=1 ORDER BY nomper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);

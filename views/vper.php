@@ -2,6 +2,12 @@
 require_once('controllers/cper.php');
 ?>
 
+<div style="text-align: right;">
+    <a href="excel/xtaj.php" title="Exportar">
+        <i class="fa fa-solid fa-file-excel fa-2x xls"></i>
+    </a>
+</div>
+
 <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
     <div class="row">
         <div class="form-group col-md-4">
