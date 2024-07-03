@@ -25,7 +25,7 @@ $mequ = new Mequ();
 $pgs = [52, 54];
 
 foreach($pgs AS $index=>$pg){    
-    ($pg==52) ? $datAllA = $mequ->getAll(52) : $datAllA = $mequ->getAll(54);
+    ($pg==52) ? $datAll = $mequ->getAll(52) : $datAll = $mequ->getAll(54);
     // Crear o seleccionar la hoja
     if ($index == 0) {
         $sheet = $spreadsheet->getActiveSheet();
@@ -38,7 +38,7 @@ foreach($pgs AS $index=>$pg){
     $nm = ($pg==52) ? "EQUIPOS" : "CELULARES";
     $sheet->setTitle($nm);
 
-    $collim = ($pg==52) ? 'L' : 'G';
+    $collim = ($pg==52) ? 'L' : 'F';
 
     // Agregar titulo
     $sheet->setCellValue('A1', 'BASE DE DATOS');
@@ -49,12 +49,12 @@ foreach($pgs AS $index=>$pg){
 
     // Agregar titulos
 
-    $titulo = ['MARCA', 'MODELO',];
-    $titulo = [($pg == 52) ? 'SERIAL' : 'IMEI',];
+    $titulo = ['MARCA', 'MODELO', ($pg == 52) ? 'SERIAL' : 'IMEI',];
     if ($pg == 52) $titulo = array_merge($titulo, ['TIPO', 'PROCESADOR',]);
     $titulo = array_merge($titulo, ['RAM', 'ALMACENAMIENTO',]);
     if ($pg == 52) $titulo = array_merge($titulo, ['RED', 'OFFICE', 'WINDOWS',]);
-    $titulo = array_merge($titulo, ['ESTADO', '']);
+    $titulo[] = 'ESTADO';
+    if ($pg == 52) $titulo[] = 'ESTADO';
 
     $sheet->fromArray([$titulo], NULL, 'A2');
     $style = $sheet->getStyle('A2:'.$collim.'2');
@@ -69,7 +69,7 @@ foreach($pgs AS $index=>$pg){
 
             if ($pg == 52) $filaDatos = array_merge($filaDatos, [$dat['tpe'], $dat['procs'],]);
 
-            if($dat["capgb"]>1000){
+            if($dat["capgb"]>=1000){
                 $frmt = $dat["capgb"]/1000;
                 $capgb = number_format($frmt,1,".",",").' TB';
             } else $capgb = $dat["capgb"].' GB';
@@ -88,19 +88,20 @@ foreach($pgs AS $index=>$pg){
             if($dat["actequ"]==1) $actequ = 'Disponible';
             elseif($dat["actequ"]==2)  $actequ = 'Asignado';
             elseif($dat["actequ"]==3)  $actequ = 'Inactivo';
-            $filaDatos = array_merge($filaDatos, [$actequ, $dat['tpc']]);
+            $filaDatos[] = $actequ;
+            if ($pg == 52) $filaDatos[] = $dat['tpc'];
 
             // Agregar la fila completa al array $datos
             $datos[] = $filaDatos;
         }
     }
-
+    
     // Agregar datos dinámicos
     $fila = 3; // Comienza en la fila 3 porque la fila 1 y 2 tiene encabezados
     $ind = array_search("IMEI", $titulo);
     foreach ($datos as $dato) {
         $sheet->fromArray($dato, NULL, 'A' . $fila);
-        if($index==1 && $datos[$ind]){
+        if($index==1 && $dato[$ind]){
             $col = getColumnLetter($ind);
             $sheet->getStyle($col.$fila)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
         }
@@ -159,4 +160,15 @@ header('Cache-Control: max-age=0');
 $writer = new Xlsx($spreadsheet);
 $writer->save('php://output');
 exit;
+
+function getColumnLetter($index) {
+    $index++;
+    $letter = '';
+    while ($index > 0) {
+        $mod = ($index - 1) % 26;
+        $letter = chr(65 + $mod) . $letter;
+        $index = intval(($index - $mod) / 26);
+    }
+    return $letter;
+}
 ?>

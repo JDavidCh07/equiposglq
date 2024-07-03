@@ -130,6 +130,7 @@
             $sql = "SELECT e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.actequ, e.tipcon, vt.nomval AS tpe, vc.nomval AS tpc FROM equipo AS e LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval";
             if($pg==52) $sql .= " WHERE pagequ=52";
             if($pg==54) $sql .= " WHERE pagequ=54";
+            $sql .= " ORDER BY actequ, marca, modelo";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);

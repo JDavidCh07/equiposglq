@@ -143,7 +143,7 @@ foreach($asgs AS $index=>$asg){
     $ind = array_search("IMEI", $titulo);
     foreach ($datos as $dato) {
         $sheet->fromArray($dato, NULL, 'A' . $fila);
-        if($index==1 && $datos[$ind]){
+        if($index==1 && $dato[$ind]){
             $col = getColumnLetter($ind);
             $sheet->getStyle($col.$fila)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
         }

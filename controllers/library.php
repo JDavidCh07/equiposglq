@@ -133,7 +133,7 @@ function modalDet($nm, $id, $prgs, $info){
 							$txt .= '<tr><td><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
 							$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$info[0]["ram"].' GB</td></tr>';
 							$txt .= '<tr><td><strong>Almacenamiento: </strong></td><td class="infpc">';
-							if($info[0]["capgb"]>1000){
+							if($info[0]["capgb"]>=1000){
 								$frmt = $info[0]["capgb"]/1000;
 								$txt .= number_format($frmt,1,".",",").' TB</td></tr>';
 							}
@@ -299,7 +299,7 @@ function modalPxE($nm, $id, $tit, $dom, $pg, $dms, $dga){
 											$txt .= 'value="' . $dga[$i]['verprg'] . '"';
 											$i++;
 										}
-									$txt .= 'onkeypress="return solonum(event);" required>';
+									$txt .= 'onkeypress="return solonum(event);">';
 								$txt .= '</div> ';
 							}}
 						$txt .= '</div>';

@@ -321,7 +321,7 @@
         }
 
         function getAllPer(){
-            $sql = "SELECT DISTINCT idper, nomper, apeper, ndper FROM persona WHERE actper=1";
+            $sql = "SELECT DISTINCT idper, nomper, apeper, ndper FROM persona WHERE actper=1 ORDER BY apeper";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -331,7 +331,7 @@
         }
 
         function getAllEquDis($pg){
-            $sql = "SELECT idequ, marca, modelo, serialeq FROM equipo WHERE pagequ=:pg AND actequ=1";
+            $sql = "SELECT idequ, marca, modelo, serialeq FROM equipo WHERE pagequ=:pg AND actequ=1 ORDER BY marca, modelo";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);

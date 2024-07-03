@@ -28,6 +28,11 @@
 			justify-content: center;
 			height: 80vh;
 		}
+
+		#vpass:hover{
+  			text-shadow: 0px 0px 2px #bfbfbf;
+  			cursor: pointer;
+		}
 	</style>
 
 
