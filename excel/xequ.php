@@ -5,6 +5,8 @@ require_once ('../models/mequ.php');
 
 require ('../vendor/autoload.php');
 
+ini_set('memory_limit', '4096M');
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;

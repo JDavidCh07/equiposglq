@@ -5,6 +5,8 @@ require_once ('../models/mper.php');
 
 require ('../vendor/autoload.php');
 
+ini_set('memory_limit', '4096M');
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -59,7 +61,7 @@ $datos = [];
 
 if ($datAll) {
     foreach ($datAll as $dat) {
-        $filaDatos = [$dat['ndper'], $dat['nomper'], $dat['cargo'], $dat['numtajpar'], $dat['numtajofi']];
+        $filaDatos = [$dat['dprec'], $dat['prec'], $dat['cprec'], $dat['numtajpar'], $dat['numtajofi']];
         // Agregar la fila completa al array $datos
         $datos[] = $filaDatos;
     }
