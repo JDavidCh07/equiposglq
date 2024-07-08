@@ -1,5 +1,8 @@
 <?php
     require_once("models/mper.php");
+    require ('vendor/autoload.php');
+
+    use PhpOffice\PhpSpreadsheet\IOFactory;
 
     $mper = new Mper();
 
@@ -30,6 +33,9 @@
     $idperrecd = isset($_POST['idperrecd']) ? $_POST['idperrecd']:NULL;
     $fecdev = isset($_POST['fecdev']) ? $_POST['fecdev']:NULL;
     $esttaj = isset($_POST['esttaj']) ? $_POST['esttaj']:1;
+
+    $arc = isset($_FILES["arch"]["name"]) ? $_FILES["arch"]["name"] : NULL;
+    $arc = substr($arc, 0, strpos($arc, ".xls"));
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
     $datOne=NULL;
@@ -108,4 +114,47 @@
     $datAll = $mper->getAll();
     $idmod = $mper->getAllMod();
     $dattpd = $mper->getAllTpd(1);
+
+    //------------Importar-----------
+    if ($ope=="cargm" && $arc) {
+    	$dat = opti($_FILES["arch"], $arc, "arc", "");
+    	$inputFileType = IOFactory::identify($dat);
+    	$objReader = IOFactory::createReader($inputFileType);
+    	$objPHPExcel = $objReader->load($dat);
+    	$sheet = $objPHPExcel->getSheet(0);
+    	$highestRow = $sheet->getHighestRow();
+    	$highestColumn = $sheet->getHighestColumn();
+    	for ($row = 3; $row <= $highestRow; $row++) {
+    		// obtengo el valor de la celda
+    		$nomper = $sheet->getCell("B" . $row)->getValue();
+    		$apeper = $sheet->getCell("C" . $row)->getValue();
+            $idvtpd = $sheet->getCell("E" . $row)->getValue();
+    		$ndper = $sheet->getCell("F" . $row)->getValue();
+    		$emaper = $sheet->getCell("I" . $row)->getValue();
+    		$cargo = $sheet->getCell("J" . $row)->getValue();
+    		$usured = $sheet->getCell("K" . $row)->getValue();
+    		$actper = $sheet->getCell("L" . $row)->getValue();
+    		$pasper = NULL;
+            $mper->setNomper($nomper);
+            $mper->setApeper($apeper);
+            $mper->setIdvtpd($idvtpd);
+            $mper->setNdper($ndper);
+            $mper->setEmaper($emaper);
+            $mper->setCargo($cargo);
+            $mper->setUsured($usured);
+            $mper->setActper($actper);
+            $mper->setPasper($pasper);
+    		$existingData = $mper->selectUsu();
+            var_dump($existingData);
+    		if (!empty($ndper)) {
+    			if ($existingData[0]['sum'] == 0) {
+    				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
+    				$mper->save();
+    			}else {
+    				$mper->edit();
+    			}
+    		}
+    	}
+    }
+
 ?>

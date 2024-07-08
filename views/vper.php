@@ -3,7 +3,8 @@ require_once('controllers/cper.php');
 ?>
 
 <div style="text-align: right;">
-    <i class="fa fa-solid fa-file.import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>" title="Importar"></i>
+    <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>" title="Importar"></i>
+    <?php modalImp("mod", $pg, "Personas"); ?>
     <a href="excel/xtaj.php" title="Exportar">
         <i class="fa fa-solid fa-file-export fa-2x ext"></i>
     </a>

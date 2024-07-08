@@ -53,9 +53,9 @@ function opti($pict, $nomimg, $rut, $pre){
 			}else{
 				echo "<script>alert('Los archivos de video debe tener un peso maximo de 97Mb');</script>";
 			}	
-		}elseif ($docext=="csv") { //$docext=="xls" or $docext=="xlsx") {
+		}elseif ($docext=="xls" or $docext=="xlsx") {
 			if($pict['size']<1048576){
-				$nombre = $rut.'/'."fic_".$nomimg."_".$pre.".".$docext;
+				$nombre = $rut.'/'."arc_".$nomimg.".".$docext;
 				move_uploaded_file($pict['tmp_name'], $nombre);
 			}else{
 				echo "<script>alert('Los archivos de Excel debe tener un peso maximo de 97Mb');</script>";
