@@ -14,8 +14,11 @@
     </a>
     </div>
     <div class="col-4" style="text-align: right;">
+        <!-- <a href="excel/xasg.php" title="Importar">
+            <i class="fa fa-solid fa-file-import fa-2x xls"></i>
+        </a> -->
         <a href="excel/xasg.php" title="Exportar">
-            <i class="fa fa-solid fa-file-excel fa-2x xls"></i>
+            <i class="fa fa-solid fa-file-export fa-2x xls"></i>
         </a>
     </div>
 </div>

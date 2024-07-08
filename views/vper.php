@@ -3,8 +3,11 @@ require_once('controllers/cper.php');
 ?>
 
 <div style="text-align: right;">
+    <!-- <a href="excel/xtaj.php" title="Importar">
+        <i class="fa fa-solid fa-file-import fa-2x xls"></i>
+    </a> -->
     <a href="excel/xtaj.php" title="Exportar">
-        <i class="fa fa-solid fa-file-excel fa-2x xls"></i>
+        <i class="fa fa-solid fa-file-export fa-2x xls"></i>
     </a>
 </div>
 
@@ -20,7 +23,7 @@ require_once('controllers/cper.php');
         </div>
         <div class="form-group col-md-4">
             <label for="apeper"><strong>Correo Electrónico:</strong></label>
-            <input class="form-control" type="email" id="emaper" name="emaper" value="<?php if ($datOne) echo $datOne[0]['emaper']; ?>" required>
+            <input class="form-control" type="email" id="emaper" name="emaper" value="<?php if ($datOne) echo $datOne[0]['emaper']; ?>">
         </div>
         <div class="form-group col-md-4">
             <label for="idvtpd"><strong>T. Documento:</strong></label>
@@ -42,7 +45,7 @@ require_once('controllers/cper.php');
         </div>
         <div class="form-group col-md-4">
             <label for="usured"><strong>Red:</strong></label>
-            <input class="form-control" type="text" id="usured" name="usured" value="<?php if ($datOne) echo $datOne[0]['usured']; ?>" required>
+            <input class="form-control" type="text" id="usured" name="usured" value="<?php if ($datOne) echo $datOne[0]['usured']; ?>">
         </div>
         <?php if ($_SESSION['idpef'] != 3) { ?>
             <div class="form-group col-md-4">
