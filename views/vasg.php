@@ -14,11 +14,9 @@
     </a>
     </div>
     <div class="col-4" style="text-align: right;">
-        <!-- <a href="excel/xasg.php" title="Importar">
-            <i class="fa fa-solid fa-file-import fa-2x xls"></i>
-        </a> -->
+        <i class="fa fa-solid fa-file.import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>" title="Importar"></i>
         <a href="excel/xasg.php" title="Exportar">
-            <i class="fa fa-solid fa-file-export fa-2x xls"></i>
+            <i class="fa fa-solid fa-file-export fa-2x ext"></i>
         </a>
     </div>
 </div>

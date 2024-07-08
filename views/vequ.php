@@ -5,11 +5,10 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
 ?>
 
 <div style="text-align: right;">
-    <!-- <a href="excel/xequ.php" title="Importar">
-        <i class="fa fa-solid fa-file-import fa-2x xls"></i>
-    </a> -->
+    <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>" title="Importar"></i>
+    <?php modalImp("mod", $pg, ($pg==52)? "Equipos" : "Celulares"); ?>
     <a href="excel/xequ.php" title="Exportar">
-        <i class="fa fa-solid fa-file-export fa-2x xls"></i>
+        <i class="fa fa-solid fa-file-export fa-2x ext"></i>
     </a>
 </div>
 <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">

@@ -138,10 +138,6 @@ function modalDet($nm, $id, $prgs, $info){
 								$txt .= number_format($frmt,1,".",",").' TB</td></tr>';
 							}
 							else $txt .= $info[0]["capgb"].' GB</td></tr>';
-							if ($info[0]["tipcon"] && $info[0]["tipcon"]==11){
-								if ($info[0]["contrato"]) $txt .= '<tr><td><strong>Contrato: </strong></td><td class="infpc">'.$info[0]["contrato"].' GB</td></tr>';
-								if ($info[0]["valrcont"]) $txt .= '<tr><td><strong>Valor contrato: </strong></td><td class="infpc">$'.$info[0]["valrcont"].'</td></tr>';
-							}
 						$txt .= '</table>';
 					$txt .= '</div>';
 				$txt .= '</div>';
@@ -396,6 +392,36 @@ function modalTj($nm, $id, $perent, $pg){
 							$txt .= '<input type="hidden" value="'.$perent.'" name="idperrecd">';
 							$txt .= '<input type="hidden" value="'.$dtj[0]['idtaj'].'" name="idtaj">';
 						}
+						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
+						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+					$txt .= '</div>';
+				$txt .= '</div>';
+			$txt .= '</form>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal Exportar, vper/vasg/vequ-----------
+function modalImp($nm, $pg, $tit){
+	if($pg=="equ") $pg = 52;
+	elseif ($pg=="cel") $pg = 54;
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $pg . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST" enctype="multipart/form-data">';
+				$txt .= '<div class="modal-content">';
+					$txt .= '<div class="modal-header">';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$tit.'</strong></h1>';
+						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-body">';
+						$txt .= '<label for="arc"><strong>Imagen:</strong></label>';
+						$txt .= '<input class="form-control" type="file" id="arc" name="arc" accept=".xls,.xlsx" <?php if(!$datOne) echo "required";?>>';
+				
+					$txt .= '</div>';
+					$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" value="savepxe" name="ope">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 					$txt .= '</div>';
