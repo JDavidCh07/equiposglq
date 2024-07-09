@@ -91,6 +91,7 @@
                 $mper->savePxF();
             }
         }}
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     //------------Tarjeta-----------

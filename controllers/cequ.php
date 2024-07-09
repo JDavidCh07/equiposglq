@@ -72,6 +72,7 @@
                 $i++;
             }
         }}
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
     
     //------------Traer valores-----------
