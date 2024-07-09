@@ -26,6 +26,7 @@ if($ope=="save"){
 	$mpag->setIdmod($idmod);
     if(!$idpag) $mpag->save();
 	else $mpag->edit();
+	echo "<script>window.location='home.php?pg=".$pg."';</script>";
 }
 
 

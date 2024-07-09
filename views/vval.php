@@ -54,20 +54,18 @@ include('controllers/cval.php');
             foreach ($datALL as $dta) { ?>
                 <tr>
                     <td>
-                        <small>
-                            <strong> <?= number_format($dta['codval']) . " - " . $dta['nomval']; ?></strong>
-                            <br><small><strong>Dominio:</strong> <?= $dta['iddom']; ?>
-                            /
-                            <?php
-                            if ($datDom) {
-                                foreach ($datDom as $dtd) {
-                                    if ($dtd['iddom'] == $dta['iddom']) {
-                                        echo $dtd['nomdom'];
-                                    }
+                        <strong> <?= number_format($dta['codval']) . " - " . $dta['nomval']; ?></strong>
+                        <br><small><strong>Dominio:</strong> <?= $dta['iddom']; ?>
+                        /
+                        <?php
+                        if ($datDom) {
+                            foreach ($datDom as $dtd) {
+                                if ($dtd['iddom'] == $dta['iddom']) {
+                                    echo $dtd['nomdom'];
                                 }
                             }
-                            ?>
-                            </small>
+                        }
+                        ?>
                         </small>
                     </td>
                     <td style="text-align: left;">
@@ -87,12 +85,11 @@ include('controllers/cval.php');
                         </a>
                         <?php 
                             $cp = $mval->getPxV($dta['idval']);
-                            $cm = $mval->getMxV($dta['idval']);
                             $cte = $mval->getTExV($dta['idval']);
                             $ctc = $mval->getTCxV($dta['idval']);
                             $cae = $mval->getAExV($dta['idval']);
                             $cpe = $mval->getPExV($dta['idval']);
-                            if($cp && $cm && $cte && $ctc && $cae && $cpe && $cp[0]['can']==0 && $cm[0]['can']==0 && $cte[0]['can']==0 && $ctc[0]['can']==0 && $cae[0]['can']==0 && $cpe[0]['can']==0){ ?> 
+                            if($cp && $cte && $ctc && $cae && $cpe && $cp[0]['can']==0 && $cte[0]['can']==0 && $ctc[0]['can']==0 && $cae[0]['can']==0 && $cpe[0]['can']==0){ ?> 
                                 <a href="home.php?pg=<?= $pg; ?>&idval=<?= $dta['idval']; ?>&ope=eli" onclick="return eliminar('<?= $dta['nomval']; ?>');" title="Eliminar">
                                     <i class="fa fa-solid fa-trash-can fa-2x iconi"></i>
                                 </a>

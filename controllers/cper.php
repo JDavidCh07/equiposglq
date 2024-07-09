@@ -71,6 +71,7 @@
                 $_SESSION['cargo'] = $cargo;
             };
         } 
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     if($ope=="act" && $idper && $actper){
@@ -150,10 +151,13 @@
     				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
     				$mper->save();
     			}else {
+                    $idper=$existingData[0]['idper'];
+                    $mper->setIdper($idper);
     				$mper->edit();
     			}
     		}
     	}
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
 ?>

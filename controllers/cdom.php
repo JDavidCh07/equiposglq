@@ -18,6 +18,7 @@ if ($ope == "save") {
     $mdom->setNomdom($nomdom);
     if (!$nomdom) $mdom->save();
     else $mdom->save();
+    echo "<script>window.location='home.php?pg=".$pg."';</script>";
 }
 
 if ($ope == "edi" && $iddom) $datOne = $mdom->getOne();

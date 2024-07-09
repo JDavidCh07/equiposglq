@@ -137,18 +137,6 @@
             return $res;
         }
 
-        function getMxV($idval){
-            $res = null;
-            $modelo = new conexion();
-            $sql = "SELECT COUNT(idvtpm) AS can FROM mantenimiento WHERE idvtpm=:idval";
-            $conexion = $modelo->get_conexion();
-            $result = $conexion->prepare($sql);
-            $result->bindParam(':idval',$idval);
-            $result->execute();
-            $res = $result-> fetchall(PDO::FETCH_ASSOC);
-            return $res;
-        }
-
         function getTExV($idval){
             $res = null;
             $modelo = new conexion();

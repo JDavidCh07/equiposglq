@@ -58,6 +58,7 @@
             $masg->setIdvacc($ida);
             $masg->saveAxE();
         }}
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     if($ope=="dev" && $ideqxpr && $idequ){
@@ -70,6 +71,7 @@
         $mequ->setIdequ($idequ);
         $mequ->setActequ(1);
         $mequ->editAct();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     if($ope=="edi" && $ideqxpr) {

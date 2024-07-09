@@ -28,8 +28,8 @@
             $mmod->setIdpag($idpag);
             if(!$idmod) $mmod->save();
             else $mmod->edit();
-        }else
-            echo '<script>err("Todos los datos son obligatorios.");</script>';
+        }else echo '<script>err("Todos los datos son obligatorios.");</script>';
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     if($ope=='act' && $idmod && $actmod){

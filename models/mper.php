@@ -192,7 +192,7 @@ class Mper{
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT DISTINCT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval INNER JOIN perxpef AS pf ON p.idper=pf.idper";
+        $sql = "SELECT DISTINCT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper";
         if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
@@ -209,7 +209,7 @@ class Mper{
 
     function getOne()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval INNER JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.idper=:idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -569,7 +569,7 @@ class Mper{
     }
 
     public function selectUsu(){
-		$sql = "SELECT COUNT(*) AS sum FROM persona WHERE ndper=:ndper";
+		$sql = "SELECT idper, COUNT(*) AS sum FROM persona WHERE ndper=:ndper";
 		$modelo = new conexion();
 		$conexion = $modelo->get_conexion();
 		$result = $conexion->prepare($sql);

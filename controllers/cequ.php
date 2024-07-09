@@ -22,6 +22,7 @@
     $verprg = isset($_POST['verprg']) ? $_POST['verprg']:NULL;
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
+    $pg = isset($_REQUEST['pg']) ? $_REQUEST['pg']:NULL;
     $datOne = NULL;
 
     $mequ->setIdequ($idequ);
@@ -42,6 +43,7 @@
         if($pg==54) $mequ->setPagequ(54);
         if(!$idequ) $mequ->save();
         else $mequ->edit();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     if($ope=="act" && $idequ && $actequ){

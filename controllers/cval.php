@@ -14,6 +14,7 @@ $actval = isset($_REQUEST['actval']) ? $_REQUEST['actval']:NULL;
 
 $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
 $datOne = NULL;
+$pg=7;
 
 $mval->setIdval($idval);
 
@@ -24,6 +25,7 @@ if($ope=="save"){
     $mval->setActval($actval);
     if(!$idval) $mval->save();
     else $mval->edit();
+    echo "<script>window.location='home.php?pg=".$pg."';</script>";
 }
 
 if($ope=="act" && $idval && $actval){

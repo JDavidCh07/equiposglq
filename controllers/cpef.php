@@ -10,6 +10,7 @@
     $chk = isset($_POST['chk']) ? $_POST['chk']:NULL;
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
+    $pg=4;
 
     $mpef->setIdpef($idpef);
     if($ope=="savepxp"){ 
@@ -18,7 +19,7 @@
             $mpef->setIdpag($ck);
             $mpef->savePxP();
         }}
-        echo "<script>window.location='home.php?pg=4';</script>";
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
     
     //guardar 
@@ -27,6 +28,7 @@
         $mpef->setIdmod($idmod);
         $mpef->setIdpag($idpag);
         if(!$idpef) $mpef->save(); else $mpef->edit(); //si la variable esta vacia guarda sino edita
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     $datOne = NULL;

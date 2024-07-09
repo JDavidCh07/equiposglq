@@ -34,7 +34,7 @@
         </div>
     </div>
 </form>
-<table id="mytable" class="table table-striped table-bordered" style="width:100%">
+<table id="mytable" class="table table-striped" style="width:100%">
     <thead>
         <tr>
             <th>Perfil</th>

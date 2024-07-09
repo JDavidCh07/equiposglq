@@ -78,6 +78,7 @@ $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
             <br><br>
             <input class="btn btn-primary" type="submit" value="Registrar">
             <input type="hidden" name="ope" value="save">
+            <input type="hidden" name="pg" value="<?=$pg;?>">
             <input type="hidden" name="idequ" value="<?php if ($datOne) echo $datOne[0]['idequ']; ?>">
         </div>
     </div>

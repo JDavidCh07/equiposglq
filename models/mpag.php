@@ -151,12 +151,10 @@ function getAllM(){
 	}
     function save(){
         try{
-            $sql = "INSERT INTO pagina(idpag,icono, nompag,arcpag, ordpag, menpag, mospag, idmod) VALUES(:idpag,:icono, :nompag,:arcpag, :ordpag,:menpag, :mospag, :idmod)";
+            $sql = "INSERT INTO pagina(icono, nompag,arcpag, ordpag, menpag, mospag, idmod) VALUES(:icono, :nompag,:arcpag, :ordpag,:menpag, :mospag, :idmod)";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
-            $idpag = $this->getIdpag();
-            $result->bindParam(":idpag",$idpag);
             $icono = $this->getIcono();
             $result->bindParam(":icono",$icono);
             $nompag = $this->getNompag();
