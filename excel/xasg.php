@@ -65,9 +65,9 @@ foreach($asgs AS $index=>$asg){
     $sheet->setCellValue('L2', 'ACCESORIOS');
     $merge = ($asg=="equ") ? 'L2:P2':'J2:P2';
     $sheet->mergeCells($merge);
-    $sheet->setCellValue('Q2', 'DEVOLUCION');
+    $sheet->setCellValue('Q2', 'ENTREGA');
     $sheet->mergeCells('Q2:V2');
-    $sheet->setCellValue('W2', 'ENTREGA');
+    $sheet->setCellValue('W2', 'DEVOLUCION');
     $sheet->mergeCells('W2:AB2');
     $style = $sheet->getStyle('A2:AB2');
     $style->getFont()->setBold(true)->setSize(18);
