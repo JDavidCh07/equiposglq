@@ -404,15 +404,14 @@ function modalTj($nm, $id, $perent, $pg){
 
 //------------Modal Exportar, vper/vasg/vequ-----------
 function modalImp($nm, $pg, $tit){
-	if($pg=="equ") $pg = 52;
-	elseif ($pg=="cel") $pg = 54;
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $pg . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
-			$txt .= '<form action=home.php?$pg="';
-			if($pg==51) $txt .= '51';
-			elseif($pg==52 OR 54) $txt .= '52';
-			elseif($pg==53) $txt .= '53';
+			$txt .= '<form action="home.php?pg=';
+			if($pg==51) $txt .= 51;
+			elseif($pg==52) $txt .= 52;
+			elseif($pg==53) $txt .= 53;
+			elseif($pg==54) $txt .= 54;
 			$txt .= '" method="POST" enctype="multipart/form-data">';
 				$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';

@@ -34,7 +34,7 @@
     $fecdev = isset($_POST['fecdev']) ? $_POST['fecdev']:NULL;
     $esttaj = isset($_POST['esttaj']) ? $_POST['esttaj']:1;
 
-    $arc = isset($_FILES["arch"]["name"]) ? $_FILES["arch"]["name"] : NULL;
+    $arc = isset($_FILES["arc"]["name"]) ? $_FILES["arc"]["name"] : NULL;
     $arc = substr($arc, 0, strpos($arc, ".xls"));
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
@@ -117,7 +117,7 @@
 
     //------------Importar-----------
     if ($ope=="cargm" && $arc) {
-    	$dat = opti($_FILES["arch"], $arc, "arc", "");
+        $dat = opti($_FILES["arc"], $arc, "arc", "");
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
     	$objPHPExcel = $objReader->load($dat);
@@ -128,12 +128,12 @@
     		// obtengo el valor de la celda
     		$nomper = $sheet->getCell("B" . $row)->getValue();
     		$apeper = $sheet->getCell("C" . $row)->getValue();
-            $idvtpd = $sheet->getCell("E" . $row)->getValue();
-    		$ndper = $sheet->getCell("F" . $row)->getValue();
-    		$emaper = $sheet->getCell("I" . $row)->getValue();
-    		$cargo = $sheet->getCell("J" . $row)->getValue();
-    		$usured = $sheet->getCell("K" . $row)->getValue();
-    		$actper = $sheet->getCell("L" . $row)->getValue();
+            $idvtpd = $sheet->getCell("D" . $row)->getValue();
+    		$ndper = $sheet->getCell("E" . $row)->getValue();
+    		$emaper = $sheet->getCell("F" . $row)->getValue();
+    		$cargo = $sheet->getCell("G" . $row)->getValue();
+    		$usured = $sheet->getCell("H" . $row)->getValue();
+    		$actper = $sheet->getCell("I" . $row)->getValue();
     		$pasper = NULL;
             $mper->setNomper($nomper);
             $mper->setApeper($apeper);
@@ -145,7 +145,6 @@
             $mper->setActper($actper);
             $mper->setPasper($pasper);
     		$existingData = $mper->selectUsu();
-            var_dump($existingData);
     		if (!empty($ndper)) {
     			if ($existingData[0]['sum'] == 0) {
     				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
