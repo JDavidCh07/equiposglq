@@ -149,7 +149,7 @@ CREATE TABLE `equipo` (
   `idvtpeq` bigint(11) DEFAULT NULL,
   `capgb` bigint(5) NOT NULL,
   `ram` bigint(11) NOT NULL,
-  `procs` varchar(11) DEFAULT NULL,
+  `procs` varchar(100) DEFAULT NULL,
   `actequ` tinyint(1) DEFAULT 1,
   `tipcon` bigint(11) DEFAULT NULL,
   `pagequ` tinyint(1) NOT NULL
