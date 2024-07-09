@@ -152,7 +152,7 @@
         }
 
         function save(){
-            try {
+            // try {
                 $sql = "INSERT INTO equipo (marca, modelo, serialeq, nomred, idvtpeq, capgb, ram, procs, actequ, tipcon, pagequ) VALUES (:marca, :modelo, :serialeq, :nomred, :idvtpeq, :capgb, :ram, :procs, :actequ, :tipcon, :pagequ)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -180,9 +180,9 @@
                 $pagequ = $this->getPagequ();
                 $result->bindParam(":pagequ", $pagequ);
                 $result->execute();
-            } catch (Exception $e) {
-                ManejoError($e);
-            }
+            // } catch (Exception $e) {
+            //     ManejoError($e);
+            // }
         }
 
         function editAct(){
@@ -202,7 +202,7 @@
         }
 
         function edit(){
-            try {
+            // try {
                 $sql = "UPDATE equipo SET marca=:marca, modelo=:modelo, serialeq=:serialeq, nomred=:nomred, idvtpeq=:idvtpeq, capgb=:capgb, ram=:ram, procs=:procs, actequ=:actequ, tipcon=:tipcon WHERE idequ=:idequ";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -230,9 +230,9 @@
                 $tipcon = $this->getTipcon();
                 $result->bindParam(":tipcon", $tipcon);
                 $result->execute();
-            } catch (Exception $e) {
-                ManejoError($e);
-            }
+            // } catch (Exception $e) {
+            //     ManejoError($e);
+            // }
         }
 
         function del(){
@@ -301,7 +301,7 @@
 
         function savePxE()
         {
-            try{
+            // try{
                 $sql = "INSERT INTO prgxequi (idequ, idvprg, verprg) VALUES (:idequ, :idvprg, :verprg)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -313,9 +313,9 @@
                 $verprg = $this->getVerprg();
                 $result->bindParam(":verprg", $verprg);
                 $result->execute();
-            } catch (Exception $e) {
-                ManejoError($e);
-            }
+            // } catch (Exception $e) {
+            //     ManejoError($e);
+            // }
         }
 
         function delPxE()
@@ -366,6 +366,18 @@
             $result->bindParam(":iddomw", $iddomw);
             $result->execute();
             $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function selectEqu(){
+            $sql = "SELECT idequ, COUNT(*) AS sum FROM equipo WHERE serialeq=:serialeq";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $serialeq = $this->getSerialeq();
+            $result->bindParam(":serialeq",$serialeq);
+            $result->execute();
+            $res = $result->fetchAll(PDO::FETCH_ASSOC);
             return $res;
         }
     }

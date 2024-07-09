@@ -568,7 +568,7 @@ class Mper{
         return $res;
     }
 
-    public function selectUsu(){
+    function selectUsu(){
 		$sql = "SELECT idper, COUNT(*) AS sum FROM persona WHERE ndper=:ndper";
 		$modelo = new conexion();
 		$conexion = $modelo->get_conexion();
@@ -576,7 +576,7 @@ class Mper{
 		$ndper=$this->getNdper();
 		$result->bindParam(":ndper",$ndper);
 		$result->execute();
-		$res=$result->fetchAll(PDO::FETCH_ASSOC);
+		$res = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $res;
 	}
 }

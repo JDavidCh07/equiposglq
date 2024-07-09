@@ -135,6 +135,7 @@
     		$cargo = $sheet->getCell("G" . $row)->getValue();
     		$usured = $sheet->getCell("H" . $row)->getValue();
     		$actper = $sheet->getCell("I" . $row)->getValue();
+    		$idpef = $sheet->getCell("J" . $row)->getValue();
     		$pasper = NULL;
             $mper->setNomper($nomper);
             $mper->setApeper($apeper);
@@ -145,19 +146,22 @@
             $mper->setUsured($usured);
             $mper->setActper($actper);
             $mper->setPasper($pasper);
+            $mper->setIdpef($idpef);
     		$existingData = $mper->selectUsu();
+            $idper = $existingData[0]['idper'];
+            $mper->setIdper($idper);
     		if (!empty($ndper)) {
     			if ($existingData[0]['sum'] == 0) {
     				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
     				$mper->save();
+                    $mper->savePxF();
     			}else {
-                    $idper=$existingData[0]['idper'];
-                    $mper->setIdper($idper);
     				$mper->edit();
+                    $mper->delPxF();
+                    $mper->savePxF();
     			}
     		}
     	}
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
-
 ?>
