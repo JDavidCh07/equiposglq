@@ -192,7 +192,7 @@ class Mper{
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT DISTINCT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, v.nomval FROM persona AS p INNER JOIN valor AS v ON p.idvtpd=v.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper";
         if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
@@ -470,6 +470,17 @@ class Mper{
         return $res;
     }
 
+    function getOneInfoTaj()
+    {
+        $sql = "SELECT t.idtaj, t.numtajpar, t.numtajofi, t.fecent, t.fecdev, t.esttaj, pe.idper AS idpent, CONCAT (pe.apeper,' ',pe.nomper) AS pent, pe.ndper AS dpent, vpe.nomval AS tdpent, pe.cargo AS cpent, pr.idper AS idprec, CONCAT (pr.apeper,' ',pr.nomper) AS prec, pr.ndper AS dprec, vpr.nomval AS tdprec, pr.cargo AS cprec, pr.emaper AS eprec, ped.idper AS idpentd, CONCAT (ped.apeper,' ',ped.nomper) AS pentd, ped.ndper AS dpentd, vped.nomval AS tdpentd, ped.cargo AS cpentd, prd.idper AS idprecd, CONCAT (prd.apeper,' ',prd.nomper) AS precd, prd.ndper AS dprecd, vprd.nomval AS tdprecd, prd.cargo AS cprecd FROM tarjeta AS t INNER JOIN persona AS pe ON t.idperent=pe.idper INNER JOIN persona AS pr ON t.idperrec=pr.idper LEFT JOIN persona AS ped ON t.idperentd=ped.idper LEFT JOIN persona AS prd ON t.idperrecd=prd.idper INNER JOIN valor AS vpe ON pe.idvtpd=vpe.idval INNER JOIN valor AS vpr ON pr.idvtpd=vpr.idval LEFT JOIN valor AS vped ON ped.idvtpd=vped.idval LEFT JOIN valor AS vprd ON prd.idvtpd=vprd.idval WHERE t.esttaj=1 ORDER BY prec";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
     function getOneTaj($id)
     {
         $sql = "SELECT idtaj, numtajpar, numtajofi, idperent, idperrec, fecent, idperentd, idperrecd, fecdev, esttaj FROM tarjeta WHERE idperrec=:id AND esttaj=1";
@@ -505,6 +516,72 @@ class Mper{
             $result->bindParam(":idperrec", $idperrec);
             $fecent = $this->getFecent();
             $result->bindParam(":fecent", $fecent);
+            $esttaj = $this->getEsttaj();
+            $result->bindParam(":esttaj", $esttaj);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function saveTajXls()
+    {
+        try{
+            $sql = "INSERT INTO tarjeta (numtajpar, numtajofi, idperent, idperrec, fecent, idperentd, idperrecd, fecdev, esttaj) VALUES (:numtajpar, :numtajofi, :idperent, :idperrec, :fecent, :idperentd, :idperrecd, :fecdev, :esttaj)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $numtajpar = $this->getNumtajpar();
+            $result->bindParam(":numtajpar", $numtajpar);
+            $numtajofi = $this->getNumtajofi();
+            $result->bindParam(":numtajofi", $numtajofi);
+            $idperent = $this->getIdperent();
+            $result->bindParam(":idperent", $idperent);
+            $idperrec = $this->getIdperrec();
+            $result->bindParam(":idperrec", $idperrec);
+            $fecent = $this->getFecent();
+            $result->bindParam(":fecent", $fecent);
+            $esttaj = $this->getEsttaj();
+            $idperentd = $this->getIdperentd();
+            $result->bindParam(":idperentd", $idperentd);
+            $idperrecd = $this->getIdperrecd();
+            $result->bindParam(":idperrecd", $idperrecd);
+            $fecdev = $this->getFecdev();
+            $result->bindParam(":fecdev", $fecdev);
+            $esttaj = $this->getEsttaj();
+            $result->bindParam(":esttaj", $esttaj);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function EditTajXls()
+    {
+        try{
+            $sql = "UPDATE tarjeta SET numtajpar=:numtajpar, numtajofi=:numtajofi, idperent=:idperent, idperrec=:idperrec, fecent=:fecent, idperentd=:idperentd, idperrecd=:idperrecd, fecdev=:fecdev, esttaj=:esttaj WHERE idtaj=:idtaj";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idtaj = $this->getIdtaj();
+            $result->bindParam(":idtaj", $idtaj);
+            $numtajpar = $this->getNumtajpar();
+            $result->bindParam(":numtajpar", $numtajpar);
+            $numtajofi = $this->getNumtajofi();
+            $result->bindParam(":numtajofi", $numtajofi);
+            $idperent = $this->getIdperent();
+            $result->bindParam(":idperent", $idperent);
+            $idperrec = $this->getIdperrec();
+            $result->bindParam(":idperrec", $idperrec);
+            $fecent = $this->getFecent();
+            $result->bindParam(":fecent", $fecent);
+            $esttaj = $this->getEsttaj();
+            $idperentd = $this->getIdperentd();
+            $result->bindParam(":idperentd", $idperentd);
+            $idperrecd = $this->getIdperrecd();
+            $result->bindParam(":idperrecd", $idperrecd);
+            $fecdev = $this->getFecdev();
+            $result->bindParam(":fecdev", $fecdev);
             $esttaj = $this->getEsttaj();
             $result->bindParam(":esttaj", $esttaj);
             $result->execute();
@@ -575,6 +652,20 @@ class Mper{
 		$result = $conexion->prepare($sql);
 		$ndper=$this->getNdper();
 		$result->bindParam(":ndper",$ndper);
+		$result->execute();
+		$res = $result->fetchAll(PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+    function selectTaj(){
+		$sql = "SELECT idtaj, COUNT(*) AS sum FROM tarjeta WHERE numtajofi=:numtajofi OR numtajpar=:numtajpar";
+		$modelo = new conexion();
+		$conexion = $modelo->get_conexion();
+		$result = $conexion->prepare($sql);
+		$numtajofi=$this->getNumtajofi();
+		$result->bindParam(":numtajofi",$numtajofi);
+        $numtajpar=$this->getNumtajpar();
+		$result->bindParam(":numtajpar",$numtajpar);
 		$result->execute();
 		$res = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $res;

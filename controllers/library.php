@@ -130,7 +130,7 @@ function modalDet($nm, $id, $prgs, $info){
 							if($prgs){ foreach($prgs AS $pr){
 								$txt .= '<tr><td><strong>'.$pr['nomdom'].': </strong></td><td class="infpc">'.$pr['nomval'].' '.$pr['verprg'].'</td></tr>';
 							}}
-							$txt .= '<tr><td><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
+							$txt .= '<tr><td style="display: flex;"><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
 							$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$info[0]["ram"].' GB</td></tr>';
 							$txt .= '<tr><td><strong>Almacenamiento: </strong></td><td class="infpc">';
 							if($info[0]["capgb"]>=1000){
@@ -403,9 +403,9 @@ function modalTj($nm, $id, $perent, $pg){
 }
 
 //------------Modal Exportar, vper/vasg/vequ-----------
-function modalImp($nm, $pg, $tit){
+function modalImp($nm, $pg, $tit, $ope){
 	$txt = '';
-	$txt .= '<div class="modal fade" id="' . $nm . $pg . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+	$txt .= '<div class="modal fade" id="' . $nm . $pg . $ope.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<form action="home.php?pg=';
 			if($pg==51) $txt .= 51;
@@ -424,7 +424,7 @@ function modalImp($nm, $pg, $tit){
 						$txt .= '<small><small><br>*Por favor, asegúrese de subir únicamente archivos con extensión .xls o .xlsx. Estos formatos son específicos de archivos de Excel y son necesarios para garantizar la correcta lectura y procesamiento de los datos.</small></small>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
-						$txt .= '<input type="hidden" value="cargm" name="ope">';
+						$txt .= '<input type="hidden" value="'.$ope.'" name="ope">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 					$txt .= '</div>';

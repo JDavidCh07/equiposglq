@@ -3,7 +3,7 @@
 
 <nav class="nav">
   <a href="pmod.php" class="nav_link">
-    <i class='bx bx-user nav_icon'></i>
+    <i class='fa fa-solid fa-house'></i>
     <span class="nav_name">Inicio</span>
   </a>
   <?php if($dat){ foreach ($dat as $dt) { ?>

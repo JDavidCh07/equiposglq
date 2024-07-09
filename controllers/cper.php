@@ -110,6 +110,7 @@
         }
         if(!$idtaj) $mper->saveTaj();
         else $mper->updTaj();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     //------------Traer valores-----------
@@ -117,7 +118,7 @@
     $idmod = $mper->getAllMod();
     $dattpd = $mper->getAllTpd(1);
 
-    //------------Importar-----------
+    //------------Importar empleados-----------
     if ($ope=="cargm" && $arc) {
         $dat = opti($_FILES["arc"], $arc, "arc", "");
     	$inputFileType = IOFactory::identify($dat);
@@ -155,11 +156,70 @@
     			if ($existingData[0]['sum'] == 0) {
     				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
     				$mper->save();
-                    $mper->savePxF();
+                    $per = $mper->getOneSPxF($ndper); 
+                    $mper->savePxFAut($per[0]['idper'],$idpef);
     			}else {
     				$mper->edit();
                     $mper->delPxF();
                     $mper->savePxF();
+    			}
+    		}
+    	}
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+    }
+
+    //------------Importar tarjetas-----------
+    if ($ope=="cargmt" && $arc) {
+        $dat = opti($_FILES["arc"], $arc, "arc", "");
+    	$inputFileType = IOFactory::identify($dat);
+    	$objReader = IOFactory::createReader($inputFileType);
+    	$objPHPExcel = $objReader->load($dat);
+    	$sheet = $objPHPExcel->getSheet(0);
+    	$highestRow = $sheet->getHighestRow();
+    	$highestColumn = $sheet->getHighestColumn();
+    	for ($row = 3; $row <= $highestRow; $row++) {
+    		// obtengo el valor de la celda
+    		$numtajpar = $sheet->getCell("B" . $row)->getValue();
+    		$numtajofi = $sheet->getCell("C" . $row)->getValue();
+    		$dpent = $sheet->getCell("D" . $row)->getValue();
+            $idpent = $mper->setNdper($dpent); 
+            $idpent = $mper->selectUsu(); 
+            $idperent = $idpent[0]['idper']; 
+            $dprec = $sheet->getCell("F" . $row)->getValue();
+            $idprec = $mper->setNdper($dprec); 
+            $idprec = $mper->selectUsu(); 
+            $idperrec = $idprec[0]['idper']; 
+    		$fecent = $sheet->getCell("H" . $row)->getValue();
+            $fecdev = $sheet->getCell("M" . $row)->getValue();
+            if($fecdev){
+    		    $dprecd = $sheet->getCell("I" . $row)->getValue();
+                $idprecd = $mper->setNdper($dprecd); 
+                $idprecd = $mper->selectUsu(); 
+                $idperrecd = $idprecd[0]['idper']; 
+                $mper->setIdperrecd($idperrecd);
+    		    $dpentd = $sheet->getCell("K" . $row)->getValue();
+                $idpentd = $mper->setNdper($dpentd); 
+                $idpentd = $mper->selectUsu(); 
+                $idperentd = $idpentd[0]['idper']; 
+                $mper->setIdperentd($idperentd);
+            }
+    		$esttaj = ($fecdev) ? 2 : 1;
+            $mper->setNumtajpar($numtajpar);
+            $mper->setNumtajofi($numtajofi);
+            $mper->setIdperent($idperent);
+            $mper->setIdperrec($idperrec);
+            $mper->setFecent($fecent);
+            $mper->setFecdev($fecdev);
+            $mper->setEsttaj($esttaj);
+    		$existingData = $mper->selectTaj();
+            $idtaj = $existingData[0]['idtaj'];
+            $mper->setIdtaj($idtaj);
+    		if (!empty($numtajpar) OR !empty($numtajofi)) {
+    			if ($existingData[0]['sum'] == 0) {
+    				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
+    				$mper->saveTajXls();
+    			}else {
+    				$mper->EditTajXls();
     			}
     		}
     	}
