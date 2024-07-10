@@ -179,6 +179,10 @@
     	$highestColumn = $sheet->getHighestColumn();
     	for ($row = 3; $row <= $highestRow; $row++) {
     		// obtengo el valor de la celda
+            $idperrecd = NULL;
+            $idperentd = NULL;
+            $mper->setIdperrecd($idperrecd);
+            $mper->setIdperentd($idperentd);
     		$numtajpar = $sheet->getCell("B" . $row)->getValue();
     		$numtajofi = $sheet->getCell("C" . $row)->getValue();
     		$dpent = $sheet->getCell("D" . $row)->getValue();
@@ -191,17 +195,19 @@
             $idperrec = $idprec[0]['idper']; 
     		$fecent = $sheet->getCell("H" . $row)->getValue();
             $fecdev = $sheet->getCell("M" . $row)->getValue();
+            if (is_numeric($fecent)) $fecent = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecent)->format('Y-m-d');
+            if (is_numeric($fecdev)) $fecdev = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecdev)->format('Y-m-d');
             if($fecdev){
-    		    $dprecd = $sheet->getCell("I" . $row)->getValue();
-                $idprecd = $mper->setNdper($dprecd); 
-                $idprecd = $mper->selectUsu(); 
-                $idperrecd = $idprecd[0]['idper']; 
-                $mper->setIdperrecd($idperrecd);
-    		    $dpentd = $sheet->getCell("K" . $row)->getValue();
+    		    $dpentd = $sheet->getCell("I" . $row)->getValue();
                 $idpentd = $mper->setNdper($dpentd); 
                 $idpentd = $mper->selectUsu(); 
                 $idperentd = $idpentd[0]['idper']; 
                 $mper->setIdperentd($idperentd);
+    		    $dprecd = $sheet->getCell("K" . $row)->getValue();
+                $idprecd = $mper->setNdper($dprecd); 
+                $idprecd = $mper->selectUsu(); 
+                $idperrecd = $idprecd[0]['idper']; 
+                $mper->setIdperrecd($idperrecd);
             }
     		$esttaj = ($fecdev) ? 2 : 1;
             $mper->setNumtajpar($numtajpar);
@@ -215,12 +221,9 @@
             $idtaj = $existingData[0]['idtaj'];
             $mper->setIdtaj($idtaj);
     		if (!empty($numtajpar) OR !empty($numtajofi)) {
-    			if ($existingData[0]['sum'] == 0) {
-    				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
-    				$mper->saveTajXls();
-    			}else {
-    				$mper->EditTajXls();
-    			}
+    			if ($existingData[0]['sum'] == 0) $mper->saveTajXls();
+                elseif($esttaj==2 OR $existingData[0]['esttaj'] == 2) $mper->saveTajXls();
+    			else $mper->EditTajXls();
     		}
     	}
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
