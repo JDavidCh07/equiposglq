@@ -222,7 +222,7 @@
             $mper->setIdtaj($idtaj);
     		if (!empty($numtajpar) OR !empty($numtajofi)) {
     			if ($existingData[0]['sum'] == 0) $mper->saveTajXls();
-                elseif($esttaj==2 OR $existingData[0]['esttaj'] == 2) $mper->saveTajXls();
+                elseif($existingData[0]['idperrec'] != $idperrec) $mper->saveTajXls();
     			else $mper->EditTajXls();
     		}
     	}
