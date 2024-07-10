@@ -209,7 +209,7 @@
                 $idperrecd = $idprecd[0]['idper']; 
                 $mper->setIdperrecd($idperrecd);
             }
-            $esttaj = ($fecdev) ? 2 : 1;
+    		$esttaj = ($fecdev) ? 2 : 1;
             $mper->setNumtajpar($numtajpar);
             $mper->setNumtajofi($numtajofi);
             $mper->setIdperent($idperent);
@@ -218,13 +218,11 @@
             $mper->setFecdev($fecdev);
             $mper->setEsttaj($esttaj);
     		$existingData = $mper->selectTaj();
-    		if (!empty($numtajpar) OR !empty($numtajofi)) {
-                foreach($existingData AS $edt){
-                    $idtaj = $edt['idtaj'];
-                    $mper->setIdtaj($idtaj);
-    			    if ($edt['sum'] == 0 OR $edt['idperrec'] != $idperrec) $mper->saveTajXls();
-    			    else $mper->EditTajXls();
-                }
+            $idtaj = $existingData[0]['idtaj'];
+            $mper->setIdtaj($idtaj);
+    		if ((!empty($numtajpar) OR !empty($numtajofi)) AND !empty($idperrec)) {
+    			if ($existingData[0]['sum'] == 0) $mper->saveTajXls();
+    			else $mper->EditTajXls();
     		}
     	}
         echo "<script>window.location='home.php?pg=".$pg."';</script>";

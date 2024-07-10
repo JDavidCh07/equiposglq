@@ -658,7 +658,7 @@ class Mper{
 	}
 
     function selectTaj(){
-		$sql = "SELECT idtaj, idperrec, esttaj, COUNT(*) AS sum FROM tarjeta WHERE numtajofi=:numtajofi OR numtajpar=:numtajpar AND esttaj=1";
+		$sql = "SELECT idtaj, idperrec, esttaj, COUNT(*) AS sum FROM tarjeta WHERE (numtajofi=:numtajofi OR numtajpar=:numtajpar) AND idperrec=:idperrec";
 		$modelo = new conexion();
 		$conexion = $modelo->get_conexion();
 		$result = $conexion->prepare($sql);
@@ -666,6 +666,8 @@ class Mper{
 		$result->bindParam(":numtajofi",$numtajofi);
         $numtajpar=$this->getNumtajpar();
 		$result->bindParam(":numtajpar",$numtajpar);
+        $idperrec = $this->getIdperrec();
+        $result->bindParam(":idperrec", $idperrec);
 		$result->execute();
 		$res = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $res;
