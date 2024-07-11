@@ -27,6 +27,9 @@
     //------------Accesorios-----------
     $idvacc = isset($_POST['idvacc']) ? $_POST['idvacc']:NULL;
 
+    $arc = isset($_FILES["arc"]["name"]) ? $_FILES["arc"]["name"] : NULL;
+    $arc = substr($arc, 0, strpos($arc, ".xls"));
+
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
     $asg = isset($_REQUEST['asg']) ? $_REQUEST['asg']:"equ";
     
@@ -110,42 +113,48 @@
     		// obtengo el valor de la celda
             $idperrecd = NULL;
             $idperentd = NULL;
-            $mper->setIdperrecd($idperrecd);
-            $mper->setIdperentd($idperentd);
-    		$numtajpar = $sheet->getCell("B" . $row)->getValue();
-    		$numtajofi = $sheet->getCell("C" . $row)->getValue();
-    		$dpent = $sheet->getCell("D" . $row)->getValue();
-            $idpent = $mper->setNdper($dpent); 
-            $idpent = $mper->selectUsu(); 
+            $masg->setIdperrecd($idperrecd);
+            $masg->setIdperentd($idperentd);
+    		$serialeq = $sheet->getCell("B" . $row)->getValue();
+            $masg->setSerialeq($serialeq); 
+            $idq = $masg->selectEqu(); 
+            $idequ = $idq[0]['idequ']; 
+    		$dpent = $sheet->getCell("C" . $row)->getValue();
+            $masg->setNdper($dpent); 
+            $idpent = $masg->selectUsu(); 
             $idperent = $idpent[0]['idper']; 
-            $dprec = $sheet->getCell("F" . $row)->getValue();
-            $idprec = $mper->setNdper($dprec); 
-            $idprec = $mper->selectUsu(); 
+            $dprec = $sheet->getCell("E" . $row)->getValue();
+            $masg->setNdper($dprec); 
+            $idprec = $masg->selectUsu(); 
             $idperrec = $idprec[0]['idper']; 
-    		$fecent = $sheet->getCell("H" . $row)->getValue();
+    		$fecent = $sheet->getCell("G" . $row)->getValue();
+    		$observ = $sheet->getCell("H" . $row)->getValue();
             $fecdev = $sheet->getCell("M" . $row)->getValue();
             if (is_numeric($fecent)) $fecent = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecent)->format('Y-m-d');
             if (is_numeric($fecdev)) $fecdev = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecdev)->format('Y-m-d');
             if($fecdev){
     		    $dpentd = $sheet->getCell("I" . $row)->getValue();
-                $idpentd = $mper->setNdper($dpentd); 
-                $idpentd = $mper->selectUsu(); 
+                $masg->setNdper($dpentd); 
+                $idpentd = $masg->selectUsu(); 
                 $idperentd = $idpentd[0]['idper']; 
-                $mper->setIdperentd($idperentd);
+                $masg->setIdperentd($idperentd);
     		    $dprecd = $sheet->getCell("K" . $row)->getValue();
-                $idprecd = $mper->setNdper($dprecd); 
-                $idprecd = $mper->selectUsu(); 
+                $masg->setNdper($dprecd); 
+                $idprecd = $masg->selectUsu(); 
                 $idperrecd = $idprecd[0]['idper']; 
-                $mper->setIdperrecd($idperrecd);
+                $masg->setIdperrecd($idperrecd);
+                $observd = $sheet->getCell("N" . $row)->getValue();
             }
-    		$esttaj = ($fecdev) ? 2 : 1;
-            $mper->setNumtajpar($numtajpar);
-            $mper->setNumtajofi($numtajofi);
-            $mper->setIdperent($idperent);
-            $mper->setIdperrec($idperrec);
-            $mper->setFecent($fecent);
-            $mper->setFecdev($fecdev);
-            $mper->setEsttaj($esttaj);
+    		$estexp = ($fecdev) ? 2 : 1;
+            $masg->setIdequ($idequ);
+            $masg->setIdperent($idperent);
+            $masg->setIdperrec($idperrec);
+            $masg->setFecent($fecent);
+            $masg->setFecdev($fecdev);
+            $masg->setEstexp($estexp);
+            if($idequ && $estexp==2) $mequ->setActequ(1);
+            elseif($idequ && $estexp==1) $mequ->setActequ(2);
+            $mequ->editAct(); 
     		$existingData = $mper->selectTaj();
             $idtaj = $existingData[0]['idtaj'];
             $mper->setIdtaj($idtaj);

@@ -186,11 +186,11 @@
     		$numtajpar = $sheet->getCell("B" . $row)->getValue();
     		$numtajofi = $sheet->getCell("C" . $row)->getValue();
     		$dpent = $sheet->getCell("D" . $row)->getValue();
-            $idpent = $mper->setNdper($dpent); 
+            $mper->setNdper($dpent); 
             $idpent = $mper->selectUsu(); 
             $idperent = $idpent[0]['idper']; 
             $dprec = $sheet->getCell("F" . $row)->getValue();
-            $idprec = $mper->setNdper($dprec); 
+            $mper->setNdper($dprec); 
             $idprec = $mper->selectUsu(); 
             $idperrec = $idprec[0]['idper']; 
     		$fecent = $sheet->getCell("H" . $row)->getValue();
@@ -199,12 +199,12 @@
             if (is_numeric($fecdev)) $fecdev = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecdev)->format('Y-m-d');
             if($fecdev){
     		    $dpentd = $sheet->getCell("I" . $row)->getValue();
-                $idpentd = $mper->setNdper($dpentd); 
+                $mper->setNdper($dpentd); 
                 $idpentd = $mper->selectUsu(); 
                 $idperentd = $idpentd[0]['idper']; 
                 $mper->setIdperentd($idperentd);
     		    $dprecd = $sheet->getCell("K" . $row)->getValue();
-                $idprecd = $mper->setNdper($dprecd); 
+                $mper->setNdper($dprecd); 
                 $idprecd = $mper->selectUsu(); 
                 $idperrecd = $idprecd[0]['idper']; 
                 $mper->setIdperrecd($idperrecd);

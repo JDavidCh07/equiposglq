@@ -647,7 +647,7 @@ class Mper{
 	}
 
     function selectTaj(){
-		$sql = "SELECT idtaj, idperrec, esttaj, COUNT(*) AS sum FROM tarjeta WHERE (numtajofi=:numtajofi OR numtajpar=:numtajpar) AND idperrec=:idperrec";
+		$sql = "SELECT idtaj, idperrec, COUNT(*) AS sum FROM tarjeta WHERE (numtajofi=:numtajofi OR numtajpar=:numtajpar) AND idperrec=:idperrec";
 		$modelo = new conexion();
 		$conexion = $modelo->get_conexion();
 		$result = $conexion->prepare($sql);

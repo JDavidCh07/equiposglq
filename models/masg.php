@@ -17,6 +17,10 @@
         private $estexp;
         private $difasg;
 
+        
+        private $serialeq;
+        private $ndper;
+
         //------------Accesorios-----------
         private $idvacc;
 
@@ -62,6 +66,13 @@
         }
         public function getDifasg(){
             return $this->difasg;
+        }
+
+        public function getSerialeq(){
+            return $this->serialeq;
+        }
+        public function getNdper(){
+            return $this->ndper;
         }
 
         //------------Accesorios-----------
@@ -111,6 +122,13 @@
         }
         public function setDifasg($difasg){
             $this->difasg=$difasg;
+        }
+
+        public function setSerialeq($serialeq){
+            $this->serialeq=$serialeq;
+        }
+        public function setNdper($ndper){
+            $this->ndper = $ndper;
         }
 
         //------------Accesorios-----------
@@ -253,18 +271,6 @@
                 return $res;
             }
 
-        function getOneAsg($difasg)
-        {
-            $sql = "SELECT ideqxpr FROM asignar WHERE difasg=:difasg";
-            $modelo = new conexion();
-            $conexion = $modelo->get_conexion();
-            $result = $conexion->prepare($sql);
-            $result->bindParam(":difasg", $difasg);
-            $result->execute();
-            $res = $result->fetchall(PDO::FETCH_ASSOC);
-            return $res;
-        }
-
         function saveAxE()
         {
             try{
@@ -338,6 +344,56 @@
             $result->bindParam(":pg", $pg);
             $result->execute();
             $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function getOneAsg($difasg)
+        {
+            $sql = "SELECT ideqxpr FROM asignar WHERE difasg=:difasg";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":difasg", $difasg);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function selectAsg()
+        {
+            $sql = "SELECT ideqxpr, idperrec, COUNT(*) AS sum FROM asignar WHERE difasg=:difasg AND idperrec=:idperrec";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $result->bindParam(":difasg", $difasg);
+            $idperrec = $this->getIdperrec();
+            $result->bindParam(":idperrec", $idperrec);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function selectEqu(){
+            $sql = "SELECT idequ, COUNT(*) AS sum FROM equipo WHERE serialeq=:serialeq";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $serialeq=$this->getSerialeq();
+            $result->bindParam(":serialeq",$serialeq);
+            $result->execute();
+            $res = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function selectUsu(){
+            $sql = "SELECT idper, COUNT(*) AS sum FROM persona WHERE ndper=:ndper";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $ndper=$this->getNdper();
+            $result->bindParam(":ndper",$ndper);
+            $result->execute();
+            $res = $result->fetchAll(PDO::FETCH_ASSOC);
             return $res;
         }
     }
