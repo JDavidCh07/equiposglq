@@ -1,6 +1,9 @@
 <?php
     require_once("models/masg.php");
     require_once('models/mequ.php');
+    require ('vendor/autoload.php');
+
+    use PhpOffice\PhpSpreadsheet\IOFactory;
 
     $masg = new Masg();
     $mequ = new Mequ();
@@ -92,5 +95,65 @@
         $datAllA = $masg->getAllAsig(54);
         $datEqu = $masg->getAllEquDis(54);
         $datAcc = $masg->getAllAcc(5);
+    }
+
+    //------------Importar-----------
+    if ($ope=="cargm" && $arc) {
+        $dat = opti($_FILES["arc"], $arc, "arc", "");
+    	$inputFileType = IOFactory::identify($dat);
+    	$objReader = IOFactory::createReader($inputFileType);
+    	$objPHPExcel = $objReader->load($dat);
+    	$sheet = $objPHPExcel->getSheet(0);
+    	$highestRow = $sheet->getHighestRow();
+    	$highestColumn = $sheet->getHighestColumn();
+    	for ($row = 3; $row <= $highestRow; $row++) {
+    		// obtengo el valor de la celda
+            $idperrecd = NULL;
+            $idperentd = NULL;
+            $mper->setIdperrecd($idperrecd);
+            $mper->setIdperentd($idperentd);
+    		$numtajpar = $sheet->getCell("B" . $row)->getValue();
+    		$numtajofi = $sheet->getCell("C" . $row)->getValue();
+    		$dpent = $sheet->getCell("D" . $row)->getValue();
+            $idpent = $mper->setNdper($dpent); 
+            $idpent = $mper->selectUsu(); 
+            $idperent = $idpent[0]['idper']; 
+            $dprec = $sheet->getCell("F" . $row)->getValue();
+            $idprec = $mper->setNdper($dprec); 
+            $idprec = $mper->selectUsu(); 
+            $idperrec = $idprec[0]['idper']; 
+    		$fecent = $sheet->getCell("H" . $row)->getValue();
+            $fecdev = $sheet->getCell("M" . $row)->getValue();
+            if (is_numeric($fecent)) $fecent = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecent)->format('Y-m-d');
+            if (is_numeric($fecdev)) $fecdev = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecdev)->format('Y-m-d');
+            if($fecdev){
+    		    $dpentd = $sheet->getCell("I" . $row)->getValue();
+                $idpentd = $mper->setNdper($dpentd); 
+                $idpentd = $mper->selectUsu(); 
+                $idperentd = $idpentd[0]['idper']; 
+                $mper->setIdperentd($idperentd);
+    		    $dprecd = $sheet->getCell("K" . $row)->getValue();
+                $idprecd = $mper->setNdper($dprecd); 
+                $idprecd = $mper->selectUsu(); 
+                $idperrecd = $idprecd[0]['idper']; 
+                $mper->setIdperrecd($idperrecd);
+            }
+    		$esttaj = ($fecdev) ? 2 : 1;
+            $mper->setNumtajpar($numtajpar);
+            $mper->setNumtajofi($numtajofi);
+            $mper->setIdperent($idperent);
+            $mper->setIdperrec($idperrec);
+            $mper->setFecent($fecent);
+            $mper->setFecdev($fecdev);
+            $mper->setEsttaj($esttaj);
+    		$existingData = $mper->selectTaj();
+            $idtaj = $existingData[0]['idtaj'];
+            $mper->setIdtaj($idtaj);
+    		if ((!empty($numtajpar) OR !empty($numtajofi)) AND !empty($idperrec)) {
+    			if ($existingData[0]['sum'] == 0) $mper->saveTajXls();
+    			else $mper->EditTajXls();
+    		}
+    	}
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 ?>

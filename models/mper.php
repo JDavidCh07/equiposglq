@@ -460,7 +460,7 @@ class Mper{
 
     function getAllTajPer($id)
     {
-        $sql = "SELECT idtaj, numtajpar, numtajofi, idperent, idperrec, fecent, idperentd, idperrecd, fecdev, esttaj FROM tarjeta WHERE idperrec=:id AND esttaj=2";
+        $sql = "SELECT idtaj, numtajpar, numtajofi, idperent, idperrec, fecent, idperentd, idperrecd, fecdev, esttaj FROM tarjeta WHERE idperrec=:id AND esttaj=2 ORDER BY fecdev DESC";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -470,20 +470,9 @@ class Mper{
         return $res;
     }
 
-    function getOneInfoTaj()
-    {
-        $sql = "SELECT t.idtaj, t.numtajpar, t.numtajofi, t.fecent, t.fecdev, t.esttaj, pe.idper AS idpent, CONCAT (pe.apeper,' ',pe.nomper) AS pent, pe.ndper AS dpent, vpe.nomval AS tdpent, pe.cargo AS cpent, pr.idper AS idprec, CONCAT (pr.apeper,' ',pr.nomper) AS prec, pr.ndper AS dprec, vpr.nomval AS tdprec, pr.cargo AS cprec, pr.emaper AS eprec, ped.idper AS idpentd, CONCAT (ped.apeper,' ',ped.nomper) AS pentd, ped.ndper AS dpentd, vped.nomval AS tdpentd, ped.cargo AS cpentd, prd.idper AS idprecd, CONCAT (prd.apeper,' ',prd.nomper) AS precd, prd.ndper AS dprecd, vprd.nomval AS tdprecd, prd.cargo AS cprecd FROM tarjeta AS t INNER JOIN persona AS pe ON t.idperent=pe.idper INNER JOIN persona AS pr ON t.idperrec=pr.idper LEFT JOIN persona AS ped ON t.idperentd=ped.idper LEFT JOIN persona AS prd ON t.idperrecd=prd.idper INNER JOIN valor AS vpe ON pe.idvtpd=vpe.idval INNER JOIN valor AS vpr ON pr.idvtpd=vpr.idval LEFT JOIN valor AS vped ON ped.idvtpd=vped.idval LEFT JOIN valor AS vprd ON prd.idvtpd=vprd.idval WHERE t.esttaj=1 ORDER BY prec";
-        $modelo = new conexion();
-        $conexion = $modelo->get_conexion();
-        $result = $conexion->prepare($sql);
-        $result->execute();
-        $res = $result->fetchall(PDO::FETCH_ASSOC);
-        return $res;
-    }
-
     function getOneTaj($id)
     {
-        $sql = "SELECT idtaj, numtajpar, numtajofi, idperent, idperrec, fecent, idperentd, idperrecd, fecdev, esttaj FROM tarjeta WHERE idperrec=:id AND esttaj=1";
+        $sql = "SELECT idtaj, numtajpar, numtajofi, idperent, idperrec, fecent, idperentd, idperrecd, fecdev, esttaj FROM tarjeta WHERE idperrec=:id AND esttaj=1 ORDER BY fecent DESC";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
