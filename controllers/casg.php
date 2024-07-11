@@ -151,16 +151,19 @@
             $masg->setIdperrec($idperrec);
             $masg->setFecent($fecent);
             $masg->setFecdev($fecdev);
+            $masg->setNumcel($numcel);
+            $masg->setOpecel($opecel);
             $masg->setEstexp($estexp);
+            $masg->setDifasg($nmfl);
             if($idequ && $estexp==2) $mequ->setActequ(1);
             elseif($idequ && $estexp==1) $mequ->setActequ(2);
             $mequ->editAct(); 
-    		$existingData = $mper->selectTaj();
-            $idtaj = $existingData[0]['idtaj'];
-            $mper->setIdtaj($idtaj);
-    		if ((!empty($numtajpar) OR !empty($numtajofi)) AND !empty($idperrec)) {
-    			if ($existingData[0]['sum'] == 0) $mper->saveTajXls();
-    			else $mper->EditTajXls();
+    		$existingData = $masg->selectAsg();
+            $ideqxpr = $existingData[0]['ideqxpr'];
+            $masg->setIdeqxpr($ideqxpr);
+    		if (!empty($serialeq)) {
+    			if ($existingData[0]['sum'] == 0) $masg->saveAsgXls();
+    			else $masg->EditAsgXls();
     		}
     	}
         echo "<script>window.location='home.php?pg=".$pg."';</script>";

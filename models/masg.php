@@ -198,6 +198,82 @@
             }
         }
 
+        function saveAsgXls(){
+            try{
+                $sql = "INSERT INTO asignar (idequ, idperent, idperrec, fecent, observ, idperentd, idperrecd, fecdev, observd, numcel, opecel, estexp, difasg) VALUES (:idequ, :idperent, :idperrec, :fecent, :observ, :idperentd, :idperrecd, :fecdev, :observd, :numcel, :opecel, :estexp, :difasg)";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $idequ = $this->getIdequ();
+                $result->bindParam(":idequ", $idequ);
+                $idperent = $this->getIdperent();
+                $result->bindParam(":idperent", $idperent);
+                $idperrec = $this->getIdperrec();
+                $result->bindParam(":idperrec", $idperrec);
+                $fecent = $this->getFecent();
+                $result->bindParam(":fecent", $fecent);
+                $observ = $this->getObserv();
+                $result->bindParam(":observ", $observ);
+                $idperentd = $this->getIdperentd();
+                $result->bindParam(":idperentd", $idperentd);
+                $idperrecd = $this->getIdperrecd();
+                $result->bindParam(":idperrecd", $idperrecd);
+                $fecdev = $this->getFecdev();
+                $result->bindParam(":fecdev", $fecdev);
+                $observd = $this->getObservd();
+                $result->bindParam(":observd", $observd);
+                $estexp = $this->getEstexp();
+                $result->bindParam(":estexp", $estexp);
+                $numcel = $this->getNumcel();
+                $result->bindParam(":numcel", $numcel);
+                $opecel = $this->getOpecel();
+                $result->bindParam(":opecel", $opecel);
+                $difasg = $this->getDifasg();
+                $result->bindParam(":difasg", $difasg);
+                $result->execute();
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
+        }
+
+        function EditAsgXls(){
+            try{
+                $sql = "UPDATE asignar SET idequ=:idequ, idperent=:idperent, idperrec=:idperrec, fecent=:fecent, observ=:observ, idperentd=:idperentd, idperrecd=:idperrecd, fecdev=:fecdev, observd=:observd, numcel=:numcel, opecel=:opecel, estexp=:estexp WHERE ideqxpr=:ideqxpr";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $ideqxpr = $this->getIdeqxpr();
+                $result->bindParam(":ideqxpr",$ideqxpr);
+                $idequ = $this->getIdequ();
+                $result->bindParam(":idequ", $idequ);
+                $idperent = $this->getIdperent();
+                $result->bindParam(":idperent", $idperent);
+                $idperrec = $this->getIdperrec();
+                $result->bindParam(":idperrec", $idperrec);
+                $fecent = $this->getFecent();
+                $result->bindParam(":fecent", $fecent);
+                $observ = $this->getObserv();
+                $result->bindParam(":observ", $observ);
+                $idperentd = $this->getIdperentd();
+                $result->bindParam(":idperentd", $idperentd);
+                $idperrecd = $this->getIdperrecd();
+                $result->bindParam(":idperrecd", $idperrecd);
+                $fecdev = $this->getFecdev();
+                $result->bindParam(":fecdev", $fecdev);
+                $observd = $this->getObservd();
+                $result->bindParam(":observd", $observd);
+                $estexp = $this->getEstexp();
+                $result->bindParam(":estexp", $estexp);
+                $numcel = $this->getNumcel();
+                $result->bindParam(":numcel", $numcel);
+                $opecel = $this->getOpecel();
+                $result->bindParam(":opecel", $opecel);
+                $result->execute();
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
+        }
+
         function edit(){
             try{
                 $numcel = $this->getNumcel();
@@ -361,11 +437,12 @@
 
         function selectAsg()
         {
-            $sql = "SELECT ideqxpr, idperrec, COUNT(*) AS sum FROM asignar WHERE difasg=:difasg AND idperrec=:idperrec";
+            $sql = "SELECT ideqxpr, idperrec, COUNT(*) AS sum FROM asignar WHERE serialeq=:serialeq AND idperrec=:idperrec";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
-            $result->bindParam(":difasg", $difasg);
+            $serialeq = $this->getSerialeq();
+            $result->bindParam(":serialeq", $serialeq);
             $idperrec = $this->getIdperrec();
             $result->bindParam(":idperrec", $idperrec);
             $result->execute();

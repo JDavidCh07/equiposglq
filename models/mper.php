@@ -530,7 +530,6 @@ class Mper{
             $result->bindParam(":idperrec", $idperrec);
             $fecent = $this->getFecent();
             $result->bindParam(":fecent", $fecent);
-            $esttaj = $this->getEsttaj();
             $idperentd = $this->getIdperentd();
             $result->bindParam(":idperentd", $idperentd);
             $idperrecd = $this->getIdperrecd();
