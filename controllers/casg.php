@@ -151,13 +151,14 @@
                 $observd = $sheet->getCell("R" . $row)->getValue();
             }
     		$estexp = ($fecdev) ? 2 : 1;
+            $disfag = $nmfl;
             $masg->setIdequ($idequ);
             $masg->setIdperent($idperent);
             $masg->setIdperrec($idperrec);
             $masg->setFecent($fecent);
             $masg->setFecdev($fecdev);
             $masg->setEstexp($estexp);
-            $masg->setDifasg($nmfl);
+            $masg->setDifasg($disfag);
             if($idequ && $estexp==2) $mequ->setActequ(1);
             elseif($idequ && $estexp==1) $mequ->setActequ(2);
             $mequ->editAct(); 
@@ -167,7 +168,7 @@
     		if (!empty($serialeq)) {
     			if ($existingData[0]['sum'] == 0){
                     $masg->saveAsgXls();
-                    $id = $masg->getOneAsg($difasg);
+                    $id = $masg->getOneAsg($disfag);
                     $ideqxpr = $id[0]['ideqxpr'];
                 } else $masg->EditAsgXls();
                 $masg->setIdeqxpr($ideqxpr);
