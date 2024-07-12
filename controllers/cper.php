@@ -41,7 +41,6 @@
     $datOne=NULL;
     $pg = 53;
 
-
     $mper->setIdper($idper);
     $mper->setIdtaj($idtaj);
 
@@ -179,6 +178,7 @@
     	$highestColumn = $sheet->getHighestColumn();
     	for ($row = 3; $row <= $highestRow; $row++) {
     		// obtengo el valor de la celda
+            $comp = 2;
             $idperrecd = NULL;
             $idperentd = NULL;
             $mper->setIdperrecd($idperrecd);
@@ -208,6 +208,9 @@
                 $idprecd = $mper->selectUsu(); 
                 $idperrecd = $idprecd[0]['idper']; 
                 $mper->setIdperrecd($idperrecd);
+                if($idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
+            }elseif(!$fecdev){
+                if($idperent && $idperrec) $comp = 1;
             }
     		$esttaj = ($fecdev) ? 2 : 1;
             $mper->setNumtajpar($numtajpar);
@@ -220,11 +223,16 @@
     		$existingData = $mper->selectTaj();
             $idtaj = $existingData[0]['idtaj'];
             $mper->setIdtaj($idtaj);
-    		if (!empty($numtajpar) OR !empty($numtajofi)) {
+    		if($comp==1 && (!empty($numtajpar) OR !empty($numtajofi))) {
     			if ($existingData[0]['sum'] == 0) $mper->saveTajXls();
     			else $mper->EditTajXls();
-    		}
+    		}else{
+                $reg = $row;
+                $row = $highestRow+1;
+            }
     	}
-        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+        if($row>$highestRow) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito");</script>';
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 3000);</script>";
     }
 ?>

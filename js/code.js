@@ -168,17 +168,6 @@ function ocul(mos=0,est=0){
     }
 }
 
-function asig(mos=1,est=1){
-  if(mos==1){
-      if(est==1){
-          document.getElementById("frmins").style.display = "inherit";
-          return 
-      }else{
-          document.getElementById("frmins").style.display = "none";
-      }
-  }
-}
-
 function err(mess=""){
     if(mess){
         mess = "<strong>Error:</strong> ¡"+mess+"!";
@@ -188,6 +177,18 @@ function err(mess=""){
         document.getElementById("err").innerHTML = "";
         document.getElementById("err").style.display = "none";
     }
+
+}
+
+function satf(mess=""){
+  if(mess){
+      mess = "¡"+mess+"!";
+      document.getElementById("satf").innerHTML = mess;
+      document.getElementById("satf").style.display = "inline-block";
+  }else{
+      document.getElementById("satf").innerHTML = "";
+      document.getElementById("satf").style.display = "none";
+  }
 
 }
 

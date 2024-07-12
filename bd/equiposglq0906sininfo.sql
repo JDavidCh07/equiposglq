@@ -20,41 +20,6 @@ CREATE TABLE `accxequi` (
 -- Volcado de datos para la tabla `accxequi`
 --
 
-INSERT INTO `accxequi` (`ideqxpr`, `idvacc`) VALUES
-(10, 18),
-(10, 26),
-(6, 15),
-(6, 16),
-(6, 17),
-(7, 14),
-(8, 14),
-(8, 17),
-(11, 13),
-(11, 16),
-(12, 13),
-(12, 16),
-(13, 13),
-(13, 16),
-(9, 19),
-(9, 21),
-(9, 22),
-(9, 23),
-(15, 19),
-(16, 19),
-(17, 14),
-(18, 14),
-(19, 14),
-(20, 22),
-(21, 22),
-(14, 22),
-(22, 19),
-(23, 14),
-(24, 18),
-(25, 21),
-(26, 19),
-(27, 15),
-(27, 16),
-(28, 14);
 
 -- --------------------------------------------------------
 
@@ -78,35 +43,6 @@ CREATE TABLE `asignar` (
   `estexp` tinyint(1) DEFAULT 1,
   `difasg` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `asignar`
---
-
-INSERT INTO `asignar` (`ideqxpr`, `idequ`, `idperent`, `idperrec`, `fecent`, `observ`, `idperentd`, `idperrecd`, `fecdev`, `observd`, `numcel`, `opecel`, `estexp`, `difasg`) VALUES
-(6, 1, 1, 1, '2024-06-18', 'No', 1, 1, '2024-06-26', 'gb', NULL, NULL, 2, '20240618145020'),
-(7, 1, 1, 1, '2024-06-18', 'NOP\r\n', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240618145205'),
-(8, 1, 1, 1, '2024-06-18', 'Pd\r\n', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240618145352'),
-(9, 2, 1, 1, '2024-06-18', 'No', NULL, NULL, NULL, NULL, 2275758, 38, 1, '20240618145421'),
-(10, 2, 1, 2, '2024-06-19', 'Seddef', NULL, NULL, NULL, NULL, 322566, 38, 1, '20240619163951'),
-(11, 1, 1, 2, '2024-06-27', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240627164407'),
-(12, 1, 1, 2, '2024-06-27', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240627165057'),
-(13, 1, 1, 2, '2024-06-27', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240627165450'),
-(14, 2, 1, 1, '2024-06-27', 'GFH', NULL, NULL, NULL, NULL, 21474836, 38, 1, '20240627165628'),
-(15, 2, 1, 1, '2024-06-27', '', NULL, NULL, NULL, NULL, 524524, 38, 1, '20240627170001'),
-(16, 2, 1, 1, '2024-06-27', '', NULL, NULL, NULL, NULL, 524524, 38, 1, '20240627170004'),
-(17, 1, 1, 2, '2024-06-27', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240627170719'),
-(18, 1, 1, 2, '2024-06-27', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240627170725'),
-(19, 1, 1, 2, '2024-06-27', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240627170820'),
-(20, 2, 1, 2, '2024-06-27', '', NULL, NULL, NULL, NULL, 6652626, 38, 1, '20240627170905'),
-(21, 2, 1, 2, '2024-06-27', '', NULL, NULL, NULL, NULL, 6652626, 38, 1, '20240627170907'),
-(22, 2, 1, 2, '2024-06-28', '', 2, 1, '2024-06-28', 'todo', 321255636, 38, 2, '20240628100009'),
-(23, 1, 1, 1, '2024-06-28', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240628100421'),
-(24, 2, 1, 1, '2024-06-28', '', NULL, NULL, NULL, NULL, 301245, 38, 1, '20240628100442'),
-(25, 2, 1, 1, '2024-06-28', '', NULL, NULL, NULL, NULL, 302757, 38, 1, '20240628100550'),
-(26, 2, 1, 1, '2024-06-28', '', NULL, NULL, NULL, NULL, 31201, 38, 1, '20240628150701'),
-(27, 4, 1, 2, '2024-07-02', '', 2, 1, '2024-07-03', 'TODO', NULL, NULL, 2, '20240702160446'),
-(28, 4, 1, 1, '2024-07-04', 'ti', NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240704165822');
 
 -- --------------------------------------------------------
 
@@ -158,26 +94,6 @@ CREATE TABLE `equipo` (
 --
 -- Volcado de datos para la tabla `equipo`
 --
-
-INSERT INTO `equipo` (`idequ`, `marca`, `modelo`, `serialeq`, `nomred`, `idvtpeq`, `capgb`, `ram`, `procs`, `actequ`, `tipcon`, `pagequ`) VALUES
-(1, 'HP', '24-g003la', '8CC6381SMQ', 'ADM_FN_CON_04', 8, 512, 16, 'i5-6200U CP', 1, 10, 52),
-(2, 'Samsung', 'A21s', '351261442981315', NULL, NULL, 128, 16, NULL, 1, NULL, 54),
-(4, 'Dell', 'Latitude', 'PF575XSX', 'GAL_ING', 7, 1000, 32, 'INTEL', 2, 10, 52),
-(24, 'LENOVO', 'THIINKPAD X13', 'GM05VZN1', 'GAL-ING-PRO-04', 7, 474, 16, '11th Gen In', 1, 11, 52),
-(25, 'HP', '2458', '5CG2223J0C', 'GLQ_CMP_01', 7, 256, 8, 'AMD Ryzen 5', 1, 11, 52),
-(26, 'LENOVO', 'YOGA 520', 'MP1E5DQF', 'GLQ_BDG_01', 7, 1000, 16, 'Intel(R) Co', 1, 10, 52),
-(27, 'LENOVO', 'THINK PAD', 'PF3E91QV', 'GG-TEC-01', 7, 512, 8, '11th Gen In', 1, 10, 52),
-(28, 'LENOVO', 'THINKPAD E14', 'PF3L67P7', 'GLQ_OFI_07', 7, 256, 16, '12th Gen In', 1, 11, 52),
-(29, 'LENOVO', 'THINKPAD E14', 'PF3L4PPA', 'GAL_GE_EJE_04', 7, 512, 16, '11th Gen In', 1, 11, 52),
-(30, 'DELL', 'LATITUDE 9420', '15Z8CK3', 'ADM_COMPR', 7, 512, 16, '11th Gen In', 1, 10, 52),
-(31, 'Micro-Star International', 'GL62M 7RDX', '9S716J9622422ZHB000020', 'EJE_PRO_COO_01', 7, 2000, 16, 'Intel(R) Co', 1, 10, 52),
-(32, 'MOTOROLA', 'G20', '356348781747939', NULL, NULL, 128, 8, NULL, 1, 11, 54),
-(33, 'MOTO', 'G31', '355302642896477', NULL, NULL, 256, 8, NULL, 1, 11, 54),
-(34, 'VIVO', 'Y16', '867315061634329', NULL, NULL, 128, 8, NULL, 1, 11, 54),
-(35, 'IPHONE', '6 PLUS', '359321060055016', NULL, NULL, 256, 8, NULL, 1, 11, 54),
-(36, 'MOTOROLA', 'G22', '359694274277208', NULL, NULL, 128, 8, NULL, 1, 11, 54),
-(37, 'HONOR', 'X6s', '862800069243269', NULL, NULL, 128, 16, NULL, 1, 11, 54);
-
 -- --------------------------------------------------------
 
 --
@@ -309,18 +225,7 @@ CREATE TABLE `persona` (
 
 INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvtpd`, `ndper`, `emaper`, `pasper`, `cargo`, `usured`, `actper`) VALUES
 (1, 'David', 'Chaparro', 1, '1072642921', 'soporteit@galqui.com', 'b37276a94dfc2d512045932d36c8df69b8c2c729sGlaqs2%', 'Aprendiz Sena', 'soporteit', 1),
-(2, 'Prueba', 'Persona', 1, '1987654', 'persona@prueba.com', '305244cc2d9afd44b7ffc6bd96b605151739a5absGlaqs2%', 'Intento', 'prupersona', 1),
-(4, 'ALDEYSON JULIAN', 'RODRIGUEZ BOHORQUEZ', 1, '80200165', 'aldeysonrodriguez@galqui.com', NULL, 'SUPERVISOR INSTRUMENTACION Y CONTROL', 'aldeysonrodriguez', 1),
-(5, 'JOHAN DAVID', 'CUERVO ACEVEDO', 1, '1055314236', 'johancuervo@galqui.com', NULL, 'SUPERVISOR JUNIOR INSTRUMENTISTA', 'johancuervo', 1),
-(6, 'JEISON ALEJANDRO', 'MOLANO PINZON', 1, '1024530115', 'jeisonmolano@galqui.com', NULL, 'INGENIERO DE PROYECTOS  II', 'jeisonmolano', 1),
-(8, 'RUBEN DARIO', 'PABON RAMIREZ', 1, '80370195', 'rubenpabon@galqui.com', NULL, 'SUPERVISOR ELECTRICO', 'rubenpabon', 1),
-(13, 'JULIAN DAVID', 'ACEVEDO RODRIGUEZ', 1, '1052417176', 'davidacevedo@galqui.com', NULL, 'INGENIERO DE PROYECTOS I', 'davidacevedo', 1),
-(14, 'MARYI YULLIED', 'CELIS RIVERA', 1, '1069304404', 'rrhh@galqui.com', NULL, 'APRENDIZ SENA', '', 1),
-(15, 'DUVAN CAMILO', 'RIVERA ABRIL', 1, '1076240985', NULL, NULL, 'AUXILIAR LOGISTICO', '', 1),
-(16, 'ALEX HUMBERTO', 'OTALORA RIVERA', 1, '80096803', 'alexotalora@galqui.com', NULL, 'LIDER DE INGENIERIA Y DISEÑO', 'alexotalora', 1),
-(17, 'CAMILO ANDRES', 'MONCAYO URIBE', 1, '1100953829', 'camilomoncayo@galqui.com', NULL, 'LIDER DE PROYECTOS', 'camilomoncayo', 1),
-(18, 'JOSE GREGORIO', 'ROJAS SIERRA', 1, '80059515', 'joserojas@galqui.com', NULL, 'INGENIERO DE PLANEACION Y CONTROL II', 'joserojas', 1),
-(19, 'ANDREA PAOLA', 'LAVERDE GALINDO', 1, '1072426375', 'andrealaverde@galqui,com', NULL, 'AUXILIAR DE MATERIALES E INVENTARIO', 'andrealaverde', 1);
+(2, 'Prueba', 'Persona', 1, '1987654', 'persona@prueba.com', '305244cc2d9afd44b7ffc6bd96b605151739a5absGlaqs2%', 'Intento', 'prupersona', 1);
 
 -- --------------------------------------------------------
 
@@ -340,18 +245,7 @@ CREATE TABLE `perxpef` (
 INSERT INTO `perxpef` (`idper`, `idpef`) VALUES
 (1, 1),
 (1, 2),
-(2, 3),
-(14, 3),
-(4, 3),
-(5, 3),
-(6, 3),
-(15, 3),
-(8, 3),
-(16, 3),
-(17, 3),
-(18, 3),
-(19, 3),
-(13, 3);
+(2, 3);
 
 -- --------------------------------------------------------
 
@@ -360,7 +254,6 @@ INSERT INTO `perxpef` (`idper`, `idpef`) VALUES
 --
 
 CREATE TABLE `prgxequi` (
-  `idprxeq` bigint(11) NOT NULL,
   `idequ` bigint(11) NOT NULL,
   `idvprg` bigint(11) NOT NULL,
   `verprg` varchar(50) DEFAULT NULL
@@ -370,27 +263,6 @@ CREATE TABLE `prgxequi` (
 -- Volcado de datos para la tabla `prgxequi`
 --
 
-INSERT INTO `prgxequi` (`idprxeq`, `idequ`, `idvprg`, `verprg`) VALUES
-(21, 1, 27, '2016'),
-(22, 1, 33, '10'),
-(115, 4, 31, ''),
-(116, 4, 33, '10'),
-(209, 24, 27, '2016'),
-(210, 24, 33, '10'),
-(211, 25, 30, '2019'),
-(212, 25, 33, '10'),
-(213, 26, 29, '2016'),
-(214, 26, 33, '10'),
-(215, 27, 27, '2016'),
-(216, 27, 33, '10'),
-(217, 28, 27, '2016'),
-(218, 28, 33, '10'),
-(219, 29, 31, NULL),
-(220, 29, 33, '10'),
-(221, 30, 31, NULL),
-(222, 30, 33, '10'),
-(223, 31, 31, NULL),
-(224, 31, 33, '10');
 
 -- --------------------------------------------------------
 
@@ -411,42 +283,6 @@ CREATE TABLE `tarjeta` (
   `esttaj` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tarjeta`
---
-
-INSERT INTO `tarjeta` (`idtaj`, `numtajpar`, `numtajofi`, `idperent`, `idperrec`, `fecent`, `idperentd`, `idperrecd`, `fecdev`, `esttaj`) VALUES
-(3, '0002445012', '0001710650 026,06714', 1, 1, '2024-04-18', 1, 1, '2024-06-13', 2),
-(4, '10054587', '', 1, 2, '2024-06-13', 2, 1, '2024-06-14', 2),
-(7, '34534534', '5464654', 1, 1, '2024-06-14', 1, 1, '2024-06-14', 2),
-(8, '4545', NULL, 1, 2, '2024-06-14', 2, 1, '2024-06-13', 2),
-(9, NULL, '454452', 1, 1, NULL, 1, 1, '2024-06-15', 2),
-(10, NULL, '454452', 1, 1, '2024-06-13', 1, 1, '2024-06-15', 2),
-(11, '784551', '848151', 1, 2, '2024-04-30', 2, 1, '2024-06-15', 2),
-(12, '485455', '155651', 1, 1, '2024-06-17', 1, 1, '2024-06-18', 2),
-(13, '485455', '155651', 1, 1, '2024-06-17', 1, 1, '2024-06-18', 2),
-(14, '485455', '155651', 1, 1, '2024-06-17', 1, 1, '2024-06-18', 2),
-(15, '32424', '32454434', 1, 2, '2024-06-17', 2, 1, '2024-06-18', 2),
-(16, '8484', '1212', 1, 2, '2024-06-17', 2, 1, '2024-06-12', 2),
-(17, '435345', NULL, 1, 2, '2024-06-17', 2, 1, '2024-06-17', 2),
-(18, '345345', NULL, 1, 2, '2024-06-17', 2, 1, '2024-06-27', 2),
-(19, '89965', NULL, 1, 1, '2024-06-26', NULL, NULL, '0000-00-00', 1),
-(20, '61122515', NULL, 1, 2, '2024-07-03', NULL, NULL, NULL, 1),
-(21, '1452987847', NULL, 1, 6, '2024-07-09', NULL, NULL, NULL, 1),
-(22, '54241045', NULL, 1, 13, '2024-07-09', NULL, NULL, NULL, 1),
-(23, NULL, '0013708124 209,11100', 1, 17, '2024-06-27', NULL, NULL, NULL, 1),
-(24, '0003821203', '0013708124 209,11100', 1, 14, '2024-06-01', 14, 1, '2024-05-26', 2),
-(25, '0003820518', '0013307047 203,03239', 1, 4, '2023-11-27', NULL, NULL, NULL, 1),
-(26, '0003821082', '0013304288 203,00480', 1, 18, '2023-11-14', NULL, NULL, NULL, 1),
-(27, '0002445421', NULL, 1, 15, '2024-06-11', NULL, NULL, NULL, 1),
-(28, '0011967453', '4545987', 1, 8, '2024-06-24', NULL, NULL, NULL, 1),
-(29, '0003112012', NULL, 1, 6, '2024-06-19', 6, 1, '2024-07-08', 2),
-(30, '0012407026 189,20722', '0001802290 027,32818', 1, 5, '2024-06-20', 5, 1, '2024-07-09', 2),
-(31, '0003111906', NULL, 1, 17, '2023-08-08', 17, 1, '2024-07-08', 2),
-(32, '87979856465', '12565152', 1, 19, '2023-08-29', NULL, NULL, NULL, 1),
-(33, NULL, '10221 , 548959', 1, 13, '2023-10-10', 13, 1, '2024-05-20', 2),
-(34, '894897956', '56544', 1, 15, '2024-07-11', NULL, NULL, NULL, 1),
-(35, '330321865', NULL, 1, 16, '2023-08-12', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -585,7 +421,6 @@ ALTER TABLE `perxpef`
 -- Indices de la tabla `prgxequi`
 --
 ALTER TABLE `prgxequi`
-  ADD PRIMARY KEY (`idprxeq`),
   ADD KEY `idequ` (`idequ`),
   ADD KEY `idvprg` (`idvprg`);
 
@@ -615,73 +450,67 @@ ALTER TABLE `valor`
 -- AUTO_INCREMENT de la tabla `asignar`
 --
 ALTER TABLE `asignar`
-  MODIFY `ideqxpr` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ideqxpr` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `dominio`
 --
 ALTER TABLE `dominio`
-  MODIFY `iddom` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `iddom` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `equipo`
 --
 ALTER TABLE `equipo`
-  MODIFY `idequ` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `idequ` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `idmod` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idmod` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `pagina`
 --
 ALTER TABLE `pagina`
-  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `pagxpef`
 --
 ALTER TABLE `pagxpef`
-  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `perfil`
 --
 ALTER TABLE `perfil`
-  MODIFY `idpef` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idpef` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `perxpef`
 --
 ALTER TABLE `perxpef`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT de la tabla `prgxequi`
---
-ALTER TABLE `prgxequi`
-  MODIFY `idprxeq` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `tarjeta`
 --
 ALTER TABLE `tarjeta`
-  MODIFY `idtaj` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `idtaj` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `valor`
 --
 ALTER TABLE `valor`
-  MODIFY `idval` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `idval` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Restricciones para tablas volcadas

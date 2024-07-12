@@ -74,6 +74,8 @@ include("models/seguridad.php");
 			titulo($rut[0]['icono'], $rut[0]['nompag'], $rut[0]['mospag'], $pg);
 			echo '<div id="err"></div>';
 			echo "<script>err();</script>";
+			echo '<div id="satf"></div>';
+			echo "<script>satf();</script>";
 			require_once($rut[0]['arcpag']);
 		} else {
 			// echo "<h1>Usted no tiene permisos, para ingresar a esta página. Comuníquese con su administrador</h1>";
