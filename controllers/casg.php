@@ -101,7 +101,7 @@
     }
 
     //------------Importar-----------
-    if ($ope=="cargm" && $arc) {
+    if ($ope=="cargme" && $arc) {
         $dat = opti($_FILES["arc"], $arc, "arc", "");
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
@@ -113,37 +113,42 @@
     		// obtengo el valor de la celda
             $idperrecd = NULL;
             $idperentd = NULL;
+            $idvacc = [];
             $masg->setIdperrecd($idperrecd);
             $masg->setIdperentd($idperentd);
     		$serialeq = $sheet->getCell("B" . $row)->getValue();
             $masg->setSerialeq($serialeq); 
             $idq = $masg->selectEqu(); 
-            $idequ = $idq[0]['idequ']; 
-    		$dpent = $sheet->getCell("C" . $row)->getValue();
+            $idequ = $idq[0]['idequ'];
+            foreach (range('C', 'G') AS $columnID){
+                $id = $sheet->getCell($columnID . $row)->getValue();
+                if($id) $idvacc[] = $id;
+            }
+    		$dpent = $sheet->getCell("H" . $row)->getValue();
             $masg->setNdper($dpent); 
             $idpent = $masg->selectUsu(); 
             $idperent = $idpent[0]['idper']; 
-            $dprec = $sheet->getCell("E" . $row)->getValue();
+            $dprec = $sheet->getCell("J" . $row)->getValue();
             $masg->setNdper($dprec); 
             $idprec = $masg->selectUsu(); 
-            $idperrec = $idprec[0]['idper']; 
-    		$fecent = $sheet->getCell("G" . $row)->getValue();
-    		$observ = $sheet->getCell("H" . $row)->getValue();
-            $fecdev = $sheet->getCell("M" . $row)->getValue();
+            $idperrec = $idprec[0]['idper'];
+    		$observ = $sheet->getCell("L" . $row)->getValue();
+    		$fecent = $sheet->getCell("M" . $row)->getValue();
+            $fecdev = $sheet->getCell("S" . $row)->getValue();
             if (is_numeric($fecent)) $fecent = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecent)->format('Y-m-d');
             if (is_numeric($fecdev)) $fecdev = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecdev)->format('Y-m-d');
             if($fecdev){
-    		    $dpentd = $sheet->getCell("I" . $row)->getValue();
+    		    $dpentd = $sheet->getCell("N" . $row)->getValue();
                 $masg->setNdper($dpentd); 
                 $idpentd = $masg->selectUsu(); 
                 $idperentd = $idpentd[0]['idper']; 
                 $masg->setIdperentd($idperentd);
-    		    $dprecd = $sheet->getCell("K" . $row)->getValue();
+    		    $dprecd = $sheet->getCell("P" . $row)->getValue();
                 $masg->setNdper($dprecd); 
                 $idprecd = $masg->selectUsu(); 
                 $idperrecd = $idprecd[0]['idper']; 
                 $masg->setIdperrecd($idperrecd);
-                $observd = $sheet->getCell("N" . $row)->getValue();
+                $observd = $sheet->getCell("R" . $row)->getValue();
             }
     		$estexp = ($fecdev) ? 2 : 1;
             $masg->setIdequ($idequ);
@@ -151,8 +156,6 @@
             $masg->setIdperrec($idperrec);
             $masg->setFecent($fecent);
             $masg->setFecdev($fecdev);
-            $masg->setNumcel($numcel);
-            $masg->setOpecel($opecel);
             $masg->setEstexp($estexp);
             $masg->setDifasg($nmfl);
             if($idequ && $estexp==2) $mequ->setActequ(1);
@@ -162,8 +165,18 @@
             $ideqxpr = $existingData[0]['ideqxpr'];
             $masg->setIdeqxpr($ideqxpr);
     		if (!empty($serialeq)) {
-    			if ($existingData[0]['sum'] == 0) $masg->saveAsgXls();
-    			else $masg->EditAsgXls();
+    			if ($existingData[0]['sum'] == 0){
+                    $masg->saveAsgXls();
+                    $id = $masg->getOneAsg($difasg);
+                    $ideqxpr = $id[0]['ideqxpr'];
+                } else $masg->EditAsgXls();
+                $masg->setIdeqxpr($ideqxpr);
+                if($ideqxpr) $masg->delAxE();
+                if($idvacc && $ideqxpr){ 
+                    foreach($idvacc AS $ida){
+                        $masg->setIdvacc($ida);
+                        $masg->saveAxE();
+                }}
     		}
     	}
         echo "<script>window.location='home.php?pg=".$pg."';</script>";

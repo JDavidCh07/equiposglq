@@ -437,12 +437,12 @@
 
         function selectAsg()
         {
-            $sql = "SELECT ideqxpr, idperrec, COUNT(*) AS sum FROM asignar WHERE serialeq=:serialeq AND idperrec=:idperrec";
+            $sql = "SELECT ideqxpr, idperrec, COUNT(*) AS sum FROM asignar WHERE idequ=:idequ AND idperrec=:idperrec";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
-            $serialeq = $this->getSerialeq();
-            $result->bindParam(":serialeq", $serialeq);
+            $idequ = $this->getIdequ();
+            $result->bindParam(":idequ", $idequ);
             $idperrec = $this->getIdperrec();
             $result->bindParam(":idperrec", $idperrec);
             $result->execute();
