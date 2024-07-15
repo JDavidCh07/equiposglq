@@ -228,11 +228,11 @@
     			else $mper->EditTajXls();
     		}else{
                 $reg = $row;
-                $row = $highestRow+1;
+                $row = $highestRow+5;
             }
     	}
-        if($row>$highestRow) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
+        if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
         else echo '<script>satf("Todos los datos han sido registrados con exito");</script>';
-        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 3000);</script>";
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
     }
 ?>

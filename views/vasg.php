@@ -37,13 +37,13 @@
                     <?php }} ?>
                 </select>
             </div>
-            <div <?php if($asg=="equ"){ echo 'class="form-group col-md-4 ui-widget"'; } else if($asg=="cel") { echo 'class="form-group col-md-6 ui-widget"'; }?>>
+            <div <?php if($asg=="equ") echo 'class="form-group col-md-4 ui-widget"'; else if($asg=="cel") echo 'class="form-group col-md-6 ui-widget"';?>>
                 <label for="idequ"><strong><?php if($asg=="equ") echo "Equipo"; else if($asg=="cel") echo "Celular";?>:</strong></label>
                 <select id="combobox2" name="idequ" class="form-control form-select" <?php if ($datOneA) echo 'disabled'; else echo 'required';?>>
                     <option value="0"></option>
                     <?php if ($datEqu) { foreach ($datEqu as $deq) { ?>
                             <option value="<?= $deq['idequ']; ?>" <?php if ($datOneA && $deq['idequ'] == $datOneA[0]['idequ']) echo " selected "; ?>>
-                                <?= $deq['serialeq']." - ".$deq['marca']." ".$deq['modelo']; ?>
+                                <?= $deq['serialeq']." - ".$deq['marca']." ".$deq['modelo']; ?>    
                             </option>
                     <?php }} ?>
                 </select>

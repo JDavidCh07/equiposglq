@@ -88,19 +88,19 @@
     //------------Traer valores-----------
 
     $datOpe = $masg->getAllOpe(9);
-    $datPer = $masg->getAllPer();
+    $datPer = $masg->getAllPer($ope);
     
     if($asg=="equ"){
         $datAllA = $masg->getAllAsig(52);
-        $datEqu = $masg->getAllEquDis(52);
+        $datEqu = $masg->getAllEquDis(52, $ope);
         $datAcc = $masg->getAllAcc(3);
     }else if($asg=="cel"){
         $datAllA = $masg->getAllAsig(54);
-        $datEqu = $masg->getAllEquDis(54);
+        $datEqu = $masg->getAllEquDis(54, $ope);
         $datAcc = $masg->getAllAcc(5);
     }
 
-    //------------Importar-----------
+    //------------Importar equipos asignados-----------
     if ($ope=="cargme" && $arc) {
         $dat = opti($_FILES["arc"], $arc, "arc", "");
     	$inputFileType = IOFactory::identify($dat);
@@ -111,9 +111,10 @@
     	$highestColumn = $sheet->getHighestColumn();
     	for ($row = 3; $row <= $highestRow; $row++) {
     		// obtengo el valor de la celda
+            $comp = 2;
+            $idvacc = [];
             $idperrecd = NULL;
             $idperentd = NULL;
-            $idvacc = [];
             $masg->setIdperrecd($idperrecd);
             $masg->setIdperentd($idperentd);
     		$serialeq = $sheet->getCell("B" . $row)->getValue();
@@ -149,6 +150,9 @@
                 $idperrecd = $idprecd[0]['idper']; 
                 $masg->setIdperrecd($idperrecd);
                 $observd = $sheet->getCell("R" . $row)->getValue();
+                if($idequ && $idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
+            }elseif(!$fecdev){
+                if($idequ && $idperent && $idperrec) $comp = 1;
             }
     		$estexp = ($fecdev) ? 2 : 1;
             $disfag = $nmfl;
@@ -159,27 +163,126 @@
             $masg->setFecdev($fecdev);
             $masg->setEstexp($estexp);
             $masg->setDifasg($disfag);
+            $mequ->setIdequ($idequ);
             if($idequ && $estexp==2) $mequ->setActequ(1);
             elseif($idequ && $estexp==1) $mequ->setActequ(2);
             $mequ->editAct(); 
     		$existingData = $masg->selectAsg();
             $ideqxpr = $existingData[0]['ideqxpr'];
             $masg->setIdeqxpr($ideqxpr);
-    		if (!empty($serialeq)) {
-    			if ($existingData[0]['sum'] == 0){
+    		if ($comp==1 && !empty($idequ)) {
+                if ($existingData[0]['sum'] == 0){
                     $masg->saveAsgXls();
                     $id = $masg->getOneAsg($disfag);
                     $ideqxpr = $id[0]['ideqxpr'];
+                    $masg->setIdeqxpr($ideqxpr);
                 } else $masg->EditAsgXls();
-                $masg->setIdeqxpr($ideqxpr);
                 if($ideqxpr) $masg->delAxE();
                 if($idvacc && $ideqxpr){ 
                     foreach($idvacc AS $ida){
                         $masg->setIdvacc($ida);
                         $masg->saveAxE();
                 }}
-    		}
-    	}
-        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+            }else{
+                $reg = $row;
+                $row = $highestRow+5;
+            }
+        }
+        if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito");</script>';
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
+    }
+
+    //------------Importar celulares asignados-----------
+    if ($ope=="cargmc" && $arc) {
+        $dat = opti($_FILES["arc"], $arc, "arc", "");
+    	$inputFileType = IOFactory::identify($dat);
+    	$objReader = IOFactory::createReader($inputFileType);
+    	$objPHPExcel = $objReader->load($dat);
+    	$sheet = $objPHPExcel->getSheet(0);
+    	$highestRow = $sheet->getHighestRow();
+    	$highestColumn = $sheet->getHighestColumn();
+    	for ($row = 3; $row <= $highestRow; $row++) {
+    		// obtengo el valor de la celda
+            $comp = 2;
+            $idvacc = [];
+            $idperrecd = NULL;
+            $idperentd = NULL;
+            $masg->setIdperrecd($idperrecd);
+            $masg->setIdperentd($idperentd);
+    		$serialeq = $sheet->getCell("B" . $row)->getValue();
+            $masg->setSerialeq($serialeq); 
+            $idq = $masg->selectEqu(); 
+            $idequ = $idq[0]['idequ'];
+            foreach (range('C', 'G') AS $columnID){
+                $id = $sheet->getCell($columnID . $row)->getValue();
+                if($id) $idvacc[] = $id;
+            }
+    		$dpent = $sheet->getCell("H" . $row)->getValue();
+            $masg->setNdper($dpent); 
+            $idpent = $masg->selectUsu(); 
+            $idperent = $idpent[0]['idper']; 
+            $dprec = $sheet->getCell("J" . $row)->getValue();
+            $masg->setNdper($dprec); 
+            $idprec = $masg->selectUsu(); 
+            $idperrec = $idprec[0]['idper'];
+    		$observ = $sheet->getCell("L" . $row)->getValue();
+    		$fecent = $sheet->getCell("M" . $row)->getValue();
+            $fecdev = $sheet->getCell("S" . $row)->getValue();
+            if (is_numeric($fecent)) $fecent = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecent)->format('Y-m-d');
+            if (is_numeric($fecdev)) $fecdev = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecdev)->format('Y-m-d');
+            if($fecdev){
+    		    $dpentd = $sheet->getCell("N" . $row)->getValue();
+                $masg->setNdper($dpentd); 
+                $idpentd = $masg->selectUsu(); 
+                $idperentd = $idpentd[0]['idper']; 
+                $masg->setIdperentd($idperentd);
+    		    $dprecd = $sheet->getCell("P" . $row)->getValue();
+                $masg->setNdper($dprecd); 
+                $idprecd = $masg->selectUsu(); 
+                $idperrecd = $idprecd[0]['idper']; 
+                $masg->setIdperrecd($idperrecd);
+                $observd = $sheet->getCell("R" . $row)->getValue();
+                if($idequ && $idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
+            }elseif(!$fecdev){
+                if($idequ && $idperent && $idperrec) $comp = 1;
+            }
+    		$estexp = ($fecdev) ? 2 : 1;
+            $disfag = $nmfl;
+            $masg->setIdequ($idequ);
+            $masg->setIdperent($idperent);
+            $masg->setIdperrec($idperrec);
+            $masg->setFecent($fecent);
+            $masg->setFecdev($fecdev);
+            $masg->setEstexp($estexp);
+            $masg->setDifasg($disfag);
+            $mequ->setIdequ($idequ);
+            if($idequ && $estexp==2) $mequ->setActequ(1);
+            elseif($idequ && $estexp==1) $mequ->setActequ(2);
+            $mequ->editAct(); 
+    		$existingData = $masg->selectAsg();
+            $ideqxpr = $existingData[0]['ideqxpr'];
+            $masg->setIdeqxpr($ideqxpr);
+    		if ($comp==1 && !empty($idequ)) {
+                if ($existingData[0]['sum'] == 0){
+                    $masg->saveAsgXls();
+                    $id = $masg->getOneAsg($disfag);
+                    $ideqxpr = $id[0]['ideqxpr'];
+                    $masg->setIdeqxpr($ideqxpr);
+                } else $masg->EditAsgXls();
+                if($ideqxpr) $masg->delAxE();
+                if($idvacc && $ideqxpr){ 
+                    foreach($idvacc AS $ida){
+                        $masg->setIdvacc($ida);
+                        $masg->saveAxE();
+                }}
+            }else{
+                $reg = $row;
+                $row = $highestRow+5;
+            }
+        }
+        if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito");</script>';
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
     }
 ?>
