@@ -101,7 +101,7 @@
     }
 
     //------------Importar equipos asignados-----------
-    if ($ope=="cargme" && $arc) {
+    if ($ope=="cargmea" && $arc) {
         $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
@@ -111,6 +111,7 @@
     	$highestColumn = $sheet->getHighestColumn();
     	for ($row = 3; $row <= $highestRow; $row++) {
     		// obtengo el valor de la celda
+            $acc = 0;
             $comp = 2;
             $idvacc = [];
             $idperrecd = NULL;
@@ -124,6 +125,12 @@
             foreach (range('C', 'G') AS $columnID){
                 $id = $sheet->getCell($columnID . $row)->getValue();
                 if($id) $idvacc[] = $id;
+            }
+            foreach ($idvacc AS $idv){
+                $masg->setIdvacc($idv); 
+                $idv = $masg->CompValAc();
+                $idv = $idv[0]['idval'];
+                if($idv) $acc++;
             }
     		$dpent = $sheet->getCell("H" . $row)->getValue();
             $masg->setNdper($dpent); 
@@ -150,9 +157,9 @@
                 $idperrecd = $idprecd[0]['idper']; 
                 $masg->setIdperrecd($idperrecd);
                 $observd = $sheet->getCell("R" . $row)->getValue();
-                if($idequ && $idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
+                if(count($idvacc)==$acc && $idequ && $idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
             }elseif(!$fecdev){
-                if($idequ && $idperent && $idperrec) $comp = 1;
+                if(count($idvacc)==$acc && $idequ && $idperent && $idperrec) $comp = 1;
             }
     		$estexp = ($fecdev) ? 2 : 1;
             $disfag = $nmfl;
@@ -189,12 +196,12 @@
             }
         }
         if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
-        else echo '<script>satf("Todos los datos han sido registrados con exito");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
         echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
     }
 
     //------------Importar celulares asignados-----------
-    if ($ope=="cargmc" && $arc) {
+    if ($ope=="cargmca" && $arc) {
         $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
@@ -212,37 +219,39 @@
             $masg->setIdperentd($idperentd);
     		$serialeq = $sheet->getCell("B" . $row)->getValue();
             $masg->setSerialeq($serialeq); 
+    		$numcel = $sheet->getCell("C" . $row)->getValue();
+    		$opecel = $sheet->getCell("D" . $row)->getValue();
             $idq = $masg->selectEqu(); 
             $idequ = $idq[0]['idequ'];
-            foreach (range('C', 'G') AS $columnID){
+            foreach (range('E', 'K') AS $columnID){
                 $id = $sheet->getCell($columnID . $row)->getValue();
                 if($id) $idvacc[] = $id;
             }
-    		$dpent = $sheet->getCell("H" . $row)->getValue();
+    		$dpent = $sheet->getCell("L" . $row)->getValue();
             $masg->setNdper($dpent); 
             $idpent = $masg->selectUsu(); 
             $idperent = $idpent[0]['idper']; 
-            $dprec = $sheet->getCell("J" . $row)->getValue();
+            $dprec = $sheet->getCell("N" . $row)->getValue();
             $masg->setNdper($dprec); 
             $idprec = $masg->selectUsu(); 
             $idperrec = $idprec[0]['idper'];
-    		$observ = $sheet->getCell("L" . $row)->getValue();
-    		$fecent = $sheet->getCell("M" . $row)->getValue();
-            $fecdev = $sheet->getCell("S" . $row)->getValue();
+    		$observ = $sheet->getCell("P" . $row)->getValue();
+    		$fecent = $sheet->getCell("Q" . $row)->getValue();
+            $fecdev = $sheet->getCell("W" . $row)->getValue();
             if (is_numeric($fecent)) $fecent = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecent)->format('Y-m-d');
             if (is_numeric($fecdev)) $fecdev = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecdev)->format('Y-m-d');
             if($fecdev){
-    		    $dpentd = $sheet->getCell("N" . $row)->getValue();
+    		    $dpentd = $sheet->getCell("R" . $row)->getValue();
                 $masg->setNdper($dpentd); 
                 $idpentd = $masg->selectUsu(); 
                 $idperentd = $idpentd[0]['idper']; 
                 $masg->setIdperentd($idperentd);
-    		    $dprecd = $sheet->getCell("P" . $row)->getValue();
+    		    $dprecd = $sheet->getCell("T" . $row)->getValue();
                 $masg->setNdper($dprecd); 
                 $idprecd = $masg->selectUsu(); 
                 $idperrecd = $idprecd[0]['idper']; 
                 $masg->setIdperrecd($idperrecd);
-                $observd = $sheet->getCell("R" . $row)->getValue();
+                $observd = $sheet->getCell("V" . $row)->getValue();
                 if($idequ && $idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
             }elseif(!$fecdev){
                 if($idequ && $idperent && $idperrec) $comp = 1;
@@ -282,7 +291,7 @@
             }
         }
         if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
-        else echo '<script>satf("Todos los datos han sido registrados con exito");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
         echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
     }
 ?>

@@ -14,8 +14,8 @@
     </a>
     </div>
     <div class="col-4" style="text-align: right;">
-        <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?><?=($asg=='equ') ? 'cargme' : 'cargmc'?>" title="Importar"></i>
-        <?php modalImp("mod", $pg, ($asg=="equ") ? "Equipos asignados" : "Celulares asignados", ($asg=="equ") ? "cargme" : "cargmc"); ?>
+        <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?><?=($asg=='equ') ? 'cargmea' : 'cargmca'?>" title="Importar"></i>
+        <?php modalImp("mod", $pg, ($asg=="equ") ? "Equipos asignados" : "Celulares asignados", ($asg=="equ") ? "cargmea" : "cargmca"); ?>
         <a href="excel/xasg.php" title="Exportar">
             <i class="fa fa-solid fa-file-export fa-2x ext"></i>
         </a>

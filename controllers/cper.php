@@ -131,12 +131,18 @@
     		$nomper = $sheet->getCell("B" . $row)->getValue();
     		$apeper = $sheet->getCell("C" . $row)->getValue();
             $idvtpd = $sheet->getCell("D" . $row)->getValue();
+            $mper->setIdvtpd($idvtpd); 
+            $idvtpd = $mper->CompValTp(); 
+            $idvtpd = $idvtpd[0]['idval'];
     		$ndper = $sheet->getCell("E" . $row)->getValue();
     		$emaper = $sheet->getCell("F" . $row)->getValue();
     		$cargo = $sheet->getCell("G" . $row)->getValue();
     		$usured = $sheet->getCell("H" . $row)->getValue();
     		$actper = $sheet->getCell("I" . $row)->getValue();
     		$idpef = $sheet->getCell("J" . $row)->getValue();
+            $mper->setIdpef($idpef); 
+            $idpef = $mper->CompPef();
+            $idpef = $idpef[0]['idpef'];
     		$pasper = NULL;
             $mper->setNomper($nomper);
             $mper->setApeper($apeper);
@@ -151,20 +157,27 @@
     		$existingData = $mper->selectUsu();
             $idper = $existingData[0]['idper'];
             $mper->setIdper($idper);
-    		if (!empty($ndper)) {
-    			if ($existingData[0]['sum'] == 0) {
-    				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
-    				$mper->save();
-                    $per = $mper->getOneSPxF($ndper); 
-                    $mper->savePxFAut($per[0]['idper'],$idpef);
-    			}else {
-    				$mper->edit();
-                    $mper->delPxF();
-                    $mper->savePxF();
-    			}
-    		}
+    		if ($idvtpd && $idpef) {
+    		    if (!empty($ndper)) {
+    		    	if ($existingData[0]['sum'] == 0) {
+    		    		// Datos ya existen, por lo tanto, actualiza en lugar de guardar
+    		    		$mper->save();
+                        $per = $mper->getOneSPxF($ndper); 
+                        $mper->savePxFAut($per[0]['idper'],$idpef);
+    		    	}else {
+    		    		$mper->edit();
+                        $mper->delPxF();
+                        $mper->savePxF();
+    		    	}
+                }
+    		}else{
+                $reg = $row;
+                $row = $highestRow+5;
+            }
     	}
-        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+        if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
     }
 
     //------------Importar tarjetas-----------
@@ -232,7 +245,7 @@
             }
     	}
         if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
-        else echo '<script>satf("Todos los datos han sido registrados con exito");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
         echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
     }
 ?>

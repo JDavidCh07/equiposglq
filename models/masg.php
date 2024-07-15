@@ -455,7 +455,7 @@
         }
 
         function selectEqu(){
-            $sql = "SELECT idequ, COUNT(*) AS sum FROM equipo WHERE serialeq=:serialeq AND actequ=1";
+            $sql = "SELECT idequ, COUNT(*) AS sum FROM equipo WHERE serialeq=:serialeq";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -473,6 +473,30 @@
             $result = $conexion->prepare($sql);
             $ndper=$this->getNdper();
             $result->bindParam(":ndper",$ndper);
+            $result->execute();
+            $res = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function CompValOp(){
+            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:opecel";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $opecel = $this->getOpecel();
+            $result->bindParam(":opecel", $opecel);
+            $result->execute();
+            $res = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
+        function CompValAc(){
+            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:idvacc";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idvacc = $this->getIdvacc();
+            $result->bindParam(":idvacc", $idvacc);
             $result->execute();
             $res = $result->fetchAll(PDO::FETCH_ASSOC);
             return $res;

@@ -83,7 +83,7 @@
     $dom = $mequ->getAllDom(6,7);
 
     //------------Importar-----------
-    if ($ope=="cargm" && $arc) {
+    if ($ope=="cargme" && $arc) {
         $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
@@ -100,16 +100,28 @@
             $serialeq = $sheet->getCell("D" . $row)->getValue();
     		$nomred = $sheet->getCell("E" . $row)->getValue();
     		$idvtpeq = $sheet->getCell("F" . $row)->getValue();
+            $mequ->setIdvtpeq($idvtpeq); 
+            $idvtpeq = $mequ->CompValTq(); 
+            $idvtpeq = $idvtpeq[0]['idval'];
     		$capgb = $sheet->getCell("G" . $row)->getValue();
     		$ram = $sheet->getCell("H" . $row)->getValue();
     		$procs = $sheet->getCell("I" . $row)->getValue();
     		$actequ = $sheet->getCell("J" . $row)->getValue();
     		$tipcon = $sheet->getCell("K" . $row)->getValue();
+            $mequ->setTipcon($tipcon); 
+            $tipcon = $mequ->CompValTc(); 
+            $tipcon = $tipcon[0]['idval'];
     		$pagequ = $sheet->getCell("L" . $row)->getValue();
             if($pagequ==52){
-    		    $idvprg[] = $sheet->getCell("M" . $row)->getValue();
+    		    $idvprg[0] = $sheet->getCell("M" . $row)->getValue();
+                $mequ->setIdvprg($idvprg[0]); 
+                $idvprg[0] = $mequ->CompValPrg(); 
+                $idvprg[0] = $idvprg[0][0]['idval'];
     		    $verprg[] = $sheet->getCell("N" . $row)->getValue();
-    		    $idvprg[] = $sheet->getCell("O" . $row)->getValue();
+    		    $idvprg[1] = $sheet->getCell("O" . $row)->getValue();
+                $mequ->setIdvprg($idvprg[1]); 
+                $idvprg[1] = $mequ->CompValPrg(); 
+                $idvprg[1] = $idvprg[1][0]['idval'];
     		    $verprg[] = $sheet->getCell("P" . $row)->getValue();
             }
     		$mequ->setMarca($marca);
@@ -124,28 +136,83 @@
             $mequ->setTipcon($tipcon);
             $mequ->setPagequ($pagequ);
     		$existingData = $mequ->selectEqu();
-    		if (!empty($serialeq)) {
-    			if ($existingData[0]['sum'] == 0) {
-    				// Datos ya existen, por lo tanto, actualiza en lugar de guardar
-    				$mequ->save();
-                    $existingData = $mequ->selectEqu();
-                    $idequ = $existingData[0]['idequ'];
-                    $mequ->setIdequ($idequ);
-    			}else {
-                    $idequ = $existingData[0]['idequ'];
-                    $mequ->setIdequ($idequ);
-    				$mequ->edit();
-                    $mequ->delPxE();
-    			}
-                if($idvprg && $pagequ==52){ foreach ($idvprg as $index=>$prg) {
-                    if($prg && $verprg){
-                        $mequ->setIdvprg($prg);
-                        $mequ->setVerprg($verprg[$index]);
-                        $mequ->savePxE();
-                    }
-                }}
-    		}
-    	}
-        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+    		if($idvtpeq && $tipcon && $idvprg[0] && $idvprg[1]){
+                if (!empty($serialeq)) {
+    			    if ($existingData[0]['sum'] == 0) {
+    			    	// Datos ya existen, por lo tanto, actualiza en lugar de guardar
+    			    	$mequ->save();
+                        $existingData = $mequ->selectEqu();
+                        $idequ = $existingData[0]['idequ'];
+                        $mequ->setIdequ($idequ);
+    			    }else {
+                        $idequ = $existingData[0]['idequ'];
+                        $mequ->setIdequ($idequ);
+    			    	$mequ->edit();
+                        $mequ->delPxE();
+    			    }
+                    if($idvprg && $pagequ==52){ foreach ($idvprg as $index=>$prg) {
+                        if($prg && $verprg){
+                            $mequ->setIdvprg($prg);
+                            $mequ->setVerprg($verprg[$index]);
+                            $mequ->savePxE();
+                        }
+                    }}}
+            }else{
+                $reg = $row;
+                $row = $highestRow+5;
+            }
+        }
+        if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
+    }
+    if ($ope=="cargmc" && $arc) {
+        $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
+    	$inputFileType = IOFactory::identify($dat);
+    	$objReader = IOFactory::createReader($inputFileType);
+    	$objPHPExcel = $objReader->load($dat);
+    	$sheet = $objPHPExcel->getSheet(0);
+    	$highestRow = $sheet->getHighestRow();
+    	$highestColumn = $sheet->getHighestColumn();
+    	for ($row = 3; $row <= $highestRow; $row++) {
+    		// obtengo el valor de la celda
+    		$marca = $sheet->getCell("B" . $row)->getValue();
+    		$modelo = $sheet->getCell("C" . $row)->getValue();
+            $serialeq = $sheet->getCell("D" . $row)->getValue();
+    		$capgb = $sheet->getCell("E" . $row)->getValue();
+    		$ram = $sheet->getCell("F" . $row)->getValue();
+    		$actequ = $sheet->getCell("G" . $row)->getValue();
+    		$tipcon = $sheet->getCell("H" . $row)->getValue();
+            $mequ->setTipcon($tipcon); 
+            $tipcon = $mequ->CompValTc(); 
+            $tipcon = $tipcon[0]['idval'];
+    		$pagequ = $sheet->getCell("I" . $row)->getValue();
+    		$mequ->setMarca($marca);
+            $mequ->setModelo($modelo);
+            $mequ->setSerialeq($serialeq);
+            $mequ->setNomred($nomred);
+            $mequ->setIdvtpeq($idvtpeq);
+            $mequ->setCapgb($capgb);
+            $mequ->setRam($ram);
+            $mequ->setProcs($procs);
+            $mequ->setActequ($actequ);
+            $mequ->setTipcon($tipcon);
+            $mequ->setPagequ($pagequ);
+    		$existingData = $mequ->selectEqu();
+            $idequ = $existingData[0]['idequ'];
+            $mequ->setIdequ($idequ);
+    		if($tipcon){
+                if (!empty($serialeq)) {
+    			    if ($existingData[0]['sum'] == 0) $mequ->save();
+    			    else $mequ->edit();
+                }
+            }else{
+                $reg = $row;
+                $row = $highestRow+5;
+            }
+        }
+        if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
+        else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
     }
 ?>
