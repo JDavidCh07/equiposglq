@@ -140,6 +140,7 @@
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
                                 ?>
+                                <i class="fa fa-solid fa-file-pdf iconi"></i>
                             </div>
                         </div>
                     </td>

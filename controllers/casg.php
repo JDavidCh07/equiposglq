@@ -102,7 +102,7 @@
 
     //------------Importar equipos asignados-----------
     if ($ope=="cargme" && $arc) {
-        $dat = opti($_FILES["arc"], $arc, "arc", "");
+        $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
     	$objPHPExcel = $objReader->load($dat);
@@ -195,7 +195,7 @@
 
     //------------Importar celulares asignados-----------
     if ($ope=="cargmc" && $arc) {
-        $dat = opti($_FILES["arc"], $arc, "arc", "");
+        $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
     	$objPHPExcel = $objReader->load($dat);

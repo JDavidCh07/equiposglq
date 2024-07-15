@@ -84,7 +84,7 @@
 
     //------------Importar-----------
     if ($ope=="cargm" && $arc) {
-        $dat = opti($_FILES["arc"], $arc, "arc", "");
+        $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
     	$objPHPExcel = $objReader->load($dat);
