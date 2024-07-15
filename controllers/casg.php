@@ -177,11 +177,13 @@
     		$existingData = $masg->selectAsg();
             $ideqxpr = $existingData[0]['ideqxpr'];
             $masg->setIdeqxpr($ideqxpr);
+            var_dump($ideqxpr);
     		if ($comp==1 && !empty($idequ)) {
                 if ($existingData[0]['sum'] == 0){
                     $masg->saveAsgXls();
                     $id = $masg->getOneAsg($disfag);
                     $ideqxpr = $id[0]['ideqxpr'];
+                    var_dump($ideqxpr);
                     $masg->setIdeqxpr($ideqxpr);
                 } else $masg->EditAsgXls();
                 if($ideqxpr) $masg->delAxE();
@@ -194,7 +196,9 @@
                 $reg = $row;
                 $row = $highestRow+5;
             }
+            // Corregir que solo guarda el primer ideqxpr
         }
+        die;
         if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
         else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
         echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
