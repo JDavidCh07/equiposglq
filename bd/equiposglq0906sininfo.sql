@@ -336,8 +336,9 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (35, 801, 'Preventivo', 8, 1),
 (36, 802, 'Correctivo', 8, 1),
 (37, 803, 'Predictivo', 8, 1),
-(38, 901, 'Claro', 9, 1),
-(39, 902, 'Movistar', 9, 1);
+(38, 901, 'N/A', 9, 1),
+(39, 902, 'Claro', 9, 1),
+(40, 903, 'Movistar', 9, 1);
 
 --
 -- Índices para tablas volcadas

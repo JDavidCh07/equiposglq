@@ -151,13 +151,13 @@ function modalDet($nm, $id, $prgs, $info){
 }
 
 //------------Modal vasg, devolucion-----------
-function modalDev($nm, $id, $acc, $det, $pg){
+function modalDev($nm, $id, $acc, $det, $pg, $asg){
 	$hoy = date("Y-m-d");
 	$pasmañ = date("Y-m-d", strtotime($hoy . ' +3 day'));
 	$txt = '';
-	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+	$txt .= '<div class="modal fade" id="'.$nm.$id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
-			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
+			$txt .= '<form action="home.php?pg='.$pg.'&asg='.$asg.'" method="POST">';
 				$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';
 						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Datos Asignación</strong></h1>';
@@ -179,15 +179,14 @@ function modalDev($nm, $id, $acc, $det, $pg){
 									$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
 								}}
 							$txt .= '<strong><br>Devolución:</strong><hr>';
-							$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
-								$txt .= '<div class="form-group col-md-6">';
-									$txt .= '<label for="fecdev" class="titulo"><strong>F. Devolución: </strong></label>';
-									$txt .= '<input class="form-control" max='.$pasmañ.' type="date" id="fecdev" name="fecdev" value="'.$hoy.'" required>';
-								$txt .= '</div>';
-								$txt .= '<div class="form-group col-md-12">';
-									$txt .= '<label for="observd" class="titulo"><strong>Observaciones: </strong></label>';
-									$txt .= '<textarea class="form-control" type="text" id="observd" name="observd" required></textarea>';
-								$txt .= '</div>';
+							$txt .= '<div class="form-group col-md-6">';
+								$txt .= '<label for="fecdev" class="titulo"><strong>F. Devolución: </strong></label>';
+								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecdev" name="fecdev" value="'.$hoy.'" required>';
+							$txt .= '</div>';
+							$txt .= '<div class="form-group col-md-12">';
+								$txt .= '<label for="observd" class="titulo"><strong>Observaciones: </strong></label>';
+								$txt .= '<textarea class="form-control" type="text" id="observd" name="observd" required></textarea>';
+							$txt .= '</div>';
 						$txt .= '</div>';
 					$txt .= '</div>';
 					$txt .= '<br><div class="modal-footer">';
@@ -225,7 +224,10 @@ function modalInfAsg($nm, $id, $prgs, $acc, $det, $asg){
 						}}
 						if($asg=="cel"){
 							$txt .= '<big><strong>Plan</strong></big><hr>';
-							$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>'.$det[0]["numcel"].'</div>';
+							$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>';
+								if($det[0]["numcel"]!=0) $txt .= $det[0]["numcel"];
+								else $txt .= 'N/A';
+							$txt .= '</div>';
 							$txt .= '<div class="form-group col-md-6"><strong>Operador: </strong>'.$det[0]["operador"].'</div>';
 						}
 						if($acc){
@@ -346,14 +348,14 @@ function modalTj($nm, $id, $perent, $pg){
 							$txt .= '</div> ';
 							$txt .= '<div class="form-group col-md-6" style="text-align: left;">';
 								$txt .= '<label for="fecent" class="titulo"><strong>F. Entrega</strong></label>';
-								$txt .= '<input class="form-control" max='.$pasmañ.' type="date" id="fecent" name="fecent"';
+								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecent" name="fecent"';
 									if ($dtj && $dtj[0]['fecent']) $txt .= ' value="'.$dtj[0]['fecent'].'" disabled';
 									else $txt .= ' value="'.$hoy.'" required';
 								$txt .= '>';
 							$txt .= '</div> ';
 							$txt .= '<div class="form-group col-md-6" style="text-align: left;">';
 								$txt .= '<label for="fecdev" class="titulo"><strong>F. Devolución</strong></label>';
-								$txt .= '<input class="form-control" max='.$pasmañ.' type="date" id="fecdev" name="fecdev"';
+								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecdev" name="fecdev"';
 									if(!$dtj) $txt .= ' disabled';
 								$txt .= '>';
 							$txt .= '</div>';
@@ -403,12 +405,12 @@ function modalTj($nm, $id, $perent, $pg){
 }
 
 //------------Modal Exportar, vper/vasg/vequ-----------
-function modalImp($nm, $pg, $tit, $ope){
+function modalImp($nm, $pg, $tit, $ope, $asg){
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $pg . $ope.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<form action="home.php?pg=';
-			if($pg==51) $txt .= 51;
+			if($pg==51) $txt .= '51&asg='.$asg;
 			elseif($pg==52) $txt .= 52;
 			elseif($pg==53) $txt .= 53;
 			elseif($pg==54) $txt .= 54;

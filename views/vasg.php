@@ -15,7 +15,7 @@
     </div>
     <div class="col-4" style="text-align: right;">
         <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?><?=($asg=='equ') ? 'cargmea' : 'cargmca'?>" title="Importar"></i>
-        <?php modalImp("mod", $pg, ($asg=="equ") ? "Equipos asignados" : "Celulares asignados", ($asg=="equ") ? "cargmea" : "cargmca"); ?>
+        <?php modalImp("mod", $pg, ($asg=="equ") ? "Equipos asignados" : "Celulares asignados", ($asg=="equ") ? "cargmea" : "cargmca", $asg)?>
         <a href="excel/xasg.php" title="Exportar">
             <i class="fa fa-solid fa-file-export fa-2x ext"></i>
         </a>
@@ -64,6 +64,7 @@
                     </select>
                 </div>
             <?php } ?>
+            <option value="0"></option>
             <div class="form-group col-md-4">
                 <label for="fecent"><strong>F. Entrega:</strong></label>
                 <input class="form-control" type="date" id="fecent" name="fecent" max=<?php echo $hoy;?> <?php if ($datOneA) echo 'value="'.$datOneA[0]['fecent'].'" disabled'; else echo 'value="'.$hoy.'" required';?>>
@@ -160,7 +161,7 @@
                                 $masg->setIdeqxpr($dta['ideqxpr']);
                                 $acc = $masg->getAllAxE($dta['ideqxpr']);
                                 $det = $masg->getOne();
-                                modalDev("mcbdev", $dta['ideqxpr'], $acc, $det, $pg);
+                                modalDev("mcbdev", $dta['ideqxpr'], $acc, $det, $pg, $asg);
                             ?>
                             <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
                                 <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>

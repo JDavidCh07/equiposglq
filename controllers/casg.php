@@ -64,7 +64,7 @@
             $masg->setIdvacc($ida);
             $masg->saveAxE();
         }}
-        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+        echo "<script>window.location='home.php?pg=".$pg."&asg=".$asg."';</script>";
     }
 
     if($ope=="dev" && $ideqxpr && $idequ){
@@ -77,7 +77,7 @@
         $mequ->setIdequ($idequ);
         $mequ->setActequ(1);
         $mequ->editAct();
-        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+        echo "<script>window.location='home.php?pg=".$pg."&asg=".$asg."';</script>";
     }
 
     if($ope=="edi" && $ideqxpr) {
@@ -177,13 +177,11 @@
     		$existingData = $masg->selectAsg();
             $ideqxpr = $existingData[0]['ideqxpr'];
             $masg->setIdeqxpr($ideqxpr);
-            var_dump($ideqxpr);
     		if ($comp==1 && !empty($idequ)) {
                 if ($existingData[0]['sum'] == 0){
                     $masg->saveAsgXls();
-                    $id = $masg->getOneAsg($disfag);
+                    $id = $masg->selectAsg();
                     $ideqxpr = $id[0]['ideqxpr'];
-                    var_dump($ideqxpr);
                     $masg->setIdeqxpr($ideqxpr);
                 } else $masg->EditAsgXls();
                 if($ideqxpr) $masg->delAxE();
@@ -196,12 +194,11 @@
                 $reg = $row;
                 $row = $highestRow+5;
             }
-            // Corregir que solo guarda el primer ideqxpr
+            $nmfl++;
         }
-        die;
         if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
         else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
-        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."&asg=".$asg."';}, 7000);</script>";
     }
 
     //------------Importar celulares asignados-----------
@@ -215,6 +212,7 @@
     	$highestColumn = $sheet->getHighestColumn();
     	for ($row = 3; $row <= $highestRow; $row++) {
     		// obtengo el valor de la celda
+            $acc = 0;
             $comp = 2;
             $idvacc = [];
             $idperrecd = NULL;
@@ -223,13 +221,22 @@
             $masg->setIdperentd($idperentd);
     		$serialeq = $sheet->getCell("B" . $row)->getValue();
             $masg->setSerialeq($serialeq); 
-    		$numcel = $sheet->getCell("C" . $row)->getValue();
-    		$opecel = $sheet->getCell("D" . $row)->getValue();
             $idq = $masg->selectEqu(); 
             $idequ = $idq[0]['idequ'];
+    		$numcel = $sheet->getCell("C" . $row)->getValue();
+    		$opecel = $sheet->getCell("D" . $row)->getValue();
+            $masg->setOpecel($opecel); 
+            $idop = $masg->CompValOp(); 
+            $opecel = $idop[0]['idval'];
             foreach (range('E', 'K') AS $columnID){
                 $id = $sheet->getCell($columnID . $row)->getValue();
                 if($id) $idvacc[] = $id;
+            }
+            foreach ($idvacc AS $idv){
+                $masg->setIdvacc($idv); 
+                $idv = $masg->CompValAc();
+                $idv = $idv[0]['idval'];
+                if($idv) $acc++;
             }
     		$dpent = $sheet->getCell("L" . $row)->getValue();
             $masg->setNdper($dpent); 
@@ -256,9 +263,9 @@
                 $idperrecd = $idprecd[0]['idper']; 
                 $masg->setIdperrecd($idperrecd);
                 $observd = $sheet->getCell("V" . $row)->getValue();
-                if($idequ && $idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
+                if(count($idvacc)==$acc && $opecel && $idequ && $idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
             }elseif(!$fecdev){
-                if($idequ && $idperent && $idperrec) $comp = 1;
+                if(count($idvacc)==$acc && $opecel && $idequ && $idperent && $idperrec) $comp = 1;
             }
     		$estexp = ($fecdev) ? 2 : 1;
             $disfag = $nmfl;
@@ -267,6 +274,8 @@
             $masg->setIdperrec($idperrec);
             $masg->setFecent($fecent);
             $masg->setFecdev($fecdev);
+            $masg->setNumcel($numcel);
+            $masg->setOpecel($opecel);
             $masg->setEstexp($estexp);
             $masg->setDifasg($disfag);
             $mequ->setIdequ($idequ);
@@ -279,7 +288,7 @@
     		if ($comp==1 && !empty($idequ)) {
                 if ($existingData[0]['sum'] == 0){
                     $masg->saveAsgXls();
-                    $id = $masg->getOneAsg($disfag);
+                    $id = $masg->selectAsg();
                     $ideqxpr = $id[0]['ideqxpr'];
                     $masg->setIdeqxpr($ideqxpr);
                 } else $masg->EditAsgXls();
@@ -293,9 +302,10 @@
                 $reg = $row;
                 $row = $highestRow+5;
             }
+            $nmfl++;
         }
         if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
         else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
-        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."&asg=".$asg."';}, 7000);</script>";
     }
 ?>
