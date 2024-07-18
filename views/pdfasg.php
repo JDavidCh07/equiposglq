@@ -44,8 +44,8 @@ $html = '';
 <table>
     <tbody>
         <tr>
-            <td colspan="3" rowspan="3"><img src="'.$imagenBase64.'" alt="Logo GALQUI SAS"></td>
-            <td colspan="6" rowspan="3"><strong>FORMATO REGISTRO DE EQUIPOS Y ELEMENTOS</strong></td>
+            <td colspan="4" rowspan="4"><img src="'.$imagenBase64.'" alt="Logo GALQUI SAS"></td>
+            <td colspan="6" rowspan="4"><strong>FORMATO REGISTRO DE EQUIPOS Y ELEMENTOS</strong></td>
             <td colspan="4"><strong>Código: GAL-RH-FR-26</strong></td>
         </tr>
         <tr>
@@ -53,6 +53,9 @@ $html = '';
         </tr>
         <tr>
             <td colspan="4"><strong>Fecha: 13/02/2024</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>Página: 1 de 1</strong></td>
         </tr>
         <tr>
             <td colspan="14"><strong>DATOS DEL TRABAJADOR</strong></td>
@@ -73,14 +76,21 @@ $html = '';
             <td colspan="4"><strong>CARGO</strong></td>
         </tr>
         <tr>
-            <td colspan="10">'.$det['cprec'].'</td>
+            <td colspan="10">.'$det['cprec'].'</td>
         </tr>
         <tr>
             <td colspan="4"><strong>CORREO CORPORATIVO</strong></td>
         </tr>
         <tr>
-            <td colspan="10">'.$det['eprec'].'</td>
+            <td colspan="10">'
+                if($det['eprec']) $html .= $det['eprec'];
+                else $html .= 'N/A';
+            </td>
         </tr>
+        if($pg==52){
+            
+        }elseif($pg==52){
 
+        }
     </tbody>
 </table>
