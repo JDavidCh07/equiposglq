@@ -38,10 +38,7 @@
 </div>
 <style>
 	.secmod {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 30px;
-		width: 70%;
+		display: flex;
 		margin: auto;
 		justify-content: center;
 		align-items: center;
@@ -80,11 +77,8 @@
 
 	@media screen and (max-width: 600px) {
 		.secmod {
-			display: inline-block;
-			justify-content: center;
-			align-items: center;
-			text-align: center;
 			width: 100%;
+			flex-direction: column;
 		}
 
 		.modulo,
@@ -95,5 +89,3 @@
 
 	}
 </style>
-
-<!-- <a href="home.php">Home</a> -->
