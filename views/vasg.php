@@ -141,7 +141,9 @@
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
                                 ?>
-                                <i class="fa fa-solid fa-file-pdf iconi"></i>
+                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>&pdf=12345" title="Imprimir PDF" target="_blank">
+                                    <i class="fa fa-solid fa-file-pdf iconi"></i>
+                                </a>
                             </div>
                         </div>
                     </td>
