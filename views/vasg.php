@@ -6,12 +6,12 @@
 
 <div class="row">
     <div class="col-8">
-    <a href="home.php?pg=51&asg=equ" title="Equipo">
-        <i class="fa fa-solid fa-laptop fa-2x iconi"></i>
-    </a>
-    <a href="home.php?pg=51&asg=cel" title="Celular">
-        <i class="fa fa-solid fa-mobile fa-2x iconi"></i>
-    </a>
+        <a href="home.php?pg=51&asg=equ" title="Equipo">
+            <i class="fa fa-solid fa-laptop fa-2x iconi"></i>
+        </a>
+        <a href="home.php?pg=51&asg=cel" title="Celular">
+            <i class="fa fa-solid fa-mobile fa-2x iconi"></i>
+        </a>
     </div>
     <div class="col-4" style="text-align: right;">
         <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?><?=($asg=='equ') ? 'cargmea' : 'cargmca'?>" title="Importar"></i>
@@ -21,7 +21,6 @@
         </a>
     </div>
 </div>
-
 
 <?php if($asg){ ?>
     <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
@@ -141,7 +140,7 @@
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
                                 ?>
-                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>&pdf=12345" title="Imprimir PDF" target="_blank">
+                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Imprimir PDF" target="_blank">
                                     <i class="fa fa-solid fa-file-pdf iconi"></i>
                                 </a>
                             </div>
