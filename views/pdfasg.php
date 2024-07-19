@@ -1,10 +1,10 @@
 <?php
-
-echo "<script>window.close();</script>";
 require_once ("../models/seguridad.php");
 require_once ('../models/conexion.php');
 require_once ('../models/masg.php');
 require_once ('../models/mequ.php');
+require_once ('../sendemail.php');
+include("../models/datos.php");
 
 require ('../vendor/autoload.php');
 
@@ -301,13 +301,14 @@ $html .= '
 if($ideqxpr){
     $fold = '../arc/pdf/'.$det['prec'].'_'.$det['dprec'].'/';
     $name = $n.$det['serialeq']."_".$det['prec'].".pdf";
-    
+
     $dompdf->loadHtml($html);
     $dompdf->setPaper('Letter', 'portrait');
     $dompdf->render();
-    // $dompdf->stream("A_".$det['prec']."_".$det['serialeq'].".pdf");
     if (!file_exists($fold)) mkdir($fold, 0755, true);
     $file_path = $fold.$name;
     file_put_contents($file_path, $dompdf->output());
+    sendemail($ema, $psem, $det['eprec'], $file_path);
 }
+
 ?>
