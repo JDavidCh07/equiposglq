@@ -21,6 +21,7 @@ $masg = new Masg();
 $mequ = new Mequ();
 
 $ideqxpr = isset($_REQUEST['ideqxpr']) ? $_REQUEST['ideqxpr']:NULL;
+
 $logo = "../img/logoynombre.png";
 $imagenBase64 = "data:image/png;base64,".base64_encode(file_get_contents($logo));
 

@@ -63,7 +63,6 @@
                     </select>
                 </div>
             <?php } ?>
-            <option value="0"></option>
             <div class="form-group col-md-4">
                 <label for="fecent"><strong>F. Entrega:</strong></label>
                 <input class="form-control" type="date" id="fecent" name="fecent" max=<?php echo $hoy;?> <?php if ($datOneA) echo 'value="'.$datOneA[0]['fecent'].'" disabled'; else echo 'value="'.$hoy.'" required';?>>
@@ -140,9 +139,10 @@
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
                                 ?>
-                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Imprimir PDF" target="_blank">
+                                <i class="fa fa-solid fa-pen-clip iconi"></i>
+                                <!-- <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Imprimir PDF" target="_blank">
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </td>
