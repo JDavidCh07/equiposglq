@@ -281,6 +281,10 @@ a {
   padding: 25px;
 }
 
+#mov {
+  display: none;
+}
+
 .imgnomper {
   display: flex;
   align-items: center;
@@ -816,13 +820,7 @@ a:hover {
 
   .contenido-login {
     justify-content: center;
-  }
-
-  .logocabe {
-    /* width: 175px; */
-    height: 70px;
-    padding: 15px;
-  }
+  }  
 
   .contenido-login img {
     height: 70px;
@@ -850,11 +848,27 @@ a:hover {
   .col {
     width: 100%;
   }
+
+  
+
 }
 
 /* Estilos para pantallas más pequeñas (móvil) */
 @media (max-width: 576px) {
   .card {
     width: 100%;
+  }
+
+  .logocabe {
+    /* width: 175px; */
+    height: 100px;
+    padding: 10px;
+  }
+
+  #mov {
+    display: block;
+  }
+  #pc {
+    display: none;
   }
 }

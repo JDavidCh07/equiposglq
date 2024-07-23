@@ -88,7 +88,8 @@ require_once('controllers/cper.php');
                 <td>
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <BIG><strong><?= $dta['nomval'].". ".$dta['ndper']." - ".$dta['apeper']." ".$dta['nomper'] ?></strong></BIG>
+                            <BIG><strong><?= $dta['apeper']." ".$dta['nomper'] ?><br></strong></BIG>
+                            <strong><?=$dta['nomval'].". ".$dta['ndper']?></strong>
                             <small>
                                 <?php if ($dta['emaper']) { ?>
                                     <div class="form-group col-md-12">

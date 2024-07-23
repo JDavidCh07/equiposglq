@@ -4,13 +4,18 @@
 			<?php if ($_SESSION["idpef"]) { ?>
 				<div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i></div>
 			<?php } ?>
-			<div><a href="pmod.php"><img class="logocabe" src="img/logoynombre.png" alt=""></a></div>
+			<div>
+				<a href="pmod.php">
+					<img class="logocabe" id="pc" src="img/logoynombre.png" alt="Logo GALQUI SAS">
+					<img class="logocabe" id="mov" src="img/logo.png" alt="Logo GALQUI SAS">
+			</a>
+			</div>
 			<div class="imgnomper">
 				<a href="" style="display: grid; grid-template-columns: max-content max-content; color: #073663;">
 					<div class="headernom">
-						<?= $_SESSION["nomper"] . " " . $_SESSION["apeper"]; ?>
+						<small><?= strstr($_SESSION["nomper"], " ",true) . " " . strstr($_SESSION["apeper"], " ",true); ?>
 						<br>
-						<small><small><?= $_SESSION["cargo"]; ?></small></small>
+						<small><small><?= $_SESSION["cargo"]; ?></small></small></small>
 					</div>
 					<i class="fa fa-solid fa-user fa-2x"></i>
 				</a>

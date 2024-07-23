@@ -46,8 +46,7 @@
 		height: 500px;
 	}
 
-	.modulo,
-	.modulo1 {
+	.modulo{
 		background-color: rgba(255, 255, 255, 0.8);
 		padding: 15px;
 		border-radius: 30px;
@@ -57,6 +56,10 @@
 		box-shadow: 0 4px 10px rgba(7, 54, 99, 0.2);
 		border: none;
 		width: 80%;
+	}
+
+	.modulo1{
+		display: none;
 	}
 
 	.logmod {
