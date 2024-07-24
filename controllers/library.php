@@ -165,8 +165,13 @@ function modalFir($nm, $id, $det, $pg, $asg){
 						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-body" style="text-align: left;">';
-						$txt .= '<canvas id="signature-pad"></canvas>';
-						$txt .= '<div id="image-info"></div>';
+						$txt .= '<div style="text-align: center;">';
+							$txt .= '<canvas id="signature-pad"></canvas>';
+							$txt .= '<div id="image-info"></div>';
+						$txt .= '</div>';
+						$txt .= '<div style="text-align: left;">';
+							$txt .= '<small><small><br>*Por favor, asegúrese de subir únicamente archivos con extensión .xls o .xlsx. Estos formatos son específicos de archivos de Excel y son necesarios para garantizar la correcta lectura y procesamiento de los datos.</small></small>';
+						$txt .= '</div>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
 						$txt .= '<button type="submit" id="save-button" class="btn btn-primary btnmd">Guardar</button>';
@@ -179,9 +184,9 @@ function modalFir($nm, $id, $det, $pg, $asg){
 		$txt .= '</div>';
 	$txt .= '</div>';
 	$txt .= '<style>#signature-pad {
-            border: 1px solid #000;
-            width: 100%;
-            height: 200px;
+            border-bottom: 1px solid #000;
+            width: 80%;
+            height: 100px;
         }</style>';
 	echo $txt;
 }

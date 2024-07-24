@@ -79,17 +79,6 @@
                 <label for="observ"><strong>Observaciones entrega:</strong></label>
                 <textarea class="form-control" type="text" id="observ" name="observ" <?php if ($datOneA) echo 'required';?>><?php if ($datOneA) echo $datOneA[0]['observ']; ?></textarea>
             </div>
-            <style>
-        #signature-pad {
-            border: 1px solid #000;
-            width: 400px;
-            height: 200px;
-        }
-    </style>
-            <canvas id="signature-pad"></canvas>
-    <button id="limpiar">Limpiar</button>
-    <button id="save-button">Guardar</button>
-    <div id="image-info"></div>
             <div class="form-group col-md-12" id="boxbtn">
                 <br><br>
                 <input class="btn btn-primary" type="submit" value="Registrar">
