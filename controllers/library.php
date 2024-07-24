@@ -150,10 +150,45 @@ function modalDet($nm, $id, $prgs, $info){
 	echo $txt;
 }
 
+//------------Modal vasg, firma-----------
+function modalFir($nm, $id, $det, $pg, $asg){
+	$txt = '';
+	$txt .= '<div class="modal fade" id="'.$nm.$id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<form action="home.php?pg='.$pg.'&asg='.$asg.'" method="POST">';
+				$txt .= '<div class="modal-content">';
+					$txt .= '<div class="modal-header">';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>';
+							if(!$det[0]['firent']) $txt .= $det[0]['prec'];
+							if($det[0]['firent']) $txt .= $det[0]['pentd'];
+						$txt .= '</strong></h1>';
+						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-body" style="text-align: left;">';
+						$txt .= '<canvas id="signature-pad"></canvas>';
+						$txt .= '<div id="image-info"></div>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-footer">';
+						$txt .= '<button type="submit" id="save-button" class="btn btn-primary btnmd">Guardar</button>';
+						$txt .= '<button id="clear-button" class="btn btn-primary btnmd">Limpiar</button>';
+						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+					$txt .= '</div>';
+				$txt .= '</div>';
+				$txt .= '</div>';
+			$txt .= '</form>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	$txt .= '<style>#signature-pad {
+            border: 1px solid #000;
+            width: 100%;
+            height: 200px;
+        }</style>';
+	echo $txt;
+}
+
 //------------Modal vasg, devolucion-----------
 function modalDev($nm, $id, $acc, $det, $pg, $asg){
 	$hoy = date("Y-m-d");
-	$pasmañ = date("Y-m-d", strtotime($hoy . ' +3 day'));
 	$txt = '';
 	$txt .= '<div class="modal fade" id="'.$nm.$id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
@@ -170,8 +205,8 @@ function modalDev($nm, $id, $acc, $det, $pg, $asg){
 							$txt .= '<div class="form-group col-md-8">'.$det[0]['prec'].' - '.$det[0]['cprec'].'</div>';
 							$txt .= '<div class="form-group col-md-4"><strong>Equipo:</strong></div>';
 							$txt .= '<div class="form-group col-md-8">';
-								if($det[0]['idvtpeq']!=8) $txt .= $det[0]['tpe'].' '.$det[0]['marca'].' '.$det[0]['modelo'];
-								else $txt .= $det[0]['marca'].' '.$det[0]['tpe'].' '.$det[0]['modelo'];
+								if($det[0]['idvtpeq']!=8) $txt .= strtoupper($det[0]['tpe']).' '.$det[0]['marca'].' '.$det[0]['modelo'];
+								else $txt .= $det[0]['marca'].' '.strtoupper($det[0]['tpe']).' '.$det[0]['modelo'];
 							$txt .= '</div>';
 							if($acc){
 								$txt .= '<strong><br>Accesorios:</strong><hr>';
@@ -322,7 +357,6 @@ function modalTj($nm, $id, $perent, $pg){
 	$dtj = $mper->getOneTaj($id);
 	$datj = $mper->getAllTajPer($id);
 	$hoy = date("Y-m-d");
-	$pasmañ = date("Y-m-d", strtotime($hoy . ' +3 day'));
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';

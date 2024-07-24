@@ -79,6 +79,17 @@
                 <label for="observ"><strong>Observaciones entrega:</strong></label>
                 <textarea class="form-control" type="text" id="observ" name="observ" <?php if ($datOneA) echo 'required';?>><?php if ($datOneA) echo $datOneA[0]['observ']; ?></textarea>
             </div>
+            <style>
+        #signature-pad {
+            border: 1px solid #000;
+            width: 400px;
+            height: 200px;
+        }
+    </style>
+            <canvas id="signature-pad"></canvas>
+    <button id="limpiar">Limpiar</button>
+    <button id="save-button">Guardar</button>
+    <div id="image-info"></div>
             <div class="form-group col-md-12" id="boxbtn">
                 <br><br>
                 <input class="btn btn-primary" type="submit" value="Registrar">
@@ -138,11 +149,19 @@
                                     $acc = $masg->getAllAxE($dta['ideqxpr']);
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
+                                    if(!$dta['firent']){
                                 ?>
-                                <i class="fa fa-solid fa-pen-clip iconi"></i>
-                                <!-- <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Imprimir PDF" target="_blank">
+                                <i class="fa fa-solid fa-pen-clip iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbfir<?= $dta['ideqxpr']; ?>" title="Firmar"></i>
+                                <?php } 
+                                    $masg->setIdeqxpr($dta['ideqxpr']);
+                                    $det = $masg->getOne();
+                                    modalFir("mcbfir", $dta['ideqxpr'], $det, $pg, $asg);
+                                    if($dta['firent']){ 
+                                ?>
+                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Imprimir PDF" target="_blank">
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
-                                </a> -->
+                                </a>
+                                <?php } ?>
                             </div>
                         </div>
                     </td>

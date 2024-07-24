@@ -64,10 +64,12 @@ CREATE TABLE `asignar` (
   `idperrec` bigint(11) NOT NULL,
   `fecent` date DEFAULT NULL,
   `observ` varchar(1000) DEFAULT NULL,
+  `firent` varchar(255) DEFAULT NULL,
   `idperentd` bigint(11) DEFAULT NULL,
   `idperrecd` bigint(11) DEFAULT NULL,
   `fecdev` date DEFAULT NULL,
   `observd` varchar(1000) DEFAULT NULL,
+  `firdev` varchar(255) DEFAULT NULL,
   `numcel` int(10) DEFAULT NULL,
   `opecel` bigint(11) DEFAULT NULL,
   `estexp` tinyint(1) DEFAULT 1,
@@ -264,7 +266,7 @@ CREATE TABLE `perfil` (
 INSERT INTO `perfil` (`idpef`, `nompef`, `idmod`, `idpag`) VALUES
 (1, 'Administrador', 2, 1),
 (2, 'Sistemas', 1, 51),
-(3, 'Empleado', 1, 52);
+(3, 'Colaborador', 1, 52);
 
 -- --------------------------------------------------------
 
@@ -432,7 +434,7 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (4, 103, 'TI', 1, 1),
 (5, 104, 'DNI', 1, 1),
 (6, 105, 'PEP', 1, 1),
-(7, 201, 'Portátil', 2, 1),
+(7, 201, 'Portatil', 2, 1),
 (8, 202, 'All in One', 2, 1),
 (9, 203, 'Torre', 2, 1),
 (10, 401, 'Propio', 4, 1),
@@ -443,7 +445,7 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (16, 304, 'Funda', 3, 1),
 (17, 305, 'Pad Mouse', 3, 1),
 (18, 502, 'Cable de datos', 5, 1),
-(19, 503, 'Audífonos', 5, 1),
+(19, 503, 'Audifonos', 5, 1),
 (20, 505, 'Protector', 5, 1),
 (21, 504, 'SIM', 5, 1),
 (22, 506, 'Caja', 5, 1),

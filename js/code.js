@@ -86,6 +86,38 @@ function recCiudad(value){
     });
 }
 
+//--------Firma---------
+
+document.addEventListener("DOMContentLoaded", function () {
+  const canvas = document.getElementById('signature-pad');
+  const signaturePad = new SignaturePad(canvas);
+
+
+  document.getElementById('clear-button').addEventListener('click', function () {
+      signaturePad.clear();
+      document.getElementById('image-info').innerText = '';
+  });
+
+  document.getElementById('save-button').addEventListener('click', function () {
+      if (signaturePad.isEmpty()) {
+          alert("Por favor, dibuja tu firma.");
+      } else {
+          const signatureData = signaturePad.toDataURL();
+          document.getElementById('signature-input').value = signatureData;
+          document.getElementById('signature-form').submit();
+      }
+  });
+
+  // Prevenir el desplazamiento de la página cuando se está dibujando en el canvas
+  canvas.addEventListener('touchstart', function (event) {
+      event.preventDefault();
+  });
+
+  canvas.addEventListener('touchmove', function (event) {
+      event.preventDefault();
+  });
+});
+
 function eliminar(nom){
     let v = confirm("¿Está seguro de eliminar este registro?\n\n- "+nom);
     return v;

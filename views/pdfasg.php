@@ -247,7 +247,7 @@ $html .= '
             <td colspan="1"><strong>CARGO:</strong></td>
             <td colspan="3">'.$det['cprec'].'</td>
             <td colspan="1"><strong>FIRMA:</strong></td>
-            <td colspan="3"></td>
+            <td colspan="3">'.$det['firent'].'</td>
         </tr>
         <tr>
             <td class="obs" colspan="3"><strong>OBSERVACIONES:</strong></td>
@@ -269,7 +269,7 @@ $html .= '
             <td colspan="1"><strong>CARGO:</strong></td>
             <td colspan="3">'.$det['cpentd'].'</td>
             <td colspan="1"><strong>FIRMA:</strong></td>
-            <td colspan="3"></td>
+            <td colspan="3">'.$det['firdev'].'</td>
         </tr>
         <tr>
             <td colspan="3"><strong>NOMBRE DE QUIEN RECIBE:</strong></td>

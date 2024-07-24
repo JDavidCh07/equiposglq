@@ -78,7 +78,7 @@
 		}
 	}
 
-	@media screen and (max-width: 600px) {
+	@media screen and (max-width: 576px) {
 		.secmod {
 			width: 100%;
 			flex-direction: column;
