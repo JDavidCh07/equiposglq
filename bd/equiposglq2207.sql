@@ -292,7 +292,7 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvtpd`, `ndper`, `emaper`, `pasper`, `cargo`, `usured`, `actper`) VALUES
-(1, 'David', 'Chaparro', 1, '1072642921', 'soporteit@galqui.com', 'b37276a94dfc2d512045932d36c8df69b8c2c729sGlaqs2%', 'Aprendiz Sena', 'soporteit', 1),
+(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 1, '1072642921', 'soporteit@galqui.com', 'b37276a94dfc2d512045932d36c8df69b8c2c729sGlaqs2%', 'Aprendiz Sena', 'soporteit', 1),
 (2, 'Prueba', 'Persona', 1, '1987654', 'persona@prueba.com', '305244cc2d9afd44b7ffc6bd96b605151739a5absGlaqs2%', 'Intento', 'prupersona', 1),
 (3, 'MARYI YULLIED', 'CELIS RIVERA', 1, '1069304404', 'rrhh@galqui.com', NULL, 'APRENDIZ SENA', '', 1),
 (4, 'ALDEYSON JULIAN', 'RODRIGUEZ BOHORQUEZ', 1, '80200165', 'aldeysonrodriguez@galqui.com', NULL, 'SUPERVISOR INSTRUMENTACION Y CONTROL', 'aldeysonrodriguez', 1),

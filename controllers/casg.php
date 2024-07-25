@@ -24,6 +24,8 @@
     $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:1;
     $difasg = $nmfl;
     
+    $firma = isset($_POST['firma']) ? $_POST['firma']:NULL;
+    
     //------------Accesorios-----------
     $idvacc = isset($_POST['idvacc']) ? $_POST['idvacc']:NULL;
 

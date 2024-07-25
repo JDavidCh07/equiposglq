@@ -8,12 +8,13 @@
 				<a href="pmod.php">
 					<img class="logocabe" id="pc" src="img/logoynombre.png" alt="Logo GALQUI SAS">
 					<img class="logocabe" id="mov" src="img/logo.png" alt="Logo GALQUI SAS">
-			</a>
+				</a>
 			</div>
 			<div class="imgnomper">
 				<a href="" style="display: grid; grid-template-columns: max-content max-content; color: #073663;">
 					<div class="headernom">
-						<small><?= strstr($_SESSION["nomper"], " ",true) . " " . strstr($_SESSION["apeper"], " ",true); ?>
+						<small>
+							<?php echo (function($name) { return explode(" ", $name)[0]; })($_SESSION["nomper"]) . " " . (function($surname) { return explode(" ", $surname)[0]; })($_SESSION["apeper"]);?>
 						<br>
 						<small><small><?= $_SESSION["cargo"]; ?></small></small></small>
 					</div>

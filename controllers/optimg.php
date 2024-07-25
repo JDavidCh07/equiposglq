@@ -10,6 +10,7 @@ function opti($pict, $nomimg, $rut, $pre){
 			$medidasimagen = getimagesize($pict['tmp_name']);
 			//echo $medidasimagen[0]."-".$pict['size'];
 			if($medidasimagen[0]<=$max_ancho && $pict['size']<1048576){
+                if (!file_exists($rut)) mkdir($rut, 0755, true);
 				$nombre = $rut.'/'.$nomimg."_".$pre.".".$docext;
 				move_uploaded_file($pict['tmp_name'], $nombre);
 			}else{
@@ -48,6 +49,7 @@ function opti($pict, $nomimg, $rut, $pre){
 			}
 		}elseif ($docext=="mp4" or $docext=="mov" or $docext=="avi") {
 			if($pict['size']<100741824){
+                if (!file_exists($rut)) mkdir($rut, 0755, true);
 				$nombre = $rut.'/'."Vid_".$nomimg."_".$pre.".".$docext;
 				move_uploaded_file($pict['tmp_name'], $nombre);
 			}else{
@@ -55,6 +57,7 @@ function opti($pict, $nomimg, $rut, $pre){
 			}	
 		}elseif ($docext=="xls" or $docext=="xlsx") {
 			if($pict['size']<1048576){
+                if (!file_exists($rut)) mkdir($rut, 0755, true);
 				$nombre = $rut.'/'."arc_".$nomimg.".".$docext;
 				move_uploaded_file($pict['tmp_name'], $nombre);
 			}else{

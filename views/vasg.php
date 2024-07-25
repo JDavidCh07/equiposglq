@@ -145,7 +145,7 @@
                                     $masg->setIdeqxpr($dta['ideqxpr']);
                                     $det = $masg->getOne();
                                     modalFir("mcbfir", $dta['ideqxpr'], $det, $pg, $asg);
-                                    if($dta['firent']){ 
+                                   if($dta['firent']){ 
                                 ?>
                                 <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Imprimir PDF" target="_blank">
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>

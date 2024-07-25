@@ -1,5 +1,4 @@
 <?php
-// require_once("models/mper.php");
 
 //------------Titulos-----------
 function titulo($ico, $tit, $mos, $pg){
@@ -151,44 +150,93 @@ function modalDet($nm, $id, $prgs, $info){
 }
 
 //------------Modal vasg, firma-----------
-function modalFir($nm, $id, $det, $pg, $asg){
-	$txt = '';
-	$txt .= '<div class="modal fade" id="'.$nm.$id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-		$txt .= '<div class="modal-dialog">';
-			$txt .= '<form action="home.php?pg='.$pg.'&asg='.$asg.'" method="POST">';
-				$txt .= '<div class="modal-content">';
+function modalFir($nm, $id, $det, $pg, $asg) {
+    $txt = '';
+    $txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+    	$txt .= '<div class="modal-dialog">';
+    		$txt .= '<form action="home.php?pg=' . $pg . '&asg=' . $asg . '" method="POST">';
+    			$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';
 						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>';
-							if(!$det[0]['firent']) $txt .= $det[0]['prec'];
-							if($det[0]['firent']) $txt .= $det[0]['pentd'];
+						if (!$det[0]['firent']) $txt .= $det[0]['prec'];
+						if ($det[0]['firent']) $txt .= $det[0]['pentd'];
 						$txt .= '</strong></h1>';
 						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
 					$txt .= '</div>';
-					$txt .= '<div class="modal-body" style="text-align: left;">';
-						$txt .= '<div style="text-align: center;">';
-							$txt .= '<canvas id="signature-pad"></canvas>';
-							$txt .= '<div id="image-info"></div>';
-						$txt .= '</div>';
-						$txt .= '<div style="text-align: left;">';
-							$txt .= '<small><small><br>*Por favor, asegúrese de subir únicamente archivos con extensión .xls o .xlsx. Estos formatos son específicos de archivos de Excel y son necesarios para garantizar la correcta lectura y procesamiento de los datos.</small></small>';
-						$txt .= '</div>';
-					$txt .= '</div>';
-					$txt .= '<div class="modal-footer">';
-						$txt .= '<button type="submit" id="save-button" class="btn btn-primary btnmd">Guardar</button>';
-						$txt .= '<button id="clear-button" class="btn btn-primary btnmd">Limpiar</button>';
-						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-					$txt .= '</div>';
-				$txt .= '</div>';
-				$txt .= '</div>';
-			$txt .= '</form>';
-		$txt .= '</div>';
-	$txt .= '</div>';
-	$txt .= '<style>#signature-pad {
-            border-bottom: 1px solid #000;
-            width: 80%;
-            height: 100px;
-        }</style>';
-	echo $txt;
+    				$txt .= '<div class="modal-body" style="text-align: left;">';
+    					$txt .= '<div class="fir" style="text-align: center;">';
+    						$txt .= '<canvas id="signature-pad' . $id . '"></canvas>';
+    					$txt .= '</div>';
+    					$txt .= '<div style="text-align: left;">';
+    						$txt .= '<small><small><br>*Al firmar, acepto la entrega del equipo anteriormente detallado. Me comprometo a su correcto uso y a seguir las políticas de la empresa en cuanto al mantenimiento y cuidado del mismo. Reconozco que soy responsable de este equipo hasta que sea devuelto en condiciones satisfactorias.</small></small>';
+    					$txt .= '</div>';
+    				$txt .= '</div>';
+    				$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" name="firma" id="signature-input' . $id . '">';
+    					$txt .= '<button type="submit" id="save-button' . $id . '" class="btn btn-primary btnmd">Guardar</button>';
+    					$txt .= '<button type="button" id="clear-button' . $id . '" class="btn btn-primary btnmd">Limpiar</button>';
+    					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+    				$txt .= '</div>';
+    			$txt .= '</div>';
+    		$txt .= '</form>';
+    	$txt .= '</div>';
+    $txt .= '</div>';
+    $txt .= '<style>
+				.fir {
+        	    	border: 1px solid #4F4F4F;
+					border-radius: 3px;
+        	    	width: 100%;
+					height: 200px;
+					padding: 10px 0 20px 0;
+        		}
+				#signature-pad' . $id . ' {
+        	    	border-bottom: 1px solid #000;
+        	    	width: 80%;
+					height: 170px;
+        		}
+			</style>';
+    $txt .= '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $("#' . $nm . $id . '").on("shown.bs.modal", function () {
+                const canvas = document.getElementById("signature-pad' . $id . '");
+                const signaturePad = new SignaturePad(canvas);
+
+                document.getElementById("clear-button' . $id . '").addEventListener("click", function() {
+                    event.preventDefault();
+					signaturePad.clear();
+                    document.getElementById("image-info' . $id . '").innerText = "";
+                });
+
+                document.getElementById("save-button' . $id . '").addEventListener("click", function() {
+                    if (signaturePad.isEmpty()) {
+                        alert("Por favor, dibuja tu firma.");
+                    } else {
+                        const signatureData = signaturePad.toDataURL();
+                        document.getElementById("signature-input' . $id . '").value = signatureData;
+                    }
+                });
+
+                document.body.addEventListener("touchstart", function(e) {
+                    if (e.target === canvas) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+
+                document.body.addEventListener("touchend", function(e) {
+                    if (e.target === canvas) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+
+                document.body.addEventListener("touchmove", function(e) {
+                    if (e.target === canvas) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+            });
+        });
+    </script>';
+    echo $txt;
 }
 
 //------------Modal vasg, devolucion-----------
@@ -443,7 +491,7 @@ function modalTj($nm, $id, $perent, $pg){
 	echo $txt;
 }
 
-//------------Modal Exportar, vper/vasg/vequ-----------
+//------------Modal importar, vper/vasg/vequ-----------
 function modalImp($nm, $pg, $tit, $ope, $asg){
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $pg . $ope.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
