@@ -24,21 +24,26 @@
     $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:1;
     $difasg = $nmfl;
     
-    $firma = isset($_POST['firma']) ? $_POST['firma']:NULL;
+    $nomfir = isset($_POST['nomfir']) ? $_POST['nomfir']:NULL;
+    $prs = isset($_POST['prs']) ? $_POST['prs']:NULL;
+    $est = isset($_POST['est']) ? $_POST['est']:NULL;
+    $arcfir = isset($_FILES['firma']) ? $_FILES['firma']:NULL;
+    $firma = NULL;
+
     
     //------------Accesorios-----------
     $idvacc = isset($_POST['idvacc']) ? $_POST['idvacc']:NULL;
-
+    
     $arc = isset($_FILES["arc"]["name"]) ? $_FILES["arc"]["name"] : NULL;
     $arc = substr($arc, 0, strpos($arc, ".xls"));
-
+    
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
     $asg = isset($_REQUEST['asg']) ? $_REQUEST['asg']:"equ";
     
     $datOneA = NULL;
     $datAxE = NULL;
     $pg = 51;
-
+    
     $masg->setIdeqxpr($ideqxpr);
     //------------Asignar-----------
     if($ope=="save"){   
@@ -66,6 +71,23 @@
             $masg->setIdvacc($ida);
             $masg->saveAxE();
         }}
+        echo "<script>window.location='home.php?pg=".$pg."&asg=".$asg."';</script>";
+    }
+    
+    if ($arcfir) {
+        $arcfir = str_replace('data:image/jpeg;base64,', '', $arcfir);
+        $arcfir = str_replace(' ', '+', $arcfir);
+        $fir = base64_decode($arcfir);
+    }
+    
+    if($arcfir AND $arcfir["name"]) $firma = opti($arcfir, "fir_".$prs, "img/fir/".$nomfir, $nmfl);
+    
+    var_dump($nomfir,$prs,$est,$arcfir,$ope);
+    
+    if($ope=="firmar" && $firma){
+        die;
+        $masg->setFirma($firma);
+        $masg->saveFir($est);
         echo "<script>window.location='home.php?pg=".$pg."&asg=".$asg."';</script>";
     }
 

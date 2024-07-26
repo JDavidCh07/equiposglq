@@ -151,69 +151,88 @@ function modalDet($nm, $id, $prgs, $info){
 
 //------------Modal vasg, firma-----------
 function modalFir($nm, $id, $det, $pg, $asg) {
+    $prs = NULL;
+    $est = NULL;
     $txt = '';
     $txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-    	$txt .= '<div class="modal-dialog">';
-    		$txt .= '<form action="home.php?pg=' . $pg . '&asg=' . $asg . '" method="POST">';
-    			$txt .= '<div class="modal-content">';
-					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>';
-						if (!$det[0]['firent']) $txt .= $det[0]['prec'];
-						if ($det[0]['firent']) $txt .= $det[0]['pentd'];
-						$txt .= '</strong></h1>';
-						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
-					$txt .= '</div>';
-    				$txt .= '<div class="modal-body" style="text-align: left;">';
-    					$txt .= '<div class="fir" style="text-align: center;">';
-    						$txt .= '<canvas id="signature-pad' . $id . '"></canvas>';
-    					$txt .= '</div>';
-    					$txt .= '<div style="text-align: left;">';
-    						$txt .= '<small><small><br>*Al firmar, acepto la entrega del equipo anteriormente detallado. Me comprometo a su correcto uso y a seguir las políticas de la empresa en cuanto al mantenimiento y cuidado del mismo. Reconozco que soy responsable de este equipo hasta que sea devuelto en condiciones satisfactorias.</small></small>';
-    					$txt .= '</div>';
-    				$txt .= '</div>';
-    				$txt .= '<div class="modal-footer">';
-						$txt .= '<input type="hidden" name="firma" id="signature-input' . $id . '">';
-    					$txt .= '<button type="submit" id="save-button' . $id . '" class="btn btn-primary btnmd">Guardar</button>';
-    					$txt .= '<button type="button" id="clear-button' . $id . '" class="btn btn-primary btnmd">Limpiar</button>';
-    					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
-    				$txt .= '</div>';
-    			$txt .= '</div>';
-    		$txt .= '</form>';
-    	$txt .= '</div>';
+        $txt .= '<div class="modal-dialog">';
+            $txt .= '<form id="signature-form' . $id . '" action="home.php?pg=' . $pg . '&asg=' . $asg . '" method="POST">';
+                $txt .= '<div class="modal-content">';
+                    $txt .= '<div class="modal-header">';
+                        $txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>';
+                        if (!$det[0]['firent']) {
+                            $txt .= $det[0]['prec'];
+                            $est = 1;
+                            $prs = "asg";
+                        } elseif ($det[0]['firent']) {
+                            $txt .= $det[0]['pentd'];
+                            $est = "dev";
+                        }
+                        $txt .= '</strong></h1>';
+                        $txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+                    $txt .= '</div>';
+                    $txt .= '<div class="modal-body" style="text-align: left;">';
+                        $txt .= '<div class="fir" style="text-align: center;">';
+                            $txt .= '<canvas id="signature-pad' . $id . '"></canvas>';
+                        $txt .= '</div>';
+                        $txt .= '<div style="text-align: left;">';
+                            $txt .= '<small><small><br>*Al firmar, acepto la entrega del equipo anteriormente detallado. Me comprometo a su correcto uso y a seguir las políticas de la empresa en cuanto al mantenimiento y cuidado del mismo. Reconozco que soy responsable de este equipo hasta que sea devuelto en condiciones satisfactorias.</small></small>';
+                        $txt .= '</div>';
+                    $txt .= '</div>';
+                    $txt .= '<div class="modal-footer">';
+                        $txt .= '<input type="hidden" name="ideqxpr" value="' . $det[0]['ideqxpr'] . '">';
+                        $txt .= '<input type="hidden" name="nomfir" value="' . ($det[0]['firent'] ? $det[0]['pentd'] : $det[0]['prec']) . '">';
+                        $txt .= '<input type="hidden" name="prs" value="' . $prs . '">';
+                        $txt .= '<input type="hidden" name="est" value="' . $est . '">';
+                        $txt .= '<input type="hidden" name="ope" value="firmar">';
+                        $txt .= '<input type="hidden" name="firma" id="firma-input' . $id . '">';
+                        $txt .= '<button type="button" id="save-button' . $id . '" class="btn btn-primary btnmd">Guardar</button>';
+                        $txt .= '<button type="button" id="clear-button' . $id . '" class="btn btn-primary btnmd">Limpiar</button>';
+                        $txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+                    $txt .= '</div>';
+                $txt .= '</div>';
+            $txt .= '</form>';
+        $txt .= '</div>';
     $txt .= '</div>';
     $txt .= '<style>
-				.fir {
-        	    	border: 1px solid #4F4F4F;
-					border-radius: 3px;
-        	    	width: 100%;
-					height: 200px;
-					padding: 10px 0 20px 0;
-        		}
-				#signature-pad' . $id . ' {
-        	    	border-bottom: 1px solid #000;
-        	    	width: 80%;
-					height: 170px;
-        		}
-			</style>';
+                .fir {
+                    border: 1px solid #4F4F4F;
+                    border-radius: 3px;
+                    width: 100%;
+                    height: 200px;
+                    padding: 10px 0 20px 0;
+                }
+                #signature-pad' . $id . ' {
+                    border-bottom: 1px solid #000;
+                    width: 80%;
+                    height: 170px;
+                }
+            </style>';
     $txt .= '<script>
         document.addEventListener("DOMContentLoaded", function() {
             $("#' . $nm . $id . '").on("shown.bs.modal", function () {
                 const canvas = document.getElementById("signature-pad' . $id . '");
                 const signaturePad = new SignaturePad(canvas);
 
-                document.getElementById("clear-button' . $id . '").addEventListener("click", function() {
+                document.getElementById("clear-button' . $id . '").addEventListener("click", function(event) {
                     event.preventDefault();
-					signaturePad.clear();
-                    document.getElementById("image-info' . $id . '").innerText = "";
+                    signaturePad.clear();
                 });
 
-                document.getElementById("save-button' . $id . '").addEventListener("click", function() {
+                document.getElementById("save-button' . $id . '").addEventListener("click", function(event) {
                     if (signaturePad.isEmpty()) {
                         alert("Por favor, dibuja tu firma.");
+                        event.preventDefault();
                     } else {
-                        const signatureData = signaturePad.toDataURL();
-                        document.getElementById("signature-input' . $id . '").value = signatureData;
+                        const dataURL = signaturePad.toDataURL("image/jpeg");
+                        document.getElementById("firma-input' . $id . '").value = dataURL;
+                        document.getElementById("signature-form' . $id . '").submit();
                     }
+                });
+
+                // Limpiar el canvas al cerrar el modal
+                $("#' . $nm . $id . '").on("hidden.bs.modal", function () {
+                    signaturePad.clear();
                 });
 
                 document.body.addEventListener("touchstart", function(e) {
