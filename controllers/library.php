@@ -166,7 +166,8 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                             $prs = "asg";
                         } elseif ($det[0]['firent']) {
                             $txt .= $det[0]['pentd'];
-                            $est = "dev";
+                            $est = "2";
+							$prs = "dev";
                         }
                         $txt .= '</strong></h1>';
                         $txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
@@ -200,7 +201,9 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                     border-radius: 3px;
                     width: 100%;
                     height: 200px;
-                    padding: 10px 0 20px 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
                 #signature-pad' . $id . ' {
                     border-bottom: 1px solid #000;
@@ -212,27 +215,94 @@ function modalFir($nm, $id, $det, $pg, $asg) {
         document.addEventListener("DOMContentLoaded", function() {
             $("#' . $nm . $id . '").on("shown.bs.modal", function () {
                 const canvas = document.getElementById("signature-pad' . $id . '");
-                const signaturePad = new SignaturePad(canvas);
+                const context = canvas.getContext("2d");
+                const signatureInput = document.getElementById("firma-input' . $id . '");
+                const clearButton = document.getElementById("clear-button' . $id . '");
+                const saveButton = document.getElementById("save-button' . $id . '");
+                let drawing = false;
 
-                document.getElementById("clear-button' . $id . '").addEventListener("click", function(event) {
-                    event.preventDefault();
-                    signaturePad.clear();
+                const resizeCanvas = () => {
+                    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                    canvas.width = canvas.offsetWidth * ratio;
+                    canvas.height = canvas.offsetHeight * ratio;
+                    canvas.getContext("2d").scale(ratio, ratio);
+                };
+                resizeCanvas();
+                window.addEventListener("resize", resizeCanvas);
+
+                const getMousePos = (canvas, evt) => {
+                    const rect = canvas.getBoundingClientRect();
+                    return {
+                        x: (evt.clientX - rect.left) * (canvas.width / rect.width),
+                        y: (evt.clientY - rect.top) * (canvas.height / rect.height)
+                    };
+                };
+
+                const getTouchPos = (canvas, evt) => {
+                    const rect = canvas.getBoundingClientRect();
+                    return {
+                        x: (evt.touches[0].clientX - rect.left) * (canvas.width / rect.width),
+                        y: (evt.touches[0].clientY - rect.top) * (canvas.height / rect.height)
+                    };
+                };
+
+                const draw = (evt) => {
+                    let pos;
+                    if (evt.type.includes("mouse")) {
+                        pos = getMousePos(canvas, evt);
+                    } else {
+                        pos = getTouchPos(canvas, evt);
+                    }
+                    if (drawing) {
+                        context.lineTo(pos.x, pos.y);
+                        context.stroke();
+                    }
+                };
+
+                canvas.addEventListener("mousedown", function(e) {
+                    drawing = true;
+                    const pos = getMousePos(canvas, e);
+                    context.beginPath();
+                    context.moveTo(pos.x, pos.y);
                 });
 
-                document.getElementById("save-button' . $id . '").addEventListener("click", function(event) {
-                    if (signaturePad.isEmpty()) {
+                canvas.addEventListener("mousemove", draw);
+
+                canvas.addEventListener("mouseup", function() {
+                    drawing = false;
+                });
+
+                canvas.addEventListener("touchstart", function(e) {
+                    drawing = true;
+                    const pos = getTouchPos(canvas, e);
+                    context.beginPath();
+                    context.moveTo(pos.x, pos.y);
+                });
+
+                canvas.addEventListener("touchmove", draw);
+
+                canvas.addEventListener("touchend", function() {
+                    drawing = false;
+                });
+
+                clearButton.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                });
+
+                saveButton.addEventListener("click", function(event) {
+                    if (context.getImageData(0, 0, canvas.width, canvas.height).data.every(pixel => pixel === 0)) {
                         alert("Por favor, dibuja tu firma.");
                         event.preventDefault();
                     } else {
-                        const dataURL = signaturePad.toDataURL("image/jpeg");
-                        document.getElementById("firma-input' . $id . '").value = dataURL;
+                        const dataURL = canvas.toDataURL("image/png");
+                        signatureInput.value = dataURL;
                         document.getElementById("signature-form' . $id . '").submit();
                     }
                 });
 
-                // Limpiar el canvas al cerrar el modal
                 $("#' . $nm . $id . '").on("hidden.bs.modal", function () {
-                    signaturePad.clear();
+                    context.clearRect(0, 0, canvas.width, canvas.height);
                 });
 
                 document.body.addEventListener("touchstart", function(e) {
@@ -257,7 +327,6 @@ function modalFir($nm, $id, $det, $pg, $asg) {
     </script>';
     echo $txt;
 }
-
 //------------Modal vasg, devolucion-----------
 function modalDev($nm, $id, $acc, $det, $pg, $asg){
 	$hoy = date("Y-m-d");

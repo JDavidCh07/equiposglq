@@ -217,6 +217,8 @@
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
+                $ideqxpr = $this->getIdeqxpr();
+                $result->bindParam(":ideqxpr",$ideqxpr);
                 $firma = $this->getFirma();
                 $result->bindParam(":firma", $firma);
                 $result->execute();

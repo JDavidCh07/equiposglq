@@ -22,12 +22,12 @@
     $numcel = isset($_POST['numcel']) ? $_POST['numcel']:NULL;
     $opecel = isset($_POST['opecel']) ? $_POST['opecel']:NULL;
     $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:1;
-    $difasg = $nmfl;
+    $detasg = date('d_m_Y-His');
     
     $nomfir = isset($_POST['nomfir']) ? $_POST['nomfir']:NULL;
     $prs = isset($_POST['prs']) ? $_POST['prs']:NULL;
     $est = isset($_POST['est']) ? $_POST['est']:NULL;
-    $arcfir = isset($_FILES['firma']) ? $_FILES['firma']:NULL;
+    $urlfir = isset($_POST['firma']) ? $_POST['firma']:NULL;
     $firma = NULL;
 
     
@@ -74,18 +74,31 @@
         echo "<script>window.location='home.php?pg=".$pg."&asg=".$asg."';</script>";
     }
     
-    if ($arcfir) {
-        $arcfir = str_replace('data:image/jpeg;base64,', '', $arcfir);
-        $arcfir = str_replace(' ', '+', $arcfir);
-        $fir = base64_decode($arcfir);
+    if ($urlfir) {
+        // Separar los datos base64 del encabezado
+        list($type, $data) = explode(';', $urlfir);
+        list(, $data) = explode(',', $data);
+
+        // Decodificar los datos base64
+        $data = base64_decode($data);
+
+        // Determinar la extensión del archivo basado en el tipo MIME
+        $ext = '';
+        if (strpos($type, 'image/png') !== false) $ext = 'png';
+        elseif (strpos($type, 'image/jpeg') !== false) $ext = 'jpeg';
+        else die('Tipo de archivo no soportado');
+
+        // Definir la ruta donde se guardará la imagen
+
+        $fold = 'img/fir/' . $nomfir;
+        $nom = "fir_" . $prs . "_" . $detasg . ".png"; // Guardar como PNG
+        $firma = $fold.'/'.$nom;
+
+        if (!file_exists($fold)) mkdir($fold, 0755, true);
+        file_put_contents($firma, $data);
     }
-    
-    if($arcfir AND $arcfir["name"]) $firma = opti($arcfir, "fir_".$prs, "img/fir/".$nomfir, $nmfl);
-    
-    var_dump($nomfir,$prs,$est,$arcfir,$ope);
-    
+
     if($ope=="firmar" && $firma){
-        die;
         $masg->setFirma($firma);
         $masg->saveFir($est);
         echo "<script>window.location='home.php?pg=".$pg."&asg=".$asg."';</script>";

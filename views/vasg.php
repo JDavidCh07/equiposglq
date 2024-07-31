@@ -138,14 +138,14 @@
                                     $acc = $masg->getAllAxE($dta['ideqxpr']);
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
-                                    if(!$dta['firent']){
+                                    if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'])){
                                 ?>
                                 <i class="fa fa-solid fa-pen-clip iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbfir<?= $dta['ideqxpr']; ?>" title="Firmar"></i>
                                 <?php } 
                                     $masg->setIdeqxpr($dta['ideqxpr']);
                                     $det = $masg->getOne();
                                     modalFir("mcbfir", $dta['ideqxpr'], $det, $pg, $asg);
-                                   if($dta['firent']){ 
+                                   if(($dta['firent'] && !$dta['firdev'] && !$dta['fecdev']) OR ($dta['firent'] && $dta['firdev'])){ 
                                 ?>
                                 <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Imprimir PDF" target="_blank">
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
@@ -171,11 +171,12 @@
                                 $acc = $masg->getAllAxE($dta['ideqxpr']);
                                 $det = $masg->getOne();
                                 modalDev("mcbdev", $dta['ideqxpr'], $acc, $det, $pg, $asg);
+                                if(!$dta['firent']){
                             ?>
                             <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
                                 <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
                             </a>
-                        <?php } ?>
+                        <?php }} ?>
                     </td>
                 </tr>
             <?php }} ?>
