@@ -115,17 +115,18 @@ foreach($asgs AS $index=>$asg){
 
             // Agregar marcadores 'X' según la condición
             $datAxE = $masg->getAllAxE($dat["ideqxpr"]);
-            if ($datAcc && $datAxE) {
+            if ($datAcc) {
                 foreach ($datAcc as $dac) {
                     $marcadorEncontrado = false;
-                    foreach ($datAxE as $dae) {
-                        if ($dac['idval'] == $dae['idvacc']) {
-                            $filaDatos[] = 'X';
-                            $marcadorEncontrado = true;
-                            break; // Terminar el bucle interno si se encuentra el marcador
+                    if ($datAxE){    
+                        foreach ($datAxE as $dae) {
+                            if ($dac['idval'] == $dae['idvacc']) {
+                                $filaDatos[] = 'X';
+                                $marcadorEncontrado = true;
+                                break; // Terminar el bucle interno si se encuentra el marcador
+                            }
                         }
-                    }
-                    if (!$marcadorEncontrado) {
+                    } if (!$marcadorEncontrado) {
                         $filaDatos[] = ''; // Opcional: dejar en blanco si no hay coincidencia
                     }
                 }

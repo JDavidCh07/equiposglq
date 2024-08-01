@@ -138,7 +138,7 @@
                                     $acc = $masg->getAllAxE($dta['ideqxpr']);
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
-                                    if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'])){
+                                    if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'] && $dta['fecdev'])){
                                 ?>
                                 <i class="fa fa-solid fa-pen-clip iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbfir<?= $dta['ideqxpr']; ?>" title="Firmar"></i>
                                 <?php } 

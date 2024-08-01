@@ -55,10 +55,10 @@
         $masg->setNumcel($numcel);
         $masg->setOpecel($opecel);
         $masg->setEstexp($estexp);    
-        $masg->setDifasg($difasg);    
+        $masg->setDifasg($nmfl);    
         if(!$ideqxpr){
             $masg->save($asg);
-            $id = $masg->getOneAsg($difasg);
+            $id = $masg->getOneAsg($nmfl);
             $ideqxpr = $id[0]['ideqxpr'];
             $mequ->setIdequ($idequ);
             $mequ->setActequ(2);
@@ -199,14 +199,14 @@
                 if(count($idvacc)==$acc && $idequ && $idperent && $idperrec) $comp = 1;
             }
     		$estexp = ($fecdev) ? 2 : 1;
-            $disfag = $nmfl;
+            $difasg = $nmfl;
             $masg->setIdequ($idequ);
             $masg->setIdperent($idperent);
             $masg->setIdperrec($idperrec);
             $masg->setFecent($fecent);
             $masg->setFecdev($fecdev);
             $masg->setEstexp($estexp);
-            $masg->setDifasg($disfag);
+            $masg->setDifasg($difasg);
             $mequ->setIdequ($idequ);
             if($idequ && $estexp==2) $mequ->setActequ(1);
             elseif($idequ && $estexp==1) $mequ->setActequ(2);
@@ -305,7 +305,7 @@
                 if(count($idvacc)==$acc && $opecel && $idequ && $idperent && $idperrec) $comp = 1;
             }
     		$estexp = ($fecdev) ? 2 : 1;
-            $disfag = $nmfl;
+            $difasg = $nmfl;
             $masg->setIdequ($idequ);
             $masg->setIdperent($idperent);
             $masg->setIdperrec($idperrec);
@@ -314,7 +314,7 @@
             $masg->setNumcel($numcel);
             $masg->setOpecel($opecel);
             $masg->setEstexp($estexp);
-            $masg->setDifasg($disfag);
+            $masg->setDifasg($difasg);
             $mequ->setIdequ($idequ);
             if($idequ && $estexp==2) $mequ->setActequ(1);
             elseif($idequ && $estexp==1) $mequ->setActequ(2);
