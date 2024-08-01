@@ -167,7 +167,7 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                         } elseif ($det[0]['firent']) {
                             $txt .= $det[0]['pentd'];
                             $est = "2";
-							$prs = "dev";
+                            $prs = "dev";
                         }
                         $txt .= '</strong></h1>';
                         $txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
@@ -221,15 +221,6 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                 const saveButton = document.getElementById("save-button' . $id . '");
                 let drawing = false;
 
-                const resizeCanvas = () => {
-                    const ratio = Math.max(window.devicePixelRatio || 1, 1);
-                    canvas.width = canvas.offsetWidth * ratio;
-                    canvas.height = canvas.offsetHeight * ratio;
-                    canvas.getContext("2d").scale(ratio, ratio);
-                };
-                resizeCanvas();
-                window.addEventListener("resize", resizeCanvas);
-
                 const getMousePos = (canvas, evt) => {
                     const rect = canvas.getBoundingClientRect();
                     return {
@@ -246,44 +237,49 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                     };
                 };
 
-                const draw = (evt) => {
-                    let pos;
-                    if (evt.type.includes("mouse")) {
-                        pos = getMousePos(canvas, evt);
-                    } else {
-                        pos = getTouchPos(canvas, evt);
-                    }
+                const draw = (pos) => {
                     if (drawing) {
                         context.lineTo(pos.x, pos.y);
                         context.stroke();
                     }
                 };
 
-                canvas.addEventListener("mousedown", function(e) {
+                const startDrawing = (pos) => {
                     drawing = true;
-                    const pos = getMousePos(canvas, e);
                     context.beginPath();
                     context.moveTo(pos.x, pos.y);
-                });
+                };
 
-                canvas.addEventListener("mousemove", draw);
-
-                canvas.addEventListener("mouseup", function() {
+                const stopDrawing = () => {
                     drawing = false;
+                    context.closePath();
+                };
+
+                canvas.addEventListener("mousedown", function(e) {
+                    startDrawing(getMousePos(canvas, e));
                 });
+
+                canvas.addEventListener("mousemove", function(e) {
+                    if (drawing) {
+                        draw(getMousePos(canvas, e));
+                    }
+                });
+
+                canvas.addEventListener("mouseup", stopDrawing);
+                document.addEventListener("mouseup", stopDrawing);
 
                 canvas.addEventListener("touchstart", function(e) {
-                    drawing = true;
-                    const pos = getTouchPos(canvas, e);
-                    context.beginPath();
-                    context.moveTo(pos.x, pos.y);
+                    e.preventDefault();
+                    startDrawing(getTouchPos(canvas, e));
                 });
 
-                canvas.addEventListener("touchmove", draw);
-
-                canvas.addEventListener("touchend", function() {
-                    drawing = false;
+                canvas.addEventListener("touchmove", function(e) {
+                    e.preventDefault();
+                    draw(getTouchPos(canvas, e));
                 });
+
+                canvas.addEventListener("touchend", stopDrawing);
+                canvas.addEventListener("touchcancel", stopDrawing);
 
                 clearButton.addEventListener("click", function(event) {
                     event.preventDefault();
@@ -304,24 +300,6 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                 $("#' . $nm . $id . '").on("hidden.bs.modal", function () {
                     context.clearRect(0, 0, canvas.width, canvas.height);
                 });
-
-                document.body.addEventListener("touchstart", function(e) {
-                    if (e.target === canvas) {
-                        e.preventDefault();
-                    }
-                }, { passive: false });
-
-                document.body.addEventListener("touchend", function(e) {
-                    if (e.target === canvas) {
-                        e.preventDefault();
-                    }
-                }, { passive: false });
-
-                document.body.addEventListener("touchmove", function(e) {
-                    if (e.target === canvas) {
-                        e.preventDefault();
-                    }
-                }, { passive: false });
             });
         });
     </script>';

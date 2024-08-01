@@ -171,12 +171,11 @@
                                 $acc = $masg->getAllAxE($dta['ideqxpr']);
                                 $det = $masg->getOne();
                                 modalDev("mcbdev", $dta['ideqxpr'], $acc, $det, $pg, $asg);
-                                if(!$dta['firent']){
                             ?>
                             <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
                                 <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
                             </a>
-                        <?php }} ?>
+                        <?php } ?>
                     </td>
                 </tr>
             <?php }} ?>
