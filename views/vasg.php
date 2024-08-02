@@ -164,6 +164,7 @@
                         <?php } ?>
                     </td>
                     <td style="text-align: right;">
+                        <span style="font-size: 1px;opacity: 0;"><?= $dta['fecent']; ?></span>
                         <?php if ($dta['estexp'] != 2) { ?>
                             <i class="fa fa-solid fa-arrows-turn-to-dots fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ideqxpr']; ?>" title="Devolver"></i>
                             <?php

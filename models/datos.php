@@ -5,7 +5,8 @@
     $pass = "";
 
     $ema = "soporteit@galqui.com";
-	$psem = "Clave Correo";
+	$psem = "sdlg ikmu pynz glco";
+    
     // $host = "localhost";
     // $db = "mrwaiterdav";
     // $user = "mrwaiterdav";

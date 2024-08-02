@@ -1,4 +1,5 @@
 <?php
+echo "<script>window.close();</script>";
 require_once ("../models/seguridad.php");
 require_once ('../models/conexion.php');
 require_once ('../models/masg.php');
@@ -23,7 +24,7 @@ $mequ = new Mequ();
 $ideqxpr = isset($_REQUEST['ideqxpr']) ? $_REQUEST['ideqxpr']:NULL;
 
 $logo = "../img/logoynombre.png";
-$imagenBase64 = "data:image/png;base64,".base64_encode(file_get_contents($logo));
+$logob64 = "data:image/png;base64,".base64_encode(file_get_contents($logo));
 
 if($ideqxpr){
     $masg->setIdeqxpr($ideqxpr);
@@ -43,6 +44,15 @@ if($ideqxpr){
         $asg = "cel";
     }
     $datAxE = $masg->getAllAxE($datDet[0]["ideqxpr"]);
+}
+
+
+if($det['firent']){
+    $fent = "../".$det['firent'];
+    $fentb64 = "data:image/png;base64,".base64_encode(file_get_contents($fent));
+}if($det['firdev']){
+    $fdev = "../".$det['firdev'];
+    $fdevb64 = "data:image/png;base64,".base64_encode(file_get_contents($fdev));
 }
 
 $anctbla = 750;
@@ -90,7 +100,7 @@ $html .= '
 <table>
     <tbody>
         <tr>
-            <td class="tit fond" style="width: 100px" colspan="4" rowspan="4"><img style="width: 80%;" src="'.$imagenBase64.'" alt="Logo GALQUI SAS"></td>
+            <td class="tit fond" style="width: 100px" colspan="4" rowspan="4"><img style="width: 80%;" src="'.$logob64.'" alt="Logo GALQUI SAS"></td>
             <td class="tit fond" colspan="6" rowspan="4"><strong>FORMATO REGISTRO DE EQUIPOS Y ELEMENTOS</strong></td>
             <td class="pie fond" colspan="4"><strong>Código: GAL-RH-FR-26</strong></td>
         </tr>
@@ -202,18 +212,20 @@ $html .= '
             </tr>
             <tr>
                 <td colspan="2" rowspan="2"><strong>ACCESORIOS:</strong></td>';
-                if ($datAcc && $datAxE) {
+                if ($datAcc) {
                     foreach ($datAcc as $dac) {
                         $marcadorEncontrado = false;
                         $html .= '<td colspan="2"><strong>'.strtoupper($dac['nomval']).'</strong></td>';
-                        foreach ($datAxE as $dae) {
-                            if ($dac['idval'] == $dae['idvacc']) {
-                                $html .= '<td colspan="1">X</td>';
-                                $marcadorEncontrado = true;
-                                break;
+                        if ($datAxE) {
+                            foreach ($datAxE as $dae) {
+                                if ($dac['idval'] == $dae['idvacc']) {
+                                    $html .= '<td colspan="1">X</td>';
+                                    $marcadorEncontrado = true;
+                                    break;
+                                }
                             }
                         }
-                        if (!$marcadorEncontrado) $html .= '<td colspan="1"></td>';
+                        if ($marcadorEncontrado==false) $html .= '<td colspan="1"></td>';
                         $cont++;
                         if($cont==4) $html .= '</tr><tr>';
                     }
@@ -239,7 +251,7 @@ $html .= '
             <td colspan="1"><strong>CARGO:</strong></td>
             <td colspan="3">'.$det['cpent'].'</td>
             <td colspan="1"><strong>FIRMA:</strong></td>
-            <td colspan="3"></td>
+            <td colspan="3">'.(function($name) { return explode(" ", $name)[0]; })($_SESSION["nomper"]) . " " . (function($surname) { return explode(" ", $surname)[0]; })($_SESSION["apeper"]).'</td>
         </tr>
         <tr>
             <td colspan="3"><strong>NOMBRE DE QUIEN RECIBE:</strong></td>
@@ -247,7 +259,10 @@ $html .= '
             <td colspan="1"><strong>CARGO:</strong></td>
             <td colspan="3">'.$det['cprec'].'</td>
             <td colspan="1"><strong>FIRMA:</strong></td>
-            <td colspan="3">'.$det['firent'].'</td>
+            <td colspan="3">';
+            if ($det['firent']) $html .= '<img style="height: 30px;" src="'.$fentb64.'">';
+$html .= '
+            </td>
         </tr>
         <tr>
             <td class="obs" colspan="3"><strong>OBSERVACIONES:</strong></td>
@@ -269,7 +284,10 @@ $html .= '
             <td colspan="1"><strong>CARGO:</strong></td>
             <td colspan="3">'.$det['cpentd'].'</td>
             <td colspan="1"><strong>FIRMA:</strong></td>
-            <td colspan="3">'.$det['firdev'].'</td>
+            <td colspan="3">';
+            if ($det['firdev']) $html .= '<img style="height: 30px;" src="'.$fdevb64.'">';
+$html .= '
+            </td>
         </tr>
         <tr>
             <td colspan="3"><strong>NOMBRE DE QUIEN RECIBE:</strong></td>
@@ -277,7 +295,10 @@ $html .= '
             <td colspan="1"><strong>CARGO:</strong></td>
             <td colspan="3">'.$det['cprecd'].'</td>
             <td colspan="1"><strong>FIRMA:</strong></td>
-            <td colspan="3"></td>
+            <td colspan="3">';
+            if ($det['firdev']) $html .= (function($name) { return explode(" ", $name)[0]; })($_SESSION["nomper"]) . " " . (function($surname) { return explode(" ", $surname)[0]; })($_SESSION["apeper"]);
+$html .= '
+            </td>
         </tr>
         <tr>
             <td class="obs" colspan="3"><strong>OBSERVACIONES:</strong></td>
@@ -309,7 +330,20 @@ if($ideqxpr){
     if (!file_exists($fold)) mkdir($fold, 0755, true);
     $file_path = $fold.$name;
     file_put_contents($file_path, $dompdf->output());
-    sendemail($ema, $psem, $det['eprec'], $file_path);
+    $partes = explode(" ", ($det['fecent']) ? $det['prec'] : $det['pentd']);
+    $ape = ucfirst(strtolower($partes[0]));
+    $nom = ucfirst(strtolower($partes[count($partes) > 2 ? 2 : 1]));
+    $nomper = $nom." ".$ape;
+    $template="../tempmail.html";
+    $txt_mess = "";
+    $txt_mess = "Adjunto a este correo se encuentra el acta de ";
+    ($det['fecent']) ? $txt_mess .= "entrega" : $txt_mess .= "devolución"; 
+    $txt_mess .= " firmada del equipo asignado.<br><br>
+    Le solicitamos revisar el documento adjunto y conservar una copia para sus registros. Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nuestro departamento de soporte.<br><br>
+    Agradecemos su colaboración y compromiso con el correcto uso y mantenimiento del equipo.<br><br>
+    Atentamente,";
+	$mail_asun= "Confirmación".($det['fecent']) ? "Entrega" : "Devolución"." de Equipo";
+    sendemail($ema, $psem, $det['eprec'], $nomper, $file_path, $txt_mess, $mail_asun, $template);
 }
 
 ?>

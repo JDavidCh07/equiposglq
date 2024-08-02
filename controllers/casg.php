@@ -22,7 +22,7 @@
     $numcel = isset($_POST['numcel']) ? $_POST['numcel']:NULL;
     $opecel = isset($_POST['opecel']) ? $_POST['opecel']:NULL;
     $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:1;
-    $detasg = date('d_m_Y-His');
+    $detasg = date('d-m-Y_His');
     
     $nomfir = isset($_POST['nomfir']) ? $_POST['nomfir']:NULL;
     $prs = isset($_POST['prs']) ? $_POST['prs']:NULL;
