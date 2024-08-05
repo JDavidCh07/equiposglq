@@ -216,6 +216,7 @@ function modalFir($nm, $id, $det, $pg, $asg) {
             $("#' . $nm . $id . '").on("shown.bs.modal", function () {
                 const canvas = document.getElementById("signature-pad' . $id . '");
                 const context = canvas.getContext("2d");
+				context.lineWidth = 2;
                 const signatureInput = document.getElementById("firma-input' . $id . '");
                 const clearButton = document.getElementById("clear-button' . $id . '");
                 const saveButton = document.getElementById("save-button' . $id . '");

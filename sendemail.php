@@ -10,7 +10,7 @@ require 'vendor/phpmailer/phpmailer/src/Exception.php';
 require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 
-function sendemail($mail_ema, $mail_upa, $mail_sfe, $mail_name, $file_path, $txt_mess, $mail_asun, $template){
+function sendemail($mail_ema, $mail_upa, $mail_sfe, $mail_name, $file_path, $txt_mess, $mail_asun, $fir_mail, $template){
 
     $mail = new PHPMailer(true);
 	$mail->isSMTP();
@@ -30,8 +30,11 @@ function sendemail($mail_ema, $mail_upa, $mail_sfe, $mail_name, $file_path, $txt
 	$message = file_get_contents($template);
 	$message = str_replace('{{first_name}}', $mail_name, $message);
 	$message = str_replace('{{message}}', $txt_mess, $message);
+	$message = str_replace('{{fir}}', $fir_mail, $message);
+	// $mail->addEmbeddedImage('img/firma.jpg', 'firma_cid');
 	$mail->isHTML(true);
 	$mail->Subject = $mail_asun;
+	$mail->CharSet = 'UTF-8';
 	$mail->msgHTML($message);
 
 	if ($file_path) {

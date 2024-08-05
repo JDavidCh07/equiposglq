@@ -330,20 +330,53 @@ if($ideqxpr){
     if (!file_exists($fold)) mkdir($fold, 0755, true);
     $file_path = $fold.$name;
     file_put_contents($file_path, $dompdf->output());
-    $partes = explode(" ", ($det['fecent']) ? $det['prec'] : $det['pentd']);
-    $ape = ucfirst(strtolower($partes[0]));
-    $nom = ucfirst(strtolower($partes[count($partes) > 2 ? 2 : 1]));
-    $nomper = $nom." ".$ape;
+
+    //-------Datos destinatario--------
+    if($det['fecent'] && !$det['fecdev']){
+        $perd = $det['prec'];
+        $maild = $det['eprec'];
+    }elseif($det['fecent'] && $det['fecdev']){
+        $perd = $det['prec']; 
+        $maild = $det['epentd'];
+    }
+    $partes = explode(" ", $perd);
+    $aped = ucfirst(strtolower($partes[0]));
+    $nomd = ucfirst(strtolower($partes[count($partes) > 2 ? 2 : 1]));
+    $nomperd = $nomd." ".$aped;
+    
+    //-------Datos remitente--------
+    if($det['fecent'] && !$det['fecdev']){
+        $perm = $det['pent'];
+        $mail = $det['epent'];
+        $car = $det['cpent'];
+    }elseif($det['fecent'] && $det['fecdev']){
+        $perm = $det['precd']; 
+        $mail = $det['eprecd'];
+        $car = $det['cprecd'];
+    }
+    $partesm = explode(" ", $perm);
+    $ape1 = ucfirst(strtolower($partesm[0]));
+    $ini_ape2 = isset($partesm[1]) ? ucfirst($partesm[1][0]) . '.' : '';
+    $nom1 = isset($partesm[2]) ? ucfirst(strtolower($partesm[2])) : '';
+    $ini_nom2 = isset($partesm[3]) ? ucfirst($partesm[3][0]) . '.' : '';
+    $nomperm = trim("$nom1 $ini_nom2 $ape1 $ini_ape2");
+    $cargom = ucfirst(strtolower($car));
+
     $template="../tempmail.html";
     $txt_mess = "";
     $txt_mess = "Adjunto a este correo se encuentra el acta de ";
-    ($det['fecent']) ? $txt_mess .= "entrega" : $txt_mess .= "devolución"; 
+    if($det['fecent'] && !$det['fecdev']) $txt_mess .= "entrega";
+    elseif($det['fecent'] && $det['fecdev']) $txt_mess .= "devolución"; 
     $txt_mess .= " firmada del equipo asignado.<br><br>
     Le solicitamos revisar el documento adjunto y conservar una copia para sus registros. Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nuestro departamento de soporte.<br><br>
     Agradecemos su colaboración y compromiso con el correcto uso y mantenimiento del equipo.<br><br>
-    Atentamente,";
-	$mail_asun= "Confirmación".($det['fecent']) ? "Entrega" : "Devolución"." de Equipo";
-    sendemail($ema, $psem, $det['eprec'], $nomper, $file_path, $txt_mess, $mail_asun, $template);
+    Atentamente,<br><br>";
+	$mail_asun = "Confirmación ";
+    if($det['fecent'] && !$det['fecdev']) $mail_asun .= "Entrega";
+    elseif($det['fecent'] && $det['fecdev']) $mail_asun .= "Devolución"; 
+    $mail_asun .= " de Equipo";
+    $fir_mail = '<strong>'.$nomperm.'</strong><br>'.$cargom.' | '.$mail.'<br>Cra 1 Nº 4 - 02 Bdg 2 Parque Industrial K2<br>Chía - Cund<br>www.galqui.com';
+    sendemail($ema, $psem, $maild, $nomperd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template);
 }
 
 ?>
