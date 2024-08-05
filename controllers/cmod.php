@@ -16,8 +16,7 @@
     $pg = 1;
     $datOne = NULL;
 
-    if($arcimg AND $arcimg["name"]) $imgmod = opti($arcimg, "mod", "img/mod", $nmfl);
-    
+    if($arcimg AND $arcimg["name"]) $imgmod = opti($arcimg, "mod", "img/mod", $nmfl); 
     $mmod->setIdmod($idmod);
 
     if($ope=='save'){

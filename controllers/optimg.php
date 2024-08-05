@@ -63,6 +63,14 @@ function opti($pict, $nomimg, $rut, $pre){
 			}else{
 				echo "<script>alert('Los archivos de Excel debe tener un peso maximo de 97Mb');</script>";
 			}	
+		}elseif ($docext=="pdf") {
+			if($pict['size']<1048576){
+                if (!file_exists($rut)) mkdir($rut, 0755, true);
+				$nombre = $rut.'/'."arc_".$nomimg.".".$docext;
+				move_uploaded_file($pict['tmp_name'], $nombre);
+			}else{
+				echo "<script>alert('Los archivos PDF deben tener un peso maximo de 97Mb');</script>";
+			}	
 		}else{
 			echo "<script>alert('Solo se permiten archivos de extensiones: png, jpg, jpeg, mp4, mov, avi, csv.');</script>";
 		}
