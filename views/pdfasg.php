@@ -219,7 +219,7 @@ $html .= '
                         if ($datAxE) {
                             foreach ($datAxE as $dae) {
                                 if ($dac['idval'] == $dae['idvacc']) {
-                                    $html .= '<td colspan="1">X</td>';
+                                    $html .= '<td colspan="1" style="text-align: center">X</td>';
                                     $marcadorEncontrado = true;
                                     break;
                                 }
