@@ -9,7 +9,7 @@ function titulo($ico, $tit, $mos, $pg){
 			$txt .= ' ' . $tit;
 			$txt .= '<hr class="hrtitu">';
 		$txt .= '</div>';
-		if ($mos == 1 && ($_SESSION['idpef']!=3 && $pg!=51)) {
+		if ($mos == 1 && $_SESSION['idpef']!=3) {
 			$txt .= '<div class="titaju" style="float: right;">';
 				$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
 				$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ');"></i>';

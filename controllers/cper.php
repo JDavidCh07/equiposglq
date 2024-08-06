@@ -143,8 +143,8 @@
             $mper->setIdpef($idpef); 
             $idpef = $mper->CompPef();
             $idpef = $idpef[0]['idpef'];
-    		$pasper = NULL;
-            $mper->setNomper($nomper);
+            $pasper = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
+    		$mper->setNomper($nomper);
             $mper->setApeper($apeper);
             $mper->setIdvtpd($idvtpd);
             $mper->setNdper($ndper);

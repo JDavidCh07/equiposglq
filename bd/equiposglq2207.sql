@@ -1,6 +1,22 @@
-DROP DATABASE IF EXISTS equiposglq;
-CREATE DATABASE equiposglq;
-USE equiposglq;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 06-08-2024 a las 23:07:05
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Base de datos: `equiposglq`
 --
@@ -15,41 +31,6 @@ CREATE TABLE `accxequi` (
   `ideqxpr` bigint(11) NOT NULL,
   `idvacc` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `accxequi`
---
-
-INSERT INTO `accxequi` (`ideqxpr`, `idvacc`) VALUES
-(1, 13),
-(1, 15),
-(2, 15),
-(2, 16),
-(3, 13),
-(3, 14),
-(3, 15),
-(4, 15),
-(5, 13),
-(5, 14),
-(5, 17),
-(6, 15),
-(7, 26),
-(7, 18),
-(7, 20),
-(8, 18),
-(8, 21),
-(9, 26),
-(9, 19),
-(9, 21),
-(10, 18),
-(10, 20),
-(11, 26),
-(11, 18),
-(11, 21),
-(11, 20),
-(12, 18),
-(12, 19),
-(12, 21);
 
 -- --------------------------------------------------------
 
@@ -75,24 +56,6 @@ CREATE TABLE `asignar` (
   `estexp` tinyint(1) DEFAULT 1,
   `difasg` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `asignar`
---
-
-INSERT INTO `asignar` (`ideqxpr`, `idequ`, `idperent`, `idperrec`, `fecent`, `observ`, `idperentd`, `idperrecd`, `fecdev`, `observd`, `numcel`, `opecel`, `estexp`, `difasg`) VALUES
-(1, 1, 1, 10, '2024-06-27', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240718123605'),
-(2, 1, 1, 3, '2024-06-01', NULL, 3, 1, '2024-05-26', NULL, NULL, NULL, 2, '20240718123606'),
-(3, 4, 1, 11, '2023-11-14', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240718123607'),
-(4, 3, 1, 7, '2024-06-11', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '20240718123608'),
-(5, 2, 1, 6, '2024-06-19', NULL, 6, 1, '2024-07-08', NULL, NULL, NULL, 2, '20240718123609'),
-(6, 7, 1, 10, '2023-08-08', NULL, 10, 1, '2024-07-08', NULL, NULL, NULL, 2, '20240718123610'),
-(7, 9, 1, 10, '2024-06-27', NULL, NULL, NULL, NULL, NULL, NULL, 38, 1, '20240718123614'),
-(8, 10, 1, 3, '2024-06-01', NULL, 3, 1, '2024-05-26', NULL, 2147483647, 40, 2, '20240718123615'),
-(9, 11, 1, 11, '2023-11-14', NULL, NULL, NULL, NULL, NULL, 2147483647, 39, 1, '20240718123616'),
-(10, 12, 1, 7, '2024-06-11', NULL, NULL, NULL, NULL, NULL, NULL, 38, 1, '20240718123617'),
-(11, 13, 1, 6, '2024-06-19', NULL, 6, 1, '2024-07-08', NULL, 2147483647, 40, 2, '20240718123618'),
-(12, 14, 1, 10, '2023-08-08', NULL, 10, 1, '2024-07-08', NULL, 2147483647, 39, 2, '20240718123619');
 
 -- --------------------------------------------------------
 
@@ -140,26 +103,6 @@ CREATE TABLE `equipo` (
   `tipcon` bigint(11) DEFAULT NULL,
   `pagequ` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `equipo`
---
-
-INSERT INTO `equipo` (`idequ`, `marca`, `modelo`, `serialeq`, `nomred`, `idvtpeq`, `capgb`, `ram`, `procs`, `actequ`, `tipcon`, `pagequ`) VALUES
-(1, 'LENOVO', 'THIINKPAD X13', 'GM05VZN1', 'GAL-ING-PRO-04', 7, 474, 16, '11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz', 1, 11, 52),
-(2, 'HP', '2458', '5CG2223J0C', 'GLQ_CMP_01', 7, 256, 8, 'AMD Ryzen 5 5500U with Radeon Graphics', 1, 11, 52),
-(3, 'LENOVO', 'YOGA 520', 'MP1E5DQF', 'GLQ_BDG_01', 7, 1000, 16, 'Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz', 2, 10, 52),
-(4, 'LENOVO', 'THINK PAD', 'PF3E91QV', 'GG-TEC-01', 7, 512, 8, '11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz', 2, 10, 52),
-(5, 'LENOVO', 'THINKPAD E14', 'PF3L67P7', 'GLQ_OFI_07', 7, 256, 16, '12th Gen Intel Core i7 - 1265U Vpro @ 3.60 GHz', 1, 11, 52),
-(6, 'LENOVO', 'THINKPAD E14', 'PF3L4PPA', 'GAL_GE_EJE_04', 7, 512, 16, '11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz', 1, 11, 52),
-(7, 'DELL', 'LATITUDE 9420', '15Z8CK3', 'ADM_COMPR', 7, 512, 16, '11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz', 1, 10, 52),
-(8, 'Micro-Star International', 'GL62M 7RDX', '9S716J9622422ZHB000020', 'EJE_PRO_COO_01', 7, 2000, 16, 'Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz', 1, 10, 52),
-(9, 'MOTOROLA', 'G20', '356348781747939', NULL, NULL, 128, 8, NULL, 2, 11, 54),
-(10, 'MOTO', 'G31', '355302642896477', NULL, NULL, 256, 8, NULL, 1, 11, 54),
-(11, 'VIVO', 'Y16', '867315061634329', NULL, NULL, 128, 8, NULL, 2, 11, 54),
-(12, 'IPHONE', '6 PLUS', '359321060055016', NULL, NULL, 256, 8, NULL, 2, 11, 54),
-(13, 'MOTOROLA', 'G22', '359694274277208', NULL, NULL, 128, 8, NULL, 1, 11, 54),
-(14, 'HONOR', 'X6s', '862800069243269', NULL, NULL, 128, 16, NULL, 1, 11, 54);
 
 -- --------------------------------------------------------
 
@@ -292,19 +235,7 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvtpd`, `ndper`, `emaper`, `pasper`, `cargo`, `usured`, `actper`) VALUES
-(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 1, '1072642921', 'soporteit@galqui.com', 'b37276a94dfc2d512045932d36c8df69b8c2c729sGlaqs2%', 'Aprendiz Sena', 'soporteit', 1),
-(2, 'Prueba', 'Persona', 1, '1987654', 'persona@prueba.com', '305244cc2d9afd44b7ffc6bd96b605151739a5absGlaqs2%', 'Intento', 'prupersona', 1),
-(3, 'MARYI YULLIED', 'CELIS RIVERA', 1, '1069304404', 'rrhh@galqui.com', NULL, 'APRENDIZ SENA', '', 1),
-(4, 'ALDEYSON JULIAN', 'RODRIGUEZ BOHORQUEZ', 1, '80200165', 'aldeysonrodriguez@galqui.com', NULL, 'SUPERVISOR INSTRUMENTACION Y CONTROL', 'aldeysonrodriguez', 1),
-(5, 'JOHAN DAVID', 'CUERVO ACEVEDO', 1, '1055314236', 'johancuervo@galqui.com', NULL, 'SUPERVISOR JUNIOR INSTRUMENTISTA', 'johancuervo', 1),
-(6, 'JEISON ALEJANDRO', 'MOLANO PINZON', 1, '1024530115', 'jeisonmolano@galqui.com', NULL, 'INGENIERO DE PROYECTOS  II', 'jeisonmolano', 1),
-(7, 'DUVAN CAMILO', 'RIVERA ABRIL', 1, '1076240985', NULL, NULL, 'AUXILIAR LOGISTICO', '', 2),
-(8, 'RUBEN DARIO', 'PABON RAMIREZ', 1, '80370195', 'rubenpabon@galqui.com', NULL, 'SUPERVISOR ELECTRICO', 'rubenpabon', 1),
-(9, 'ALEX HUMBERTO', 'OTALORA RIVERA', 1, '80096803', 'alexotalora@galqui.com', NULL, 'LIDER DE INGENIERIA Y DISEÑO', 'alexotalora', 2),
-(10, 'CAMILO ANDRES', 'MONCAYO URIBE', 1, '1100953829', 'camilomoncayo@galqui.com', 'f5c9a0190a15664fb67d4d2767cdeeb4b1c3662dsGlaqs2%', 'LIDER DE PROYECTOS', 'camilomoncayo', 1),
-(11, 'JOSE GREGORIO', 'ROJAS SIERRA', 1, '80059515', 'joserojas@galqui.com', NULL, 'INGENIERO DE PLANEACION Y CONTROL II', 'joserojas', 2),
-(12, 'ANDREA PAOLA', 'LAVERDE GALINDO', 1, '1072426375', 'andrealaverde@galqui,com', NULL, 'AUXILIAR DE MATERIALES E INVENTARIO', 'andrealaverde', 1),
-(13, 'JULIAN DAVID', 'ACEVEDO RODRIGUEZ', 1, '1052417176', 'davidacevedo@galqui.com', NULL, 'INGENIERO DE PROYECTOS I', 'davidacevedo', 1);
+(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 1, '1072642921', 'soportei@galqui.com', 'b37276a94dfc2d512045932d36c8df69b8c2c729sGlaqs2%', 'APRENDIZ SENA', 'soporteit', 1);
 
 -- --------------------------------------------------------
 
@@ -323,19 +254,7 @@ CREATE TABLE `perxpef` (
 
 INSERT INTO `perxpef` (`idper`, `idpef`) VALUES
 (1, 1),
-(1, 2),
-(2, 3),
-(3, 3),
-(4, 3),
-(5, 3),
-(6, 3),
-(7, 3),
-(8, 3),
-(9, 3),
-(10, 3),
-(11, 3),
-(12, 3),
-(13, 3);
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -348,28 +267,6 @@ CREATE TABLE `prgxequi` (
   `idvprg` bigint(11) NOT NULL,
   `verprg` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `prgxequi`
---
-
-INSERT INTO `prgxequi` (`idequ`, `idvprg`, `verprg`) VALUES
-(1, 27, '2016'),
-(1, 33, '10'),
-(2, 30, '2019'),
-(2, 33, '10'),
-(3, 29, '2016'),
-(3, 33, '10'),
-(4, 27, '2016'),
-(4, 33, '10'),
-(5, 27, '2016'),
-(5, 33, '10'),
-(6, 31, NULL),
-(6, 33, '10'),
-(7, 31, NULL),
-(7, 33, '10'),
-(8, 31, NULL),
-(8, 33, '10');
 
 -- --------------------------------------------------------
 
@@ -389,26 +286,6 @@ CREATE TABLE `tarjeta` (
   `fecdev` date DEFAULT NULL,
   `esttaj` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tarjeta`
---
-
-INSERT INTO `tarjeta` (`idtaj`, `numtajpar`, `numtajofi`, `idperent`, `idperrec`, `fecent`, `idperentd`, `idperrecd`, `fecdev`, `esttaj`) VALUES
-(1, NULL, '0013708124 209,11100', 1, 10, '2024-06-27', NULL, NULL, NULL, 1),
-(2, '0003821203', '0013708124 209,11100', 1, 3, '2024-06-01', 3, 1, '2024-05-26', 2),
-(3, '0003820518', '0013307047 203,03239', 1, 4, '2023-11-27', NULL, NULL, NULL, 1),
-(4, '0003821082', '0013304288 203,00480', 1, 11, '2023-11-14', NULL, NULL, NULL, 1),
-(5, '0002445421', NULL, 1, 7, '2024-06-11', NULL, NULL, NULL, 1),
-(6, '0011967453', '4545987', 1, 8, '2024-06-24', NULL, NULL, NULL, 1),
-(7, '0003112012', NULL, 1, 6, '2024-06-19', 6, 1, '2024-07-08', 2),
-(8, '0012407026 189,20722', '0001802290 027,32818', 1, 5, '2024-06-20', 5, 1, '2024-07-09', 2),
-(9, '0003111906', NULL, 1, 10, '2023-08-08', 10, 1, '2024-07-08', 2),
-(10, '87979856465', '12565152', 1, 12, '2023-08-29', NULL, NULL, NULL, 1),
-(11, NULL, '10221 , 548959', 1, 13, '2023-10-10', 13, 1, '2024-05-20', 2),
-(12, '894897956', '56544', 1, 7, '2024-07-11', NULL, NULL, NULL, 1),
-(13, '330321865', NULL, 1, 9, '2023-08-12', NULL, NULL, NULL, 1),
-(14, NULL, '55452', 1, 13, '2023-08-12', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -577,7 +454,7 @@ ALTER TABLE `valor`
 -- AUTO_INCREMENT de la tabla `asignar`
 --
 ALTER TABLE `asignar`
-  MODIFY `ideqxpr` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ideqxpr` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `dominio`
@@ -589,7 +466,7 @@ ALTER TABLE `dominio`
 -- AUTO_INCREMENT de la tabla `equipo`
 --
 ALTER TABLE `equipo`
-  MODIFY `idequ` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idequ` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `modulo`
@@ -619,19 +496,19 @@ ALTER TABLE `perfil`
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `perxpef`
 --
 ALTER TABLE `perxpef`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tarjeta`
 --
 ALTER TABLE `tarjeta`
-  MODIFY `idtaj` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idtaj` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `valor`
@@ -705,3 +582,8 @@ ALTER TABLE `tarjeta`
 --
 ALTER TABLE `valor`
   ADD CONSTRAINT `valor_ibfk_1` FOREIGN KEY (`iddom`) REFERENCES `dominio` (`iddom`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

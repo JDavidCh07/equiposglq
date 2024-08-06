@@ -3,11 +3,11 @@ require_once('controllers/cper.php');
 ?>
 
 <div style="text-align: right;">
-    <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>cargmt" title="Importar"></i>
-    <?php modalImp("mod", $pg, "Tarjetas asignadas", "cargmt", ""); ?>
-    <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>cargm" title="Importar"></i>
+    <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>cargm" title="Importar Personal"></i>
     <?php modalImp("mod", $pg, "Personas", "cargm", ""); ?>
-    <a href="excel/xtaj.php" title="Exportar">
+    <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?>cargmt" title="Importar Tarjetas"></i>
+    <?php modalImp("mod", $pg, "Tarjetas asignadas", "cargmt", ""); ?>
+    <a href="excel/xtaj.php" title="Exportar Tarjetas">
         <i class="fa fa-solid fa-file-export fa-2x ext"></i>
     </a>
 </div>
