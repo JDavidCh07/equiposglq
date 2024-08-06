@@ -13,13 +13,15 @@
             <i class="fa fa-solid fa-mobile fa-2x iconi"></i>
         </a>
     </div>
-    <div class="col-6" style="text-align: right;">
-        <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?><?=($asg=='equ') ? 'cargmea' : 'cargmca'?>" title="Importar"></i>
-        <?php modalImp("mod", $pg, ($asg=="equ") ? "Equipos asignados" : "Celulares asignados", ($asg=="equ") ? "cargmea" : "cargmca", $asg)?>
-        <a href="excel/xasg.php" title="Exportar">
-            <i class="fa fa-solid fa-file-export fa-2x ext"></i>
-        </a>
-    </div>
+    <?php if($_SESSION['idpef']!=3){ ?>
+        <div class="col-6" style="text-align: right;">
+            <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?=$pg?><?=($asg=='equ') ? 'cargmea' : 'cargmca'?>" title="Importar"></i>
+            <?php modalImp("mod", $pg, ($asg=="equ") ? "Equipos asignados" : "Celulares asignados", ($asg=="equ") ? "cargmea" : "cargmca", $asg)?>
+            <a href="excel/xasg.php" title="Exportar">
+                <i class="fa fa-solid fa-file-export fa-2x ext"></i>
+            </a>
+        </div>
+    <?php } ?>
 </div>
 
 <?php if($asg){ ?>
@@ -93,7 +95,7 @@
             <tr>
                 <th>Datos asignados</th>
                 <th>Estado</th>
-                <th></th>
+                <?php if($_SESSION['idpef']!=3){ ?><th></th><?php } ?>
             </tr>
         </thead>
         <tbody>
@@ -138,7 +140,7 @@
                                     $acc = $masg->getAllAxE($dta['ideqxpr']);
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
-                                    if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'] && $dta['fecdev'])){
+                                    if($_SESSION['idpef']!=3){ if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'] && $dta['fecdev'])){
                                 ?>
                                 <i class="fa fa-solid fa-pen-clip iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbfir<?= $dta['ideqxpr']; ?>" title="Firmar"></i>
                                 <?php } 
@@ -147,10 +149,10 @@
                                     modalFir("mcbfir", $dta['ideqxpr'], $det, $pg, $asg);
                                    if(($dta['firent'] && !$dta['firdev'] && !$dta['fecdev']) OR ($dta['firent'] && $dta['firdev'])){ 
                                 ?>
-                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Imprimir PDF" target="_blank">
+                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Enviar confirmación" target="_blank">
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
                                 </a>
-                                <?php } ?>
+                                <?php }} ?>
                             </div>
                         </div>
                     </td>
@@ -163,21 +165,23 @@
                             <i class="fa fa-solid fa-circle-xmark fa-2x desact" title="Devuelto"></i>
                         <?php } ?>
                     </td>
-                    <td style="text-align: right;">
-                        <span style="font-size: 1px;opacity: 0;"><?= $dta['fecent']; ?></span>
-                        <?php if ($dta['estexp'] != 2) { ?>
-                            <i class="fa fa-solid fa-arrows-turn-to-dots fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ideqxpr']; ?>" title="Devolver"></i>
-                            <?php
-                                $masg->setIdeqxpr($dta['ideqxpr']);
-                                $acc = $masg->getAllAxE($dta['ideqxpr']);
-                                $det = $masg->getOne();
-                                modalDev("mcbdev", $dta['ideqxpr'], $acc, $det, $pg, $asg);
-                            ?>
-                            <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
-                                <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
-                            </a>
-                        <?php } ?>
-                    </td>
+                    <?php if($_SESSION['idpef']!=3){ ?>
+                        <td style="text-align: right;">
+                            <span style="font-size: 1px;opacity: 0;"><?= $dta['fecent']; ?></span>
+                            <?php if ($dta['estexp'] != 2) { ?>
+                                <i class="fa fa-solid fa-arrows-turn-to-dots fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbdev<?= $dta['ideqxpr']; ?>" title="Devolver"></i>
+                                <?php
+                                    $masg->setIdeqxpr($dta['ideqxpr']);
+                                    $acc = $masg->getAllAxE($dta['ideqxpr']);
+                                    $det = $masg->getOne();
+                                    modalDev("mcbdev", $dta['ideqxpr'], $acc, $det, $pg, $asg);
+                                ?>
+                                <a href="home.php?pg=<?= $pg; ?>&ideqxpr=<?= $dta['ideqxpr']; ?>&ope=edi&asg=<?= $asg; ?>" title="Editar">
+                                    <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
+                                </a>
+                            <?php } ?>
+                        </td>
+                    <?php } ?>
                 </tr>
             <?php }} ?>
         </tbody>
@@ -185,7 +189,7 @@
             <tr>
                 <th>Datos asignados</th>
                 <th>Estado</th>
-                <th></th>
+                <?php if($_SESSION['idpef']!=3){ ?><th></th><?php } ?>
             </tr>
         </tfoot>
     </table>
