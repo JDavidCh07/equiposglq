@@ -136,7 +136,7 @@
             $mequ->setTipcon($tipcon);
             $mequ->setPagequ($pagequ);
     		$existingData = $mequ->selectEqu();
-    		if($idvtpeq && $tipcon && $idvprg[0] && $idvprg[1]){
+    		if($idvtpeq && $tipcon){
                 if (!empty($serialeq)) {
     			    if ($existingData[0]['sum'] == 0) {
     			    	// Datos ya existen, por lo tanto, actualiza en lugar de guardar
