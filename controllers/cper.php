@@ -119,7 +119,7 @@
 
     //------------Importar empleados-----------
     if ($ope=="cargm" && $arc) {
-        $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
+        $dat = opti($_FILES["arc"], $arc, "arc/xls", $nomarc);
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
     	$objPHPExcel = $objReader->load($dat);
@@ -182,7 +182,7 @@
 
     //------------Importar tarjetas-----------
     if ($ope=="cargmt" && $arc) {
-        $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
+        $dat = opti($_FILES["arc"], $arc, "arc/xls", $nomarc);
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
     	$objPHPExcel = $objReader->load($dat);

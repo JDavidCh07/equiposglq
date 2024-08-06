@@ -22,7 +22,6 @@
     $numcel = isset($_POST['numcel']) ? $_POST['numcel']:NULL;
     $opecel = isset($_POST['opecel']) ? $_POST['opecel']:NULL;
     $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:1;
-    $detasg = date('d-m-Y_His');
     
     $nomfir = isset($_POST['nomfir']) ? $_POST['nomfir']:NULL;
     $prs = isset($_POST['prs']) ? $_POST['prs']:NULL;
@@ -91,7 +90,7 @@
         // Definir la ruta donde se guardará la imagen
 
         $fold = 'img/fir/' . $nomfir;
-        $nom = "fir_" . $prs . "_" . $detasg . ".png"; // Guardar como PNG
+        $nom = "fir_" . $prs . "_" . $nomarc . ".png"; // Guardar como PNG
         $firma = $fold.'/'.$nom;
 
         if (!file_exists($fold)) mkdir($fold, 0755, true);
@@ -139,7 +138,7 @@
 
     //------------Importar equipos asignados-----------
     if ($ope=="cargmea" && $arc) {
-        $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
+        $dat = opti($_FILES["arc"], $arc, "arc/xls", $nomarc);
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
     	$objPHPExcel = $objReader->load($dat);
@@ -240,7 +239,7 @@
 
     //------------Importar celulares asignados-----------
     if ($ope=="cargmca" && $arc) {
-        $dat = opti($_FILES["arc"], $arc, "arc/xls", "");
+        $dat = opti($_FILES["arc"], $arc, "arc/xls", $nomarc);
     	$inputFileType = IOFactory::identify($dat);
     	$objReader = IOFactory::createReader($inputFileType);
     	$objPHPExcel = $objReader->load($dat);

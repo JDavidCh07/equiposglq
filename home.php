@@ -56,6 +56,7 @@ include("models/seguridad.php");
 		<?php
 		date_default_timezone_set('America/Bogota');
 		$nmfl = date('YmdHis');
+		$nomarc = date('d-m-Y_His');
 		require_once("models/conexion.php");
 		include("controllers/optimg.php");
 		include("controllers/library.php");
