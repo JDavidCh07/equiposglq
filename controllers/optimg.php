@@ -58,7 +58,7 @@ function opti($pict, $nomimg, $rut, $pre){
 		}elseif ($docext=="xls" or $docext=="xlsx") {
 			if($pict['size']<1048576){
                 if (!file_exists($rut)) mkdir($rut, 0755, true);
-				$nombre = $rut.'/'."arc_".$nomimg.".".$docext;
+				$nombre = $rut.'/'."arc_".$nomimg."_".$pre.".".$docext;
 				move_uploaded_file($pict['tmp_name'], $nombre);
 			}else{
 				echo "<script>alert('Los archivos de Excel debe tener un peso maximo de 97Mb');</script>";
@@ -66,7 +66,7 @@ function opti($pict, $nomimg, $rut, $pre){
 		}elseif ($docext=="pdf") {
 			if($pict['size']<1048576){
                 if (!file_exists($rut)) mkdir($rut, 0755, true);
-				$nombre = $rut.'/'."arc_".$nomimg.".".$docext;
+				$nombre = $rut.'/'."arc_".$nomimg."_".$pre.".".$docext;
 				move_uploaded_file($pict['tmp_name'], $nombre);
 			}else{
 				echo "<script>alert('Los archivos PDF deben tener un peso maximo de 97Mb');</script>";
