@@ -209,7 +209,7 @@ CREATE TABLE `perfil` (
 INSERT INTO `perfil` (`idpef`, `nompef`, `idmod`, `idpag`) VALUES
 (1, 'Administrador', 2, 1),
 (2, 'Sistemas', 1, 51),
-(3, 'Colaborador', 1, 52);
+(3, 'Colaborador', 1, 51);
 
 -- --------------------------------------------------------
 
