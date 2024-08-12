@@ -153,6 +153,7 @@
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
                                 </a>
                                 <?php }} ?>
+                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('arc/pdf/DOMINGUEZ TOVAR ANDREA CATALINA_1072645397/AE_PF3E91QV_DOMINGUEZ TOVAR ANDREA CATALINA.pdf')"></i>
                             </div>
                         </div>
                     </td>
@@ -194,6 +195,13 @@
         </tfoot>
     </table>
 <?php } ?>
+<script>
+function pdf(pdfPath) {
+    var w = window.innerWidth * 0.8;
+    var h = window.innerHeight * 0.8;
+    window.open(pdfPath, 'Vista Previa', 'width='+w+',height='+h);
+}
+</script>
 <style>
     .custom-combobox1,
     .custom-combobox2-input {
