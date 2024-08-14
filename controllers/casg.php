@@ -25,7 +25,7 @@
     
     $nomfir = isset($_POST['nomfir']) ? $_POST['nomfir']:NULL;
     $prs = isset($_POST['prs']) ? $_POST['prs']:NULL;
-    $est = isset($_POST['est']) ? $_POST['est']:NULL;
+    $estfir = isset($_POST['estfir']) ? $_POST['estfir']:NULL;
     $urlfir = isset($_POST['firma']) ? $_POST['firma']:NULL;
     $firma = NULL;
 
@@ -99,7 +99,7 @@
 
     if($ope=="firmar" && $firma){
         $masg->setFirma($firma);
-        $masg->saveFir($est);
+        $masg->saveFir($estfir);
         echo "<script>window.location='home.php?pg=".$pg."&asg=".$asg."';</script>";
     }
 

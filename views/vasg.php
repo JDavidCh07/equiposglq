@@ -29,7 +29,7 @@
         <div class="row">
             <div <?php if($asg=="equ") echo 'class="form-group col-md-4 ui-widget"'; else if($asg=="cel") echo 'class="form-group col-md-6 ui-widget"';?>>
                 <label for="idperrec"><strong>Usuario:</strong></label>
-                <select id="combobox1" name="idperrec" class="form-control form-select" <?php if ($datOneA) echo 'disabled'; else echo 'required';?>>
+                <select id="combobox1" name="idperrec" class="form-control form-select" <?php if ($datOneA) echo 'disabled'; else echo 'required'; ?>>
                     <option value="0"></option>
                     <?php if ($datPer) { foreach ($datPer as $dpr) { ?>
                             <option value="<?= $dpr['idper']; ?>" <?php if ($datOneA && $dpr['idper'] == $datOneA[0]['idprec']) echo " selected "; ?>>
@@ -40,7 +40,7 @@
             </div>
             <div <?php if($asg=="equ") echo 'class="form-group col-md-4 ui-widget"'; else if($asg=="cel") echo 'class="form-group col-md-6 ui-widget"';?>>
                 <label for="idequ"><strong><?php if($asg=="equ") echo "Equipo"; else if($asg=="cel") echo "Celular";?>:</strong></label>
-                <select id="combobox2" name="idequ" class="form-control form-select" <?php if ($datOneA) echo 'disabled'; else echo 'required';?>>
+                <select id="combobox2" name="idequ" class="form-control form-select" <?php if ($datOneA) echo 'disabled'; else echo 'required'; ?>>
                     <option value="0"></option>
                     <?php if ($datEqu) { foreach ($datEqu as $deq) { ?>
                             <option value="<?= $deq['idequ']; ?>" <?php if ($datOneA && $deq['idequ'] == $datOneA[0]['idequ']) echo " selected "; ?>>
@@ -153,7 +153,6 @@
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
                                 </a>
                                 <?php }} ?>
-                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('arc/pdf/DOMINGUEZ TOVAR ANDREA CATALINA_1072645397/AE_PF3E91QV_DOMINGUEZ TOVAR ANDREA CATALINA.pdf')"></i>
                             </div>
                         </div>
                     </td>
@@ -195,13 +194,6 @@
         </tfoot>
     </table>
 <?php } ?>
-<script>
-function pdf(pdfPath) {
-    var w = window.innerWidth * 0.8;
-    var h = window.innerHeight * 0.8;
-    window.open(pdfPath, 'Vista Previa', 'width='+w+',height='+h);
-}
-</script>
 <style>
     .custom-combobox1,
     .custom-combobox2-input {

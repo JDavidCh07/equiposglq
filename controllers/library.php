@@ -162,11 +162,11 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                         $txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>';
                         if (!$det[0]['firent']) {
                             $txt .= $det[0]['prec'];
-                            $est = 1;
+                            $estfir = 1;
                             $prs = "asg";
                         } elseif ($det[0]['firent']) {
                             $txt .= $det[0]['pentd'];
-                            $est = "2";
+                            $estfir = 2;
                             $prs = "dev";
                         }
                         $txt .= '</strong></h1>';
@@ -184,7 +184,7 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                         $txt .= '<input type="hidden" name="ideqxpr" value="' . $det[0]['ideqxpr'] . '">';
                         $txt .= '<input type="hidden" name="nomfir" value="' . ($det[0]['firent'] ? $det[0]['pentd'] : $det[0]['prec']) . '">';
                         $txt .= '<input type="hidden" name="prs" value="' . $prs . '">';
-                        $txt .= '<input type="hidden" name="est" value="' . $est . '">';
+                        $txt .= '<input type="hidden" name="estfir" value="' . $estfir . '">';
                         $txt .= '<input type="hidden" name="ope" value="firmar">';
                         $txt .= '<input type="hidden" name="firma" id="firma-input' . $id . '">';
                         $txt .= '<button type="button" id="save-button' . $id . '" class="btn btn-primary btnmd">Guardar</button>';
