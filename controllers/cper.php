@@ -140,9 +140,12 @@
     		$usured = $sheet->getCell("H" . $row)->getValue();
     		$actper = $sheet->getCell("I" . $row)->getValue();
     		$idpef = $sheet->getCell("J" . $row)->getValue();
-            $mper->setIdpef($idpef); 
-            $idpef = $mper->CompPef();
-            $idpef = $idpef[0]['idpef'];
+            $idpef = str_replace(' ', '', $idpef);
+            $idpefA = explode(".", $idpef);
+            foreach($idpefA AS $pa){
+                $mper->setIdpef($pa); 
+                $pef = $mper->CompPef();
+            }
             $pasper = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
     		$mper->setNomper($nomper);
             $mper->setApeper($apeper);
@@ -157,18 +160,22 @@
     		$existingData = $mper->selectUsu();
             $idper = $existingData[0]['idper'];
             $mper->setIdper($idper);
-    		if ($idvtpd && $idpef) {
+    		if ($idvtpd && $pef) {
     		    if (!empty($ndper)) {
     		    	if ($existingData[0]['sum'] == 0) {
     		    		// Datos ya existen, por lo tanto, actualiza en lugar de guardar
     		    		$mper->save();
-                        $per = $mper->getOneSPxF($ndper); 
-                        $mper->savePxFAut($per[0]['idper'],$idpef);
+                        $per = $mper->getOneSPxF($ndper);
+                        $mper->setIdper($per[0]['idper']);
     		    	}else {
     		    		$mper->edit();
                         $mper->delPxF();
-                        $mper->savePxF();
-    		    	}
+    		    	}if($idpefA){ foreach ($idpefA as $pf) {
+                        if($pf){
+                            $mper->setIdpef($pf);
+                            $mper->savePxF();
+                        }
+                    }}
                 }
     		}else{
                 $reg = $row;
