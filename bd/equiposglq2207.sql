@@ -219,7 +219,7 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvtpd`, `ndper`, `emaper`, `pasper`, `cargo`, `usured`, `actper`) VALUES
-(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 1, '1072642921', 'soportei@galqui.com', 'b37276a94dfc2d512045932d36c8df69b8c2c729sGlaqs2%', 'APRENDIZ SENA', 'soporteit', 1);
+(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 1, '1072642921', 'soportei@galqui.com', '0cb74ff365641dc0a2a164af11a019b303452cfesGlaqs2%', 'APRENDIZ SENA', 'soporteit', 1);
 
 -- --------------------------------------------------------
 
