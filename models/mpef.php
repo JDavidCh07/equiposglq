@@ -19,7 +19,7 @@ class Mpef {
     function setIdpag($idpag){$this->idpag = $idpag;}
 
     function getAll(){
-        $sql = "SELECT p.idpef, p.nompef, p.idpag, g.nompag, p.idmod, m.nommod FROM perfil AS p LEFT JOIN pagina AS g ON p.idpag=g.idpag INNER JOIN modulo AS m ON p.idmod=m.idmod";
+        $sql = "SELECT p.idpef, p.nompef FROM perfil AS p";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -29,7 +29,7 @@ class Mpef {
     }
 
     function getOne(){
-        $sql = "SELECT p.idpef, p.nompef, p.idpag, p.idmod FROM perfil AS p INNER JOIN pagina AS g ON g.idpag = p.idpag INNER JOIN modulo AS m ON m.idmod = p.idmod WHERE p.idpef=:idpef";
+        $sql = "SELECT p.idpef, p.nompef FROM perfil AS p WHERE p.idpef=:idpef";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -43,32 +43,12 @@ class Mpef {
 
     function save(){
         try{
-            $sql = "INSERT INTO perfil(idmod, nompef, idpag) VALUES (:idmod, :nompef, :idpag)";
+            $sql = "INSERT INTO perfil(nompef) VALUES (:nompef)";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
             $nompef=$this->getNompef();
             $result->bindParam(":nompef", $nompef);
-            $idpag=$this->getIdpag();
-            $result->bindParam(":idpag", $idpag);
-            $idmod=$this->getIdmod();
-            $result->bindParam(":idmod", $idmod);
-            $result->execute();
-        } catch (Exception $e) {
-            ManejoError($e);
-        }
-    }
-
-    function savePxP(){
-        try {
-            $sql = "INSERT INTO pagxpef (idpag, idpef)VALUES (:idpag, :idpef)";
-            $modelo = new conexion();
-            $conexion = $modelo->get_conexion();
-            $result = $conexion->prepare($sql);
-            $idpag = $this->getIdpag();
-            $result->bindParam(":idpag", $idpag);
-            $idpef = $this->getIdpef();
-            $result->bindParam(":idpef", $idpef);
             $result->execute();
         } catch (Exception $e) {
             ManejoError($e);
@@ -77,7 +57,7 @@ class Mpef {
 
     function edit(){
         try{
-            $sql = "UPDATE perfil SET idpef=:idpef,nompef=:nompef, idmod=:idmod, idpag=:idpag WHERE  idpef=:idpef";
+            $sql = "UPDATE perfil SET nompef=:nompef WHERE idpef=:idpef";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion(); 
             $result = $conexion->prepare($sql);
@@ -85,10 +65,6 @@ class Mpef {
             $result->bindParam(":idpef", $idpef);
             $nompef=$this->getNompef();
             $result->bindParam(":nompef", $nompef);
-            $idpag=$this->getIdpag();
-            $result->bindParam(":idpag", $idpag);
-            $idmod=$this->getIdmod();
-            $result->bindParam(":idmod", $idmod);
             $result->execute();
         } catch (Exception $e) {
             ManejoError($e);
@@ -109,9 +85,40 @@ class Mpef {
         }
     }
 
+    //---------Pagxpef------------
+    function savePxP(){
+        try {
+            $sql = "INSERT INTO pagxpef (idpag, idpef)VALUES (:idpag, :idpef)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idpag = $this->getIdpag();
+            $result->bindParam(":idpag", $idpag);
+            $idpef = $this->getIdpef();
+            $result->bindParam(":idpef", $idpef);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
     function delPXP(){
         try {
             $sql = "DELETE FROM pagxpef WHERE idpef=:idpef";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idpef = $this->getIdpef(); 
+            $result->bindParam(":idpef", $idpef);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function delPag($idmod){
+        try {
+            $sql = "DELETE pp FROM pagxpef AS pp INNER JOIN pagina AS p ON pp.idpag=p.idpag WHERE idpef=:idpef AND p.idmod NOT IN ($idmod)";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -136,6 +143,52 @@ class Mpef {
         return $res;
     }
 
+    //---------Pefxmod------------
+    function savePxM(){
+        try {
+            $sql = "INSERT INTO pefxmod (idmod, idpef, idpag) VALUES (:idmod, :idpef, :idpag)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idmod = $this->getIdmod();
+            $result->bindParam(":idmod", $idmod);
+            $idpef = $this->getIdpef();
+            $result->bindParam(":idpef", $idpef);
+            $idpag = $this->getIdpag();
+            $result->bindParam(":idpag", $idpag);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function delPxM(){
+        try {
+            $sql = "DELETE FROM pefxmod WHERE idpef=:idpef";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idpef = $this->getIdpef(); 
+            $result->bindParam(":idpef", $idpef);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function getPxM(){
+        $sql = "SELECT pm.idmod, pm.idpag, m.idmod, m.nommod FROM pefxmod AS pm INNER JOIN modulo AS m ON pm.idmod=m.idmod WHERE pm.idpef=:idpef";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $idpef = $this->getIdpef();
+        $result->bindParam(":idpef", $idpef);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    //---------Traer valores------------
     function getPag(){
         $sql = "SELECT idpag, nompag, icono FROM pagina";
         $modelo = new conexion();
@@ -147,16 +200,18 @@ class Mpef {
     }
 
     function getPagMod(){
-        $sql = "SELECT idpag, nompag, icono FROM pagina WHERE idmod=$this->idmod";
+        $sql = "SELECT idpag, nompag, icono FROM pagina WHERE mospag=1 AND idmod=:idmod";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
+        $idmod = $this->getIdmod();
+        $result->bindParam(":idmod", $idmod);
         $result->execute();
         $res = $result-> fetchall(PDO::FETCH_ASSOC);
         return $res;
     }
     function getMod(){
-        $sql = "SELECT idmod, nommod, imgmod, actmod, idpag FROM modulo";
+        $sql = "SELECT idmod, nommod, imgmod, actmod FROM modulo";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -164,30 +219,6 @@ class Mpef {
         $res = $result-> fetchall(PDO::FETCH_ASSOC);
         return $res;
     }
-    
-    // function getGraphi(){
-    //     try{
-    //         $sql = "SELECT f.idpef, f.pefnom, COUNT(p.idper) as cn FROM perfil AS f LEFT JOIN pefxper AS p ON f.idpef=p.idpef GROUP BY f.idpef, f.pefnom ORDER BY COUNT(p.idper) DESC, f.pefnom";
-    //         $modelo = new conexion();
-    //         $conexion = $modelo->get_conexion();
-    //         $result = $conexion->prepare($sql);
-    //         $result->execute();
-    //         $res = $result->fetchall(PDO::FETCH_ASSOC);
-    //     }catch(Exception $e){
-    //         ManejoError($e);
-    //     }
-    //     return $res;
-    // }
-    // function getALLGraf(){
-    //     $sql = "SELECT pf.idpef, pf.pefnom, COUNT(pa.pagid) AS cn FROM perfil AS pf LEFT JOIN pagxpef AS pa ON pf.idpef = pa.idpef GROUP BY pf.idpef, pf.pefnom";
-    //     $modelo = new conexion();
-    //     $conexion = $modelo->get_conexion();
-    //     $result = $conexion->prepare($sql);
-    //     $result->execute();
-    //     $res = $result->fetchall(PDO::FETCH_ASSOC);
-    //     return $res;
-    // }
-
 }
 
 ?>

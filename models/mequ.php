@@ -301,7 +301,7 @@
 
         function savePxE()
         {
-            // try{
+            try{
                 $sql = "INSERT INTO prgxequi (idequ, idvprg, verprg) VALUES (:idequ, :idvprg, :verprg)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -313,9 +313,9 @@
                 $verprg = $this->getVerprg();
                 $result->bindParam(":verprg", $verprg);
                 $result->execute();
-            // } catch (Exception $e) {
-            //     ManejoError($e);
-            // }
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
         }
 
         function delPxE()

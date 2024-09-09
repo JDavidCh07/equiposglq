@@ -16,7 +16,7 @@
 						<small>
 							<?php echo (function($name) { return explode(" ", $name)[0]; })($_SESSION["nomper"]) . " " . (function($surname) { return explode(" ", $surname)[0]; })($_SESSION["apeper"]);?>
 						<br>
-						<small><small><?= $_SESSION["cargo"]; ?></small></small></small>
+						<small><small><?= $_SESSION["nompef"]; ?></small></small></small>
 					</div>
 					<i class="fa fa-solid fa-user fa-2x"></i>
 				</a>

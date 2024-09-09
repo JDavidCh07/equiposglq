@@ -72,8 +72,6 @@ include("models/seguridad.php");
 		$rut = validar($pg);
 		if ($rut) {
 			$mos = $rut[0]['mospag'];
-			echo '<div style="width:100%; color:red; text-align:center;" id="venli"></div>';
-			echo "<script>venli();</script>";
 			if ($ope == "edi") $est = 1;
 			titulo($rut[0]['icono'], $rut[0]['nompag'], $rut[0]['mospag'], $pg);
 			echo '<div id="err"></div>';

@@ -321,14 +321,16 @@ $html .= '
 </html>';
 
 if($ideqxpr){
-    $fold = '../arc/pdf/'.$det['prec'].'_'.$det['dprec'].'/';
+    $fold = 'arc/pdf/'.$det['prec'].'_'.$det['dprec'].'/';
     $name = $n.$det['serialeq']."_".$det['prec'].".pdf";
 
     $dompdf->loadHtml($html);
     $dompdf->setPaper('Letter', 'portrait');
     $dompdf->render();
-    if (!file_exists($fold)) mkdir($fold, 0755, true);
-    $file_path = $fold.$name;
+    if (!file_exists('../'.$fold)) mkdir('../'.$fold, 0755, true);
+    $file_path = '../'.$fold.$name;
+    $masg->setRutpdf($fold.$name);
+    $masg->savePdf();
     file_put_contents($file_path, $dompdf->output());
 
     //-------Datos destinatario--------

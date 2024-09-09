@@ -31,33 +31,113 @@ function ManejoError($e){
 }
 
 //------------Modal vpef, pagxpef-----------
-function modalChk($nm, $id, $tit, $mt, $pg, $dms){
+function modalChk($nm, $id, $tit, $mods, $dps, $pg){
+	$mpef = new Mpef();
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<div class="modal-content">';
 				$txt .= '<div class="modal-header">';
-					$txt .= '<h1 class="modal-title fs-5" id="" style="color: #000;font-weight: bold !important;"><strong>Páginas - ' . $tit . '</strong></h1>';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #000;font-weight: bold !important;"><strong>Páginas - ' . $tit . '</strong></h1>';
 					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
 				$txt .= '</div>';
 				$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
 					$txt .= '<div class="modal-body">';
-						$txt .= '<input type="hidden" value="' . $id . '" name="idpef">';
 						$txt .= '<div class="row">';
-							if ($mt) { foreach ($mt as $tm) {
-									$txt .= '<div class="form-group col-md-6" style="text-align: left !important;">';
-										$pos = strpos($dms, $tm['idpag']);
-										$txt .= '<input type="checkbox" name="chk[]" value="' . $tm['idpag'] . '"';
-										if ($pos > -1) $txt .= " checked ";
-										$txt .= '> ';
-										$txt .= $tm['nompag'] . " ";
-										$txt .= '<i class="' . $tm['icono'] . '" style="color: #000;"></i>';
-									$txt .= '</div>';
+						if ($mods) { foreach ($mods as $md) {
+							$mpef->setIdmod($md['idmod']);
+							$pgmd = $mpef->getPagMod();
+							$txt .= '<div class="form-group col-sm-12" style="text-align: left !important;"><strong>'.$md['nommod'].':</strong></div>';
+							if($pgmd){ foreach($pgmd AS $pm){
+								$txt .= '<div class="form-group col-sm-6" style="text-align: left !important;">';
+			                    	$txt .= '<input type="checkbox" name="idpag[]" value="'.$pm['idpag'].'"';
+									if ($dps){ foreach($dps as $dp){ if($pm['idpag'] == $dp['idpag']) $txt .= ' checked ';}}
+									$txt .= '> '.$pm['nompag'].' ';
+									$txt .= '<i class="' . $pm['icono'] . '" style="color: #073663;"></i>';
+								$txt .= '</div>';
 							}}
+						}}
 						$txt .= '</div>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
 						$txt .= '<input type="hidden" value="savepxp" name="ope">';
+						$txt .= '<input type="hidden" value="' . $id . '" name="idpef">';
+						$txt .= '<input type="submit" class="btn btn-primary btnmd" value="Guardar">';
+						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+					$txt .= '</div>';
+				$txt .= '</form>';
+			$txt .= '</div>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal vpmod, perfil-----------
+function modalPef($info) {
+    $txt = '';
+	$txt .= '<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog modal-dialog-centered">';
+			$txt .= '<div class="modal-content">';
+				$txt .= '<div class="modal-header">';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #000;font-weight: bold !important;"><strong>'.$info[0]['nommod'].'</strong></h1>';
+					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+				$txt .= '</div>';
+				$txt .= '<form action="pmod.php" method="POST" id="perfilForm">';
+					$txt .= '<div class="modal-body">';
+						$txt .= '<label for="idpef">Ingresar con perfil de:</label>';
+						$txt .= '<select name="idpef" id="idpef" class="form form-select" onchange="document.getElementById(\'perfilForm\').submit();">';
+							$txt .= '<option value="0">Seleccione un perfil...</option>';
+							if ($info) { foreach ($info as $i) {
+								$txt .= '<option value="'.$i['idpef'].'">'.$i['nompef'].'</option>';
+							}}
+						$txt .= '</select>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" value="dircc" name="ope">';
+						$txt .= '<input type="hidden" value="'.$info[0]['idmod'].'" name="idmod">';
+					$txt .= '</div>';
+				$txt .= '</form>';
+			$txt .= '</div>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal vpef, pefxmod-----------
+function modalPxM($nm, $id, $tit, $mods, $pfxmd, $pg){
+	$mpef = new Mpef();
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<div class="modal-content">';
+				$txt .= '<div class="modal-header">';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #000;font-weight: bold !important;"><strong>Páginas iniciales - ' . $tit . '</strong></h1>';
+					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+				$txt .= '</div>';
+				$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
+					$txt .= '<div class="modal-body">';
+						$txt .= '<div class="row">';
+						if ($mods) { foreach ($mods as $md) {
+								$mpef->setIdmod($md['idmod']);
+								$pgmd = $mpef->getPagMod();
+								$txt .= '<div class="form-group col-sm-6" style="text-align: left !important;">';
+									$txt .= $md['nommod'].":";
+									$txt .= '<select name="idpag[]" id="idpag" class="form form-select">';
+										$txt .= '<option value="0">Sin acceso...</option>';
+									if ($pgmd){ foreach($pgmd as $pm){
+										$txt .= '<option value="'.$pm['idpag'].'"';
+										if ($pfxmd){ foreach($pfxmd as $fm){ if($pm['idpag'] == $fm['idpag']) $txt .= ' selected ';}}
+										$txt .= '>'.$pm['nompag'].'</option>';
+									}}
+									$txt .= '</select>';
+								$txt .= '</div>';
+								$txt .= '<input type="hidden" value="'.$md['idmod'].'" name="idmod[]">';
+							}}
+						$txt .= '</div>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" value="savepxm" name="ope">';
+						$txt .= '<input type="hidden" value="'.$id.'" name="idpef">';
 						$txt .= '<input type="submit" class="btn btn-primary btnmd" value="Guardar">';
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 					$txt .= '</div>';
@@ -69,40 +149,30 @@ function modalChk($nm, $id, $tit, $mt, $pg, $dms){
 }
 
 //------------Modal vper, pefxper-----------
-function modalCmb($nm, $id, $tit, $idmod, $pg, $dms){
-	$mper = new Mper();
+function modalCmb($nm, $id, $tit, $pef, $dga, $pg){
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
 				$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Perfiles - ' . $tit . '</strong></h1>';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: left;"><strong>Perfiles - ' . $tit . '</strong></h1>';
 						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-body">';
-						$txt .= '<input type="hidden" value="' . $id . '" name="idper">';
 						$txt .= '<div class="row">';
-							if ($idmod) { foreach ($idmod as $dt) {
-								$dtpg = $mper->getOnePef($dt['idmod']);
+							if ($pef) { foreach ($pef as $pf) {
 								$txt .= '<div class="form-group col-md-6" style="text-align: left;">';
-									$txt .= '<label for="idpef" class="titulo"><strong>' . $dt['nommod'] . ':</strong></label>';
-									$txt .= '<input type="hidden" name="idmod[]" value="' . $dt['idmod'] . '">';
-									$txt .= '<select name="idpef[]" id="idpef" class="form form-select">';
-										$txt .= '<option value="0">Sin perfil</option>';
-											if ($dtpg){ foreach ($dtpg as $td) {
-												$pos = strpos($dms, $td['idpef']);
-												$txt .= '<option value="' . $td['idpef'] . '"';
-												if ($pos > -1) $txt .= " selected ";
-												$txt .= '>' . $td['nompef'] . '</option>';
-											}}
-									$txt .= '</select>';
+									$txt .= '<input type="checkbox" name="idpef[]" value="'.$pf['idpef'].'"';
+									if ($dga){ foreach($dga as $dg){ if($pf['idpef'] == $dg['idpef']) $txt .= ' checked ';}}
+									$txt .= '> '.$pf['nompef'].' ';
 								$txt .= '</div>';
 							}}
 						$txt .= '</div>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
 						$txt .= '<input type="hidden" value="savepxf" name="ope">';
+						$txt .= '<input type="hidden" value="' . $id . '" name="idper">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 					$txt .= '</div>';
@@ -363,7 +433,7 @@ function modalDev($nm, $id, $acc, $det, $pg, $asg){
 //------------Modal vasg, info asignacion-----------
 function modalInfAsg($nm, $id, $prgs, $acc, $det, $asg){		
 	$txt = '';
-	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<div class="modal-content">';
 				$txt .= '<div class="modal-header">';
@@ -589,17 +659,6 @@ function modalImp($nm, $pg, $tit, $ope, $asg){
 		$txt .= '</div>';
 	$txt .= '</div>';
 	echo $txt;
-}
-
-//------------Array-string vpef, pagxpef-----------
-function arrstr($dt){
-	$txt = "";
-	if ($dt) {
-		foreach ($dt as $d) {
-			$txt .= $d['idpag'] . ",";
-		}
-	}
-	return $txt;
 }
 
 //------------Array-string vequ, prgxequi-----------

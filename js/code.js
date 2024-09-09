@@ -95,10 +95,10 @@ function eliminar(nom){
 function pdf(pdfPath) {
   var w = window.innerWidth * 0.8;
   var h = window.innerHeight * 0.8;
-  var l = (window.innerWidth - width) / 2;
-  var t = (window.innerHeight - height) / 2;
+  var l = (window.innerWidth - w) / 2;
+  var t = (window.innerHeight - h) / 2;
 
-  window.open(pdfPath, 'Vista Previa', 'width=' + width + ',height=' + height + ',left=' + l + ',top=' + t);
+  window.open(pdfPath, 'Vista Previa', 'width=' + w + ',height=' + h + ',left=' + l + ',top=' + t);
 }
 
 $('ul li').on('click', function() {

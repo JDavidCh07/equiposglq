@@ -114,7 +114,6 @@
 
     //------------Traer valores-----------
     $datAll = $mper->getAll();
-    $idmod = $mper->getAllMod();
     $dattpd = $mper->getAllTpd(1);
 
     //------------Importar empleados-----------

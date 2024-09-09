@@ -15,6 +15,7 @@
         private $numcel;
         private $opecel;
         private $estexp;
+        private $rutpdf;
         private $difasg;
 
         private $firma;
@@ -65,6 +66,9 @@
         }
         public function getEstexp(){
             return $this->estexp;
+        }
+        public function getRutpdf(){
+            return $this->rutpdf;
         }
         public function getDifasg(){
             return $this->difasg;
@@ -126,6 +130,9 @@
         public function setEstexp($estexp){
             $this->estexp=$estexp;
         }
+        public function setRutpdf($rutpdf){
+            $this->rutpdf=$rutpdf;
+        }
         public function setDifasg($difasg){
             $this->difasg=$difasg;
         }
@@ -148,7 +155,7 @@
 
         //------------Asignar-----------
         function getAllAsig($asg){
-            $sql = "SELECT a.ideqxpr, a.fecent, a.observ, a.firent, a.fecdev, a.observd, a.firdev, a.numcel, a.opecel, vo.nomval AS operador, a.estexp, e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.tipcon, e.pagequ, vt.nomval AS tpe, vc.nomval AS tpc, pe.idper AS idpent, CONCAT (pe.apeper,' ',pe.nomper) AS pent, pe.ndper AS dpent, vpe.nomval AS tdpent, pe.cargo AS cpent, pe.emaper AS epent, pr.idper AS idprec, CONCAT (pr.apeper,' ',pr.nomper) AS prec, pr.ndper AS dprec, vpr.nomval AS tdprec, pr.cargo AS cprec, pr.emaper AS eprec, ped.idper AS idpentd, CONCAT (ped.apeper,' ',ped.nomper) AS pentd, ped.ndper AS dpentd, vped.nomval AS tdpentd, ped.cargo AS cpentd, ped.emaper AS epentd, prd.idper AS idprecd, CONCAT (prd.apeper,' ',prd.nomper) AS precd, prd.ndper AS dprecd, vprd.nomval AS tdprecd, prd.cargo AS cprecd, prd.emaper AS eprecd FROM asignar AS a INNER JOIN equipo AS e ON a.idequ=e.idequ INNER JOIN persona AS pe ON a.idperent=pe.idper INNER JOIN persona AS pr ON a.idperrec=pr.idper LEFT JOIN persona AS ped ON a.idperentd=ped.idper LEFT JOIN persona AS prd ON a.idperrecd=prd.idper INNER JOIN valor AS vpe ON pe.idvtpd=vpe.idval INNER JOIN valor AS vpr ON pr.idvtpd=vpr.idval LEFT JOIN valor AS vped ON ped.idvtpd=vped.idval LEFT JOIN valor AS vprd ON prd.idvtpd=vprd.idval LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON a.opecel=vo.idval";
+            $sql = "SELECT a.ideqxpr, a.fecent, a.observ, a.firent, a.fecdev, a.observd, a.firdev, a.numcel, a.opecel, vo.nomval AS operador, a.estexp, a.rutpdf, e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.tipcon, e.pagequ, vt.nomval AS tpe, vc.nomval AS tpc, pe.idper AS idpent, CONCAT (pe.apeper,' ',pe.nomper) AS pent, pe.ndper AS dpent, vpe.nomval AS tdpent, pe.cargo AS cpent, pe.emaper AS epent, pr.idper AS idprec, CONCAT (pr.apeper,' ',pr.nomper) AS prec, pr.ndper AS dprec, vpr.nomval AS tdprec, pr.cargo AS cprec, pr.emaper AS eprec, ped.idper AS idpentd, CONCAT (ped.apeper,' ',ped.nomper) AS pentd, ped.ndper AS dpentd, vped.nomval AS tdpentd, ped.cargo AS cpentd, ped.emaper AS epentd, prd.idper AS idprecd, CONCAT (prd.apeper,' ',prd.nomper) AS precd, prd.ndper AS dprecd, vprd.nomval AS tdprecd, prd.cargo AS cprecd, prd.emaper AS eprecd FROM asignar AS a INNER JOIN equipo AS e ON a.idequ=e.idequ INNER JOIN persona AS pe ON a.idperent=pe.idper INNER JOIN persona AS pr ON a.idperrec=pr.idper LEFT JOIN persona AS ped ON a.idperentd=ped.idper LEFT JOIN persona AS prd ON a.idperrecd=prd.idper INNER JOIN valor AS vpe ON pe.idvtpd=vpe.idval INNER JOIN valor AS vpr ON pr.idvtpd=vpr.idval LEFT JOIN valor AS vped ON ped.idvtpd=vped.idval LEFT JOIN valor AS vprd ON prd.idvtpd=vprd.idval LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON a.opecel=vo.idval";
             if($asg==52) $sql .= " WHERE e.pagequ=52";
             else if($asg==54) $sql .= " WHERE e.pagequ=54";
             if($_SESSION['idpef']==3) $sql .= " AND pr.idper=:idper";
@@ -166,7 +173,7 @@
         }
 
         function getOne(){
-            $sql = "SELECT a.ideqxpr, a.fecent, a.observ, a.firent, a.fecdev, a.observd, a.firdev, a.numcel, a.opecel, vo.nomval AS operador, a.estexp, e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.tipcon, e.pagequ, vt.nomval AS tpe, vc.nomval AS tpc, pe.idper AS idpent, CONCAT (pe.apeper,' ',pe.nomper) AS pent, pe.ndper AS dpent, vpe.nomval AS tdpent, pe.cargo AS cpent, pe.emaper AS epent, pr.idper AS idprec, CONCAT (pr.apeper,' ',pr.nomper) AS prec, pr.ndper AS dprec, vpr.nomval AS tdprec, pr.cargo AS cprec, pr.emaper AS eprec, ped.idper AS idpentd, CONCAT (ped.apeper,' ',ped.nomper) AS pentd, ped.ndper AS dpentd, vped.nomval AS tdpentd, ped.cargo AS cpentd, ped.emaper AS epentd, prd.idper AS idprecd, CONCAT (prd.apeper,' ',prd.nomper) AS precd, prd.ndper AS dprecd, vprd.nomval AS tdprecd, prd.cargo AS cprecd, prd.emaper AS eprecd FROM asignar AS a INNER JOIN equipo AS e ON a.idequ=e.idequ INNER JOIN persona AS pe ON a.idperent=pe.idper INNER JOIN persona AS pr ON a.idperrec=pr.idper LEFT JOIN persona AS ped ON a.idperentd=ped.idper LEFT JOIN persona AS prd ON a.idperrecd=prd.idper INNER JOIN valor AS vpe ON pe.idvtpd=vpe.idval INNER JOIN valor AS vpr ON pr.idvtpd=vpr.idval LEFT JOIN valor AS vped ON ped.idvtpd=vped.idval LEFT JOIN valor AS vprd ON prd.idvtpd=vprd.idval LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON a.opecel=vo.idval WHERE a.ideqxpr=:ideqxpr";
+            $sql = "SELECT a.ideqxpr, a.fecent, a.observ, a.firent, a.fecdev, a.observd, a.firdev, a.numcel, a.opecel, vo.nomval AS operador, a.estexp, a.rutpdf, e.idequ, e.marca, e.modelo, e.serialeq, e.nomred, e.idvtpeq, e.capgb, e.ram, e.procs, e.tipcon, e.pagequ, vt.nomval AS tpe, vc.nomval AS tpc, pe.idper AS idpent, CONCAT (pe.apeper,' ',pe.nomper) AS pent, pe.ndper AS dpent, vpe.nomval AS tdpent, pe.cargo AS cpent, pe.emaper AS epent, pr.idper AS idprec, CONCAT (pr.apeper,' ',pr.nomper) AS prec, pr.ndper AS dprec, vpr.nomval AS tdprec, pr.cargo AS cprec, pr.emaper AS eprec, ped.idper AS idpentd, CONCAT (ped.apeper,' ',ped.nomper) AS pentd, ped.ndper AS dpentd, vped.nomval AS tdpentd, ped.cargo AS cpentd, ped.emaper AS epentd, prd.idper AS idprecd, CONCAT (prd.apeper,' ',prd.nomper) AS precd, prd.ndper AS dprecd, vprd.nomval AS tdprecd, prd.cargo AS cprecd, prd.emaper AS eprecd FROM asignar AS a INNER JOIN equipo AS e ON a.idequ=e.idequ INNER JOIN persona AS pe ON a.idperent=pe.idper INNER JOIN persona AS pr ON a.idperrec=pr.idper LEFT JOIN persona AS ped ON a.idperentd=ped.idper LEFT JOIN persona AS prd ON a.idperrecd=prd.idper INNER JOIN valor AS vpe ON pe.idvtpd=vpe.idval INNER JOIN valor AS vpr ON pr.idvtpd=vpr.idval LEFT JOIN valor AS vped ON ped.idvtpd=vped.idval LEFT JOIN valor AS vprd ON prd.idvtpd=vprd.idval LEFT JOIN valor AS vt ON e.idvtpeq=vt.idval LEFT JOIN valor AS vc ON e.tipcon=vc.idval LEFT JOIN valor AS vo ON a.opecel=vo.idval WHERE a.ideqxpr=:ideqxpr";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -226,6 +233,22 @@
                 $result->bindParam(":ideqxpr",$ideqxpr);
                 $firma = $this->getFirma();
                 $result->bindParam(":firma", $firma);
+                $result->execute();
+            } catch (Exception $e) {
+                ManejoError($e);
+            }
+        }
+
+        function savePdf(){
+            try{
+                $sql = "UPDATE asignar SET rutpdf=:rutpdf WHERE ideqxpr=:ideqxpr";
+                $modelo = new conexion();
+                $conexion = $modelo->get_conexion();
+                $result = $conexion->prepare($sql);
+                $ideqxpr = $this->getIdeqxpr();
+                $result->bindParam(":ideqxpr",$ideqxpr);
+                $rutpdf = $this->getRutpdf();
+                $result->bindParam(":rutpdf", $rutpdf);
                 $result->execute();
             } catch (Exception $e) {
                 ManejoError($e);

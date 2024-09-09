@@ -33,7 +33,7 @@
                     <option value="0"></option>
                     <?php if ($datPer) { foreach ($datPer as $dpr) { ?>
                             <option value="<?= $dpr['idper']; ?>" <?php if ($datOneA && $dpr['idper'] == $datOneA[0]['idprec']) echo " selected "; ?>>
-                                <?= $dpr['ndper']." - ".$dpr['apeper']." ".$dpr['nomper']; ?>    
+                                <?= $dpr['ndper']." - ".$dpr['apeper']." ".$dpr['nomper']; ?>     
                             </option>
                     <?php }} ?>
                 </select>
@@ -152,6 +152,8 @@
                                 <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Enviar confirmación" target="_blank">
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
                                 </a>
+                                <?php } if($dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
+                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['rutpdf'] ?>')"></i>
                                 <?php }} ?>
                             </div>
                         </div>

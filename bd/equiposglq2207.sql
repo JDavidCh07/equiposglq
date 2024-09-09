@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS equiposglq;
-CREATE DATABASE equiposglq;
-USE equiposglq;
+DROP DATABASE IF EXISTS equiposglqarr;
+CREATE DATABASE equiposglqarr;
+USE equiposglqarr;
 --
 -- Base de datos: `equiposglq`
 --
@@ -38,6 +38,7 @@ CREATE TABLE `asignar` (
   `numcel` int(10) DEFAULT NULL,
   `opecel` bigint(11) DEFAULT NULL,
   `estexp` tinyint(1) DEFAULT 1,
+  `rutpdf` varchar(255) DEFAULT NULL,
   `difasg` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -98,17 +99,16 @@ CREATE TABLE `modulo` (
   `idmod` int(5) NOT NULL,
   `nommod` varchar(100) NOT NULL,
   `imgmod` varchar(255) DEFAULT NULL,
-  `actmod` tinyint(1) NOT NULL DEFAULT 1,
-  `idpag` bigint(11) DEFAULT NULL
+  `actmod` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `modulo`
 --
 
-INSERT INTO `modulo` (`idmod`, `nommod`, `imgmod`, `actmod`, `idpag`) VALUES
-(1, 'Registro', NULL, 1, 51),
-(2, 'Configuración', NULL, 1, 1);
+INSERT INTO `modulo` (`idmod`, `nommod`, `imgmod`, `actmod`) VALUES
+(1, 'Registro', NULL, 1),
+(2, 'Configuración', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -174,26 +174,33 @@ INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
 (51, 3);
 
 -- --------------------------------------------------------
+CREATE TABLE `pefxmod` (
+  `idmod` int(5) NOT NULL,
+  `idpef` bigint(11) NOT NULL,
+  `idpag` bigint(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `pefxmod` (`idmod`, `idpef`, `idpag`) VALUES
+(1, 2, 51),
+(2, 2, 4),
+(2, 1, 1);
 --
 -- Estructura de tabla para la tabla `perfil`
 --
 
 CREATE TABLE `perfil` (
   `idpef` bigint(11) NOT NULL,
-  `nompef` varchar(100) NOT NULL,
-  `idmod` int(5) NOT NULL,
-  `idpag` bigint(11) DEFAULT NULL
+  `nompef` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `perfil`
 --
 
-INSERT INTO `perfil` (`idpef`, `nompef`, `idmod`, `idpag`) VALUES
-(1, 'Administrador', 2, 1),
-(2, 'Sistemas', 1, 51),
-(3, 'Colaborador', 1, 51);
+INSERT INTO `perfil` (`idpef`, `nompef`) VALUES
+(1, 'Administrador'),
+(2, 'Sistemas'),
+(3, 'Colaborador');
 
 -- --------------------------------------------------------
 
@@ -219,7 +226,7 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvtpd`, `ndper`, `emaper`, `pasper`, `cargo`, `usured`, `actper`) VALUES
-(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 1, '1072642921', 'soportei@galqui.com', '0cb74ff365641dc0a2a164af11a019b303452cfesGlaqs2%', 'APRENDIZ SENA', 'soporteit', 1);
+(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 1, '1072642921', 'soporteit@galqui.com', '0cb74ff365641dc0a2a164af11a019b303452cfesGlaqs2%', 'APRENDIZ SENA', 'soporteit', 1);
 
 -- --------------------------------------------------------
 
@@ -327,6 +334,16 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (39, 902, 'Claro', 9, 1),
 (40, 903, 'Movistar', 9, 1);
 
+
+CREATE TABLE `permiso` (
+  `idprm` bigint(11) NOT NULL,
+  `fecini` DATETIME DEFAULT NULL,
+  `fecfin` DATETIME DEFAULT NULL,
+  `idvtprm` bigint(11) NOT NULL,
+  `desprm` varchar(250) DEFAULT NULL,
+  `obsprm` varchar(250) DEFAULT NULL,
+  `idper` bigint(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 --
 -- Índices para tablas volcadas
 --
@@ -387,9 +404,7 @@ ALTER TABLE `pagxpef`
 -- Indices de la tabla `perfil`
 --
 ALTER TABLE `perfil`
-  ADD PRIMARY KEY (`idpef`),
-  ADD KEY `idmod` (`idmod`),
-  ADD KEY `idpag` (`idpag`);
+  ADD PRIMARY KEY (`idpef`);
 
 --
 -- Indices de la tabla `persona`
@@ -404,6 +419,11 @@ ALTER TABLE `persona`
 ALTER TABLE `perxpef`
   ADD KEY `idper` (`idper`),
   ADD KEY `idpef` (`idpef`);
+
+ALTER TABLE `pefxmod`
+  ADD KEY `idmod` (`idmod`),
+  ADD KEY `idpef` (`idpef`),
+  ADD KEY `idpag` (`idpag`);
 
 --
 -- Indices de la tabla `prgxequi`
@@ -429,6 +449,11 @@ ALTER TABLE `valor`
   ADD PRIMARY KEY (`idval`),
   ADD UNIQUE KEY `codval` (`codval`),
   ADD KEY `iddom` (`iddom`);
+
+ALTER TABLE `permiso`
+  ADD PRIMARY KEY (`idprm`),
+  ADD KEY `idper` (`idper`),
+  ADD KEY `idvtprm` (`idvtprm`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -500,6 +525,9 @@ ALTER TABLE `tarjeta`
 ALTER TABLE `valor`
   MODIFY `idval` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
+
+ALTER TABLE `permiso`
+  MODIFY `idprm` bigint(11) NOT NULL AUTO_INCREMENT;
 --
 -- Restricciones para tablas volcadas
 --
@@ -533,11 +561,6 @@ ALTER TABLE `pagxpef`
   ADD CONSTRAINT `pagxpef_ibfk_1` FOREIGN KEY (`idpag`) REFERENCES `pagina` (`idpag`),
   ADD CONSTRAINT `pagxpef_ibfk_2` FOREIGN KEY (`idpef`) REFERENCES `perfil` (`idpef`);
 
---
--- Filtros para la tabla `perfil`
---
-ALTER TABLE `perfil`
-  ADD CONSTRAINT `perfil_ibfk_1` FOREIGN KEY (`idmod`) REFERENCES `modulo` (`idmod`);
 
 --
 -- Filtros para la tabla `perxpef`
@@ -545,6 +568,10 @@ ALTER TABLE `perfil`
 ALTER TABLE `perxpef`
   ADD CONSTRAINT `perxpef_ibfk_1` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`),
   ADD CONSTRAINT `perxpef_ibfk_2` FOREIGN KEY (`idpef`) REFERENCES `perfil` (`idpef`);
+
+ALTER TABLE `pefxmod`
+  ADD CONSTRAINT `pefxmod_ibfk_1` FOREIGN KEY (`idmod`) REFERENCES `modulo` (`idmod`),
+  ADD CONSTRAINT `pefxmod_ibfk_2` FOREIGN KEY (`idpef`) REFERENCES `perfil` (`idpef`);
 
 --
 -- Filtros para la tabla `prgxequi`
@@ -566,3 +593,7 @@ ALTER TABLE `tarjeta`
 --
 ALTER TABLE `valor`
   ADD CONSTRAINT `valor_ibfk_1` FOREIGN KEY (`iddom`) REFERENCES `dominio` (`iddom`);
+
+
+ALTER TABLE `permiso`
+  ADD CONSTRAINT `permiso_ibfk_1` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`);

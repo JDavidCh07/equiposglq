@@ -1,11 +1,11 @@
 <?php
     $host = "localhost";
-    $db = "equiposglq";
+    $db = "equiposglqarr";
     $user = "root";
     $pass = "";
 
     $ema = "soporteit@galqui.com";
-	$psem = "sdlg ikmu pynz glco";
+	$psem = "wyxg lhim mfwg mpod";
     
     // $host = "localhost";
     // $db = "mrwaiterdav";

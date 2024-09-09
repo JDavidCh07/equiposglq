@@ -7,7 +7,6 @@
     $idmod = isset($_REQUEST['idmod']) ? $_REQUEST['idmod']:NULL;
     $nommod = isset($_POST['nommod']) ? $_POST['nommod']:NULL;
     $actmod = isset($_REQUEST['actmod']) ? $_REQUEST['actmod']:NULL;
-    $idpag = isset($_POST['idpag']) ? $_POST['idpag']:NULL;
     $arcimg = isset($_FILES['arcimg']) ? $_FILES['arcimg']:NULL;
     $imgmod = NULL;
 
@@ -24,7 +23,6 @@
             $mmod->setNommod($nommod);
             $mmod->setImgmod($imgmod);
             $mmod->setActmod($actmod);
-            $mmod->setIdpag($idpag);
             if(!$idmod) $mmod->save();
             else $mmod->edit();
         }else echo '<script>err("Todos los datos son obligatorios.");</script>';
@@ -40,7 +38,5 @@
     if($ope=='edi' && $idmod) $datOne = $mmod->getOne();
 
     $datAll = $mmod->getAll();
-    $datPag = $mmod->getAllPag();
-    $datGra = $mmod->getAllGraf();
 
 ?>

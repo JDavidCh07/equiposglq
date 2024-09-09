@@ -19,16 +19,6 @@ include('controllers/cmod.php');
                 <option value="2" <?php if ($datOne && $datOne[0]['actmod'] == 2) echo " selected "; ?>>No</option>
             </select>
         </div>
-        <div class="form-group col-md-6">
-            <label for="idpag"><strong>Página:</strong></label>
-            <select name="idpag" id="idpag" class="form-control form-select" required>
-                <?php foreach ($datPag as $dtp) { ?>
-                    <option value="<?= $dtp['idpag']; ?>" <?php if ($datOne && $dtp['idpag'] == $datOne[0]['idpag']) echo " selected "; ?>>
-                        <?= $dtp['idpag'] . " - " . $dtp['nompag']; ?>
-                    </option>
-                <?php } ?>
-            </select>
-        </div>
         <div class="form-group col-md-12" id="boxbtn">
             <br><br>
             <input class="btn btn-primary" type="submit" value="Registrar" id="btns">
@@ -58,13 +48,8 @@ include('controllers/cmod.php');
 					    	<img class="imgmod" src="img/logo.png" alt="Logo módulo <?= $dta['nommod']; ?>"/>
 					    <?php } ?>
                     </td>
-                    <td>
+                    <td class="nommod">
                         <BIG><?= $dta['idmod']." - ".$dta['nommod']; ?></BIG>
-                        <small><br>
-                            <?php if ($dta['idpag']) { ?>
-                                <strong>Página:</strong> <?= $dta['idpag']." - ".$dta['nompag']; ?>
-                            <?php } ?>
-                        </small>
                     </td>
                     <td style="text-align: left;">
                         <?php if ($dta['actmod'] == 1) { ?>
@@ -109,11 +94,15 @@ include('controllers/cmod.php');
     .imgmod{
         max-width: 150px;
     }
-
+    
     @media screen and (max-width: 600px){
         
         .imgmod{
-            max-width: 75px;
+            max-width: 60px;
+        }
+        
+        .nommod{
+            font-size: small;
         }
 
     }

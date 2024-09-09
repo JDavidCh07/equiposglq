@@ -132,8 +132,8 @@ require_once('controllers/cper.php');
                         <?php
                         $mper->setIdper($dta['idper']);
                         $dga = $mper->getOnePxF();
-                        $dm = arrstr($dga);
-                        modalCmb("mcb", $dta['idper'], $dta['nomper']." ".$dta['apeper'], $idmod, $pg, $dm);
+                        $pef = $mper->getPef();
+                        modalCmb("mcb", $dta['idper'], $dta['nomper']." ".$dta['apeper'], $pef, $dga, $pg);
                         ?>
                         <i class="fa fa-solid fa-tarp fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tj<?= $dta['idper']; ?>" title="Asignar tarjetas"></i>
                         <?php

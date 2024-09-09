@@ -89,7 +89,7 @@ class Mpag
 }
 
 function getAllM(){
-    $sql = "SELECT idmod, nommod, imgmod, actmod, idpag FROM modulo";
+    $sql = "SELECT idmod, nommod, imgmod, actmod FROM modulo";
     $modelo = new conexion();
     $conexion = $modelo->get_conexion();
     $result = $conexion->prepare($sql);
@@ -113,30 +113,6 @@ function getAllM(){
             ManejoError($e);
         }
     }
-
-    function getMDxPG($idpag){
-        $res = null;
-        $modelo = new conexion();
-		$sql = "SELECT COUNT(idpag) AS can FROM modulo WHERE idpag=:idpag";
-		$conexion = $modelo->get_conexion();
-		$result = $conexion->prepare($sql);
-		$result->bindParam(':idpag',$idpag);
-		$result->execute();
-		$res = $result-> fetchall(PDO::FETCH_ASSOC);
-		return $res;
-	}
-
-    function getPFxPG($idpag){
-        $res = null;
-        $modelo = new conexion();
-		$sql = "SELECT COUNT(idpef) AS can FROM perfil WHERE idpag=:idpag";
-		$conexion = $modelo->get_conexion();
-		$result = $conexion->prepare($sql);
-		$result->bindParam(':idpag',$idpag);
-		$result->execute();
-		$res = $result-> fetchall(PDO::FETCH_ASSOC);
-		return $res;
-	}
 
     function getPPxPG($idpag){
         $res = null;

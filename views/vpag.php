@@ -93,10 +93,8 @@ include('controllers/cpag.php');
                             <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
                         </a>
                         <?php
-                        $ct = $mpag->getPFxPG($dta['idpag']);
                         $pf = $mpag->getPPxPG($dta['idpag']);
-                        $pm = $mpag->getMDxPG($dta['idpag']);
-                        if ($ct && $pf && $ct[0]['can'] == 0 && $pf[0]['can'] == 0) { ?>
+                        if ($pf && $pf[0]['can'] == 0) { ?>
                             <a href="home.php?pg=<?= $pg; ?>&idpag=<?= $dta['idpag']; ?>&ope=eli" onclick="return eliminar('<?= $dta['nompag'] ?>');" title="Eliminar">
                                 <i class="fa fa-solid fa-trash-can fa-2x iconi"></i>
                             </a>

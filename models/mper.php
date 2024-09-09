@@ -363,7 +363,7 @@ class Mper{
     
     function getOnePxF()
     {
-        $sql = "SELECT idpef AS idpag FROM perxpef WHERE idper=:idper";
+        $sql = "SELECT idpef FROM perxpef WHERE idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -386,13 +386,12 @@ class Mper{
         return $res;
     }
 
-    function getOnePef($idmod)
+    function getOnePef()
     {
-        $sql = "SELECT idpef, nompef, idmod, idpag FROM perfil WHERE idmod=:idmod";
+        $sql = "SELECT idpef, nompef FROM perfil";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
-        $result->bindParam(":idmod", $idmod);
         $result->execute();
         $res = $result->fetchall(PDO::FETCH_ASSOC);
         return $res;
@@ -622,9 +621,9 @@ class Mper{
         return $res;
     }
 
-    function getAllMod()
+    function getPef()
     {
-        $sql = "SELECT idmod, nommod FROM modulo";
+        $sql = "SELECT idpef, nompef FROM perfil";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
