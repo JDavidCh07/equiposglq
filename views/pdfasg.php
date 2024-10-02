@@ -55,7 +55,6 @@ if($det['firent']){
     $fdevb64 = "data:image/png;base64,".base64_encode(file_get_contents($fdev));
 }
 
-$anctbla = 750;
 $cont = 0;
 $html = '';
 $html .= '
@@ -321,7 +320,7 @@ $html .= '
 </html>';
 
 if($ideqxpr){
-    $fold = 'arc/pdf/'.$det['prec'].'_'.$det['dprec'].'/';
+    $fold = 'arc/actas/'.$det['prec'].'_'.$det['dprec'].'/';
     $name = $n.$det['serialeq']."_".$det['prec'].".pdf";
 
     $dompdf->loadHtml($html);

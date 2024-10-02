@@ -41,6 +41,16 @@ require_once('controllers/cper.php');
             <input class="form-control" type="text" id="ndper" name="ndper" value="<?php if ($datOne) echo $datOne[0]['ndper']; ?>" onkeypress="return solonum(event);" required>
         </div>
         <div class="form-group col-md-4">
+            <label for="idvdpt"><strong>Departamento:</strong></label>
+            <select name="idvdpt" id="idvdpt" class="form-control form-select" required>
+                <?php foreach ($datdpt as $dtd) { ?>
+                    <option value="<?= $dtd['idval']; ?>" <?php if ($datOne && $dtd['idval'] == $datOne[0]['idvdpt']) echo " selected "; ?>>
+                        <?= $dtd['nomval']; ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
             <label for="cargo"><strong>Cargo:</strong></label>
             <input class="form-control" type="text" id="cargo" name="cargo" value="<?php if ($datOne) echo $datOne[0]['cargo']; ?>" required>
         </div>
@@ -89,7 +99,7 @@ require_once('controllers/cper.php');
                     <div class="row">
                         <div class="form-group col-md-12">
                             <BIG><strong><?= $dta['apeper']." ".$dta['nomper'] ?><br></strong></BIG>
-                            <strong><?=$dta['nomval'].". ".$dta['ndper']?></strong>
+                            <strong><?=$dta['doc'].". ".$dta['ndper']?></strong>
                             <small>
                                 <?php if ($dta['emaper']) { ?>
                                     <div class="form-group col-md-12">

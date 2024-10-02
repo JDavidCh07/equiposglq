@@ -53,7 +53,7 @@
         }
 
         function getAllAct(){
-            $sql = "SELECT m.idmod, m.nommod, m.imgmod, m.actmod FROM modulo AS m WHERE m.actmod=1;";
+            $sql = "SELECT m.idmod, m.nommod, m.imgmod, m.actmod FROM modulo AS m WHERE m.actmod=1";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -92,7 +92,7 @@
         }
 
         function getPag(){
-            $sql ="SELECT pp.idpag FROM pagxpef AS pp INNER JOIN pagina AS p ON pp.idpag=p.idpag INNER JOIN perfil AS f ON pp.idpef=f.idpef INNER JOIN modulo AS m ON p.idmod=m.idmod WHERE p.idmod=:idmod AND pp.idpef=:idpef ORDER BY pp.idpag;";
+            $sql ="SELECT pp.idpag FROM pagxpef AS pp INNER JOIN pagina AS p ON pp.idpag=p.idpag INNER JOIN perfil AS f ON pp.idpef=f.idpef INNER JOIN modulo AS m ON p.idmod=m.idmod WHERE p.idmod=:idmod AND pp.idpef=:idpef ORDER BY pp.idpag";
             $modelo =new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);

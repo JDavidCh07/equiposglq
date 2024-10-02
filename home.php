@@ -57,6 +57,9 @@ include("models/seguridad.php");
 		date_default_timezone_set('America/Bogota');
 		$nmfl = date('YmdHis');
 		$nomarc = date('d-m-Y_His');
+		$hoy = date("Y-m-d");
+    	$mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
+		$pasadom = date("Y-m-d", strtotime($hoy . ' +2 days'));
 		require_once("models/conexion.php");
 		include("controllers/optimg.php");
 		include("controllers/library.php");
@@ -91,6 +94,7 @@ include("models/seguridad.php");
 		?>
 	</footer>
 </body>
+<script type="text/javascript" src="js/time.js"></script>
 <script type="text/javascript">
 	ocul(<?= $mos; ?>, <?= $est; ?>);
 </script>

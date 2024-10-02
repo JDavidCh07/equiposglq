@@ -1,6 +1,6 @@
 <?php
     $host = "localhost";
-    $db = "equiposglqarr";
+    $db = "glqapp";
     $user = "root";
     $pass = "";
 

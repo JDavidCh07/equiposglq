@@ -13,6 +13,7 @@
     $idvtpd = isset($_POST['idvtpd']) ? $_POST['idvtpd']:NULL;
     $ndper = isset($_POST['ndper']) ? $_POST['ndper']:NULL;
     $emaper = isset($_POST['emaper']) ? strtolower($_POST['emaper']):NULL;
+    $idvdpt = isset($_POST['idvdpt']) ? $_POST['idvdpt']:NULL;
     $cargo = isset($_POST['cargo']) ? $_POST['cargo']:NULL;
     $usured = isset($_POST['usured']) ? $_POST['usured']:NULL;
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
@@ -48,9 +49,10 @@
     if($ope=="save"){
         $mper->setNomper($nomper);
         $mper->setApeper($apeper);
-        $mper->setEmaper($emaper);
-        $mper->setNdper($ndper);
         $mper->setIdvtpd($idvtpd);
+        $mper->setNdper($ndper);
+        $mper->setEmaper($emaper);
+        $mper->setIdvdpt($idvdpt);
         $mper->setCargo($cargo);
         $mper->setUsured($usured);
         $mper->setActper($actper);
@@ -114,7 +116,8 @@
 
     //------------Traer valores-----------
     $datAll = $mper->getAll();
-    $dattpd = $mper->getAllTpd(1);
+    $dattpd = $mper->getAllDom(1);
+    $datdpt = $mper->getAllDom(12);
 
     //------------Importar empleados-----------
     if ($ope=="cargm" && $arc) {
@@ -129,16 +132,18 @@
     		// obtengo el valor de la celda
     		$nomper = $sheet->getCell("B" . $row)->getValue();
     		$apeper = $sheet->getCell("C" . $row)->getValue();
-            $idvtpd = $sheet->getCell("D" . $row)->getValue();
-            $mper->setIdvtpd($idvtpd); 
-            $idvtpd = $mper->CompValTp(); 
+            $idvtpd = $sheet->getCell("D" . $row)->getValue(); 
+            $idvtpd = $mper->CompVal($idvtpd); 
             $idvtpd = $idvtpd[0]['idval'];
     		$ndper = $sheet->getCell("E" . $row)->getValue();
     		$emaper = $sheet->getCell("F" . $row)->getValue();
-    		$cargo = $sheet->getCell("G" . $row)->getValue();
-    		$usured = $sheet->getCell("H" . $row)->getValue();
-    		$actper = $sheet->getCell("I" . $row)->getValue();
-    		$idpef = $sheet->getCell("J" . $row)->getValue();
+    		$idvdpt = $sheet->getCell("G" . $row)->getValue();
+            $idvdpt = $mper->CompVal($idvdpt); 
+            $idvdpt = $idvdpt[0]['idval'];
+    		$cargo = $sheet->getCell("H" . $row)->getValue();
+    		$usured = $sheet->getCell("I" . $row)->getValue();
+    		$actper = $sheet->getCell("J" . $row)->getValue();
+    		$idpef = $sheet->getCell("K" . $row)->getValue();
             $idpef = str_replace(' ', '', $idpef);
             $idpefA = explode(".", $idpef);
             foreach($idpefA AS $pa){
@@ -151,6 +156,7 @@
             $mper->setIdvtpd($idvtpd);
             $mper->setNdper($ndper);
             $mper->setEmaper($emaper);
+            $mper->setIdvdpt($idvdpt);
             $mper->setCargo($cargo);
             $mper->setUsured($usured);
             $mper->setActper($actper);
@@ -159,10 +165,9 @@
     		$existingData = $mper->selectUsu();
             $idper = $existingData[0]['idper'];
             $mper->setIdper($idper);
-    		if ($idvtpd && $pef) {
+    		if ($idvdpt && $idvtpd && $pef) {
     		    if (!empty($ndper)) {
     		    	if ($existingData[0]['sum'] == 0) {
-    		    		// Datos ya existen, por lo tanto, actualiza en lugar de guardar
     		    		$mper->save();
                         $per = $mper->getOneSPxF($ndper);
                         $mper->setIdper($per[0]['idper']);

@@ -1,7 +1,5 @@
  <?php
     include('controllers/casg.php');
-    $hoy = date("Y-m-d");
-    $mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
 ?>
 
 <div class="row">
@@ -104,7 +102,7 @@
                     <td>
                         <div class="row">
                             <div class="form-group col-md-10">
-                                <BIG><strong><?= $dta['prec']." - ".$dta['marca']." ".$dta['modelo']; ?></strong></BIG>
+                                <BIG><strong><?=$dta['prec']." - ".$dta['marca']." ".$dta['modelo'];?></strong></BIG>
                                 <small>
                                     <div class="row">
                                         <?php if ($dta['tpe'] && $asg="equ") { ?>
@@ -149,7 +147,7 @@
                                     modalFir("mcbfir", $dta['ideqxpr'], $det, $pg, $asg);
                                    if(($dta['firent'] && !$dta['firdev'] && !$dta['fecdev']) OR ($dta['firent'] && $dta['firdev'])){ 
                                 ?>
-                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Enviar confirmación" target="_blank">
+                                <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Enviar confirmación" target="_blank" onclick="setTimeout(() => location.reload(), 1000);">
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
                                 </a>
                                 <?php } if($dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
@@ -198,7 +196,7 @@
 <?php } ?>
 <style>
     .custom-combobox1,
-    .custom-combobox2-input {
+    .custom-combobox2 {
         position: relative;
         display: inline-block;
         width: 100%;

@@ -9,7 +9,7 @@ function titulo($ico, $tit, $mos, $pg){
 			$txt .= ' ' . $tit;
 			$txt .= '<hr class="hrtitu">';
 		$txt .= '</div>';
-		if ($mos == 1 && ($_SESSION['idpef']==3 && $pg==51)==false) {
+		if ($mos == 1 && (($_SESSION['idpef']!=3 && $pg==55)==false && ($_SESSION['idpef']==3 && $pg==51)==false)) {
 			$txt .= '<div class="titaju" style="float: right;">';
 				$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
 				$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ');"></i>';
@@ -656,6 +656,45 @@ function modalImp($nm, $pg, $tit, $ope, $asg){
 					$txt .= '</div>';
 				$txt .= '</div>';
 			$txt .= '</form>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal vprm, info permiso-----------
+function modalInfPrm($nm, $id, $det){		
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<div class="modal-content">';
+				$txt .= '<div class="modal-header">';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Permiso - '.$det[0]['tprm'].'</strong></h1>';
+					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>';
+				$txt .= '</div>';
+				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
+					$txt .= '<div class="row">';
+						if($det[0]["iper"] && $det[0]["ijef"]){
+							$txt .= '<div class="form-group col-md-4"><strong>Solicitado a: </strong></div>';
+							$txt .= '<div class="form-group col-md-8">'.$det[0]["njef"].' '.$det[0]["ajef"].'</div>';
+							$txt .= '<div class="form-group col-md-4"><strong>Solicitado por: </strong></div>';
+							$txt .= '<div class="form-group col-md-8">'.$det[0]["nper"].' '.$det[0]["aper"].'</div>';
+						}
+						$txt .= '<big><br><strong>Fechas:</strong></big><hr>';
+						$txt .= '<div class="form-group col-sm-2"><strong>Desde: </strong></div>';
+						$txt .= '<div class="form-group col-sm-10">'.$det[0]["fini"].' - '.$det[0]["hini"].'</div>';
+						$txt .= '<div class="form-group col-sm-2"><strong>Hasta: </strong></div>';
+						$txt .= '<div class="form-group col-sm-10">'.$det[0]["ffin"].' - '.$det[0]["hfin"].'</div>';
+						$txt .= '<div class="form-group col-sm-2"><strong>Tiempo: </strong></div>';
+						$txt .= '<div class="form-group col-sm-4">Días: '.$det[0]["ddif"].'</div>';
+						$txt .= '<div class="form-group col-sm-6">Horas: '.$det[0]["hdif"].'</div>';
+						if($det[0]["desprm"]) $txt .= '<big><br><strong>Descripción:</strong></big><hr><div class="form-group col-md-12">'.$det[0]["desprm"].'</div>';
+						if($det[0]["obsprm"]) $txt .= '<big><br><strong>Observaciones:</strong></big><hr><div class="form-group col-md-12">'.$det[0]["obsprm"].'</div>';
+					$txt .= '</div>';
+				$txt .= '</div>';
+				$txt .= '<br><div class="modal-footer">';
+					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+				$txt .= '</div>';
+			$txt .= '</div>';
 		$txt .= '</div>';
 	$txt .= '</div>';
 	echo $txt;
