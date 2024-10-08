@@ -4,7 +4,7 @@ require_once ("../models/seguridad.php");
 require_once ('../models/conexion.php');
 require_once ('../models/masg.php');
 require_once ('../models/mequ.php');
-require_once ('../sendemail.php');
+require_once ('../controllers/sendemail.php');
 include("../models/datos.php");
 
 require ('../vendor/autoload.php');
@@ -129,11 +129,7 @@ $html .= '
         </tr>
         <tr>
             <td colspan="3"><strong>CORREO CORPORATIVO:</strong></td>
-            <td colspan="11">';
-                if($det['eprec']) $html .= $det['eprec'];
-                else $html .= 'N/A';
-$html .= '
-            </td>
+            <td colspan="11">'.(($det['eprec']) ? $det['eprec'] : 'N/A').'</td>
         </tr>';
         if($pg==52){
 $html .= '
@@ -198,11 +194,7 @@ $html .= '
             </tr>
             <tr>
                 <td colspan="2"><strong>NUMERO:</strong></td>
-                <td colspan="5">';
-                    if($det['numcel']!=0) $html .= $det['numcel'];
-                    else $html .= 'N/A';
-$html .= '
-                </td>
+                <td colspan="5">'.(($det['numcel']!=0) ? $det['numcel'] : 'N/A').'</td>
                 <td colspan="2"><strong>OPERADOR:</strong></td>
                 <td colspan="5">'.$det['operador'].'</td>
             </tr>
@@ -363,21 +355,15 @@ if($ideqxpr){
     $nomperm = trim("$nom1 $ini_nom2 $ape1 $ini_ape2");
     $cargom = ucfirst(strtolower($car));
 
-    $template="../tempmail.html";
+    $template="../views/mail.html";
+    $mail_asun = "Confirmación ".(($det['fecent'] && !$det['fecdev']) ? "Entrega" : "Devolución")." de Equipo";
     $txt_mess = "";
-    $txt_mess = "Adjunto a este correo se encuentra el acta de ";
-    if($det['fecent'] && !$det['fecdev']) $txt_mess .= "entrega";
-    elseif($det['fecent'] && $det['fecdev']) $txt_mess .= "devolución"; 
-    $txt_mess .= " firmada del equipo asignado.<br><br>
+    $txt_mess = "Adjunto a este correo se encuentra el acta de ".(($det['fecent'] && !$det['fecdev']) ? "entrega" : "devolución")." firmada del equipo asignado.<br><br>
     Le solicitamos revisar el documento adjunto y conservar una copia para sus registros. Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nuestro departamento de soporte.<br><br>
     Agradecemos su colaboración y compromiso con el correcto uso y mantenimiento del equipo.<br><br>
     Atentamente,<br><br>";
-	$mail_asun = "Confirmación ";
-    if($det['fecent'] && !$det['fecdev']) $mail_asun .= "Entrega";
-    elseif($det['fecent'] && $det['fecdev']) $mail_asun .= "Devolución"; 
-    $mail_asun .= " de Equipo";
     $fir_mail = '<strong>'.$nomperm.'</strong><br>'.$cargom.' | '.$mail.'<br>Cra 1 Nº 4 - 02 Bdg 2 Parque Industrial K2<br>Chía - Cund<br>www.galqui.com';
-    sendemail($ema, $psem, $maild, $nomperd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template);
+    sendemail($ema, $psem, $nom, $maild, $nomperd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "asg", "");
 }
 
 ?>

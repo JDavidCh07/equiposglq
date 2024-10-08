@@ -4,11 +4,11 @@
     $user = "root";
     $pass = "";
 
+    $nom = "Soporte IT";
     $ema = "soporteit@galqui.com";
 	$psem = "wyxg lhim mfwg mpod";
+
+    $rrhh = "juanda.chapar@gmail.com";
     
-    // $host = "localhost";
-    // $db = "mrwaiterdav";
-    // $user = "mrwaiterdav";
-    // $pass = "David0703.";
+    $url = "http://localhost:8080/app/";
 ?>

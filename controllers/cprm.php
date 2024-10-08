@@ -15,7 +15,6 @@
     $arcspt = isset($_FILES['arcspt']) ? $_FILES['arcspt']:NULL;
     $idvubi = isset($_POST['idvubi']) ? $_POST['idvubi']:NULL;
     $idper = $_SESSION['idper'];
-    $fecsol = $hoy;
     $sptrut = NULL;
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
@@ -53,4 +52,5 @@
     $datTprm = $mprm->getAllDom(10);
     $datUbi = $mprm->getAllDom(11);
     $datPer = $mprm->getAllPer();
+    $solper = NULL;
 ?>

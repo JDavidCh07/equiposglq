@@ -3,11 +3,11 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/phpmailer/phpmailer/src/Exception.php';
-require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+require '../vendor/phpmailer/phpmailer/src/Exception.php';
+require '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require '../vendor/phpmailer/phpmailer/src/SMTP.php';
 
-function sendemail($mail_ema, $mail_upa, $mail_sfe, $mail_name, $file_path, $txt_mess, $mail_asun, $fir_mail, $template){
+function sendemail($mail_ema, $mail_upa, $nommail, $mail_sfe, $mail_name, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $email, $link_mail){
 
     $mail = new PHPMailer(true);
 	$mail->isSMTP();
@@ -18,10 +18,10 @@ function sendemail($mail_ema, $mail_upa, $mail_sfe, $mail_name, $file_path, $txt
 	$mail->SMTPSecure = 'tls';
 	$mail->Port = 587;
 
+
     // Remitente y destinatarios
-	$mail->setFrom($mail_ema, "Soporte IT");
+	$mail->setFrom($mail_ema, $nommail);
 	$mail->addAddress($mail_sfe);
-    
     
     // Cuerpo del correo
 	$message = file_get_contents($template);
@@ -29,8 +29,12 @@ function sendemail($mail_ema, $mail_upa, $mail_sfe, $mail_name, $file_path, $txt
 	$message = str_replace('{{message}}', $txt_mess, $message);
 	$message = str_replace('{{fir}}', $fir_mail, $message);
 	$mail->addEmbeddedImage('../img/firma.jpg', 'firma_cid');
+	
+	if($email=="prm") $message = str_replace('{{link}}', $link_mail, $message);
+
 	$mail->isHTML(true);
 	$mail->Subject = $mail_asun;
+
 	$mail->CharSet = 'UTF-8';
 	$mail->msgHTML($message);
 

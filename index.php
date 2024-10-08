@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,6 +38,7 @@
     <header>
         <?php
             date_default_timezone_set('America/Bogota');
+            setlocale(LC_TIME, 'es_ES.UTF-8');
             include("controllers/library.php");
             $pg = isset($_REQUEST['pg']) ? $_REQUEST['pg'] : NULL;
         ?>

@@ -357,14 +357,12 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (48, 1008, 'Otro', 10, 1),
 (49, 1101, 'Chia - Cundinamarca', 11, 1),
 (50, 1102, 'Madrid - Cundinamarca', 11, 1),
-(51, 1202, 'Administracion', 12, 1);
--- (52, 1201, 'Madrid - Cundinamarca', 11, 1);
--- (53, 1203, 'Madrid - Cundinamarca', 11, 1);
--- (54, 1204, 'Madrid - Cundinamarca', 11, 1);
--- (55, 1205, 'Madrid - Cundinamarca', 11, 1);
--- (56, 1206, 'Madrid - Cundinamarca', 11, 1);
--- (57, 1207, 'Madrid - Cundinamarca', 11, 1);
--- (58, 1208, 'Madrid - Cundinamarca', 11, 1);
+(51, 1202, 'Administrativo', 12, 1);
+(52, 1201, 'Proyectos', 11, 1);
+(53, 1203, 'Abastecimiento y Logistica', 11, 1);
+(54, 1204, 'Financiero y Contable', 11, 1);
+(55, 1205, 'Innovacion y Desarrollo', 11, 1);
+
 
 
 
@@ -382,6 +380,7 @@ CREATE TABLE `permiso` (
   `idper` bigint(11) NOT NULL,
   `idvubi` bigint(11) NOT NULL,
   `fecsol` DATE DEFAULT NULL,
+  `fecrev` DATE DEFAULT NULL,
   `rutpdf` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 --

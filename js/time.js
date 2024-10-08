@@ -95,11 +95,11 @@ function validarPermiso() {
     const fecfin = document.getElementById("fecfin");
     const valor = select.value;
     
-    const valorsoporte = ["41", "44", "45"];
+    const valorsoporte = ["41", "43", "44", "45"];
     const hoy = new Date();
     const fechaMin = new Date(hoy);
     
-    fechaMin.setDate(hoy.getDate() + (select.value == "43" ? 0 : 2)); // Sumar 0 días para hoy, 2 días para pasado mañana
+    fechaMin.setDate(hoy.getDate() + (select.value == "43" ? 0 : 1)); // Sumar 0 días para hoy, 1 días para mañana
     const fechaMinString = fechaMin.toISOString().split("T")[0] + "T08:00"; // Formato YYYY-MM-DDT08:00
 
     // Establecer el mínimo en los inputs

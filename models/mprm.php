@@ -13,6 +13,7 @@
         private $idper;
         private $idvubi;
         private $fecsol;
+        private $fecrev;
         private $rutpdf;
         
 
@@ -54,6 +55,9 @@
         }
         public function getFecsol(){
             return $this->fecsol;
+        }
+        public function getFecrev(){
+            return $this->fecrev;
         }
         public function getRutpdf(){
             return $this->rutpdf;
@@ -98,6 +102,9 @@
         public function setFecsol($fecsol){
             $this->fecsol=$fecsol;
         }
+        public function setFecrev($fecrev){
+            $this->fecrev=$fecrev;
+        }
         public function setRutpdf($rutpdf){
             $this->rutpdf=$rutpdf;
         }
@@ -114,7 +121,7 @@
     CASE 
         WHEN (HOUR(r.fecini) < 14 AND HOUR(r.fecfin) > 13) THEN TIME_TO_SEC('1:00:00') 
         ELSE 0 
-    END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval";
+    END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, DATE_FORMAT(r.fecrev, '%e de %M de %Y') AS frev, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval";
             if($_SESSION['idpef']==3) $sql .= " WHERE r.idper=:idper";
             if($_SESSION['idpef']==4) $sql .= " WHERE r.estprm=3 OR r.estprm=4";
             $modelo = new conexion();
@@ -142,7 +149,7 @@
     CASE 
         WHEN (HOUR(r.fecini) < 14 AND HOUR(r.fecfin) > 13) THEN TIME_TO_SEC('1:00:00') 
         ELSE 0 
-    END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval WHERE r.idprm=:idprm";
+    END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, DATE_FORMAT(r.fecrev, '%e de %M de %Y') AS frev, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval WHERE r.idprm=:idprm";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $conexion->query("SET lc_time_names = 'es_ES';");
@@ -230,7 +237,11 @@
             try{
                 $estprm = $this->getEstprm();
                 $sql = "UPDATE permiso SET estprm=:estprm";
-                if($estprm==2) $sql .= ", fecsol=:fecsol, noprm=:noprm";
+                if($estprm==2) $sql .= ", fecsol=:fecsol";
+                if($estprm==3 || $estprm==4){ 
+                    $sql .= ", fecrev=:fecrev";
+                    if($estprm==3) $sql .= ", noprm=:noprm";
+                }
                 $sql .= " WHERE idprm=:idprm";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
@@ -241,9 +252,14 @@
                 if($estprm==2){
                     $fecsol = $this->getFecsol();
                     $result->bindParam(":fecsol", $fecsol);
-                    $noprm = $this->getNoprm();
-                    $result->bindParam(":noprm", $noprm);
                 }
+                if($estprm==3 || $estprm==4){
+                    $fecrev = $this->getFecrev();
+                    $result->bindParam(":fecrev", $fecrev);
+                    if($estprm==3){
+                        $noprm = $this->getNoprm();
+                        $result->bindParam(":noprm", $noprm);
+                }}
                 $result->execute();
             } catch (Exception $e) {
                 ManejoError($e);

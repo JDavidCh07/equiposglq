@@ -87,9 +87,7 @@ function modalPef($info) {
 						$txt .= '<label for="idpef">Ingresar con perfil de:</label>';
 						$txt .= '<select name="idpef" id="idpef" class="form form-select" onchange="document.getElementById(\'perfilForm\').submit();">';
 							$txt .= '<option value="0">Seleccione un perfil...</option>';
-							if ($info) { foreach ($info as $i) {
-								$txt .= '<option value="'.$i['idpef'].'">'.$i['nompef'].'</option>';
-							}}
+							if ($info) { foreach ($info as $i) $txt .= '<option value="'.$i['idpef'].'">'.$i['nompef'].'</option>';}
 						$txt .= '</select>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
@@ -196,9 +194,7 @@ function modalDet($nm, $id, $prgs, $info){
 				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
 					$txt .= '<div class="row">';
 						$txt .= '<table>';
-							if($prgs){ foreach($prgs AS $pr){
-								$txt .= '<tr><td><strong>'.$pr['nomdom'].': </strong></td><td class="infpc">'.$pr['nomval'].' '.$pr['verprg'].'</td></tr>';
-							}}
+							if($prgs){ foreach($prgs AS $pr) $txt .= '<tr><td><strong>'.$pr['nomdom'].': </strong></td><td class="infpc">'.$pr['nomval'].' '.$pr['verprg'].'</td></tr>';}
 							$txt .= '<tr><td style="display: flex;"><strong>Procesador: </strong></td><td class="infpc">'.$info[0]["procs"].'</td></tr>';
 							$txt .= '<tr><td><strong>RAM: </strong></td><td class="infpc">'.$info[0]["ram"].' GB</td></tr>';
 							$txt .= '<tr><td><strong>Almacenamiento: </strong></td><td class="infpc">';
@@ -252,7 +248,7 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                     $txt .= '</div>';
                     $txt .= '<div class="modal-footer">';
                         $txt .= '<input type="hidden" name="ideqxpr" value="' . $det[0]['ideqxpr'] . '">';
-                        $txt .= '<input type="hidden" name="nomfir" value="' . ($det[0]['firent'] ? $det[0]['pentd'] : $det[0]['prec']) . '">';
+                        $txt .= '<input type="hidden" name="nomfir" value="' . (($det[0]['firent']) ? $det[0]['pentd'] : $det[0]['prec']) . '">';
                         $txt .= '<input type="hidden" name="prs" value="' . $prs . '">';
                         $txt .= '<input type="hidden" name="estfir" value="' . $estfir . '">';
                         $txt .= '<input type="hidden" name="ope" value="firmar">';
@@ -400,9 +396,8 @@ function modalDev($nm, $id, $acc, $det, $pg, $asg){
 							$txt .= '</div>';
 							if($acc){
 								$txt .= '<strong><br>Accesorios:</strong><hr>';
-								foreach($acc AS $ac){
-									$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
-								}}
+								foreach($acc AS $ac) $txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
+							}
 							$txt .= '<strong><br>Devolución:</strong><hr>';
 							$txt .= '<div class="form-group col-md-6">';
 								$txt .= '<label for="fecdev" class="titulo"><strong>F. Devolución: </strong></label>';
@@ -444,22 +439,16 @@ $txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-label
 					$txt .= '<div class="row">';
 						if($asg=="equ"){
 							$txt .= '<big><strong>Programas</strong></big><hr>';
-							if($prgs){ foreach($prgs AS $pr)
-								$txt .= '<div class="form-group col-md-6"><strong>'.$pr['nomdom'].': </strong>'.$pr['nomval'].' '.$pr['verprg'].'</div>';
+							if($prgs){ foreach($prgs AS $pr) $txt .= '<div class="form-group col-md-6"><strong>'.$pr['nomdom'].': </strong>'.$pr['nomval'].' '.$pr['verprg'].'</div>';
 						}}
 						if($asg=="cel"){
 							$txt .= '<big><strong>Plan</strong></big><hr>';
-							$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>';
-								if($det[0]["numcel"]!=0) $txt .= $det[0]["numcel"];
-								else $txt .= 'N/A';
-							$txt .= '</div>';
+							$txt .= '<div class="form-group col-md-6"><strong>Número: </strong>'.(($det[0]["numcel"]!=0) ? $det[0]["numcel"] : 'N/A').'</div>';
 							$txt .= '<div class="form-group col-md-6"><strong>Operador: </strong>'.$det[0]["operador"].'</div>';
 						}
 						if($acc){
 							$txt .= '<big><br><strong>Accesorios</strong></big><hr>';
-							foreach($acc AS $ac){
-								$txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';
-						}}
+							foreach($acc AS $ac) $txt .= '<div class="form-group col-md-6">- '.$ac['nomval'].'</div>';}
 						$txt .= '<big><br><strong>Asignación</strong></big><hr>';
 						$txt .= '<div class="form-group col-md-4"><strong>Entrega: </strong></div>';
 						$txt .= '<div class="form-group col-md-8">'.$det[0]["pent"].' - '.$det[0]["cpent"].'</div>';
@@ -579,9 +568,7 @@ function modalTj($nm, $id, $perent, $pg){
 							$txt .= '</div> ';
 							$txt .= '<div class="form-group col-md-6" style="text-align: left;">';
 								$txt .= '<label for="fecdev" class="titulo"><strong>F. Devolución</strong></label>';
-								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecdev" name="fecdev"';
-									if(!$dtj) $txt .= ' disabled';
-								$txt .= '>';
+								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecdev" name="fecdev"'.((!$dtj) ? ' disabled' : '').'>';
 							$txt .= '</div>';
 						$txt .= '</div><br>';
 						if ($datj){
@@ -597,11 +584,9 @@ function modalTj($nm, $id, $perent, $pg){
 									$txt .= "<tr>";
                     					$txt .= "<td><small><small>";
 											if($dta['numtajpar']) $txt .= "<div class='form-group col-md-12'><strong>P. </strong>".$dta['numtajpar']."</div>";
-											if($dta['numtajofi'])$txt .= "<div class='form-group col-md-12'><strong>B. </strong>".$dta['numtajofi']."</div>";
+											if($dta['numtajofi']) $txt .= "<div class='form-group col-md-12'><strong>B. </strong>".$dta['numtajofi']."</div>";
                     					$txt .= "</small></small></td>";
-										$txt .= "<td><small><small>";
-											if($dta['fecdev'])$txt .= $dta['fecdev'];
-                    					$txt .= "</small></small></td>";
+										$txt .= "<td><small><small>".(($dta['fecdev']) ? $dta['fecdev'] : "")."</small></small></td>";
 									$txt .= "</tr>";
 								}
 								$txt .= "</tbody>";
@@ -633,11 +618,7 @@ function modalImp($nm, $pg, $tit, $ope, $asg){
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $pg . $ope.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
-			$txt .= '<form action="home.php?pg=';
-			if($pg==51) $txt .= '51&asg='.$asg;
-			elseif($pg==52) $txt .= 52;
-			elseif($pg==53) $txt .= 53;
-			elseif($pg==54) $txt .= 54;
+			$txt .= '<form action="home.php?pg='.$pg.(($pg==51) ? '&asg='.$asg : '');
 			$txt .= '" method="POST" enctype="multipart/form-data">';
 				$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';
@@ -689,6 +670,15 @@ function modalInfPrm($nm, $id, $det){
 						$txt .= '<div class="form-group col-sm-6">Horas: '.$det[0]["hdif"].'</div>';
 						if($det[0]["desprm"]) $txt .= '<big><br><strong>Descripción:</strong></big><hr><div class="form-group col-md-12">'.$det[0]["desprm"].'</div>';
 						if($det[0]["obsprm"]) $txt .= '<big><br><strong>Observaciones:</strong></big><hr><div class="form-group col-md-12">'.$det[0]["obsprm"].'</div>';
+						if($det[0]["estprm"] != 1){
+							$txt .= '<big><br><strong>Solicitud:</strong></big><hr>';
+							if($det[0]["estprm"] != 2){
+								$txt .= '<div class="form-group col-md-4"><strong>'.(($det[0]["estprm"] == 3) ? 'Aprobado' : 'Rechazado').' por: </strong></div>';
+								$txt .= '<div class="form-group col-md-8">'.$det[0]["nper"].' '.$det[0]["aper"].'</div>';
+							}
+							$txt .= '<div class="form-group col-md-4"><strong>Fecha: </strong></div>';
+							$txt .= '<div class="form-group col-md-8">'.$det[0]["frev"].'</div>';
+						}
 					$txt .= '</div>';
 				$txt .= '</div>';
 				$txt .= '<br><div class="modal-footer">';

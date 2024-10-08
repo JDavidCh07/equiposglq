@@ -44,6 +44,7 @@
 		$_SESSION["idpef"] = NULL;
 		$_SESSION["nompef"] = "Módulos";
 		date_default_timezone_set('America/Bogota');
+		setlocale(LC_TIME, 'es_ES.UTF-8');
 		require_once ("models/conexion.php");
 		include ("controllers/library.php");
 		include('views/cabe.php');

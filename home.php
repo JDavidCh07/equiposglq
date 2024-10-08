@@ -55,6 +55,7 @@ include("models/seguridad.php");
 	<header>
 		<?php
 		date_default_timezone_set('America/Bogota');
+		setlocale(LC_TIME, 'es_ES.UTF-8');
 		$nmfl = date('YmdHis');
 		$nomarc = date('d-m-Y_His');
 		$hoy = date("Y-m-d");
