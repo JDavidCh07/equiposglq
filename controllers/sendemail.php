@@ -7,7 +7,7 @@ require '../vendor/phpmailer/phpmailer/src/Exception.php';
 require '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require '../vendor/phpmailer/phpmailer/src/SMTP.php';
 
-function sendemail($mail_ema, $mail_upa, $nommail, $mail_sfe, $mail_name, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $email, $link_mail){
+function sendemail($mail_ema, $mail_upa, $nommail, $mail_sfe, $mail_name, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link_mail){
 
     $mail = new PHPMailer(true);
 	$mail->isSMTP();
@@ -30,7 +30,7 @@ function sendemail($mail_ema, $mail_upa, $nommail, $mail_sfe, $mail_name, $file_
 	$message = str_replace('{{fir}}', $fir_mail, $message);
 	$mail->addEmbeddedImage('../img/firma.jpg', 'firma_cid');
 	
-	if($email=="prm") $message = str_replace('{{link}}', $link_mail, $message);
+	if($link_mail) $message = str_replace('{{link}}', $link_mail, $message);
 
 	$mail->isHTML(true);
 	$mail->Subject = $mail_asun;

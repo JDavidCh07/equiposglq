@@ -240,9 +240,6 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $mprm->setRutpdf($fold.$name);
     $mprm->savePdf();
 
-    //-------Datos RRHH--------
-    $nomrh = "Dpto. Recursos Humanos";
-
     //-------Datos jefe--------
     $perd = $det['ajef']." ".$det['njef']; 
     $maild = $det['ejef'];
@@ -275,17 +272,18 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         Adjunto a este correo se encuentra el formato debidamente diligenciado.<br><br>
         Para aceptarlo, da clic en el siguiente botón o ingresa a la aplicación, donde también podrás rechazarlo.";
         
-        sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "prm", $link);
+        sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link);
     } elseif($estprm==3){
         $template="../views/mail.html";
 
-        //-------Datos correo RRHH--------
+        //-------Datos correo RRHH y DirAdm--------
         $mail_asun = "Aprobación Permiso ".$nompp." - ".$fec;
         $txt_mess = "";
         $txt_mess = "Informamos que ".$nompd." ha aprobado el permiso de ".$nompp." para el día ".$fec."<br><br>
         Adjunto a este correo se encuentra el formato diligenciado con la aprobación.<br><br>.";
 
-        sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");
+        sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "");
+        sendemail($ema, $psem, $nom, $diradm, $nomadm, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "");
 
         //-------Datos correo colaborador--------
         $mail_asun = "Aprobación Permiso - ".$fec;

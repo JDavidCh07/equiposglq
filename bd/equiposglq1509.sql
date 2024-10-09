@@ -324,15 +324,15 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (13, 301, 'Mouse', 3, 1),
 (14, 302, 'Teclado', 3, 1),
 (15, 303, 'Cargador', 3, 1),
-(16, 304, 'Funda', 3, 1),
-(17, 305, 'Pad Mouse', 3, 1),
-(18, 502, 'Cable de datos', 5, 1),
-(19, 503, 'Audifonos', 5, 1),
-(20, 505, 'Protector', 5, 1),
-(21, 504, 'SIM', 5, 1),
-(22, 506, 'Caja', 5, 1),
-(23, 507, 'Manuales', 5, 1),
-(26, 501, 'Cargador', 5, 1),
+(16, 304, 'Mouse Vertical', 3, 1),
+(17, 305, 'Diademas', 3, 1),
+(18, 507, 'Monitor', 3, 1),
+(19, 502, 'Cable de datos', 5, 1),
+(20, 503, 'Audifonos', 5, 1),
+(21, 505, 'Protector', 5, 1),
+(22, 504, 'SIM', 5, 1),
+(23, 506, 'Caja', 5, 1),
+(24, 501, 'Cargador', 5, 1),
 (27, 601, 'Standard', 6, 1),
 (28, 602, 'Home & Business', 6, 1),
 (29, 604, 'Professional Plus', 6, 1),
@@ -357,11 +357,11 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (48, 1008, 'Otro', 10, 1),
 (49, 1101, 'Chia - Cundinamarca', 11, 1),
 (50, 1102, 'Madrid - Cundinamarca', 11, 1),
-(51, 1202, 'Administrativo', 12, 1);
-(52, 1201, 'Proyectos', 11, 1);
-(53, 1203, 'Abastecimiento y Logistica', 11, 1);
-(54, 1204, 'Financiero y Contable', 11, 1);
-(55, 1205, 'Innovacion y Desarrollo', 11, 1);
+(51, 1202, 'Administrativo', 12, 1),
+(52, 1201, 'Proyectos', 12, 1),
+(53, 1203, 'Abastecimiento y Logistica', 12, 1),
+(54, 1204, 'Financiero y Contable', 12, 1),
+(55, 1205, 'Innovacion y Desarrollo', 12, 1);
 
 
 
