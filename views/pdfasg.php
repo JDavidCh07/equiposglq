@@ -133,99 +133,74 @@ $html .= '
         </tr>';
         if($pg==52){
 $html .= '
-            <tr>
-                <td class="tit sec fond" colspan="14"><strong>DATOS DEL EQUIPO</strong></td>
-            </tr>
-            <tr>
-                <td colspan="1"><strong>MARCA:</strong></td>
-                <td colspan="5">'.$det['marca'].'</td>
-                <td colspan="1"><strong>MODELO:</strong></td>
-                <td colspan="7">'.$det['modelo'].'</td>
-            </tr>
-            <tr>
-                <td colspan="1"><strong>SERIAL:</strong></td>
-                <td colspan="13">'.$det['serialeq'].'</td>
-            </tr>
-            <tr>
-                <td colspan="1"><strong>OFFICE:</strong></td>
-                <td colspan="5">'.$prgs[0]['nomval'].' '.$prgs[0]['verprg'].'</td>
-                <td colspan="1"><strong>WINDOWS:</strong></td>
-                <td colspan="7">'.$prgs[1]['nomval'].' '.$prgs[1]['verprg'].
-                '</td>
-            </tr>
-            <tr>
-                <td colspan="6"><strong>IDENTIFICACION EQUIPO EN LA RED:</strong></td>
-                <td colspan="8">'.$det['nomred'].'</td>
-            </tr>
-            <tr>
-                <td class="sep" colspan="14"> </td>
-            </tr>
-            <tr>
-                <td colspan="2" rowspan="2"><strong>ACCESORIOS:</strong></td>';
-                if ($datAcc && $datAxE) {
-                    foreach ($datAcc as $dac) {
-                        $marcadorEncontrado = false;
-                        $html .= '<td colspan="3"><strong>'.strtoupper($dac['nomval']).'</strong></td>';
+        <tr>
+            <td class="tit sec fond" colspan="14"><strong>DATOS DEL EQUIPO</strong></td>
+        </tr>
+        <tr>
+            <td colspan="1"><strong>MARCA:</strong></td>
+            <td colspan="5">'.$det['marca'].'</td>
+            <td colspan="1"><strong>MODELO:</strong></td>
+            <td colspan="7">'.$det['modelo'].'</td>
+        </tr>
+        <tr>
+            <td colspan="1"><strong>SERIAL:</strong></td>
+            <td colspan="13">'.$det['serialeq'].'</td>
+        </tr>
+        <tr>
+            <td colspan="1"><strong>OFFICE:</strong></td>
+            <td colspan="5">'.$prgs[0]['nomval'].' '.$prgs[0]['verprg'].'</td>
+            <td colspan="1"><strong>WINDOWS:</strong></td>
+            <td colspan="7">'.$prgs[1]['nomval'].' '.$prgs[1]['verprg'].
+            '</td>
+        </tr>
+        <tr>
+            <td colspan="6"><strong>IDENTIFICACION EQUIPO EN LA RED:</strong></td>
+            <td colspan="8">'.$det['nomred'].'</td>
+        </tr>';
+        }elseif($pg==54){
+$html .= '
+        <tr>
+            <td class="tit sec fond" colspan="14"><strong>DATOS DEL CELULAR</strong></td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>MARCA:</strong></td>
+            <td colspan="5">'.$det['marca'].'</td>
+            <td colspan="2"><strong>IMEI:</strong></td>
+            <td colspan="5">'.$det['serialeq'].'</td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>NUMERO:</strong></td>
+            <td colspan="5">'.(($det['numcel']!=0) ? $det['numcel'] : 'N/A').'</td>
+            <td colspan="2"><strong>OPERADOR:</strong></td>
+            <td colspan="5">'.$det['operador'].'</td>
+        </tr>';
+        }
+$html .= '
+        <tr>
+            <td class="sep" colspan="14"> </td>
+        </tr>
+        <tr>
+            <td colspan="2" rowspan="2"><strong>ACCESORIOS:</strong></td>';
+            if ($datAcc) {
+                foreach ($datAcc as $dac) {
+                    $marcadorEncontrado = false;
+                    $html .= '<td colspan="3"><strong>'.strtoupper($dac['nomval']).'</strong></td>';
+                    if ($datAxE) {
                         foreach ($datAxE as $dae) {
                             if ($dac['idval'] == $dae['idvacc']) {
-                                $html .= '<td colspan="1">X</td>';
+                                $html .= '<td colspan="1" style="text-align: center">X</td>';
                                 $marcadorEncontrado = true;
                                 break;
                             }
                         }
-                        if (!$marcadorEncontrado) $html .= '<td colspan="1"></td>';
-                        $cont++;
-                        if($cont==3) $html .= '</tr><tr>';
                     }
+                    if ($marcadorEncontrado==false) $html .= '<td colspan="1"></td>';
+                    $cont++;
+                    if($cont==3) $html .= '</tr><tr>';
                 }
+            }
 $html .= '
-                <td colspan="4"></td>
-            </tr>';
-        }elseif($pg==54){
-$html .= '
-            <tr>
-                <td class="tit sec fond" colspan="14"><strong>DATOS DEL CELULAR</strong></td>
-            </tr>
-            <tr>
-                <td colspan="2"><strong>MARCA:</strong></td>
-                <td colspan="5">'.$det['marca'].'</td>
-                <td colspan="2"><strong>IMEI:</strong></td>
-                <td colspan="5">'.$det['serialeq'].'</td>
-            </tr>
-            <tr>
-                <td colspan="2"><strong>NUMERO:</strong></td>
-                <td colspan="5">'.(($det['numcel']!=0) ? $det['numcel'] : 'N/A').'</td>
-                <td colspan="2"><strong>OPERADOR:</strong></td>
-                <td colspan="5">'.$det['operador'].'</td>
-            </tr>
-            <tr>
-                <td class="sep" colspan="14"> </td>
-            </tr>
-            <tr>
-                <td colspan="2" rowspan="2"><strong>ACCESORIOS:</strong></td>';
-                if ($datAcc) {
-                    foreach ($datAcc as $dac) {
-                        $marcadorEncontrado = false;
-                        $html .= '<td colspan="2"><strong>'.strtoupper($dac['nomval']).'</strong></td>';
-                        if ($datAxE) {
-                            foreach ($datAxE as $dae) {
-                                if ($dac['idval'] == $dae['idvacc']) {
-                                    $html .= '<td colspan="1" style="text-align: center">X</td>';
-                                    $marcadorEncontrado = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if ($marcadorEncontrado==false) $html .= '<td colspan="1"></td>';
-                        $cont++;
-                        if($cont==4) $html .= '</tr><tr>';
-                    }
-                }
-$html .= '
-                <td colspan="3"></td>
-            </tr>';
-        }
-$html .= '
+        </tr>
         <tr>
             <td class="sep" colspan="14"> </td>
         </tr>        
