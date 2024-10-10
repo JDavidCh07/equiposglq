@@ -114,7 +114,8 @@ CREATE TABLE `modulo` (
 
 INSERT INTO `modulo` (`idmod`, `nommod`, `imgmod`, `actmod`) VALUES
 (1, 'Registro', NULL, 1),
-(2, 'Configuración', NULL, 1);
+(2, 'Configuración', NULL, 1),
+(3, 'Permisos', NULL, 1);
 
 -- --------------------------------------------------------
 
