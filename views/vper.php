@@ -137,7 +137,7 @@ require_once('controllers/cper.php');
                     <a href="home.php?pg=<?= $pg; ?>&idper=<?= $dta['idper']; ?>&ope=edi" title="Editar">
                         <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
                     </a>
-                    <?php if ($_SESSION['idpef'] != 3) { ?>
+                    <?php if ($_SESSION['idpef'] == 2) { ?>
                         <i class="fa fa-solid fa-id-card-clip fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcb<?= $dta['idper']; ?>" title="Asignar perfil"></i>
                         <?php
                         $mper->setIdper($dta['idper']);

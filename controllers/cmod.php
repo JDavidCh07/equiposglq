@@ -19,22 +19,25 @@
     $mmod->setIdmod($idmod);
 
     if($ope=='save'){
-        if($nommod && $idpag){
-            $mmod->setNommod($nommod);
-            $mmod->setImgmod($imgmod);
-            $mmod->setActmod($actmod);
-            if(!$idmod) $mmod->save();
-            else $mmod->edit();
-        }else echo '<script>err("Todos los datos son obligatorios.");</script>';
+        $mmod->setNommod($nommod);
+        $mmod->setImgmod($imgmod);
+        $mmod->setActmod($actmod);
+        if(!$idmod) $mmod->save();
+        else $mmod->edit();
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
-
+    
     if($ope=='act' && $idmod && $actmod){
         $mmod->setActmod($actmod);
         $mmod->editAct();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+    }
+    
+    if($ope=='del' && $idmod){
+        $mmod->del();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
-    if($ope=='del' && $idmod) $mmod->del();
     if($ope=='edi' && $idmod) $datOne = $mmod->getOne();
 
     $datAll = $mmod->getAll();

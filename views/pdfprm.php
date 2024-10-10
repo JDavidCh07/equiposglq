@@ -28,7 +28,9 @@ $mprm = new Mprm();
 
 $idprm = isset($_REQUEST['idprm']) ? $_REQUEST['idprm']:NULL;
 $estprm = isset($_REQUEST['estprm']) ? $_REQUEST['estprm']:NULL;
-$numprm = array_reverse($mprm->getAll());
+$obsprm = isset($_POST['obsprm']) ? $_POST['obsprm']:NULL;
+$numprm = array_reverse($mprm->getAll(3));
+
 if ($numprm){
     foreach($numprm AS $np){
         if($np['noprm']){
@@ -46,6 +48,7 @@ $comest = $mprm->getOne();
 if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $mprm->setNoprm($noprm);
     $mprm->setEstprm($estprm);
+    $mprm->setObsprm($obsprm);
     $mprm->setFecsol($hoy);
     $mprm->setFecrev($hoy);
     $mprm->editAct();

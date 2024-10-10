@@ -654,9 +654,10 @@ function modalInfPrm($nm, $id, $det){
 				$txt .= '</div>';
 				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
 					$txt .= '<div class="row">';
-						if($det[0]["iper"] && $det[0]["ijef"]){
+						if($det[0]["ijef"] && $det[0]["ijef"]==$_SESSION['idper']){
 							$txt .= '<div class="form-group col-md-4"><strong>Solicitado a: </strong></div>';
 							$txt .= '<div class="form-group col-md-8">'.$det[0]["njef"].' '.$det[0]["ajef"].'</div>';
+						}if($det[0]["iper"] && $det[0]["iper"]==$_SESSION['idper']){
 							$txt .= '<div class="form-group col-md-4"><strong>Solicitado por: </strong></div>';
 							$txt .= '<div class="form-group col-md-8">'.$det[0]["nper"].' '.$det[0]["aper"].'</div>';
 						}
@@ -671,13 +672,17 @@ function modalInfPrm($nm, $id, $det){
 						if($det[0]["desprm"]) $txt .= '<big><br><strong>Descripción:</strong></big><hr><div class="form-group col-md-12">'.$det[0]["desprm"].'</div>';
 						if($det[0]["obsprm"]) $txt .= '<big><br><strong>Observaciones:</strong></big><hr><div class="form-group col-md-12">'.$det[0]["obsprm"].'</div>';
 						if($det[0]["estprm"] != 1){
-							$txt .= '<big><br><strong>Solicitud:</strong></big><hr>';
+							$txt .= '<big><br><strong>Resultado:</strong></big><hr>';
 							if($det[0]["estprm"] != 2){
 								$txt .= '<div class="form-group col-md-4"><strong>'.(($det[0]["estprm"] == 3) ? 'Aprobado' : 'Rechazado').' por: </strong></div>';
 								$txt .= '<div class="form-group col-md-8">'.$det[0]["nper"].' '.$det[0]["aper"].'</div>';
 							}
-							$txt .= '<div class="form-group col-md-4"><strong>Fecha: </strong></div>';
-							$txt .= '<div class="form-group col-md-8">'.$det[0]["frev"].'</div>';
+							$txt .= '<div class="form-group col-md-4"><strong>F. Solicitud: </strong></div>';
+							$txt .= '<div class="form-group col-md-8">'.$det[0]["fsol"].'</div>';
+							if($det[0]["estprm"] != 2){
+								$txt .= '<div class="form-group col-md-4"><strong>F. Revisión: </strong></div>';
+								$txt .= '<div class="form-group col-md-8">'.$det[0]["frev"].'</div>';
+							}
 						}
 					$txt .= '</div>';
 				$txt .= '</div>';
@@ -685,6 +690,34 @@ function modalInfPrm($nm, $id, $det){
 					$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 				$txt .= '</div>';
 			$txt .= '</div>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal vprm, rechazar permiso-----------
+function modalRecPrm($nm, $id, $tit){		
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $id .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<form action="views/pdfprm.php" method="POST" target="_blank" onsubmit="setTimeout(() => location.reload(), 1000);"';
+				$txt .= '<div class="modal-content">';
+					$txt .= '<div class="modal-header">';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>'.$tit.'</strong></h1>';
+						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-body" style="text-align: left;">';
+						$txt .= '<label for="arc" style="margin-bottom: 10px"><strong>Motivo rechazo:</strong></label>';
+						$txt .= '<textarea class="form-control" type="text" id="obsprm" name="obsprm" required></textarea>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" value="'.$id.'" name="idprm">';
+						$txt .= '<input type="hidden" value="4" name="estprm">';
+						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
+						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+					$txt .= '</div>';
+				$txt .= '</div>';
+			$txt .= '</form>';
 		$txt .= '</div>';
 	$txt .= '</div>';
 	echo $txt;

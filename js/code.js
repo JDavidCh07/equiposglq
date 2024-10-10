@@ -23,6 +23,31 @@ $(document).ready(function () {
 });
 });
 
+$(document).ready(function () {
+  $('#mytable1').DataTable( {
+  "language": {
+      "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+      "infoEmpty": "Mostrando 0 a 0 de 0 Entradas",
+      "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
+      "paginate": {
+          "first": "Primero",
+          "last": "Ultimo",
+          "next": "Siguiente",
+          "previous": "Anterior"
+      }
+  }
+});
+});
+
 function verpass() {
   const passwordInput = document.getElementById('password');
   const eyeIcon = document.getElementById('vpass');
@@ -90,6 +115,13 @@ function recCiudad(value){
 function eliminar(nom){
     let v = confirm("¿Está seguro de eliminar este registro?\n\n- "+nom);
     return v;
+}
+
+function confirmar(nom, url) {
+  if (confirm(nom)) {
+    window.open(url, '_blank');
+    setTimeout(() => location.reload(), 1000);
+  }
 }
 
 function pdf(pdfPath) {

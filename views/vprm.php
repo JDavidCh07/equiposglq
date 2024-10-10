@@ -71,13 +71,13 @@
                     <div class="row">
                         <div class="form-group col-md-10">
                             <BIG><strong><?php if($_SESSION['idpef']==3) echo $dta['tprm']; else echo $dta['dper']." - ".$dta['aper']." ".$dta['nper']?></strong></BIG>
-                            <?php if($_SESSION['idpef']!=3){?>
-                                <div class="form-group col-md-12">
-                                    <strong><?="N° ".$dta['noprm']." - ".$dta['tprm'];?></strong>
-                                </div>
-                            <?php } ?>
                             <small>
                                 <div class="row">
+                                    <?php if($_SESSION['idpef']==4 && $dta['tprm']){?>
+                                        <div class="form-group col-md-12">
+                                            <strong><?php if($dta['noprm']) echo "N° ".$dta['noprm']." - "; echo $dta['tprm'];?></strong>
+                                        </div>
+                                    <?php } ?>
                                     <?php if ($dta['fini'] && $dta['hini']) { ?>
                                         <div class="form-group col-md-12">
                                             <strong>F. de Inicio: </strong> <?= $dta['fini']." - ".$dta['hini']; ?>
@@ -111,22 +111,34 @@
                     </div>
                 </td>
                 <td style="text-align: left;">
-                    <?php if ($dta['estprm'] == 1){
-                        $fecini = date("Y-m-d", strtotime($dta['fecini'])); 
-                        if($dta['idvtprm']==43) $fecha = $hoy; 
-                        else $fecha = $pasadom; 
+                    <?php
+                    $fecini = date("Y-m-d", strtotime($dta['fecini'])); 
+                    if($dta['idvtprm']==43) $fecha = $hoy; 
+                    else $fecha = $mañana;
+                    if ($dta['estprm'] == 1){
                         if ($fecha<=$fecini) { ?>
                             <span style="font-size: 1px;opacity: 0;">1</span>
                             <a href="views/pdfprm.php?idprm=<?=$dta['idprm'];?>&estprm=2" title="Enviar solicitud" target="_blank" onclick="setTimeout(() => location.reload(), 1000);">
                                 <i class="fa fa-solid fa-paper-plane fa-2x iconi" title="Enviar"></i>
                             </a>
-                        <?php }else{ ?>
+                        <?php } else{?>
                             <span style="font-size: 1px;opacity: 0;">5</span>
                             <i class="fa fa-solid fa-circle-exclamation fa-2x iconi" title="Fuera de Tiempo"></i>
-                    <?php }} else if ($dta['estprm'] == 2) { ?>
-                        <span style="font-size: 1px;">2</span>
-                        <i class="fa fa-solid fa-clock fa-2x iconi" title="Enviado/Pendiente"></i>
-                    <?php } else if ($dta['estprm'] == 3) { ?>
+                    <?php }} else if ($dta['estprm'] == 2){
+                        if ($fecha<=$fecini) { ?>
+                            <span style="font-size: 1px;">2</span>
+                            <i class="fa fa-solid fa-clock fa-2x iconi" title="Enviado/Pendiente"></i>
+                        <?php } else {
+                            $obs = "Tiempo de espera excedido";
+                            $mprm->setIdprm($dta['idprm']);
+                            $mprm->setEstprm(4);
+                            $mprm->setFecrev($hoy);
+                            $mprm->setObsprm($obs);
+                            $mprm->editAct();
+                        ?>
+                            <span style="font-size: 1px;opacity: 0;">5</span>
+                            <i class="fa fa-solid fa-circle-exclamation fa-2x iconi" title="Fuera de Tiempo"></i>
+                    <?php }} else if ($dta['estprm'] == 3) { ?>
                         <span style="font-size: 1px;">3</span>
                         <i class="fa fa-solid fa-circle-check fa-2x act" title="Aprobado"></i>
                     <?php } else if ($dta['estprm'] == 4) { ?>
@@ -151,112 +163,94 @@
     </tbody>
     <tfoot>
         <tr>
-            <th>Datos asignados</th>
+            <th>Datos permisos</th>
             <th>Estado</th>
             <?php if($_SESSION['idpef']==3){ ?><th></th><?php } ?>
         </tr>
     </tfoot>
 </table>
 
-<?php if($solper){ ?>
-    <table id="mytable" class="table table-striped">
+<?php 
+    if($solper){ 
+        titulo("fa fa-solid fa-file-circle-check", "Solicitudes", 0, $pg);?>
+    <table id="mytable1" class="table table-striped">
         <thead>
             <tr>
                 <th>Datos Solicitudes</th>
-                <th>Estado</th>
-                <?php if($_SESSION['idpef']==3){ ?><th></th><?php } ?>
+                <th>Resultado</th>
             </tr>
         </thead>
         <tbody>
-            <?php if ($datAll) { foreach ($datAll as $dta) { ?>
+            <?php foreach ($solper as $slp) { ?>
                 <tr>
                     <td>
                         <div class="row">
                             <div class="form-group col-md-10">
-                                <BIG><strong><?php if($_SESSION['idpef']==3) echo $dta['tprm']; else echo $dta['dper']." - ".$dta['aper']." ".$dta['nper']?></strong></BIG>
-                                <?php if($_SESSION['idpef']!=3){?>
-                                    <div class="form-group col-md-12">
-                                        <strong><?="N° ".$dta['noprm']." - ".$dta['tprm'];?></strong>
-                                    </div>
-                                <?php } ?>
+                                <BIG><strong><?= $slp['dper']." - ".$slp['aper']." ".$slp['nper']?></strong></BIG>
                                 <small>
                                     <div class="row">
-                                        <?php if ($dta['fini'] && $dta['hini']) { ?>
+                                        <?php if ($slp['tprm']) { ?>
                                             <div class="form-group col-md-12">
-                                                <strong>F. de Inicio: </strong> <?= $dta['fini']." - ".$dta['hini']; ?>
+                                                <strong>Motivo: </strong> <?=$slp['tprm'];?>
                                             </div>
-                                        <?php } if ($dta['ffin'] && $dta['hfin']) { ?>
+                                        <?php } if ($slp['fini'] && $slp['hini']) { ?>
                                             <div class="form-group col-md-12">
-                                                <strong>F. de Fin: </strong> <?= $dta['ffin']." - ".$dta['hfin']; ?>
+                                                <strong>F. de Inicio: </strong> <?= $slp['fini']." - ".$slp['hini']; ?>
                                             </div>
-                                        <?php } if ($dta['ddif'] OR $dta['hdif']) { ?>
+                                        <?php } if ($slp['ffin'] && $slp['hfin']) { ?>
+                                            <div class="form-group col-md-12">
+                                                <strong>F. de Fin: </strong> <?= $slp['ffin']." - ".$slp['hfin']; ?>
+                                            </div>
+                                        <?php } if ($slp['ddif'] OR $slp['hdif']) { ?>
                                             <div class="form-group col-md-12">
                                                 <strong>T. de Tiempo: </strong> 
-                                                <?php if($dta['ddif']){ echo $dta['ddif']; if($dta['ddif']==1) echo " día "; else echo " días ";
-                                                }else echo $dta['hdif']; ?>
+                                                <?php if($slp['ddif']){ echo $slp['ddif']; if($slp['ddif']==1) echo " día "; else echo " días ";
+                                                }else echo $slp['hdif']; ?>
                                             </div>
                                         <?php } ?>
                                     </div>
                                 </small>
                             </div>
                             <div class="form-group col-md-2">
-                                <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbprm<?= $dta['idprm']; ?>" title="Detalles"></i>
+                                <i class="fa fa-solid fa-eye iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbprm<?= $slp['idprm']; ?>" title="Detalles"></i>
                                 <?php 
-                                    $mprm->setIdprm($dta['idprm']);
+                                    $mprm->setIdprm($slp['idprm']);
                                     $det = $mprm->getOne();
-                                    modalInfPrm("mcbprm", $dta['idprm'], $det);
-                                if($_SESSION['idpef']==3 && $dta['sptrut'] && file_exists($dta['sptrut'])) { ?>
-                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['sptrut'] ?>')"></i>
-                                <?php } elseif($_SESSION['idpef']==4 && $dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
-                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['rutpdf'] ?>')"></i>
+                                    modalInfPrm("mcbprm", $slp['idprm'], $det);
+                                if($slp['rutpdf'] && file_exists($slp['rutpdf'])) { ?>
+                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $slp['rutpdf'] ?>')"></i>
                                 <?php } ?>
                             </div>
                         </div>
                     </td>
                     <td style="text-align: left;">
-                        <?php if ($dta['estprm'] == 1){
-                            $fecini = date("Y-m-d", strtotime($dta['fecini'])); 
-                            if($dta['idvtprm']==43) $fecha = $hoy; 
-                            else $fecha = $pasadom; 
-                            if ($fecha<=$fecini) { ?>
-                                <span style="font-size: 1px;opacity: 0;">1</span>
-                                <a href="views/pdfprm.php?idprm=<?=$dta['idprm'];?>&estprm=2" title="Enviar solicitud" target="_blank" onclick="setTimeout(() => location.reload(), 1000);">
-                                    <i class="fa fa-solid fa-paper-plane fa-2x iconi" title="Enviar"></i>
+                        <?php if ($slp['estprm'] == 2){
+                            $fecini = date("Y-m-d", strtotime($slp['fecini'])); 
+                            if($slp['idvtprm']==43) $fecha = $hoy; 
+                            else $fecha = $mañana; 
+                            if ($fecha<=$fecini) { 
+                                $mprm->setIdprm($slp['idprm']);
+                                $inf = $mprm->getOne();
+                                $pfec = explode(' ', $inf[0]['fini']);
+                                $fec = strtoupper($pfec[0].' de '.$pfec[2]);
+                                modalRecPrm("mcbrprm", $slp['idprm'], $slp['nper']." ".$slp['aper']." - ".$fec);    
+                            ?>
+                                <a href="views/pdfprm.php?idprm=<?= $slp['idprm']; ?>&estprm=3" title="Aprobar" onclick="confirmar('¿Está seguro de aprobar este permiso?\n\n- <?= $slp['tprm'].'-'.$slp['nper'].' '.$slp['aper'] ?>', this.href); return false;">
+                                    <i class="fa fa-solid fa-circle-check fa-2x act"></i>
                                 </a>
+                                <i class="fa fa-solid fa-circle-xmark fa-2x desact" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbrprm<?= $dta['idprm']; ?>" title="Rechazar"></i>
                             <?php }else{ ?>
                                 <span style="font-size: 1px;opacity: 0;">5</span>
                                 <i class="fa fa-solid fa-circle-exclamation fa-2x iconi" title="Fuera de Tiempo"></i>
-                        <?php }} else if ($dta['estprm'] == 2) { ?>
-                            <span style="font-size: 1px;">2</span>
-                            <i class="fa fa-solid fa-clock fa-2x iconi" title="Enviado/Pendiente"></i>
-                        <?php } else if ($dta['estprm'] == 3) { ?>
-                            <span style="font-size: 1px;">3</span>
-                            <i class="fa fa-solid fa-circle-check fa-2x act" title="Aprobado"></i>
-                        <?php } else if ($dta['estprm'] == 4) { ?>
-                            <span style="font-size: 1px;">4</span>
-                            <i class="fa fa-solid fa-circle-xmark fa-2x desact" title="Rechazado"></i>
-                        <?php } ?>
+                        <?php }} ?>
                     </td>
-                    <?php if($_SESSION['idpef']==3){ ?>
-                        <td style="text-align: right;">
-                            <?php if ($dta['estprm'] == 1) { ?>
-                                <a href="home.php?pg=<?= $pg; ?>&idprm=<?= $dta['idprm']; ?>&ope=edi" title="Editar">
-                                    <i class="fa fa-solid fa-pen-to-square fa-2x iconi"></i>
-                                </a>
-                                <a href="home.php?pg=<?= $pg; ?>&idprm=<?= $dta['idprm']; ?>&ope=eli" onclick="return eliminar('<?= $dta['tprm'] ?>');" title="Eliminar">
-                                    <i class="fa fa-solid fa-trash-can fa-2x iconi"></i>
-                                </a>
-                            <?php } ?>
-                        </td>
-                    <?php } ?>
                 </tr>
-            <?php }} ?>
+            <?php } ?>
         </tbody>
         <tfoot>
             <tr>
-                <th>Datos asignados</th>
-                <th>Estado</th>
-                <?php if($_SESSION['idpef']==3){ ?><th></th><?php } ?>
+                <th>Datos solicitudes</th>
+                <th>Resultado</th>
             </tr>
         </tfoot>
     </table>

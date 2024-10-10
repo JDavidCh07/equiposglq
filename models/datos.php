@@ -13,7 +13,8 @@
     $rrhh = "juanda.chapar@gmail.com";
 
     $nomadm = "Karenth Méndez";
-    $diradm = "juanda.chapar@gmail.com";
+    $diradm = "karenmendez@galqui.com";
+    // $diradm = "juanda.chapar@gmail.com";
     
-    $url = "http://localhost:8080/app/";
+    $url = "app2.galqui.local/app/";
 ?>

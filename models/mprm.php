@@ -109,7 +109,7 @@
             $this->rutpdf=$rutpdf;
         }
 
-        function getAll(){
+        function getAll($id){
             $sql ="SELECT r.idprm, r.noprm, r.fecini, r.fecfin, r.idvtprm, r.idvubi, r.rutpdf, DATE_FORMAT(r.fecini, '%e de %M de %Y') AS fini, DATE_FORMAT(r.fecini, '%h:%i %p') AS hini, DATE_FORMAT(r.fecfin, '%e de %M de %Y') AS ffin, DATE_FORMAT(r.fecfin, '%h:%i %p') AS hfin, r.sptrut, r.desprm, r.obsprm, r.estprm, 
     -- Ajuste de duración con condiciones
     FLOOR((TIME_TO_SEC(TIMEDIFF(r.fecfin, r.fecini)) - 
@@ -122,16 +122,16 @@
         WHEN (HOUR(r.fecini) < 14 AND HOUR(r.fecfin) > 13) THEN TIME_TO_SEC('1:00:00') 
         ELSE 0 
     END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, DATE_FORMAT(r.fecrev, '%e de %M de %Y') AS frev, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval";
-            if($_SESSION['idpef']==3) $sql .= " WHERE r.idper=:idper";
-            if($_SESSION['idpef']==4) $sql .= " WHERE r.estprm=3 OR r.estprm=4";
+            if($id==3) $sql .= " WHERE r.idper=:id";
+            if($id==4) $sql .= " WHERE r.estprm=3 OR r.estprm=4";
+            if($id==10) $sql .= " WHERE r.estprm=2";
+            if($id==$_SESSION['idper']) $sql .= " WHERE r.estprm=2 AND r.idjef=:id";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $conexion->query("SET lc_time_names = 'es_ES';");
             $result = $conexion->prepare($sql);
-            if($_SESSION['idpef']==3){
-                $idper = $_SESSION['idper'];
-                $result->bindParam(":idper", $idper);
-            }
+            if($id==3) $result->bindParam(":id", $_SESSION['idper']);
+            if($id==$_SESSION['idper']) $result->bindParam(":id", $id);
             $result->execute();
             $res = $result->fetchall(PDO::FETCH_ASSOC);
             return $res;
@@ -166,9 +166,9 @@
                 $sptrut = $this->getSptrut();
                 $sql = "INSERT INTO permiso (fecini, fecfin, idjef, idvtprm,";
                 if($sptrut) $sql .= " sptrut,";
-                $sql .= " desprm, obsprm, estprm, idper, idvubi) VALUES (:fecini, :fecfin, :idjef, :idvtprm,";
+                $sql .= " desprm, estprm, idper, idvubi) VALUES (:fecini, :fecfin, :idjef, :idvtprm,";
                 if($sptrut) $sql .= " :sptrut,";
-                $sql .= " :desprm, :obsprm, :estprm, :idper, :idvubi)";
+                $sql .= " :desprm, :estprm, :idper, :idvubi)";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -183,8 +183,6 @@
                 if($sptrut) $result->bindParam(":sptrut", $sptrut);
                 $desprm = $this->getDesprm();
                 $result->bindParam(":desprm", $desprm);
-                $obsprm = $this->getObsprm();
-                $result->bindParam(":obsprm", $obsprm);
                 $estprm = $this->getEstprm();
                 $result->bindParam(":estprm", $estprm);
                 $idper = $this->getIdper();
@@ -202,7 +200,7 @@
                 $sptrut = $this->getSptrut();
                 $sql = "UPDATE permiso SET fecini=:fecini, fecfin=:fecfin, idjef=:idjef, idvtprm=:idvtprm,";
                 if($sptrut) $sql .= " sptrut=:sptrut,";
-                $sql .= " desprm=:desprm, obsprm=:obsprm, estprm=:estprm, idper=:idper, idvubi=:idvubi WHERE idprm=:idprm";
+                $sql .= " desprm=:desprm, estprm=:estprm, idper=:idper, idvubi=:idvubi WHERE idprm=:idprm";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -219,8 +217,6 @@
                 if($sptrut) $result->bindParam(":sptrut", $sptrut);
                 $desprm = $this->getDesprm();
                 $result->bindParam(":desprm", $desprm);
-                $obsprm = $this->getObsprm();
-                $result->bindParam(":obsprm", $obsprm);
                 $estprm = $this->getEstprm();
                 $result->bindParam(":estprm", $estprm);
                 $idper = $this->getIdper();
@@ -241,6 +237,7 @@
                 if($estprm==3 || $estprm==4){ 
                     $sql .= ", fecrev=:fecrev";
                     if($estprm==3) $sql .= ", noprm=:noprm";
+                    else $sql .= ", obsprm=:obsprm";
                 }
                 $sql .= " WHERE idprm=:idprm";
                 $modelo = new conexion();
@@ -259,6 +256,9 @@
                     if($estprm==3){
                         $noprm = $this->getNoprm();
                         $result->bindParam(":noprm", $noprm);
+                    }else{ 
+                        $obsprm = $this->getObsprm();
+                        $result->bindParam(":obsprm", $obsprm);
                 }}
                 $result->execute();
             } catch (Exception $e) {

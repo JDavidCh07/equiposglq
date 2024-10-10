@@ -48,9 +48,10 @@
     if($ope=='del' && $idprm) $mprm->del();
     if($ope=='edi' && $idprm) $datOne = $mprm->getOne();
 
-    $datAll = $mprm->getAll();
+    $datAll = $mprm->getAll($_SESSION['idpef']);
     $datTprm = $mprm->getAllDom(10);
     $datUbi = $mprm->getAllDom(11);
     $datPer = $mprm->getAllPer();
-    $solper = NULL;
+    if($_SESSION['idpef']==4) $solper = $mprm->getAll(10);
+    else $solper = $mprm->getAll($_SESSION['idper']);
 ?>
