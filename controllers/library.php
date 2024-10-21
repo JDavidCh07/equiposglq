@@ -9,7 +9,7 @@ function titulo($ico, $tit, $mos, $pg){
 			$txt .= ' ' . $tit;
 			$txt .= '<hr class="hrtitu">';
 		$txt .= '</div>';
-		if ($mos == 1 && (($_SESSION['idpef']!=3 && $pg==55)==false && ($_SESSION['idpef']==3 && $pg==51)==false)) {
+		if ($mos == 1 && (($_SESSION['idpef']!=3 && $pg==101)==false && ($_SESSION['idpef']==3 && $pg==51)==false)) {
 			$txt .= '<div class="titaju" style="float: right;">';
 				$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
 				$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ');"></i>';
@@ -18,6 +18,8 @@ function titulo($ico, $tit, $mos, $pg){
 	$txt .= '</div>';
 	echo $txt;
 }
+
+
 
 //------------Errores try-catch-----------
 function ManejoError($e){
@@ -249,6 +251,7 @@ function modalFir($nm, $id, $det, $pg, $asg) {
                     $txt .= '<div class="modal-footer">';
                         $txt .= '<input type="hidden" name="ideqxpr" value="' . $det[0]['ideqxpr'] . '">';
                         $txt .= '<input type="hidden" name="nomfir" value="' . (($det[0]['firent']) ? $det[0]['pentd'] : $det[0]['prec']) . '">';
+                        $txt .= '<input type="hidden" name="estexp" value="' . (($det[0]['firent']) ? 2 : 1) . '">';
                         $txt .= '<input type="hidden" name="prs" value="' . $prs . '">';
                         $txt .= '<input type="hidden" name="estfir" value="' . $estfir . '">';
                         $txt .= '<input type="hidden" name="ope" value="firmar">';
@@ -414,7 +417,7 @@ function modalDev($nm, $id, $acc, $det, $pg, $asg){
 						$txt .= '<input type="hidden" value="'.$det[0]['ideqxpr'].'" name="ideqxpr">';
 						$txt .= '<input type="hidden" value="'.$det[0]['idequ'].'" name="idequ">';
 						$txt .= '<input type="hidden" value="dev" name="ope">';
-						$txt .= '<input type="hidden" value="2" name="estexp">';
+						$txt .= '<input type="hidden" value="3" name="estexp">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';	
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 					$txt .= '</div>';
@@ -675,7 +678,7 @@ function modalInfPrm($nm, $id, $det){
 							$txt .= '<big><br><strong>Resultado:</strong></big><hr>';
 							if($det[0]["estprm"] != 2){
 								$txt .= '<div class="form-group col-md-4"><strong>'.(($det[0]["estprm"] == 3) ? 'Aprobado' : 'Rechazado').' por: </strong></div>';
-								$txt .= '<div class="form-group col-md-8">'.$det[0]["nper"].' '.$det[0]["aper"].'</div>';
+								$txt .= '<div class="form-group col-md-8">'.$det[0]["njef"].' '.$det[0]["ajef"].'</div>';
 							}
 							$txt .= '<div class="form-group col-md-4"><strong>F. Solicitud: </strong></div>';
 							$txt .= '<div class="form-group col-md-8">'.$det[0]["fsol"].'</div>';

@@ -101,7 +101,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
                 <td class="td" colspan="1"><strong>Versión: 5</strong></td>
             </tr>
             <tr>
-                <td class="td" colspan="1"><strong>Fecha: 13/09/2024</strong></td>
+                <td class="td" colspan="1"><strong>Fecha: 17/10/2024</strong></td>
             </tr>
             <tr>
                 <td class="td" colspan="1"><strong>Página: 1 de 1</strong></td>
@@ -181,7 +181,6 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
             </tr>
         </tbody>
     </table>
-    <span><br></span>
     <table>
         <tbody>
             <tr>
@@ -282,7 +281,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         //-------Datos correo RRHH y DirAdm--------
         $mail_asun = "Aprobación Permiso ".$nompp." - ".$fec;
         $txt_mess = "";
-        $txt_mess = "Informamos que ".$nompd." ha aprobado el permiso de ".$nompp." para el día ".$fec."<br><br>
+        $txt_mess = "Informamos que ".$nompd." ha aprobado el permiso de ".$nompp." para el día ".$fec." de ".$det['hin']." hasta las ".$det['hfin']."<br><br>
         Adjunto a este correo se encuentra el formato diligenciado con la aprobación.<br><br>.";
 
         sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "");

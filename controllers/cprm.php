@@ -17,9 +17,11 @@
     $idper = $_SESSION['idper'];
     $sptrut = NULL;
 
+    $ndper = isset($_POST['ndper']) ? $_POST['ndper']:NULL;
+
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
 
-    $pg = 55;
+    $pg = 101;
     $datOne = NULL;
 
     $nomprm = $mprm->getAllDom($idvtprm);
@@ -47,6 +49,13 @@
 
     if($ope=='del' && $idprm) $mprm->del();
     if($ope=='edi' && $idprm) $datOne = $mprm->getOne();
+
+    if($ope=='bscar'){
+        if($fecini OR $ndper){
+            $mmin -> setIdusu($ndocusu);
+            $dat = $mmin->getTodo($fechos, $fhlle);
+            $datP = $mmin->getTodoP($fechos, $fhlle);
+    }}
 
     $datAll = $mprm->getAll($_SESSION['idpef']);
     $datTprm = $mprm->getAllDom(10);

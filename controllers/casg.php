@@ -21,7 +21,7 @@
     $observd = isset($_POST['observd']) ? $_POST['observd']:NULL;
     $numcel = isset($_POST['numcel']) ? $_POST['numcel']:NULL;
     $opecel = isset($_POST['opecel']) ? $_POST['opecel']:NULL;
-    $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:1;
+    $estexp = isset($_REQUEST['estexp']) ? $_REQUEST['estexp']:3;
     
     $nomfir = isset($_POST['nomfir']) ? $_POST['nomfir']:NULL;
     $prs = isset($_POST['prs']) ? $_POST['prs']:NULL;
@@ -99,6 +99,7 @@
 
     if($ope=="firmar" && $firma){
         $masg->setFirma($firma);
+        $masg->setEstexp($estexp);
         $masg->saveFir($estfir);
         echo "<script>window.location='home.php?pg=".$pg."&asg=".$asg."';</script>";
     }
@@ -158,7 +159,7 @@
             $masg->setSerialeq($serialeq); 
             $idq = $masg->selectEqu(); 
             $idequ = $idq[0]['idequ'];
-            foreach (range('C', 'G') AS $columnID){
+            foreach (range('C', 'H') AS $columnID){
                 $id = $sheet->getCell($columnID . $row)->getValue();
                 if($id) $idvacc[] = $id;
             }
@@ -168,31 +169,31 @@
                 $idv = $idv[0]['idval'];
                 if($idv) $acc++;
             }
-    		$dpent = $sheet->getCell("H" . $row)->getValue();
+    		$dpent = $sheet->getCell("I" . $row)->getValue();
             $masg->setNdper($dpent); 
             $idpent = $masg->selectUsu(); 
             $idperent = $idpent[0]['idper']; 
-            $dprec = $sheet->getCell("J" . $row)->getValue();
+            $dprec = $sheet->getCell("K" . $row)->getValue();
             $masg->setNdper($dprec); 
             $idprec = $masg->selectUsu(); 
             $idperrec = $idprec[0]['idper'];
-    		$observ = $sheet->getCell("L" . $row)->getValue();
-    		$fecent = $sheet->getCell("M" . $row)->getValue();
-            $fecdev = $sheet->getCell("S" . $row)->getValue();
+    		$observ = $sheet->getCell("M" . $row)->getValue();
+    		$fecent = $sheet->getCell("N" . $row)->getValue();
+            $fecdev = $sheet->getCell("T" . $row)->getValue();
             if (is_numeric($fecent)) $fecent = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecent)->format('Y-m-d');
             if (is_numeric($fecdev)) $fecdev = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fecdev)->format('Y-m-d');
             if($fecdev){
-    		    $dpentd = $sheet->getCell("N" . $row)->getValue();
+    		    $dpentd = $sheet->getCell("O" . $row)->getValue();
                 $masg->setNdper($dpentd); 
                 $idpentd = $masg->selectUsu(); 
                 $idperentd = $idpentd[0]['idper']; 
                 $masg->setIdperentd($idperentd);
-    		    $dprecd = $sheet->getCell("P" . $row)->getValue();
+    		    $dprecd = $sheet->getCell("Q" . $row)->getValue();
                 $masg->setNdper($dprecd); 
                 $idprecd = $masg->selectUsu(); 
                 $idperrecd = $idprecd[0]['idper']; 
                 $masg->setIdperrecd($idperrecd);
-                $observd = $sheet->getCell("R" . $row)->getValue();
+                $observd = $sheet->getCell("S" . $row)->getValue();
                 if(count($idvacc)==$acc && $idequ && $idperent && $idperrec && $idperentd && $idperrecd) $comp = 1;
             }elseif(!$fecdev){
                 if(count($idvacc)==$acc && $idequ && $idperent && $idperrec) $comp = 1;

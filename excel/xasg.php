@@ -51,7 +51,8 @@ foreach($asgs AS $index=>$asg){
 
     // Agregar titulo
     $sheet->setCellValue('A1', 'BASE DE DATOS');
-    $sheet->mergeCells('A1:AB1');
+    $merge = ($asg=="equ") ? 'A1:AC1':'A1:AA1';
+    $sheet->mergeCells($merge);
     $style = $sheet->getStyle('A1');
     $style->getFont()->setBold(true)->setSize(30);
     $style->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('99A9D08E');
@@ -62,14 +63,16 @@ foreach($asgs AS $index=>$asg){
     $sheet->setCellValue('E2', 'DATOS DEL EQUIPO');
     $merge = ($asg=="equ") ? 'E2:K2':'E2:I2';
     $sheet->mergeCells($merge);
-    $sheet->setCellValue('L2', 'ACCESORIOS');
-    $merge = ($asg=="equ") ? 'L2:P2':'J2:P2';
+    $sheet->setCellValue((($asg=="equ") ? 'L2':'J2'), 'ACCESORIOS');
+    $merge = ($asg=="equ") ? 'L2:Q2':'J2:O2';
     $sheet->mergeCells($merge);
-    $sheet->setCellValue('Q2', 'ENTREGA');
-    $sheet->mergeCells('Q2:V2');
-    $sheet->setCellValue('W2', 'DEVOLUCION');
-    $sheet->mergeCells('W2:AB2');
-    $style = $sheet->getStyle('A2:AB2');
+    $sheet->setCellValue((($asg=="equ") ? 'R2':'P2'), 'ENTREGA');
+    $merge = ($asg=="equ") ? 'R2:W2':'P2:U2';
+    $sheet->mergeCells($merge);
+    $sheet->setCellValue((($asg=="equ") ? 'X2':'V2'), 'DEVOLUCION');
+    $merge = ($asg=="equ") ? 'X2:AC2':'V2:AA2';
+    $sheet->mergeCells($merge);
+    $style = $sheet->getStyle('A2:'.(($asg=="equ") ? 'AC2':'AA2'));
     $style->getFont()->setBold(true)->setSize(18);
     $style->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('99A9D08E');
 
@@ -85,7 +88,7 @@ foreach($asgs AS $index=>$asg){
     ]);
 
     $sheet->fromArray([$titulo], NULL, 'A3');
-    $style = $sheet->getStyle('A3:AB3');
+    $style = $sheet->getStyle('A3:'.(($asg=="equ") ? 'AC3':'AA3'));
     $style->getFont()->setBold(true);
 
     //información
@@ -173,15 +176,17 @@ foreach($asgs AS $index=>$asg){
 
 
     // Aplicar estilo de borde y alineación a todo el rango de datos
-    $range = 'A1:AB' . ($fila - 1); // Rango que cubre todos los datos
+    $range = 'A1:'.(($asg=="equ") ? 'AC':'AA') . ($fila - 1); // Rango que cubre todos los datos
     $sheet->getStyle($range)->applyFromArray($styleArray);
     $sheet->getStyle($range)->applyFromArray($alignmentStyle);
 
     // Ajustar la altura de las filas y el ancho de las columnas
     foreach (range('A', 'Z') as $columnID) $sheet->getColumnDimension($columnID)->setAutoSize(true);
     $sheet->getColumnDimension('AA')->setAutoSize(true);
-    $sheet->getColumnDimension('AB')->setAutoSize(true);
-
+    if ($asg=="equ"){
+        $sheet->getColumnDimension('AB')->setAutoSize(true);
+        $sheet->getColumnDimension('AC')->setAutoSize(true);
+    }
     foreach (range(1, $fila - 1) as $rowID) $sheet->getRowDimension($rowID)->setRowHeight(-1);
      
     

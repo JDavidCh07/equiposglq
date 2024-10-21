@@ -138,14 +138,11 @@
                                     $acc = $masg->getAllAxE($dta['ideqxpr']);
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
-                                    if($_SESSION['idpef']!=3){ if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'] && $dta['fecdev'])){
+                                    modalFir("mcbfir", $dta['ideqxpr'], $det, $pg, $asg);
+                                     if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'] && $dta['fecdev'])){
                                 ?>
                                 <i class="fa fa-solid fa-pen-clip iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbfir<?= $dta['ideqxpr']; ?>" title="Firmar"></i>
-                                <?php } 
-                                    $masg->setIdeqxpr($dta['ideqxpr']);
-                                    $det = $masg->getOne();
-                                    modalFir("mcbfir", $dta['ideqxpr'], $det, $pg, $asg);
-                                   if(($dta['firent'] && !$dta['firdev'] && !$dta['fecdev']) OR ($dta['firent'] && $dta['firdev'])){ 
+                                <?php } if($_SESSION['idpef']!=3){ if(($dta['firent'] && !$dta['firdev'] && !$dta['fecdev']) OR ($dta['firent'] && $dta['firdev'])){ 
                                 ?>
                                 <a href="views/pdfasg.php?ideqxpr=<?=$dta['ideqxpr'];?>" title="Enviar confirmación" target="_blank" onclick="setTimeout(() => location.reload(), 1000);">
                                     <i class="fa fa-solid fa-envelopes-bulk iconi"></i>
@@ -163,6 +160,9 @@
                         <?php } else if ($dta['estexp'] == 2) { ?>
                             <span style="font-size: 1px;">2</span>
                             <i class="fa fa-solid fa-circle-xmark fa-2x desact" title="Devuelto"></i>
+                        <?php } else if ($dta['estexp'] == 3) { ?>
+                            <span style="font-size: 1px;">3</span>
+                            <i class="fa fa-solid fa-clock fa-2x iconi" title="Pendiente Firma"></i>
                         <?php } ?>
                     </td>
                     <?php if($_SESSION['idpef']!=3){ ?>

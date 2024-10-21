@@ -56,6 +56,25 @@
         </div>
     </div>
 </form>
+<?php if($_SESSION['idpef']==4){ ?>
+    <form action="home.php?pg=<?= $pg; ?>" method="post">
+        <div class="row">
+            <div class="form-group col-3">
+                <label id="fecini">Fecha inicial</label>
+                <input type="date" name="fecini" id="fecini" value="<?= $fecini; ?>" max="<?= $hoy; ?>" onchange="this.form.submit()" class="form-control" required>
+            </div>
+            <div class="form-group col-3">
+                <label id="fecfin">Fecha final</label>
+                <input type="date" name="fecfin" id="fecfin" value="<?= $fecfin; ?>" max="<?= $hoy; ?>" onchange="this.form.submit()" class="form-control">
+            </div>
+            <div class="form-group col-3">
+                <label for="ndper">Documento: </label>
+                <input type="text" name="ndper" id="ndper" value="<?= $ndper; ?>" onkeydown="return enter(event);" onchange="this.form.submit();" onkeypress="return solonum(event);" class="form-control">
+            </div>
+        </div>
+        <input type="hidden" name="ope" value="buscar">
+    </form>
+<?php } ?>
 <table id="mytable" class="table table-striped">
     <thead>
         <tr>
@@ -172,7 +191,7 @@
 
 <?php 
     if($solper){ 
-        titulo("fa fa-solid fa-file-circle-check", "Solicitudes", 0, $pg);?>
+        titulo("fa fa-solid fa-file-circle-check", "Solicitudes", 1, $pg);?>
     <table id="mytable1" class="table table-striped">
         <thead>
             <tr>
@@ -238,7 +257,7 @@
                                 <a href="views/pdfprm.php?idprm=<?= $slp['idprm']; ?>&estprm=3" title="Aprobar" onclick="confirmar('¿Está seguro de aprobar este permiso?\n\n- <?= $slp['tprm'].'-'.$slp['nper'].' '.$slp['aper'] ?>', this.href); return false;">
                                     <i class="fa fa-solid fa-circle-check fa-2x act"></i>
                                 </a>
-                                <i class="fa fa-solid fa-circle-xmark fa-2x desact" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbrprm<?= $dta['idprm']; ?>" title="Rechazar"></i>
+                                <i class="fa fa-solid fa-circle-xmark fa-2x desact" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbrprm<?= $slp['idprm']; ?>" title="Rechazar"></i>
                             <?php }else{ ?>
                                 <span style="font-size: 1px;opacity: 0;">5</span>
                                 <i class="fa fa-solid fa-circle-exclamation fa-2x iconi" title="Fuera de Tiempo"></i>
@@ -281,3 +300,36 @@
         background-color: #fff;
     }
 </style>
+<script>
+        function enter(event) {
+            // Verificar si la tecla presionada es "Enter"
+            if (event.key === 'Enter') {
+                // Enviar el formulario
+                document.getElementById('ndper').form.submit();
+                return false; // Evitar que se agregue un salto de línea al presionar "Enter"
+            }
+            return true;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var campoTexto = document.getElementById("ndper");
+
+            campoTexto.addEventListener("keypress", function(event) {
+                if (event.keyCode === 13) {
+                    formulario.submit();
+                }
+            });
+        });
+        
+        const fechaInput = document.getElementById('fecini');
+        const fechaFinInput = document.getElementById('fecfin');
+        const fechaActual = new Date();
+        const anioActual = fechaActual.getFullYear();
+        const mesActual = fechaActual.getMonth();
+        const primerDiaDelMes = new Date(anioActual, mesActual, 1);
+        const ultimoDiaDelMes = new Date(anioActual, mesActual + 1, 0);
+        const fechaFormateada = primerDiaDelMes.toISOString().split('T')[0];
+        const fechaFinFormateada = ultimoDiaDelMes.toISOString().split('T')[0];
+        fechaInput.value = fechaFormateada;
+        fechaFinInput.value = fechaFinFormateada;
+    </script>

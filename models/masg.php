@@ -223,9 +223,9 @@
         function saveFir($fir){
             try{
                 $sql = "UPDATE asignar SET";
-                if($fir==1) $sql .= " firent=:firma";
-                if($fir==2) $sql .= " firdev=:firma";
-                $sql .= " WHERE ideqxpr=:ideqxpr";
+                if($fir==2) $sql .= " firdev=:firma,";
+                if($fir==1) $sql .= " firent=:firma,";
+                $sql .= " estexp=:estexp WHERE ideqxpr=:ideqxpr";
                 $modelo = new conexion();
                 $conexion = $modelo->get_conexion();
                 $result = $conexion->prepare($sql);
@@ -233,6 +233,8 @@
                 $result->bindParam(":ideqxpr",$ideqxpr);
                 $firma = $this->getFirma();
                 $result->bindParam(":firma", $firma);
+                $estexp = $this->getEstexp();
+                $result->bindParam(":estexp", $estexp);
                 $result->execute();
             } catch (Exception $e) {
                 ManejoError($e);

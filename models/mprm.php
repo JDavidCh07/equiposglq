@@ -15,6 +15,8 @@
         private $fecsol;
         private $fecrev;
         private $rutpdf;
+
+        private $ndper;
         
 
         public function getIdprm(){
@@ -63,6 +65,11 @@
             return $this->rutpdf;
         }
 
+        public function getNdper(){
+            return $this->ndper;
+        }
+
+
         public function setIdprm($idprm){
             $this->idprm=$idprm;
         }
@@ -107,6 +114,10 @@
         }
         public function setRutpdf($rutpdf){
             $this->rutpdf=$rutpdf;
+        }
+
+        public function setNdper($ndper){
+            $this->ndper=$ndper;
         }
 
         function getAll($id){

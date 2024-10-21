@@ -145,7 +145,7 @@ INSERT INTO `pagina` (`idpag`, `icono`, `nompag`, `arcpag`, `ordpag`, `menpag`, 
 (52, 'fa fa-solid fa-laptop', 'Equipos', 'views/vequ.php', 52, 'home.php', 1, 1),
 (53, 'fa fa-solid fa-user', 'Personas', 'views/vper.php', 54, 'home.php', 1, 1),
 (54, 'fa fa-solid fa-mobile', 'Celulares', 'views/vequ.php', 53, 'home.php', 1, 1),
-(55, 'fa fa-solid fa-file-circle-check', 'Permisos', 'views/vprm.php', 55, 'home.php', 1, 3);
+(101, 'fa fa-solid fa-file-circle-check', 'Permisos', 'views/vprm.php', 101, 'home.php', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -164,8 +164,8 @@ CREATE TABLE `pagxpef` (
 
 INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
 (53, 4),
-(55, 4),
-(55, 3),
+(101, 4),
+(101, 3),
 (51, 2),
 (52, 2),
 (53, 2),
@@ -194,8 +194,8 @@ CREATE TABLE `pefxmod` (
 
 INSERT INTO `pefxmod` (`idmod`, `idpef`, `idpag`) VALUES
 (1, 4, 53),
-(3, 4, 55),
-(3, 3, 55),
+(3, 4, 101),
+(3, 3, 101),
 (1, 2, 51),
 (2, 1, 1);
 
@@ -352,6 +352,7 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (9, 203, 'Torre', 2, 1),
 (10, 401, 'Propio', 4, 1),
 (11, 402, 'Alquiler', 4, 1),
+(60, 403, 'Tececor', 4, 1),
 (13, 301, 'Mouse', 3, 1),
 (14, 302, 'Teclado', 3, 1),
 (15, 303, 'Cargador', 3, 1),
@@ -372,9 +373,8 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (32, 701, 'Home', 7, 1),
 (33, 702, 'Pro', 7, 1),
 (34, 703, 'Enterprise', 7, 1),
-(35, 801, 'Preventivo', 8, 1),
-(36, 802, 'Correctivo', 8, 1),
-(37, 803, 'Predictivo', 8, 1),
+(35, 704, 'Standard LTSC', 6, 1),
+(36, 705, 'Standard VL', 6, 1),
 (38, 901, 'N/A', 9, 1),
 (39, 902, 'Claro', 9, 1),
 (40, 903, 'Movistar', 9, 1),
