@@ -29,6 +29,7 @@ $mprm = new Mprm();
 $idprm = isset($_REQUEST['idprm']) ? $_REQUEST['idprm']:NULL;
 $estprm = isset($_REQUEST['estprm']) ? $_REQUEST['estprm']:NULL;
 $obsprm = isset($_POST['obsprm']) ? $_POST['obsprm']:NULL;
+$idrev = isset($_REQUEST['idrev']) ? $_REQUEST['idrev']:NULL;
 $numprm = array_reverse($mprm->getAll(3));
 
 if ($numprm){
@@ -50,6 +51,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $mprm->setEstprm($estprm);
     $mprm->setObsprm($obsprm);
     $mprm->setFecsol($hoy);
+    $mprm->setIdrev($idrev);
     $mprm->setFecrev($hoy);
     $mprm->editAct();
     $datDet = $mprm->getOne();
@@ -249,6 +251,14 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $aped = ucfirst(strtolower($partes[0]));
     $nomd = ucfirst(strtolower($partes[count($partes) > 2 ? 2 : 1]));
     $nompd = $nomd." ".$aped;
+
+    //-------Datos aprueba--------
+    $pera = $det['arev']." ".$det['nrev']; 
+    $maila = $det['erev'];
+    $partesa = explode(" ", $pera);
+    $apea = ucfirst(strtolower($partesa[0]));
+    $noma = ucfirst(strtolower($partesa[count($partesa) > 2 ? 2 : 1]));
+    $nompa = $noma." ".$apea;
     
     //-------Datos colaborador--------
     $pprm = $det['aper']." ".$det['nper']; 
@@ -268,7 +278,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         
         //-------Datos correo jefe--------
         $mail_asun = "Solicitud Permiso ".$nompp." - ".$fec;
-        $link = $url."views/pdfprm.php?idprm=".$idprm."&estprm=3";
+        $link = $url."views/pdfprm.php?idprm=".$idprm."&estprm=3&idrev=".$det['ijef'];
         $txt_mess = "";
         $txt_mess = "Te informamos que ".$nompp." está solicitando un permiso para el ".$fec.(($det['tprm']!=48) ? " por motivos de ".$det['tprm'] : "").".<br><br>
         Adjunto a este correo se encuentra el formato debidamente diligenciado.<br><br>
@@ -281,7 +291,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         //-------Datos correo RRHH y DirAdm--------
         $mail_asun = "Aprobación Permiso ".$nompp." - ".$fec;
         $txt_mess = "";
-        $txt_mess = "Informamos que ".$nompd." ha aprobado el permiso de ".$nompp." para el día ".$fec." de ".$det['hin']." hasta las ".$det['hfin']."<br><br>
+        $txt_mess = "Informamos que ".$nompa." ha aprobado el permiso de ".$nompp." para el día ".$fec." de ".$det['hini']." a ".$det['hfin']."<br><br>
         Adjunto a este correo se encuentra el formato diligenciado con la aprobación.<br><br>.";
 
         sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "");
@@ -290,7 +300,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         //-------Datos correo colaborador--------
         $mail_asun = "Aprobación Permiso - ".$fec;
         $txt_mess = "";
-        $txt_mess = "Te informamos que el permiso solicitado para el día ".$fec." ha sido aprobado por ".$nompd."<br><br>
+        $txt_mess = "Te informamos que el permiso solicitado para el día ".$fec." ha sido aprobado por ".$nompa."<br><br>
         Adjunto a este correo se encuentra el formato con la aprobación.<br><br>.";
 
         sendemail($ema, $psem, $nom, $mailp, $nompp, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");

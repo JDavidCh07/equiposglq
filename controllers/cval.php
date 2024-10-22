@@ -31,10 +31,14 @@ if($ope=="save"){
 if($ope=="act" && $idval && $actval){
     $mval->setActval($actval);
     $mval->editAct();
+    echo "<script>window.location='home.php?pg=".$pg."';</script>";
 }
 
 if($ope=="edi" && $idval) $datOne = $mval->getOne();
-if($ope=="eli" && $idval) $mval->del();
+if($ope=="eli" && $idval){
+    $mval->del();
+    echo "<script>window.location='home.php?pg=".$pg."';</script>";
+}
 
 $datALL = $mval-> getALL();
 $datDom = $mdom-> getALL();

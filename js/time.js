@@ -2,6 +2,8 @@ function validarHora(input) {
     const fecini = new Date(document.getElementById("fecini").value);
     const fecfin = new Date(document.getElementById("fecfin").value);
     const selectedDate = new Date(input.value);
+    const horaini = fecini.getHours();
+    const horafin = fecfin.getHours();
     const hora = selectedDate.getHours();
     const minutos = selectedDate.getMinutes();
     
@@ -49,7 +51,7 @@ function validarHora(input) {
     }
 
     // Verificar si es hora de almuerzo (entre 1:00 PM y 2:00 PM)
-    if ((hora === 13 && minutos >= 1) && (hora === 13 && minutos <= 59)) {
+    if (horaini === 13 && horafin === 14) {
         input.style.borderColor = "red";
         errorMessage.textContent = "Es hora de almuerzo (1:00 PM - 2:00 PM).";
         errorMessage.style.display = "block";

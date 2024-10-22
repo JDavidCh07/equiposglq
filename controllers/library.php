@@ -678,7 +678,7 @@ function modalInfPrm($nm, $id, $det){
 							$txt .= '<big><br><strong>Resultado:</strong></big><hr>';
 							if($det[0]["estprm"] != 2){
 								$txt .= '<div class="form-group col-md-4"><strong>'.(($det[0]["estprm"] == 3) ? 'Aprobado' : 'Rechazado').' por: </strong></div>';
-								$txt .= '<div class="form-group col-md-8">'.$det[0]["njef"].' '.$det[0]["ajef"].'</div>';
+								$txt .= '<div class="form-group col-md-8">'.$det[0]["nrev"].' '.$det[0]["arev"].'</div>';
 							}
 							$txt .= '<div class="form-group col-md-4"><strong>F. Solicitud: </strong></div>';
 							$txt .= '<div class="form-group col-md-8">'.$det[0]["fsol"].'</div>';
@@ -715,6 +715,7 @@ function modalRecPrm($nm, $id, $tit){
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
 						$txt .= '<input type="hidden" value="'.$id.'" name="idprm">';
+						$txt .= '<input type="hidden" value="'.$_SESSION['idper'].'" name="idrev">';
 						$txt .= '<input type="hidden" value="4" name="estprm">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';

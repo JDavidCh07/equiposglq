@@ -1,4 +1,49 @@
-<?php include('controllers/cprm.php');?>
+<?php include('controllers/cprm.php');
+if ($datOne) {
+    $fechai = (new DateTime($datOne[0]['fecini']))->format('Y-m-d\TH:i');
+    $fechaf = (new DateTime($datOne[0]['fecfin']))->format('Y-m-d\TH:i');
+} 
+if($_SESSION['idpef']==4){ ?>
+    <form action="home.php?pg=<?= $pg; ?>" method="post">
+        <div class="row">
+            <div class="form-group col-md-2 col-sm-4">
+                <label id="fecinib"><strong>Fecha inicial:</strong></label>
+                <input type="date" name="fecini" id="fecinib" value="<?= $fecini; ?>" onchange="this.form.submit()" class="form-control">
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+                <label id="fecfinb"><strong>Fecha final:</strong></label>
+                <input type="date" name="fecfin" id="fecfinb" value="<?= $fecfin; ?>" onchange="this.form.submit()" class="form-control">
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+                <label for="ndper"><strong>Documento:</strong></label>
+                <input type="text" name="ndper" id="ndper" value="<?= $ndper; ?>" onkeydown="return enter(event);" onchange="this.form.submit();" onkeypress="return solonum(event);" class="form-control">
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+                <label for="idvdpt"><strong>Departamento:</strong></label>
+                <select name="idvdpt" id="idvdpt" class="form-control form-select" onchange="this.form.submit();" >
+                    <option value="0">Seleccione...</option>
+                    <?php foreach ($datDpt AS $dtd) { ?>
+                        <option value="<?= $dtd['idval']; ?>" <?php if ($dtd['idval'] == $idvdpt) echo " selected "; ?>>
+                            <?= $dtd['nomval']; ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-4">
+                <label for="estprm"><strong>Estado:</strong></label>
+                <select name="estprm" id="estprm" class="form-control form-select" onchange="this.form.submit();">
+                    <option value="0">Seleccione...</option>
+                    <option value="3" <?php if ($estprm && $estprm == 3) echo " selected "; ?>>Aprobados</option>
+                    <option value="4" <?php if ($estprm && $estprm == 4) echo " selected "; ?>>Rechazados</option>
+                </select>
+            </div>
+            <input type="hidden" name="ope" value="buscar">
+            <div class="form-group col-md-2 col-sm-4">
+                <input type="submit" class="btn btn-primary mybtn" value="Limpiar" name="ope">
+            </div>
+        </div>
+    </form>
+<?php } ?>
 
 <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins" enctype="multipart/form-data">
     <div class="row">
@@ -31,12 +76,12 @@
         </div>
         <div class="form-group col-md-4">
             <label for="fecini"><strong>Desde:</strong></label>
-            <input class="form-control" type="datetime-local" id="fecini" name="fecini" <?php if ($datOne) echo 'value="'.$datOne[0]['fecini'].'"';?> step="1800" required onchange="validarHora(this); actualizarMinMax()">
+            <input class="form-control" type="datetime-local" id="fecini" name="fecini" value="<?php if ($fechai) echo $fechai;?>" step="1800" required onchange="validarHora(this); actualizarMinMax()">
             <small id="error-message-fecini" style="color: red; display: none;">La hora debe estar entre las 7:00 AM y las 6:00 PM.</small>
         </div>
         <div class="form-group col-md-4">
             <label for="fecfin"><strong>Hasta:</strong></label>
-            <input class="form-control" type="datetime-local" id="fecfin" name="fecfin" <?php if ($datOne) echo 'value="'.$datOne[0]['fecfin'].'"';?> step="1800" required onchange="validarHora(this)">
+            <input class="form-control" type="datetime-local" id="fecfin" name="fecfin" value="<?php if ($fechaf) echo $fechaf;?>" step="1800" required onchange="validarHora(this)">
             <small id="error-message-fecfin" style="color: red; display: none;">La hora debe estar entre las 7:00 AM y las 6:00 PM.</small>
         </div>
         <div class="form-group col-md-4">
@@ -56,25 +101,6 @@
         </div>
     </div>
 </form>
-<?php if($_SESSION['idpef']==4){ ?>
-    <form action="home.php?pg=<?= $pg; ?>" method="post">
-        <div class="row">
-            <div class="form-group col-3">
-                <label id="fecini">Fecha inicial</label>
-                <input type="date" name="fecini" id="fecini" value="<?= $fecini; ?>" max="<?= $hoy; ?>" onchange="this.form.submit()" class="form-control" required>
-            </div>
-            <div class="form-group col-3">
-                <label id="fecfin">Fecha final</label>
-                <input type="date" name="fecfin" id="fecfin" value="<?= $fecfin; ?>" max="<?= $hoy; ?>" onchange="this.form.submit()" class="form-control">
-            </div>
-            <div class="form-group col-3">
-                <label for="ndper">Documento: </label>
-                <input type="text" name="ndper" id="ndper" value="<?= $ndper; ?>" onkeydown="return enter(event);" onchange="this.form.submit();" onkeypress="return solonum(event);" class="form-control">
-            </div>
-        </div>
-        <input type="hidden" name="ope" value="buscar">
-    </form>
-<?php } ?>
 <table id="mytable" class="table table-striped">
     <thead>
         <tr>
@@ -89,6 +115,9 @@
                 <td>
                     <div class="row">
                         <div class="form-group col-md-10">
+                            <?php if($_SESSION['idpef']==4){ ?>
+                                <span style="font-size: 0px;opacity: 0;"><?=$dta['fecsol'];?></span>
+                            <?php } ?>
                             <BIG><strong><?php if($_SESSION['idpef']==3) echo $dta['tprm']; else echo $dta['dper']." - ".$dta['aper']." ".$dta['nper']?></strong></BIG>
                             <small>
                                 <div class="row">
@@ -205,6 +234,7 @@
                     <td>
                         <div class="row">
                             <div class="form-group col-md-10">
+                                <span style="font-size: 0px;opacity: 0;"><?=$slp['fecsol'];?></span>
                                 <BIG><strong><?= $slp['dper']." - ".$slp['aper']." ".$slp['nper']?></strong></BIG>
                                 <small>
                                     <div class="row">
@@ -254,14 +284,20 @@
                                 $fec = strtoupper($pfec[0].' de '.$pfec[2]);
                                 modalRecPrm("mcbrprm", $slp['idprm'], $slp['nper']." ".$slp['aper']." - ".$fec);    
                             ?>
-                                <a href="views/pdfprm.php?idprm=<?= $slp['idprm']; ?>&estprm=3" title="Aprobar" onclick="confirmar('¿Está seguro de aprobar este permiso?\n\n- <?= $slp['tprm'].'-'.$slp['nper'].' '.$slp['aper'] ?>', this.href); return false;">
+                                <a href="views/pdfprm.php?idprm=<?= $slp['idprm']; ?>&estprm=3&idrev=<?= $_SESSION['idper']; ?>" title="Aprobar" onclick="confirmar('¿Está seguro de aprobar este permiso?\n\n- <?= $slp['tprm'].'-'.$slp['nper'].' '.$slp['aper'] ?>', this.href); return false;">
                                     <i class="fa fa-solid fa-circle-check fa-2x act"></i>
                                 </a>
                                 <i class="fa fa-solid fa-circle-xmark fa-2x desact" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbrprm<?= $slp['idprm']; ?>" title="Rechazar"></i>
                             <?php }else{ ?>
                                 <span style="font-size: 1px;opacity: 0;">5</span>
                                 <i class="fa fa-solid fa-circle-exclamation fa-2x iconi" title="Fuera de Tiempo"></i>
-                        <?php }} ?>
+                        <?php }} else if ($slp['estprm'] == 3) { ?>
+                            <span style="font-size: 1px;">3</span>
+                            <i class="fa fa-solid fa-circle-check fa-2x act" title="Aprobado"></i>
+                        <?php } else if ($slp['estprm'] == 4) { ?>
+                            <span style="font-size: 1px;">4</span>
+                            <i class="fa fa-solid fa-circle-xmark fa-2x desact" title="Rechazado"></i>
+                        <?php } ?>
                     </td>
                 </tr>
             <?php } ?>
@@ -321,8 +357,8 @@
             });
         });
         
-        const fechaInput = document.getElementById('fecini');
-        const fechaFinInput = document.getElementById('fecfin');
+        const fechaInput = document.getElementById('fecinib');
+        const fechaFinInput = document.getElementById('fecfinb');
         const fechaActual = new Date();
         const anioActual = fechaActual.getFullYear();
         const mesActual = fechaActual.getMonth();

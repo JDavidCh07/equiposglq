@@ -33,10 +33,14 @@ if($ope=="save"){
 if($ope=="act" && $idpag && $mospag){
 	$mpag->setMospag($mospag);
 	$mpag->editAct();
+	echo "<script>window.location='home.php?pg=".$pg."';</script>";
 }
 
-if($ope=="eli" && $idpag)$mpag->del();
 if($ope=="edi" && $idpag)$datOne = $mpag->getOne();
+if($ope=="eli" && $idpag){
+	$mpag->del();
+	echo "<script>window.location='home.php?pg=".$pg."';</script>";
+}
 
 $datAll = $mpag->getAll();
 $datAllm = $mpag->getAllM();

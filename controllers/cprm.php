@@ -18,6 +18,7 @@
     $sptrut = NULL;
 
     $ndper = isset($_POST['ndper']) ? $_POST['ndper']:NULL;
+    $idvdpt = isset($_POST['idvdpt']) ? $_POST['idvdpt']:NULL;
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
 
@@ -47,20 +48,28 @@
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
-    if($ope=='del' && $idprm) $mprm->del();
     if($ope=='edi' && $idprm) $datOne = $mprm->getOne();
+    if($ope=='del' && $idprm){
+        $mprm->del();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+    }
 
-    if($ope=='bscar'){
-        if($fecini OR $ndper){
-            $mmin -> setIdusu($ndocusu);
-            $dat = $mmin->getTodo($fechos, $fhlle);
-            $datP = $mmin->getTodoP($fechos, $fhlle);
-    }}
+    if($ope=='buscar'){
+        $mprm->setNdper($ndper);
+        $mprm->setFecini($fecini);
+        $mprm->setFecfin($fecfin);
+        $mprm->setIdvdpt($idvdpt);
+        $mprm->setEstprm($estprm);
+        $datAll = $mprm->getAll("bus");
+    } else $datAll = $mprm->getAll($_SESSION['idpef']);
+    
+    if($ope=='Limpiar') echo "<script>window.location='home.php?pg=".$pg."';</script>";
 
-    $datAll = $mprm->getAll($_SESSION['idpef']);
     $datTprm = $mprm->getAllDom(10);
     $datUbi = $mprm->getAllDom(11);
+    $datDpt = $mprm->getAllDom(12);
     $datPer = $mprm->getAllPer();
-    if($_SESSION['idpef']==4) $solper = $mprm->getAll(10);
+    
+    if($_SESSION['idpef']==4) $solper = $mprm->getAll("rrhh");
     else $solper = $mprm->getAll($_SESSION['idper']);
 ?>

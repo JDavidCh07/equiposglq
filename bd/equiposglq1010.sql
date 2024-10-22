@@ -241,6 +241,7 @@ CREATE TABLE `permiso` (
   `idvubi` bigint(11) NOT NULL,
   `fecsol` date DEFAULT NULL,
   `fecrev` date DEFAULT NULL,
+  `idrev` bigint(11) DEFAULT NULL,
   `rutpdf` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -476,7 +477,8 @@ ALTER TABLE `permiso`
   ADD KEY `idjef` (`idjef`),
   ADD KEY `idvtprm` (`idvtprm`),
   ADD KEY `idper` (`idper`),
-  ADD KEY `idvubi` (`idvubi`);
+  ADD KEY `idvubi` (`idvubi`),
+  ADD KEY `idrev` (`idrev`);
 
 --
 -- Indices de la tabla `persona`
@@ -640,6 +642,7 @@ ALTER TABLE `pefxmod`
 ALTER TABLE `permiso`
   ADD CONSTRAINT `permiso_ibfk_1` FOREIGN KEY (`idjef`) REFERENCES `persona` (`idper`),
   ADD CONSTRAINT `permiso_ibfk_2` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`);
+  ADD CONSTRAINT `permiso_ibfk_3` FOREIGN KEY (`idrev`) REFERENCES `persona` (`idper`);
 
 --
 -- Filtros para la tabla `perxpef`

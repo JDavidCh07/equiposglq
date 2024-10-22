@@ -55,10 +55,14 @@
     if($ope=="act" && $idequ && $actequ){
         $mequ->setActequ($actequ);
         $mequ->editAct();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
     if($ope=="edi" && $idequ) $datOne = $mequ->getOne();
-    if($ope=="eli" && $idequ) $mequ->del();
+    if($ope=="eli" && $idequ){
+        $mequ->del();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+    }
 
     //------------Programa-----------
     if($ope=="savepxe"){

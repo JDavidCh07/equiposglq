@@ -78,10 +78,14 @@
     if($ope=="act" && $idper && $actper){
         $mper->setActper($actper);
         $mper->editAct();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
-    if($ope=="eli"&& $idper) $mper->del();
     if($ope=="edi"&& $idper) $datOne=$mper->getOne();
+    if($ope=="eli"&& $idper){
+        $mper->del();
+        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+    }
 
     //------------Perfil-----------
     if($ope=="savepxf"){

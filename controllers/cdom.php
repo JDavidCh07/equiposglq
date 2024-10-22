@@ -22,7 +22,10 @@ if ($ope == "save") {
 }
 
 if ($ope == "edi" && $iddom) $datOne = $mdom->getOne();
-if ($ope == "eli" && $iddom) $mdom->del();
+if ($ope == "eli" && $iddom){
+    $mdom->del();
+    echo "<script>window.location='home.php?pg=".$pg."';</script>";
+}
 
 $datAll = $mdom->getAll();
 ?>
