@@ -2,16 +2,16 @@
 if ($datOne) {
     $fechai = (new DateTime($datOne[0]['fecini']))->format('Y-m-d\TH:i');
     $fechaf = (new DateTime($datOne[0]['fecfin']))->format('Y-m-d\TH:i');
-} 
-if($_SESSION['idpef']==4){ ?>
+}
+if($_SESSION['idpef']==4){?>
     <form action="home.php?pg=<?= $pg; ?>" method="post">
         <div class="row">
             <div class="form-group col-md-2 col-sm-4">
-                <label id="fecinib"><strong>Fecha inicial:</strong></label>
-                <input type="date" name="fecini" id="fecinib" value="<?= $fecini; ?>" onchange="this.form.submit()" class="form-control">
+                <label for="fecinib"><strong>Fecha inicial:</strong></label>
+                <input type="date" name="fecini" id="fecinib" value="<?= $fecini; ?>" onchange="this.form.submit(); actMinMax();" class="form-control">
             </div>
             <div class="form-group col-md-2 col-sm-4">
-                <label id="fecfinb"><strong>Fecha final:</strong></label>
+                <label for="fecfinb"><strong>Fecha final:</strong></label>
                 <input type="date" name="fecfin" id="fecfinb" value="<?= $fecfin; ?>" onchange="this.form.submit()" class="form-control">
             </div>
             <div class="form-group col-md-2 col-sm-4">
@@ -37,9 +37,18 @@ if($_SESSION['idpef']==4){ ?>
                     <option value="4" <?php if ($estprm && $estprm == 4) echo " selected "; ?>>Rechazados</option>
                 </select>
             </div>
-            <input type="hidden" name="ope" value="buscar">
-            <div class="form-group col-md-2 col-sm-4">
-                <input type="submit" class="btn btn-primary mybtn" value="Limpiar" name="ope">
+            <input type="hidden" name="ope" value="busc">
+            <div class="form-group col-md-2 col-sm-4 row" style="padding-top: 30px;">
+                <div class="form-group col-6">
+                    <button type="submit" title="Limpiar" value="limp" name="ope" style="border: none;">
+                        <i class="fa fa-solid fa-eraser fa-2x desact"></i>
+                    </button>
+                </div>
+                <div class="form-group col-6">
+                    <a href="excel/xprm.php?d=<?=$idvdpt?>&o=busc&fi=<?=$fecini?>&n=<?=$ndper?>&ff=<?=$fecfin?>&e=<?=$estprm?>" title="Exportar permisos">
+                        <i class="fa fa-solid fa-file-export fa-2x ext"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </form>
@@ -67,7 +76,7 @@ if($_SESSION['idpef']==4){ ?>
             <label for="idjef"><strong>Enviar a:</strong></label>
             <select id="combobox1" name="idjef" class="form-control form-select" required>
                 <option value="0"></option>
-                <?php if ($datPer) { foreach ($datPer as $dpr) { ?>
+                <?php if ($datJef) { foreach ($datJef as $dpr) { ?>
                         <option value="<?= $dpr['idper']; ?>" <?php if ($datOne && $dpr['idper'] == $datOne[0]['ijef']) echo " selected "; ?>>
                             <?= $dpr['nomjef']; ?>     
                         </option>
@@ -217,10 +226,9 @@ if($_SESSION['idpef']==4){ ?>
         </tr>
     </tfoot>
 </table>
-
 <?php 
     if($solper){ 
-        titulo("fa fa-solid fa-file-circle-check", "Solicitudes", 1, $pg);?>
+        titulo("fa fa-solid fa-file-circle-check", "Solicitudes", 0, $pg);?>
     <table id="mytable1" class="table table-striped">
         <thead>
             <tr>
@@ -275,8 +283,7 @@ if($_SESSION['idpef']==4){ ?>
                     <td style="text-align: left;">
                         <?php if ($slp['estprm'] == 2){
                             $fecini = date("Y-m-d", strtotime($slp['fecini'])); 
-                            if($slp['idvtprm']==43) $fecha = $hoy; 
-                            else $fecha = $mañana; 
+                            $fecha = $hoy;
                             if ($fecha<=$fecini) { 
                                 $mprm->setIdprm($slp['idprm']);
                                 $inf = $mprm->getOne();
@@ -336,36 +343,3 @@ if($_SESSION['idpef']==4){ ?>
         background-color: #fff;
     }
 </style>
-<script>
-        function enter(event) {
-            // Verificar si la tecla presionada es "Enter"
-            if (event.key === 'Enter') {
-                // Enviar el formulario
-                document.getElementById('ndper').form.submit();
-                return false; // Evitar que se agregue un salto de línea al presionar "Enter"
-            }
-            return true;
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var campoTexto = document.getElementById("ndper");
-
-            campoTexto.addEventListener("keypress", function(event) {
-                if (event.keyCode === 13) {
-                    formulario.submit();
-                }
-            });
-        });
-        
-        const fechaInput = document.getElementById('fecinib');
-        const fechaFinInput = document.getElementById('fecfinb');
-        const fechaActual = new Date();
-        const anioActual = fechaActual.getFullYear();
-        const mesActual = fechaActual.getMonth();
-        const primerDiaDelMes = new Date(anioActual, mesActual, 1);
-        const ultimoDiaDelMes = new Date(anioActual, mesActual + 1, 0);
-        const fechaFormateada = primerDiaDelMes.toISOString().split('T')[0];
-        const fechaFinFormateada = ultimoDiaDelMes.toISOString().split('T')[0];
-        fechaInput.value = fechaFormateada;
-        fechaFinInput.value = fechaFinFormateada;
-    </script>

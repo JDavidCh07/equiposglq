@@ -54,7 +54,7 @@
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
-    if($ope=='buscar'){
+    if($ope=='busc'){
         $mprm->setNdper($ndper);
         $mprm->setFecini($fecini);
         $mprm->setFecfin($fecfin);
@@ -63,12 +63,12 @@
         $datAll = $mprm->getAll("bus");
     } else $datAll = $mprm->getAll($_SESSION['idpef']);
     
-    if($ope=='Limpiar') echo "<script>window.location='home.php?pg=".$pg."';</script>";
+    if($ope=='limp') echo "<script>window.location='home.php?pg=".$pg."';</script>";
 
     $datTprm = $mprm->getAllDom(10);
     $datUbi = $mprm->getAllDom(11);
     $datDpt = $mprm->getAllDom(12);
-    $datPer = $mprm->getAllPer();
+    $datJef = $mprm->getAllPer();
     
     if($_SESSION['idpef']==4) $solper = $mprm->getAll("rrhh");
     else $solper = $mprm->getAll($_SESSION['idper']);

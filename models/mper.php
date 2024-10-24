@@ -9,9 +9,13 @@ class Mper{
     private $emaper;
     private $pasper;
     private $idvdpt;
+    private $idvsex;
     private $cargo;
     private $usured;
     private $actper;
+
+    //------------Jefe-----------
+    private $idjef;
 
     //------------Perfil-----------
     private $idpef;
@@ -55,6 +59,9 @@ class Mper{
     public function getIdvdpt(){
         return $this->idvdpt;
     }
+    public function getIdvsex(){
+        return $this->idvsex;
+    }
     public function getCargo(){
         return $this->cargo;
     }
@@ -63,6 +70,11 @@ class Mper{
     }
     public function getActper(){
         return $this->actper;
+    }
+
+    //------------Perfil-----------
+    public function getIdjef(){
+        return $this->idjef;
     }
 
     //------------Perfil-----------
@@ -127,6 +139,9 @@ class Mper{
     public function setIdvdpt($idvdpt){
         $this->idvdpt = $idvdpt;
     }
+    public function setIdvsex($idvsex){
+        $this->idvsex = $idvsex;
+    }
     public function setCargo($cargo){
         $this->cargo = $cargo;
     }
@@ -135,6 +150,11 @@ class Mper{
     }
     public function setActper($actper){
         $this->actper = $actper;
+    }
+
+    //------------Perfil-----------
+    public function setIdjef($idjef){
+        $this->idjef = $idjef;
     }
 
     //------------Perfil-----------
@@ -177,7 +197,7 @@ class Mper{
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.idvdpt, p.cargo, p.usured, p.actper, pf.idpef, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, pf.idpef, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper";
         if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
@@ -194,7 +214,7 @@ class Mper{
 
     function getOne()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.idvdpt, p.cargo, p.usured, p.actper, pf.idpef, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.idper=:idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, pf.idpef, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -208,9 +228,9 @@ class Mper{
     function save()
     {
         try {
-            $sql = "INSERT INTO persona(nomper, apeper, idvtpd, ndper, emaper, idvdpt, cargo, usured, actper";
+            $sql = "INSERT INTO persona(nomper, apeper, idvtpd, idvsex, ndper, emaper, idvdpt, cargo, usured, actper";
             if ($this->getPasper()) $sql .= ", pasper";
-            $sql .= ") VALUES (:nomper, :apeper, :idvtpd, :ndper, :emaper, :idvdpt, :cargo, :usured, :actper";
+            $sql .= ") VALUES (:nomper, :apeper, :idvtpd, :idvsex, :ndper, :emaper, :idvdpt, :cargo, :usured, :actper";
             if ($this->getPasper()) $sql .= ", :pasper";
             $sql .= ")";
             $modelo = new conexion();
@@ -222,6 +242,8 @@ class Mper{
             $result->bindParam(":apeper", $apeper);
             $idvtpd = $this->getIdvtpd();
             $result->bindParam(":idvtpd", $idvtpd);
+            $idvsex = $this->getIdvsex();
+            $result->bindParam(":idvsex", $idvsex);
             $ndper = $this->getNdper();
             $result->bindParam(":ndper", $ndper);
             $emaper = $this->getEmaper();
@@ -264,7 +286,7 @@ class Mper{
 
     function edit(){
         try{
-            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, idvtpd=:idvtpd, ndper=:ndper, emaper=:emaper, idvdpt=:idvdpt, cargo=:cargo, usured=:usured, actper=:actper";
+            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, idvtpd=:idvtpd, idvsex=:idvsex, ndper=:ndper, emaper=:emaper, idvdpt=:idvdpt, cargo=:cargo, usured=:usured, actper=:actper";
             if ($this->getPasper()) $sql .= ", pasper=:pasper";
             $sql .= " WHERE idper=:idper";
             $modelo = new conexion();
@@ -278,6 +300,8 @@ class Mper{
             $result->bindParam(":apeper", $apeper);
             $idvtpd = $this->getIdvtpd();
             $result->bindParam(":idvtpd", $idvtpd);
+            $idvsex = $this->getIdvsex();
+            $result->bindParam(":idvsex", $idvsex);
             $ndper = $this->getNdper();
             $result->bindParam(":ndper", $ndper);
             $emaper = $this->getEmaper();
@@ -352,6 +376,53 @@ class Mper{
 		return $res;
 	}
 
+    //------------Jefe-----------
+    function getOneJxP()
+    {
+        $sql = "SELECT idjef, tipjef FROM jefxper WHERE idper=:idper";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
+        $idper = $this->getIdper();
+        $result->bindParam(":idper", $idper);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function saveJxP($tip)
+    {
+        try{
+            $sql = "INSERT INTO jefxper (idper, idjef, tipjef) VALUES (:idper, :idjef, :tipjef)";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idper = $this->getIdper();
+            $result->bindParam(":idper", $idper);
+            $idjef = $this->getIdjef();
+            $result->bindParam(":idjef", $idjef);
+            $result->bindParam(":tipjef", $tip);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function delJxP()
+    {
+        try{
+            $sql = "DELETE FROM jefxper WHERE idper=:idper";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idper = $this->getIdper();
+            $result->bindParam(":idper", $idper);
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
     //------------Perfil-----------
     
     function getOnePxF()
@@ -369,22 +440,11 @@ class Mper{
 
     function getOneSPxF($ndper)
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.cargo, p.usured, p.actper, pf.idpef, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.ndper=:ndper";
+        $sql = "SELECT p.idper FROM persona AS p WHERE p.ndper=:ndper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
         $result->bindParam(":ndper", $ndper);
-        $result->execute();
-        $res = $result->fetchall(PDO::FETCH_ASSOC);
-        return $res;
-    }
-
-    function getOnePef()
-    {
-        $sql = "SELECT idpef, nompef FROM perfil";
-        $modelo = new conexion();
-        $conexion = $modelo->get_conexion();
-        $result = $conexion->prepare($sql);
         $result->execute();
         $res = $result->fetchall(PDO::FETCH_ASSOC);
         return $res;
@@ -609,6 +669,17 @@ class Mper{
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
         $result->bindParam(":iddom", $iddom);
+        $result->execute();
+        $res = $result->fetchall(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+    function getPer()
+    {
+        $sql = "SELECT idper, nomper, apeper, ndper FROM persona WHERE actper=1";
+        $modelo = new conexion();
+        $conexion = $modelo->get_conexion();
+        $result = $conexion->prepare($sql);
         $result->execute();
         $res = $result->fetchall(PDO::FETCH_ASSOC);
         return $res;

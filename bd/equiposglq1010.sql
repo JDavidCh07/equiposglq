@@ -69,7 +69,8 @@ INSERT INTO `dominio` (`iddom`, `nomdom`) VALUES
 (9, 'Operador'),
 (10, 'T. Permiso'),
 (11, 'Ubicación'),
-(12, 'Departamento');
+(12, 'Departamento'),
+(13, 'Sexo');
 
 -- --------------------------------------------------------
 
@@ -255,6 +256,7 @@ CREATE TABLE `persona` (
   `idper` bigint(11) NOT NULL,
   `nomper` varchar(100) NOT NULL,
   `apeper` varchar(100) NOT NULL,
+  `idvsex` bigint(11) NOT NULL,
   `idvtpd` bigint(11) NOT NULL,
   `ndper` varchar(12) NOT NULL,
   `emaper` varchar(255) DEFAULT NULL,
@@ -269,10 +271,21 @@ CREATE TABLE `persona` (
 -- Volcado de datos para la tabla `persona`
 --
 
-INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvtpd`, `ndper`, `emaper`, `pasper`, `idvdpt`, `cargo`, `usured`, `actper`) VALUES
-(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 1, '1072642921', 'soporteit@galqui.com', '0cb74ff365641dc0a2a164af11a019b303452cfesGlaqs2%', 51, 'APRENDIZ SENA', 'soporteit', 1);
+INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvsex`, `idvtpd`, `ndper`, `emaper`, `pasper`, `idvdpt`, `cargo`, `usured`, `actper`) VALUES
+(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 61, 1, '1072642921', 'soporteit@galqui.com', '0cb74ff365641dc0a2a164af11a019b303452cfesGlaqs2%', 51, 'AUXILIAR IT', 'soporteit', 1);
 
 -- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `perxpef`
+--
+
+CREATE TABLE `jefxper` (
+  `idjef` bigint(11) DEFAULT NULL,
+  `idper` bigint(11) DEFAULT NULL,
+  `tipjef` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 --
 -- Estructura de tabla para la tabla `perxpef`
@@ -397,7 +410,9 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (56, 1206, 'Power Services', 12, 1),
 (57, 1207, 'Tececor', 12, 1),
 (58, 1208, 'Telesolin', 12, 1),
-(59, 1209, 'GIA', 12, 1);
+(59, 1209, 'GIA', 12, 1),
+(61, 1301, 'Masculino', 13, 1),
+(62, 1302, 'Femenino', 13, 1);
 
 --
 -- Índices para tablas volcadas
@@ -485,9 +500,15 @@ ALTER TABLE `permiso`
 --
 ALTER TABLE `persona`
   ADD PRIMARY KEY (`idper`),
+  ADD KEY `idvsex` (`idvsex`),
   ADD KEY `idvtpd` (`idvtpd`),
   ADD KEY `idvdpt` (`idvdpt`);
-
+--
+-- Indices de la tabla `perxpef`
+--
+ALTER TABLE `jefxper`
+  ADD KEY `idper` (`idper`),
+  ADD KEY `idjef` (`idjef`);
 --
 -- Indices de la tabla `perxpef`
 --
@@ -528,7 +549,7 @@ ALTER TABLE `valor`
 -- AUTO_INCREMENT de la tabla `asignar`
 --
 ALTER TABLE `asignar`
-  MODIFY `ideqxpr` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ideqxpr` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `dominio`
@@ -540,7 +561,7 @@ ALTER TABLE `dominio`
 -- AUTO_INCREMENT de la tabla `equipo`
 --
 ALTER TABLE `equipo`
-  MODIFY `idequ` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idequ` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `modulo`
@@ -554,11 +575,6 @@ ALTER TABLE `modulo`
 ALTER TABLE `pagina`
   MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
---
--- AUTO_INCREMENT de la tabla `pagxpef`
---
-ALTER TABLE `pagxpef`
-  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `perfil`
@@ -570,25 +586,19 @@ ALTER TABLE `perfil`
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `idprm` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idprm` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
-
---
--- AUTO_INCREMENT de la tabla `perxpef`
---
-ALTER TABLE `perxpef`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `tarjeta`
 --
 ALTER TABLE `tarjeta`
-  MODIFY `idtaj` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `idtaj` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `valor`
@@ -641,9 +651,14 @@ ALTER TABLE `pefxmod`
 --
 ALTER TABLE `permiso`
   ADD CONSTRAINT `permiso_ibfk_1` FOREIGN KEY (`idjef`) REFERENCES `persona` (`idper`),
-  ADD CONSTRAINT `permiso_ibfk_2` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`);
+  ADD CONSTRAINT `permiso_ibfk_2` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`),
   ADD CONSTRAINT `permiso_ibfk_3` FOREIGN KEY (`idrev`) REFERENCES `persona` (`idper`);
-
+--
+-- Filtros para la tabla `perxpef`
+--
+ALTER TABLE `jefxper`
+  ADD CONSTRAINT `jefxper_ibfk_1` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `jefxper_ibfk_2` FOREIGN KEY (`idjef`) REFERENCES `persona` (`idper`);
 --
 -- Filtros para la tabla `perxpef`
 --

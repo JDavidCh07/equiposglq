@@ -133,7 +133,27 @@ function actualizarMinMax() {
     }
 }
 
+function actMinMax() {
+    const fecinib = document.getElementById('fecinib').value;
+    const fecfinb = document.getElementById('fecfinb');
+
+    if (fecinib){
+        fecfinb.min = fecinib;
+    }
+}
+
+function enter(event) {
+    // Verificar si la tecla presionada es "Enter"
+    if (event.key === 'Enter') {
+        // Enviar el formulario
+        document.getElementById('ndper').form.submit();
+        return false; // Evitar que se agregue un salto de línea al presionar "Enter"
+    }
+    return true;
+}
+
 window.onload = function() {
     validarPermiso();
     actualizarMinMax(); // Asegurarse de que los límites min/max se actualicen al cargar
+    actMinMax();
 };

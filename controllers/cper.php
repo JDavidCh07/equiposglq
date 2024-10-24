@@ -10,6 +10,7 @@
     $idper = isset($_REQUEST['idper']) ? $_REQUEST['idper']:NULL;
     $nomper = isset($_POST['nomper']) ? $_POST['nomper']:NULL;
     $apeper = isset($_POST['apeper']) ? $_POST['apeper']:NULL;
+    $idvsex = isset($_POST['idvsex']) ? $_POST['idvsex']:NULL;
     $idvtpd = isset($_POST['idvtpd']) ? $_POST['idvtpd']:NULL;
     $ndper = isset($_POST['ndper']) ? $_POST['ndper']:NULL;
     $emaper = isset($_POST['emaper']) ? strtolower($_POST['emaper']):NULL;
@@ -19,6 +20,9 @@
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
 
     $pasper = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
+    
+    //------------Perfil-----------
+    $idjef = isset($_POST['idjef']) ? $_POST['idjef']:NULL;
     
     //------------Perfil-----------
     $idpef = isset($_POST['idpef']) ? $_POST['idpef']:3;
@@ -40,11 +44,12 @@
 
     $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
     $datOne=NULL;
+    $datJxP=NULL;
     $pg = 53;
 
     $mper->setIdper($idper);
     $mper->setIdtaj($idtaj);
-
+    
     //------------Persona-----------
     if($ope=="save"){
         $mper->setNomper($nomper);
@@ -53,14 +58,18 @@
         $mper->setNdper($ndper);
         $mper->setEmaper($emaper);
         $mper->setIdvdpt($idvdpt);
+        $mper->setIdvsex($idvsex);
         $mper->setCargo($cargo);
         $mper->setUsured($usured);
         $mper->setActper($actper);
         $mper->setPasper($pasper);
+        $mper->setIdjef($idjef);
         if(!$idper) {
             $mper->save();
             $per = $mper->getOneSPxF($ndper); 
-            $mper->savePxFAut($per[0]['idper'],$idpef);
+            $idper = $per[0]['idper'];
+            $mper->savePxFAut($idper, $idpef);
+            $mper->setIdper($idper);
         }
         else{
             $mper->edit();
@@ -71,7 +80,14 @@
                 $_SESSION['ndper'] = $ndper;
                 $_SESSION['cargo'] = $cargo;
             };
-        } 
+        }
+        if($idper) $mper->delJxP();
+        if($idjef){ foreach ($idjef as $i=>$jf) {
+            if($jf){
+                $mper->setIdjef($jf);
+                $mper->saveJxP($i+1);
+            }
+        }}
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
@@ -81,7 +97,11 @@
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
-    if($ope=="edi"&& $idper) $datOne=$mper->getOne();
+    if($ope=="edi"&& $idper){
+        $datOne=$mper->getOne();
+        $datJxP=$mper->getOneJxP();
+    }
+
     if($ope=="eli"&& $idper){
         $mper->del();
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
@@ -120,8 +140,10 @@
 
     //------------Traer valores-----------
     $datAll = $mper->getAll();
+    $datPer = $mper->getPer();
     $dattpd = $mper->getAllDom(1);
     $datdpt = $mper->getAllDom(12);
+    $datsex = $mper->getAllDom(13);
 
     //------------Importar empleados-----------
     if ($ope=="cargm" && $arc) {
@@ -134,32 +156,48 @@
     	$highestColumn = $sheet->getHighestColumn();
     	for ($row = 3; $row <= $highestRow; $row++) {
     		// obtengo el valor de la celda
+            $pf = 0;
+            $idpefA = [];
     		$nomper = $sheet->getCell("B" . $row)->getValue();
     		$apeper = $sheet->getCell("C" . $row)->getValue();
-            $idvtpd = $sheet->getCell("D" . $row)->getValue(); 
+            $idvsex = $sheet->getCell("D" . $row)->getValue(); 
+            $idvsex = $mper->CompVal($idvsex); 
+            $idvsex = $idvsex[0]['idval'];
+            $idvtpd = $sheet->getCell("E" . $row)->getValue(); 
             $idvtpd = $mper->CompVal($idvtpd); 
             $idvtpd = $idvtpd[0]['idval'];
-    		$ndper = $sheet->getCell("E" . $row)->getValue();
-    		$emaper = $sheet->getCell("F" . $row)->getValue();
-    		$idvdpt = $sheet->getCell("G" . $row)->getValue();
+    		$ndper = $sheet->getCell("F" . $row)->getValue();
+    		$emaper = $sheet->getCell("G" . $row)->getValue();
+    		$idvdpt = $sheet->getCell("H" . $row)->getValue();
             $idvdpt = $mper->CompVal($idvdpt); 
             $idvdpt = $idvdpt[0]['idval'];
-    		$cargo = $sheet->getCell("H" . $row)->getValue();
-    		$usured = $sheet->getCell("I" . $row)->getValue();
-    		$actper = $sheet->getCell("J" . $row)->getValue();
-    		$idpef = $sheet->getCell("K" . $row)->getValue();
+    		$cargo = $sheet->getCell("I" . $row)->getValue();
+    		$usured = $sheet->getCell("J" . $row)->getValue();
+    		$actper = $sheet->getCell("K" . $row)->getValue();
+    		$idpef = $sheet->getCell("L" . $row)->getValue();
             $idpef = str_replace(' ', '', $idpef);
             $idpefA = explode("-", $idpef);
             foreach($idpefA AS $pa){
                 $mper->setIdpef($pa); 
                 $pef = $mper->CompPef();
+                $pef = $pef[0]['idpef'];
+                if($pef) $pf++;
             }
+    		$ndjefi = $sheet->getCell("M" . $row)->getValue();
+            $mper->setNdper($ndjefi); 
+            $idjefi = $mper->selectUsu(); 
+            $idjefi = $idjefi[0]['idper'];
+    		$ndjefa = $sheet->getCell("O" . $row)->getValue();
+            $mper->setNdper($ndjefa); 
+            $idjefa = $mper->selectUsu(); 
+            $idjefa = $idjefa[0]['idper'];
             $pasper = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
     		$mper->setNomper($nomper);
             $mper->setApeper($apeper);
             $mper->setIdvtpd($idvtpd);
             $mper->setNdper($ndper);
             $mper->setEmaper($emaper);
+            $mper->setIdvsex($idvsex);
             $mper->setIdvdpt($idvdpt);
             $mper->setCargo($cargo);
             $mper->setUsured($usured);
@@ -169,7 +207,7 @@
     		$existingData = $mper->selectUsu();
             $idper = $existingData[0]['idper'];
             $mper->setIdper($idper);
-    		if ($idvdpt && $idvtpd && $pef) {
+    		if ($idvsex && $idvdpt && $idvtpd && count($idpefA)==$pf && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
     		    if (!empty($ndper)) {
     		    	if ($existingData[0]['sum'] == 0) {
     		    		$mper->save();
@@ -178,12 +216,19 @@
     		    	}else {
     		    		$mper->edit();
                         $mper->delPxF();
-    		    	}if($idpefA){ foreach ($idpefA as $pf) {
+                        $mper->delJxP();
+    		    	} if($idjefi){
+                        $mper->setIdjef($idjefi);
+                        $mper->saveJxP(1);
+                    } if($idjefa){
+                        $mper->setIdjef($idjefa);
+                        $mper->saveJxP(2);
+                    } if($idpefA){ foreach ($idpefA as $pf) {
                         if($pf){
                             $mper->setIdpef($pf);
                             $mper->savePxF();
                         }
-                    }}
+                    }} 
                 }
     		}else{
                 $reg = $row;

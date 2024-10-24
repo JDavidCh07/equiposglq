@@ -151,7 +151,7 @@
     CASE 
         WHEN (HOUR(r.fecini) < 14 AND HOUR(r.fecfin) > 13) THEN TIME_TO_SEC('1:00:00') 
         ELSE 0 
-    END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, DATE_FORMAT(r.fecrev, '%e de %M de %Y') AS frev, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef, pr.idper AS irev, pr.nomper AS nrev, pr.apeper AS arev, pr.ndper AS drev, pr.emaper AS erev, pr.cargo AS crev FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper LEFT JOIN persona AS pr ON r.idrev = pr.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval";
+    END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, DATE_FORMAT(r.fecrev, '%e de %M de %Y') AS frev, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, vs.nomval AS sper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef, pr.idper AS irev, pr.nomper AS nrev, pr.apeper AS arev, pr.ndper AS drev, pr.emaper AS erev, pr.cargo AS crev FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper LEFT JOIN persona AS pr ON r.idrev = pr.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval INNER JOIN valor AS vs ON pp.idvsex=vs.idval";
             if($id==3) $sql .= " WHERE r.idper=:id";
             if($id==4) $sql .= " WHERE r.estprm=3 OR r.estprm=4";
             if($id=="rrhh") $sql .= " WHERE r.estprm=2";
@@ -163,6 +163,7 @@
 		        if($ndper) $sql .= " AND pp.ndper LIKE CONCAT('%', :ndper, '%')";
 		        if($idvdpt) $sql .= " AND pp.idvdpt=:idvdpt";
 		        if($estprm) $sql .= " AND r.estprm=:estprm";
+                $sql .= " ORDER BY r.fecini ASC";
             }
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
@@ -183,7 +184,7 @@
         }
 
         function getOne(){
-            $sql ="SELECT r.idprm, r.noprm, r.fecini, r.fecfin, r.idvtprm, r.idvubi, r.rutpdf, DATE_FORMAT(r.fecini, '%e de %M de %Y') AS fini, DATE_FORMAT(r.fecini, '%h:%i %p') AS hini, DATE_FORMAT(r.fecfin, '%e de %M de %Y') AS ffin, DATE_FORMAT(r.fecfin, '%h:%i %p') AS hfin, r.sptrut, r.desprm, r.obsprm, r.estprm, 
+            $sql ="SELECT r.idprm, r.noprm, r.fecini, r.fecfin, r.idvtprm, r.idvubi, r.rutpdf, DATE_FORMAT(r.fecini, '%e de %M de %Y') AS fini, DATE_FORMAT(r.fecini, '%h:%i %p') AS hini, DATE_FORMAT(r.fecfin, '%e de %M de %Y') AS ffin, DATE_FORMAT(r.fecfin, '%h:%i %p') AS hfin, r.sptrut, r.desprm, r.obsprm, r.estprm, r.fecsol, r.fecrev,
     -- Ajuste de duración con condiciones
     FLOOR((TIME_TO_SEC(TIMEDIFF(r.fecfin, r.fecini)) - 
     CASE 
@@ -194,7 +195,7 @@
     CASE 
         WHEN (HOUR(r.fecini) < 14 AND HOUR(r.fecfin) > 13) THEN TIME_TO_SEC('1:00:00') 
         ELSE 0 
-    END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, DATE_FORMAT(r.fecrev, '%e de %M de %Y') AS frev, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval WHERE r.idprm=:idprm";
+    END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, DATE_FORMAT(r.fecrev, '%e de %M de %Y') AS frev, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, vs.nomval AS sper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef, pr.idper AS irev, pr.nomper AS nrev, pr.apeper AS arev, pr.ndper AS drev, pr.emaper AS erev, pr.cargo AS crev FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper LEFT JOIN persona AS pr ON r.idrev = pr.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval INNER JOIN valor AS vs ON pp.idvsex=vs.idval WHERE r.idprm=:idprm";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $conexion->query("SET lc_time_names = 'es_ES';");
@@ -357,13 +358,11 @@
         }
 
         function getAllPer(){
-            // $sql = "SELECT idper, CONCAT(nomper,' ', apeper) AS nomjef FROM persona WHERE actper=1 AND idper!=:idper";
-            $sql = "SELECT idper, CONCAT(nomper,' ', apeper) AS nomjef FROM persona WHERE actper=1";
+            $sql = "SELECT j.idper, CONCAT(j.nomper,' ', j.apeper) AS nomjef FROM jefxper AS jp INNER JOIN persona AS p ON jp.idper=p.idper INNER JOIN persona AS j ON jp.idjef=j.idper WHERE j.actper=1 AND jp.idper=:id";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
-            // $idper = $_SESSION['idper'];
-            // $result->bindParam(":idper", $idper);
+            $result->bindParam(":id", $_SESSION['idper']);
             $result->execute();
             $res = $result->fetchall(PDO::FETCH_ASSOC);
             return $res;
