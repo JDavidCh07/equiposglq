@@ -61,7 +61,8 @@
         $mprm->setIdvdpt($idvdpt);
         $mprm->setEstprm($estprm);
         $datAll = $mprm->getAll("bus");
-    } else $datAll = $mprm->getAll($_SESSION['idpef']);
+    } else if($_SESSION['idpef']==3) $datAll = $mprm->getAll("prop");
+    else if($_SESSION['idpef']==4) $datAll = $mprm->getAll("rrhhf");
     
     if($ope=='limp') echo "<script>window.location='home.php?pg=".$pg."';</script>";
 
@@ -70,6 +71,6 @@
     $datDpt = $mprm->getAllDom(12);
     $datJef = $mprm->getAllPer();
     
-    if($_SESSION['idpef']==4) $solper = $mprm->getAll("rrhh");
+    if($_SESSION['idpef']==4) $solper = $mprm->getAll("rrhhp");
     else $solper = $mprm->getAll($_SESSION['idper']);
 ?>

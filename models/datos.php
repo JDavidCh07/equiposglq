@@ -7,7 +7,7 @@
 
     $nom = "Soporte IT";
     $ema = "soporteit@galqui.com";
-	$psem = "wyxg lhim mfwg mpod";
+	$psem = "lfze zoun hcxj ajov";
 
     $nomrh = "Dpto. Recursos Humanos";
     $rrhh = "juanda.chapar@gmail.com";

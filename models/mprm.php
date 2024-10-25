@@ -152,9 +152,9 @@
         WHEN (HOUR(r.fecini) < 14 AND HOUR(r.fecfin) > 13) THEN TIME_TO_SEC('1:00:00') 
         ELSE 0 
     END) % TIME_TO_SEC('8:30:00')) AS hdif, DATE_FORMAT(r.fecsol, '%e de %M de %Y') AS fsol, DATE_FORMAT(r.fecrev, '%e de %M de %Y') AS frev, vu.nomval AS ubi, vt.nomval AS tprm, vd.nomval AS dpt, pp.idper AS iper, pp.nomper AS nper, pp.apeper AS aper, vs.nomval AS sper, pp.ndper AS dper, pp.emaper AS eper, pp.cargo AS cper, pj.idper AS ijef, pj.nomper AS njef, pj.apeper AS ajef, pj.ndper AS djef, pj.emaper AS ejef, pj.cargo AS cjef, pr.idper AS irev, pr.nomper AS nrev, pr.apeper AS arev, pr.ndper AS drev, pr.emaper AS erev, pr.cargo AS crev FROM permiso AS r INNER JOIN persona AS pp ON r.idper = pp.idper INNER JOIN persona AS pj ON r.idjef = pj.idper LEFT JOIN persona AS pr ON r.idrev = pr.idper INNER JOIN valor AS vu ON r.idvubi = vu.idval INNER JOIN valor AS vt ON r.idvtprm = vt.idval INNER JOIN valor AS vd ON pp.idvdpt=vd.idval INNER JOIN valor AS vs ON pp.idvsex=vs.idval";
-            if($id==3) $sql .= " WHERE r.idper=:id";
-            if($id==4) $sql .= " WHERE r.estprm=3 OR r.estprm=4";
-            if($id=="rrhh") $sql .= " WHERE r.estprm=2";
+            if($id=="prop") $sql .= " WHERE r.idper=:id";
+            if($id=="rrhhf") $sql .= " WHERE r.estprm=3 OR r.estprm=4";
+            if($id=="rrhhp") $sql .= " WHERE r.estprm=2";
             if($id==$_SESSION['idper']) $sql .= " WHERE r.idjef=:id AND r.estprm!=1";
             if($id=="bus"){
                 $sql .= " WHERE (r.estprm=3 OR r.estprm=4)";
@@ -169,7 +169,7 @@
             $conexion = $modelo->get_conexion();
             $conexion->query("SET lc_time_names = 'es_ES';");
             $result = $conexion->prepare($sql);
-            if($id==3) $result->bindParam(":id", $_SESSION['idper']);
+            if($id=="prop") $result->bindParam(":id", $_SESSION['idper']);
             if($id==$_SESSION['idper']) $result->bindParam(":id", $id);
             if($id=="bus"){
                 if($fecini) $result->bindParam(":fecini", $fecini);
