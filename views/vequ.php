@@ -22,7 +22,7 @@ require_once('controllers/cequ.php');
         </div>
         <div class="form-group col-md-4">
             <label for="serialeq"><strong><?php if($pg==52){ echo "Serial"; } else { echo "IMEI"; }?>:</strong></label>
-            <input class="form-control" type="text" id="serialeq" name="serialeq" value="<?php if ($datOne) echo $datOne[0]['serialeq']; ?>" required>
+            <input class="form-control" type="text" id="serialeq" name="serialeq" value="<?php if ($datOne) echo $datOne[0]['serialeq']; ?>" <?php if($pg==54) echo " onkeypress='return solonum(event);' "; ?> required>
         </div>
         <?php if($pg==52){ ?>
             <div class="form-group col-md-4">

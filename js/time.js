@@ -97,7 +97,7 @@ function validarPermiso() {
     const fecfin = document.getElementById("fecfin");
     const valor = select.value;
     
-    const valorsoporte = ["41", "43", "44", "45"];
+    const valorsoporte = ["41", "44"];
     const hoy = new Date();
     const fechaMin = new Date(hoy);
     
@@ -128,7 +128,7 @@ function actualizarMinMax() {
 
         // Fijar el máximo para que sea el mismo día, pero hasta las 6:00 PM
         let maxDate = new Date(fecini);
-        maxDate.setHours(18, 0, 0); // Fijar a las 6:00 PM
+        maxDate.setHours(17, 30, 0); // Fijar a las 5:30 PM
         fecfin.max = maxDate.toISOString().slice(0, 16); // Convertir a formato datetime-local
     }
 }
