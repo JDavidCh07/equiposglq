@@ -86,12 +86,12 @@ if($_SESSION['idpef']==4){?>
         <div class="form-group col-md-4">
             <label for="fecini"><strong>Desde:</strong></label>
             <input class="form-control" type="datetime-local" id="fecini" name="fecini" value="<?php if ($fechai) echo $fechai;?>" step="1800" required onchange="validarHora(this); actualizarMinMax()">
-            <small id="error-message-fecini" style="color: red; display: none;">La hora debe estar entre las 7:00 AM y las 6:00 PM.</small>
+            <small id="error-message-fecini" style="color: red; display: none;"></small>
         </div>
         <div class="form-group col-md-4">
             <label for="fecfin"><strong>Hasta:</strong></label>
             <input class="form-control" type="datetime-local" id="fecfin" name="fecfin" value="<?php if ($fechaf) echo $fechaf;?>" step="1800" required onchange="validarHora(this)">
-            <small id="error-message-fecfin" style="color: red; display: none;">La hora debe estar entre las 7:00 AM y las 6:00 PM.</small>
+            <small id="error-message-fecfin" style="color: red; display: none;"></small>
         </div>
         <div class="form-group col-md-4">
             <label for="arcspt"><strong>Soporte:</strong></label>
@@ -99,8 +99,9 @@ if($_SESSION['idpef']==4){?>
             <small id="soporte-requerido" style="color: red; display: none;">Este campo es obligatorio.</small>
         </div>
         <div class="form-group col-md-12">
-            <label for="desprm"><strong>Descripción:</strong></label>
-            <textarea class="form-control" type="text" id="desprm" name="desprm" required><?php if ($datOne) echo $datOne[0]['desprm']; ?></textarea>
+            <label for="desprm"><strong>Justificación:</strong></label>
+            <textarea placeholder="Por favor especifique el motivo de su solicitud" class="form-control" type="text" id="desprm" name="desprm" required oninput="contar()"><?php if ($datOne) echo $datOne[0]['desprm']; ?></textarea>
+            <small id="error-message-des" style="color: red; display: none;"></small>
         </div>
         <div class="form-group col-md-12" id="boxbtn">
             <br><br>

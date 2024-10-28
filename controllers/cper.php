@@ -202,7 +202,6 @@
             $mper->setCargo($cargo);
             $mper->setUsured($usured);
             $mper->setActper($actper);
-            $mper->setPasper($pasper);
             $mper->setIdpef($idpef);
     		$existingData = $mper->selectUsu();
             $idper = $existingData[0]['idper'];
@@ -210,6 +209,7 @@
     		if ($idvsex && $idvdpt && $idvtpd && count($idpefA)==$pf && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
     		    if (!empty($ndper)) {
     		    	if ($existingData[0]['sum'] == 0) {
+                        $mper->setPasper($pasper);
     		    		$mper->save();
                         $per = $mper->getOneSPxF($ndper);
                         $mper->setIdper($per[0]['idper']);

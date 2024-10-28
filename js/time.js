@@ -152,8 +152,28 @@ function enter(event) {
     return true;
 }
 
+function contar() {
+    const textarea = document.getElementById('desprm');
+    const boton = document.getElementById('btns');
+    const mensaje = document.getElementById('error-message-des');
+
+    const longitud = textarea.value.length;
+
+    if (longitud <= 20) {
+        textarea.style.borderColor = "red";
+        mensaje.textContent = "La justificación debe ser mas larga.";
+        mensaje.style.display = "block";
+        boton.disabled = true;
+    } else {
+        textarea.style.borderColor = "";
+        mensaje.style.display = "none";
+        boton.disabled = false;
+    }
+}
+
 window.onload = function() {
     validarPermiso();
     actualizarMinMax(); // Asegurarse de que los límites min/max se actualicen al cargar
     actMinMax();
+    contar();
 };
