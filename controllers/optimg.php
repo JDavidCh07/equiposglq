@@ -6,7 +6,7 @@ function opti($pict, $nomimg, $rut, $pre){
 		$max_ancho = 1024;
 		$max_alto = 800;
 		$docext = strtolower(pathinfo($pict["name"], PATHINFO_EXTENSION));
-		if($docext=="png" or $docext=="jpg" or $docext=="jpeg" or $docext=="jfif"){
+		if($docext=="png" or $docext=="jpg" or $docext=="jpeg"){
 			$medidasimagen = getimagesize($pict['tmp_name']);
 			//echo $medidasimagen[0]."-".$pict['size'];
 			if($medidasimagen[0]<=$max_ancho && $pict['size']<1048576){
@@ -72,7 +72,7 @@ function opti($pict, $nomimg, $rut, $pre){
 				echo "<script>alert('Los archivos PDF deben tener un peso maximo de 97Mb');</script>";
 			}	
 		}else{
-			echo "<script>alert('Solo se permiten archivos de extensiones: png, jpg, jpeg, mp4, mov, avi, csv.');</script>";
+			echo "<script>alert('Archivo no permitido');</script>";
 		}
 	}
 	return $nombre;

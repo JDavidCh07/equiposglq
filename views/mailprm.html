@@ -6,7 +6,6 @@
   <link rel="icon" href="../img/logo.png">
   <style>
     .button {
-      background-color: #4CAF50;
       border: none !important;
       color: #fff !important;
       padding: 10px 20px;
@@ -17,11 +16,12 @@
       margin: 4px 2px;
       border-radius: 8px;
       cursor: pointer;
+      width: 65px;
     }
   </style>
 </head>
 
-<body bgcolor="#fff" style="color: #000;">
+<body style="color: #000; background-color: #fff;">
   <div>
     <table class="body-wrap w320">
       <tr>
@@ -31,7 +31,8 @@
       </tr>
       <tr>
         <td>
-          <a href="{{link}}" class="button" target="_blank">Aceptar Solicitud</a>
+          <a href="{{link1}}" class="button" style="background-color: #4CAF50;" target="_blank">Aceptar</a>
+          <a href="{{link2}}" class="button" style="background-color: #af4c4c;" target="_blank">Rechazar</a>
         </td>
       </tr>
     </table>

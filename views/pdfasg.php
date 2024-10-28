@@ -338,7 +338,7 @@ if($ideqxpr){
     Agradecemos su colaboración y compromiso con el correcto uso y mantenimiento del equipo.<br><br>
     Atentamente,<br><br>";
     $fir_mail = '<strong>'.$nomperm.'</strong><br>'.$cargom.' | '.$mail.'<br>Cra 1 Nº 4 - 02 Bdg 2 Parque Industrial K2<br>Chía - Cund<br>www.galqui.com';
-    sendemail($ema, $psem, $nom, $maild, $nomperd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "");
+    sendemail($ema, $psem, $nom, $maild, $nomperd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");
 }
 
 ?>

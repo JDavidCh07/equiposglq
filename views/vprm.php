@@ -95,7 +95,7 @@ if($_SESSION['idpef']==4){?>
         </div>
         <div class="form-group col-md-4">
             <label for="arcspt"><strong>Soporte:</strong></label>
-            <input class="form-control" type="file" id="arcspt" name="arcspt" accept=".pdf">
+            <input class="form-control" type="file" id="arcspt" name="arcspt" accept=".pdf, image/png,image/jpeg">
             <small id="soporte-requerido" style="color: red; display: none;">Este campo es obligatorio.</small>
         </div>
         <div class="form-group col-md-12">

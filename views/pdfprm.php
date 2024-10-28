@@ -215,6 +215,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $pdfgen = $dompdf->output();
 
     if($det['sptrut']) $sptrut = "../".$det['sptrut'];
+    
     //-------Unir pdf generado y soporte--------
     if($sptrut && file_exists($sptrut)){
         //-------Cargar pdf generado--------
@@ -282,26 +283,27 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         $txt_mess = "";
         $txt_mess = "Te informamos que ".$nompp." está solicitando un permiso para el ".$fec.(($det['tprm']!=48) ? " por motivos de ".$det['tprm'] : "").".<br><br>
         Adjunto a este correo se encuentra el formato debidamente diligenciado.<br><br>
-        Para aceptarlo, da clic en el siguiente botón o ingresa a la aplicación, donde también podrás rechazarlo.";
+        En los siguientes enlaces podrá aceptar o rechazar la solicitud respectivamente";
         
-        sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link);
-    } elseif($estprm==3){
+        sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link, $url);
+    } elseif($estprm==3 || $estprm==4){
         $template="../views/mail.html";
+        
+        if($estprm==3){
+            //-------Datos correo RRHH y DirAdm--------
+            $mail_asun = "Aprobación Permiso ".$nompp." - ".$fec;
+            $txt_mess = "";
+            $txt_mess = "Informamos que ".$nompa." ha aprobado el permiso de ".$nompp." para el día ".$fec." de ".$det['hini']." a ".$det['hfin']."<br><br>
+            Adjunto a este correo se encuentra el formato diligenciado con la aprobación.<br><br>.";
 
-        //-------Datos correo RRHH y DirAdm--------
-        $mail_asun = "Aprobación Permiso ".$nompp." - ".$fec;
-        $txt_mess = "";
-        $txt_mess = "Informamos que ".$nompa." ha aprobado el permiso de ".$nompp." para el día ".$fec." de ".$det['hini']." a ".$det['hfin']."<br><br>
-        Adjunto a este correo se encuentra el formato diligenciado con la aprobación.<br><br>.";
-
-        sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "");
-        sendemail($ema, $psem, $nom, $diradm, $nomadm, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "");
-
+            sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");
+            sendemail($ema, $psem, $nom, $diradm, $nomadm, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");
+        }
         //-------Datos correo colaborador--------
-        $mail_asun = "Aprobación Permiso - ".$fec;
+        $mail_asun = (($estprm==3) ? "Aprobación" : "Rechazo"). " Permiso - ".$fec;
         $txt_mess = "";
-        $txt_mess = "Te informamos que el permiso solicitado para el día ".$fec." ha sido aprobado por ".$nompa."<br><br>
-        Adjunto a este correo se encuentra el formato con la aprobación.<br><br>.";
+        $txt_mess = "Te informamos que el permiso solicitado para el día ".$fec." ha sido ".(($estprm==3) ? "aprobado" : "rechazado"). " por ".$nompa."<br><br>
+        Adjunto a este correo se encuentra el formato con la respuesta.<br><br>.";
 
         sendemail($ema, $psem, $nom, $mailp, $nompp, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");
 }}
