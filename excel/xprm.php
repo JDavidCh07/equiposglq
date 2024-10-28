@@ -29,16 +29,14 @@
     $ndper = isset($_REQUEST['n']) ? $_REQUEST['n']:NULL;
     $idvdpt = isset($_REQUEST['d']) ? $_REQUEST['d']:NULL;
 
-    $ope = isset($_REQUEST['o']) ? $_REQUEST['o']:NULL;
-
-    if($ope=='busc'){
+    if($fecini || $fecfin || $estprm || $ndper || $idvdpt){
         $mprm->setNdper($ndper);
         $mprm->setFecini($fecini);
         $mprm->setFecfin($fecfin);
         $mprm->setIdvdpt($idvdpt);
         $mprm->setEstprm($estprm);
         $datAll = $mprm->getAll("bus");
-    } else $datAll = $mprm->getAll($_SESSION['idpef']);
+    } else $datAll = $mprm->getAll("rrhhf");
 
     // Crear o seleccionar la hoja
     $sheet = $spreadsheet->getActiveSheet();
@@ -128,7 +126,8 @@
     // Definir estilo de borde
     $styleArray = [
         'borders' => [
-            'allBorders' => [                'borderStyle' => Border::BORDER_THIN,
+            'allBorders' => [
+                'borderStyle' => Border::BORDER_THIN,
                 'color' => ['argb' => '00000000'],
             ],
         ],
@@ -173,7 +172,7 @@
     $drawing->setName('Logo');
     $drawing->setDescription('Logo');
     $drawing->setPath('../img/logoynombre.png'); // Ruta a tu imagen
-    $drawing->setHeight(40); // Altura de la imagen
+    $drawing->setHeight(20); // Altura de la imagen
     $drawing->setCoordinates('B1'); // Celda donde se ubicará la imagen
     $drawing->setWorksheet($sheet);
     

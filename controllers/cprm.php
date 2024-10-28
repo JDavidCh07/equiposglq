@@ -13,7 +13,7 @@
     $idvtprm = isset($_POST['idvtprm']) ? $_POST['idvtprm']:NULL;
     $desprm = isset($_POST['desprm']) ? $_POST['desprm']:NULL;
     $obsprm = isset($_POST['obsprm']) ? $_POST['obsprm']:NULL;
-    $estprm = isset($_POST['estprm']) ? $_POST['estprm']:1;
+    $estprm = isset($_POST['estprm']) ? $_POST['estprm']:NULL;
     $arcspt = isset($_FILES['arcspt']) ? $_FILES['arcspt']:NULL;
     $idvubi = isset($_POST['idvubi']) ? $_POST['idvubi']:NULL;
     $idper = $_SESSION['idper'];
@@ -83,7 +83,7 @@
         $datAll = $mprm->getAll("bus");
     } else if($_SESSION['idpef']==3) $datAll = $mprm->getAll("prop");
     else if($_SESSION['idpef']==4) $datAll = $mprm->getAll("rrhhf");
-    
+
     if($ope=='limp') echo "<script>window.location='home.php?pg=".$pg."';</script>";
 
     $datTprm = $mprm->getAllDom(10);

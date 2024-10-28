@@ -45,7 +45,7 @@ if($_SESSION['idpef']==4){?>
                     </button>
                 </div>
                 <div class="form-group col-6">
-                    <a href="excel/xprm.php?d=<?=$idvdpt?>&o=busc&fi=<?=$fecini?>&n=<?=$ndper?>&ff=<?=$fecfin?>&e=<?=$estprm?>" title="Exportar permisos">
+                    <a href="excel/xprm.php?d=<?=$idvdpt?>&fi=<?=$fecini?>&n=<?=$ndper?>&ff=<?=$fecfin?>&e=<?=$estprm?>" title="Exportar permisos">
                         <i class="fa fa-solid fa-file-export fa-2x ext"></i>
                     </a>
                 </div>
@@ -107,6 +107,7 @@ if($_SESSION['idpef']==4){?>
             <br><br>
             <input class="btn btn-primary" type="submit" value="Registrar" id="btns">
             <input type="hidden" name="ope" value="save">
+            <input type="hidden" name="estprm" value="1">
             <input type="hidden" name="idprm" value="<?php if ($datOne) echo $datOne[0]['idprm']; ?>">
         </div>
     </div>
