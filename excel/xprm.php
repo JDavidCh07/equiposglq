@@ -25,7 +25,6 @@
 
     $fecini = isset($_REQUEST['fi']) ? $_REQUEST['fi']:NULL;
     $fecfin = isset($_REQUEST['ff']) ? $_REQUEST['ff']:NULL;
-    $estprm = isset($_REQUEST['e']) ? $_REQUEST['e']:NULL;
     $ndper = isset($_REQUEST['n']) ? $_REQUEST['n']:NULL;
     $idvdpt = isset($_REQUEST['d']) ? $_REQUEST['d']:NULL;
 
@@ -34,7 +33,7 @@
         $mprm->setFecini($fecini);
         $mprm->setFecfin($fecfin);
         $mprm->setIdvdpt($idvdpt);
-        $mprm->setEstprm($estprm);
+        $mprm->setEstprm(3);
         $datAll = $mprm->getAll("bus");
     } else $datAll = $mprm->getAll("rrhhf");
 
@@ -98,16 +97,14 @@
         foreach ($datAll as $dat) {
             $filaDatos = [date("d", strtotime($dat['fecini'])), date("m", strtotime($dat['fecini'])), date("Y", strtotime($dat['fecini'])), $dat['dper'], $dat['aper']." ".$dat['nper'], substr($dat['sper'], 0, 1), $dat['cper'], strtoupper($dat['dpt']), strtoupper($dat['tprm']), "NO APLICA", "N/A", ""];
 
-            if($dat['idvtprm']==41) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
-            else $filaDatos = array_merge($filaDatos, ["", "", "", "", "", "", ""]);
-            if($dat['idvtprm']==42) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
-            else $filaDatos[] = "";
-            if($dat['idvtprm']==43) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
-            else $filaDatos = array_merge($filaDatos, ["", ""]);
-            if($dat['idvtprm']==44) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
-            else $filaDatos = array_merge($filaDatos, ["", ""]);
-            if($dat['idvtprm']==48) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
-            else $filaDatos[] = "";
+            for($i=1; $i<=13; $i++){
+                if($dat['idvtprm']==41 && $i==1) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
+                else if($dat['idvtprm']==42 && $i==8) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
+                else if($dat['idvtprm']==43 && $i==9) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
+                else if($dat['idvtprm']==44 && $i==11) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
+                else if($dat['idvtprm']==48 && $i==13) $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 1);
+                else $filaDatos[] = "";
+            }
 
             $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 2);
 

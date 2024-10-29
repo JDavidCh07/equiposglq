@@ -83,13 +83,14 @@
         $datAll = $mprm->getAll("bus");
     } else if($_SESSION['idpef']==3) $datAll = $mprm->getAll("prop");
     else if($_SESSION['idpef']==4) $datAll = $mprm->getAll("rrhhf");
-
+    
     if($ope=='limp') echo "<script>window.location='home.php?pg=".$pg."';</script>";
-
+    
     $datTprm = $mprm->getAllDom(10);
     $datUbi = $mprm->getAllDom(11);
     $datDpt = $mprm->getAllDom(12);
     $datJef = $mprm->getAllPer();
+    $datGra = $mprm->getAllGraf();
     
     if($_SESSION['idpef']==4) $solper = $mprm->getAll("rrhhp");
     else $solper = $mprm->getAll($_SESSION['idper']);

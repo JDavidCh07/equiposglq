@@ -38,16 +38,19 @@ if($_SESSION['idpef']==4){?>
                 </select>
             </div>
             <input type="hidden" name="ope" value="busc">
-            <div class="form-group col-md-2 col-sm-4 row" style="padding-top: 30px;">
-                <div class="form-group col-6">
+            <div class="form-group col-md-2 col-sm-4" id="btnprm">
+                <div>
                     <button type="submit" title="Limpiar" value="limp" name="ope" style="border: none;">
                         <i class="fa fa-solid fa-eraser fa-2x desact"></i>
                     </button>
                 </div>
-                <div class="form-group col-6">
-                    <a href="excel/xprm.php?d=<?=$idvdpt?>&fi=<?=$fecini?>&n=<?=$ndper?>&ff=<?=$fecfin?>&e=<?=$estprm?>" title="Exportar permisos">
+                <div>
+                    <a href="excel/xprm.php?<?php if($idvdpt)echo"d=".$idvdpt."&";if($fecini)echo"fi=".$fecini."&";if($ndper)echo"n=".$ndper."&";if($fecfin)echo"ff=".$fecfin; ?>" title="Exportar permisos">
                         <i class="fa fa-solid fa-file-export fa-2x ext"></i>
                     </a>
+                </div>
+                <div>
+                    <i class="fa fa-solid fa-chart-simple fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#grafprm" title="Gráfica"></i>                                
                 </div>
             </div>
         </div>
@@ -319,6 +322,30 @@ if($_SESSION['idpef']==4){?>
         </tfoot>
     </table>
 <?php } ?>
+<div class="modal fade" id="grafprm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Permisos por Dpto.</strong></h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" style="text-align: left;">
+                <figure class="highcharts-figure">
+                    <div id="container"></div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" id="plain">Vertical</button>
+                        <button class="btn btn-primary" id="inverted">Horizontal</button>
+                        <button class="btn btn-primary" id="polar">Polar</button>
+                    </div>
+                </figure>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <style>
     .custom-combobox1 {
         position: relative;
@@ -344,4 +371,214 @@ if($_SESSION['idpef']==4){?>
         border: 1px solid #ced4da;
         background-color: #fff;
     }
+    
+    /*----- CSS Información de la gráfica -----*/
+
+    #container {
+        height: 400px;
+    }
+
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .imgmod{
+        max-width: 150px;
+    }
+
+    @media screen and (max-width: 600px){
+        
+        .imgmod{
+            max-width: 75px;
+        }
+
+    }
 </style>
+
+<!-- JS Funcionamiento de la gráfica -->
+<script type="text/javascript">
+    const chart = Highcharts.chart('container', {
+        lang: {
+            viewFullscreen: "Ver en pantalla completa",
+            printChart: "Imprimir",
+            downloadPNG: "Descarga imagen PNG",
+            downloadJPEG: "Descarga imagen JPEG",
+            downloadPDF: "Descarga documento PDF",
+            downloadSVG: "Descarga SVG",
+            downloadXLS: "Descarga XLS",
+            downloadCSV: "Descarga CSV",
+            viewData: "Ver tabla de datos",
+            exitFullscreen: "Salir de pantalla completa"
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        title: {
+            text: 'Cantidad de solicitudes por departamento',
+            align: 'left'
+        },
+
+        colors: [
+            '#423f8c',
+            '#8237bc',
+            '#26b0bf',
+            '#a9bf04',
+            '#26b0bf',
+            '#8237bc',
+            '#423f8c'
+        ],
+
+        yAxis: {
+            title: {
+                text: 'Permisos',
+                style: {
+                    fontWeight: 'bold',
+                }
+            }
+        },
+
+        xAxis: {
+            title: {
+                text: 'Departamento',
+                style: {
+                    fontWeight: 'bold',
+                }
+            },
+            categories: [
+                <?php if ($datGra) { foreach ($datGra as $dtgn) { ?>
+                    '<?= $dtgn['dpto']; ?>',
+                <?php }} ?>
+            ]
+        },
+
+        series: [{
+            type: 'column',
+            name: 'Permisos',
+            borderRadius: 5,
+            colorByPoint: true,
+            data: [<?php if ($datGra) { foreach ($datGra as $dtgc) { ?>
+                    <?= $dtgc['cn']; ?>,
+                <?php }} ?>
+            ],
+            showInLegend: false
+        }]
+    });
+
+    document.getElementById('plain').addEventListener('click', () => {
+        chart.update({
+            chart: {
+                inverted: false,
+                polar: false
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Permisos',
+                    style: {
+                        fontWeight: 'bold',
+                    }
+                }
+            },
+
+            xAxis: {
+                title: {
+                    text: 'Departamento',
+                    style: {
+                        fontWeight: 'bold',
+                    }
+                },
+            },
+
+        });
+    });
+
+    document.getElementById('inverted').addEventListener('click', () => {
+        chart.update({
+            chart: {
+                inverted: true,
+                polar: false
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Permisos',
+                    style: {
+                        fontWeight: 'bold',
+                    }
+                }
+            },
+
+            xAxis: {
+                title: {
+                    text: 'Departamento',
+                    style: {
+                        fontWeight: 'bold',
+                    }
+                },
+            },
+
+        });
+    });
+
+    document.getElementById('polar').addEventListener('click', () => {
+        chart.update({
+            chart: {
+                inverted: false,
+                polar: true
+            },
+
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+
+            xAxis: {
+                title: {
+                    text: ''
+                },
+            },
+        });
+    });
+</script>

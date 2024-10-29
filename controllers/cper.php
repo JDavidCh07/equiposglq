@@ -79,7 +79,7 @@
                 $_SESSION['emaper'] = $emaper;
                 $_SESSION['ndper'] = $ndper;
                 $_SESSION['cargo'] = $cargo;
-            };
+            }
         }
         if($idper) $mper->delJxP();
         if($idjef){ foreach ($idjef as $i=>$jf) {

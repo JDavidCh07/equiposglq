@@ -213,6 +213,7 @@ label {
   text-shadow: 0px 0px 2px #393b3d;
 }
 
+
 /*--------------------------------------Menu----------------------------------------*/
 
 
@@ -630,6 +631,14 @@ a {
 a:hover {
   color: rgb(118, 118, 118);
 }
+
+#btnprm{
+  padding-top: 30px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 
 /*-----------Boton---------*/
 #boxbtn {

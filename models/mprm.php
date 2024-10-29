@@ -367,5 +367,25 @@
             $res = $result->fetchall(PDO::FETCH_ASSOC);
             return $res;
         }
+
+        function getAllGraf(){
+            $fecini = $this->getFecini();
+            $fecfin = $this->getFecfin();
+            $estprm = $this->getEstprm();
+            $sql = "SELECT d.nomval AS dpto, COUNT(p.idvdpt) AS cn FROM permiso AS r INNER JOIN persona AS p ON r.idper=p.idper INNER JOIN valor AS d ON p.idvdpt=d.idval WHERE (r.estprm=3 OR r.estprm=4)";
+            if($fecini) $sql .= " AND DATE(r.fecini)>=:fecini";
+		    if($fecfin) $sql .= " AND DATE(r.fecini)<=:fecfin";
+		    if($estprm) $sql .= " AND r.estprm=:estprm";
+            $sql .= " GROUP BY d.idval, d.nomval";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            if($fecini) $result->bindParam(":fecini", $fecini);
+		    if($fecfin) $result->bindParam(":fecfin", $fecfin);
+		    if($estprm) $result->bindParam(":estprm", $estprm);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
     }
 ?>
