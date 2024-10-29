@@ -102,6 +102,13 @@
         $datJxP=$mper->getOneJxP();
     }
 
+    if($_SESSION['idpef']==3){
+        $mper->setIdper($_SESSION['idper']);
+        $datOne=$mper->getOne();
+        $datJxP=$mper->getOneJxP();
+        $est = 1;
+    }
+
     if($ope=="eli"&& $idper){
         $mper->del();
         echo "<script>window.location='home.php?pg=".$pg."';</script>";

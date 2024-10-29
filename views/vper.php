@@ -1,6 +1,6 @@
 <?php
 require_once('controllers/cper.php');
-?>
+if($_SESSION['idpef']!=3){ ?>
 
 <div style="text-align: right;">
     <i class="fa fa-solid fa-file-import fa-2x imp" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod<?= $pg ?>cargm" title="Importar Personal"></i>
@@ -13,20 +13,21 @@ require_once('controllers/cper.php');
         </a>
     <?php } ?>
 </div>
+<?php } ?>
 
 <form action="home.php?pg=<?= $pg; ?>" method="POST" id="frmins">
     <div class="row">
         <div class="form-group col-md-4">
             <label for="nomper"><strong>Nombre:</strong></label>
-            <input class="form-control" type="text" id="nomper" name="nomper" value="<?php if ($datOne) echo $datOne[0]['nomper']; ?>" required>
+            <input class="form-control" type="text" id="nomper" name="nomper" value="<?php if ($datOne) echo $datOne[0]['nomper']; ?>" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
         </div>
         <div class="form-group col-md-4">
             <label for="apeper"><strong>Apellido:</strong></label>
-            <input class="form-control" type="text" id="apeper" name="apeper" value="<?php if ($datOne) echo $datOne[0]['apeper']; ?>" required>
+            <input class="form-control" type="text" id="apeper" name="apeper" value="<?php if ($datOne) echo $datOne[0]['apeper']; ?>" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
         </div>
         <div class="form-group col-md-4">
             <label for="idvsex"><strong>Sexo:</strong></label>
-            <select name="idvsex" id="idvsex" class="form-control form-select" required>
+            <select name="idvsex" id="idvsex" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                 <?php foreach ($datsex as $dts) { ?>
                     <option value="<?= $dts['idval']; ?>" <?php if ($datOne && $dts['idval'] == $datOne[0]['idvsex']) echo " selected "; ?>>
                         <?= $dts['nomval']; ?>
@@ -36,9 +37,9 @@ require_once('controllers/cper.php');
         </div>
         <div class="form-group col-md-4">
             <label><strong>Documento:</strong></label>
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <select name="idvtpd" id="idvtpd" class="form-control form-select" required>
+                    <select name="idvtpd" id="idvtpd" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                         <?php foreach ($dattpd as $dtt) { ?>
                             <option value="<?= $dtt['idval']; ?>" <?php if ($datOne && $dtt['idval'] == $datOne[0]['idvtpd']) echo " selected "; ?>>
                                 <?= $dtt['nomval']; ?>
@@ -46,16 +47,16 @@ require_once('controllers/cper.php');
                         <?php } ?>
                     </select>
                 </div>
-                <input class="form-control" type="text" id="ndper" name="ndper" value="<?php if ($datOne) echo $datOne[0]['ndper']; ?>" onkeypress="return solonum(event);" required>
+                <input class="form-control" type="text" id="ndper" name="ndper" value="<?php if ($datOne) echo $datOne[0]['ndper']; ?>" onkeypress="return solonum(event);" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
             </div>
         </div>
         <div class="form-group col-md-4">
             <label for="apeper"><strong>Correo Electrónico:</strong></label>
-            <input class="form-control" type="email" id="emaper" name="emaper" value="<?php if ($datOne) echo $datOne[0]['emaper']; ?>">
+            <input class="form-control" type="email" id="emaper" name="emaper" value="<?php if ($datOne) echo $datOne[0]['emaper']; ?>" <?php if($_SESSION['idpef']==3) echo " disabled "?>>
         </div>
         <div class="form-group col-md-4">
             <label for="idvdpt"><strong>Departamento:</strong></label>
-            <select name="idvdpt" id="idvdpt" class="form-control form-select" required>
+            <select name="idvdpt" id="idvdpt" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                 <?php foreach ($datdpt as $dtd) { ?>
                     <option value="<?= $dtd['idval']; ?>" <?php if ($datOne && $dtd['idval'] == $datOne[0]['idvdpt']) echo " selected "; ?>>
                         <?= $dtd['nomval']; ?>
@@ -65,9 +66,9 @@ require_once('controllers/cper.php');
         </div>
         <div class="form-group col-md-4">
             <label for="cargo"><strong>Cargo:</strong></label>
-            <input class="form-control" type="text" id="cargo" name="cargo" value="<?php if ($datOne) echo $datOne[0]['cargo']; ?>" required>
+            <input class="form-control" type="text" id="cargo" name="cargo" value="<?php if ($datOne) echo $datOne[0]['cargo']; ?>" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
         </div>
-        <?php for($i=0; $i<=1; $i++){ ?>
+        <?php if($_SESSION['idpef']!=3){ for($i=0; $i<=1; $i++){ ?>
             <div class="form-group col-md-4 ui-widget">
                 <label for="idjef"><strong>Jefe <?php if($i==0) echo "Inmediato"; else echo "Area";?></strong></label>
                 <select id="combobox<?=($i+1)?>" name="idjef[]" class="form-control form-select" <?php if($i==0) echo "required";?>>
@@ -79,36 +80,39 @@ require_once('controllers/cper.php');
                     <?php }} ?>
                 </select>
             </div>
-        <?php } ?>
+        <?php }} ?>
         <div class="form-group col-md-4">
             <label for="usured"><strong>Red:</strong></label>
-            <input class="form-control" type="text" id="usured" name="usured" value="<?php if ($datOne) echo $datOne[0]['usured']; ?>">
+            <input class="form-control" type="text" id="usured" name="usured" value="<?php if ($datOne) echo $datOne[0]['usured']; ?>" <?php if($_SESSION['idpef']==3) echo " disabled "?>>
         </div>
         <?php if ($_SESSION['idpef'] != 3) { ?>
             <div class="form-group col-md-4">
                 <label for="actper" class="titulo"><strong>Activo:</strong></label>
-                <select name="actper" id="actper" class="form-control form-select" required>
+                <select name="actper" id="actper" class="form-control form-select" required <?php if($_SESSION['idpef']==3) echo " disabled "?>>
                     <option value="1" <?php if ($datOne && $datOne[0]['actper'] == 1) echo " selected "; ?>>Si</option>
                     <option value="2" <?php if ($datOne && $datOne[0]['actper'] == 2) echo " selected "; ?>>No</option>
                 </select>
             </div>
         <?php }
-        if (!$datOne && $_SESSION['idpef'] == 5) { ?>
+        if ($datOne && $_SESSION['idpef'] == 3) { ?>
             <div class="form-group col-md-4">
                 <label for="pasper"><strong>Contraseña:</strong></label>
-                <input class="form-control" type="password" id="pasper" name="pasper" required>
+                <i class="fa fa-solid fa-rotate iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contra" title="Cambiar Contraseña"></i>
+                <input class="form-control" type="password" id="pasper" name="pasper" value="*********" <?php if($_SESSION['idpef']==3) echo " disabled "?>>
             </div>
         <?php } ?>
         <div class="form-group col-md-12" id="boxbtn">
             <br><br>
-            <input class="btn btn-primary" type="submit" value="Registrar">
-            <input type="hidden" name="ope" value="save">
+            <?php if($_SESSION['idpef'] != 3){ ?>
+                <input class="btn btn-primary" type="submit" value="Registrar">
+                <input type="hidden" name="ope" value="save">
+            <?php } ?>
             <input type="hidden" name="idper" value="<?php if ($datOne) echo $datOne[0]['idper']; ?>">
         </div>
     </div>
 </form>
 
-
+<?php if($_SESSION['idpef']!=3){ ?>
 <table id="mytable" class="table table-striped">
     <thead>
         <tr>
@@ -217,6 +221,34 @@ require_once('controllers/cper.php');
         </tr>
     </tfoot>
 </table>
+<?php } ?>
+	<div class="modal fade" id="contra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="home.php?pg=<?= $pg; ?>" method="POST">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Cambiar Contraseña</strong></h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" style="text-align: left;">
+						<label for="arc"><strong>Contraseña actual: </strong></label>
+                        <input class="form-control" type="password" id="pasper" name="pasper">
+                        <label for="arc"><strong>Nueva contraseña: </strong></label>
+                        <input class="form-control" type="password" id="pasper" name="pasper">
+                        <label for="arc"><strong>Confirmar contraseña: </strong></label>
+                        <input class="form-control" type="password" id="pasper" name="pasper">
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" value="'.$id.'" name="idprm">
+						<input type="hidden" value="'.$_SESSION['idper'].'" name="idrev">
+						<input type="hidden" value="4" name="estprm">
+						<button type="submit" class="btn btn-primary btnmd">Guardar</button>
+						<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 <style>
     .custom-combobox1,
     .custom-combobox2 {
