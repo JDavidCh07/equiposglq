@@ -7,12 +7,15 @@ class Mper{
     private $idvtpd;
     private $ndper;
     private $emaper;
-    private $pasper;
     private $idvdpt;
     private $idvsex;
     private $cargo;
     private $usured;
     private $actper;
+    private $hash;
+    private $salt;
+    private $token;
+    private $feccam;
 
     //------------Jefe-----------
     private $idjef;
@@ -53,9 +56,6 @@ class Mper{
     public function getEmaper(){
         return $this->emaper;
     }
-    public function getPasper(){
-        return $this->pasper;
-    }
     public function getIdvdpt(){
         return $this->idvdpt;
     }
@@ -71,7 +71,19 @@ class Mper{
     public function getActper(){
         return $this->actper;
     }
-
+    public function getHash(){
+        return $this->hash;
+    }
+    public function getSalt(){
+        return $this->salt;
+    }
+    public function getToken(){
+        return $this->token;
+    }
+    public function getFeccam(){
+        return $this->feccam;
+    }
+    
     //------------Perfil-----------
     public function getIdjef(){
         return $this->idjef;
@@ -133,9 +145,6 @@ class Mper{
     public function setEmaper($emaper){
         $this->emaper = $emaper;
     }
-    public function setPasper($pasper){
-        $this->pasper = $pasper;
-    }
     public function setIdvdpt($idvdpt){
         $this->idvdpt = $idvdpt;
     }
@@ -151,6 +160,19 @@ class Mper{
     public function setActper($actper){
         $this->actper = $actper;
     }
+    public function setHash($hash){
+        $this->hash = $hash;
+    }
+    public function setSalt($salt){
+        $this->salt = $salt;
+    }
+    public function setToken($token){
+        $this->token = $token;
+    }
+    public function setFeccam($feccam){
+        $this->feccam = $feccam;
+    }
+    
 
     //------------Perfil-----------
     public function setIdjef($idjef){
@@ -197,7 +219,7 @@ class Mper{
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, pf.idpef, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, pf.idpef, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper";
         if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
@@ -214,7 +236,7 @@ class Mper{
 
     function getOne()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.pasper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, pf.idpef, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.idper=:idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, pf.idpef, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt, p.salt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -228,10 +250,14 @@ class Mper{
     function save()
     {
         try {
+            $hash = $this->getHash();
+            $salt = $this->getSalt();
             $sql = "INSERT INTO persona(nomper, apeper, idvtpd, idvsex, ndper, emaper, idvdpt, cargo, usured, actper";
-            if ($this->getPasper()) $sql .= ", pasper";
+            if ($hash()) $sql .= ", hashl";
+            if ($salt()) $sql .= ", salt";
             $sql .= ") VALUES (:nomper, :apeper, :idvtpd, :idvsex, :ndper, :emaper, :idvdpt, :cargo, :usured, :actper";
-            if ($this->getPasper()) $sql .= ", :pasper";
+            if ($hash()) $sql .= ", :hashl";
+            if ($salt()) $sql .= ", :salt";
             $sql .= ")";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
@@ -256,11 +282,8 @@ class Mper{
             $result->bindParam(":usured", $usured);
             $actper = $this->getActper();
             $result->bindParam(":actper", $actper);
-            if ($this->getPasper()) {
-                $pasper = $this->getPasper();
-                $pasper = sha1(md5($pasper)) . "sGlaqs2%";
-                $result->bindParam(":pasper", $pasper);
-            }
+            if ($hash) $result->bindParam(":hashl", $hash);
+            if ($salt) $result->bindParam(":salt", $salt);
             $result->execute();
         } catch (Exception $e) {
             ManejoError($e);
@@ -286,9 +309,7 @@ class Mper{
 
     function edit(){
         try{
-            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, idvtpd=:idvtpd, idvsex=:idvsex, ndper=:ndper, emaper=:emaper, idvdpt=:idvdpt, cargo=:cargo, usured=:usured, actper=:actper";
-            if ($this->getPasper()) $sql .= ", pasper=:pasper";
-            $sql .= " WHERE idper=:idper";
+            $sql = "UPDATE persona SET nomper=:nomper, apeper=:apeper, idvtpd=:idvtpd, idvsex=:idvsex, ndper=:ndper, emaper=:emaper, idvdpt=:idvdpt, cargo=:cargo, usured=:usured, actper=:actper WHERE idper=:idper";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -314,11 +335,30 @@ class Mper{
             $result->bindParam(":usured", $usured);
             $actper = $this->getActper();
             $result->bindParam(":actper", $actper);
-            if ($this->getPasper()) {
-                $pasper = $this->getPasper();
-                $pasper = sha1(md5($pasper)) . "sGlaqs2%";
-                $result->bindParam(":pasper", $pasper);
-            }
+            $result->execute();
+        } catch (Exception $e) {
+            ManejoError($e);
+        }
+    }
+
+    function updpass(){
+        try {
+            $token = $this->getToken();
+            $sql = "UPDATE persona SET hashl=:hashl, salt=:salt, feccam=:feccam";
+            if ($token) $sql .= ", token=:token";
+            $sql .= " WHERE idper=:idper";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idper = $this->getIdper();
+            $result->bindParam(":idper", $idper);
+            $hash = $this->getHash();
+            $result->bindParam(":hashl", $hash);
+            $salt = $this->getSalt();
+            $result->bindParam(":salt", $salt);
+            $feccam = $this->getFeccam();
+            $result->bindParam(":feccam", $feccam);
+            if ($token) $result->bindParam(":token", $token);
             $result->execute();
         } catch (Exception $e) {
             ManejoError($e);

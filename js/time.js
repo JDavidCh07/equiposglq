@@ -1,3 +1,5 @@
+// ---------- Permisos -----------
+
 function validarHora(input) {
     const fecini = new Date(document.getElementById("fecini").value);
     const fecfin = new Date(document.getElementById("fecfin").value);
@@ -58,8 +60,10 @@ function validarHora(input) {
         submitBtn.disabled = true;
         return; // Salir si es hora de almuerzo
     } else {
-        input.style.borderColor = "";
-        errorMessage.style.display = "none";
+        document.getElementById("error-message-fecini").style.display = "none";
+        document.getElementById("error-message-fecfin").style.display = "none";
+        document.getElementById("fecini").style.borderColor = "";
+        document.getElementById("fecfin").style.borderColor = "";
         submitBtn.disabled = false;
     }
 
@@ -82,9 +86,12 @@ function validarHora(input) {
         errorMessage.textContent = "El permiso no puede ser mayor a la jornada laboral.";
         errorMessage.style.display = "block";
         submitBtn.disabled = true;
-    } else if (input.id === "fecfin") {
-        input.style.borderColor = "";
-        errorMessage.style.display = "none";
+        return;
+    } else {
+        document.getElementById("error-message-fecini").style.display = "none";
+        document.getElementById("error-message-fecfin").style.display = "none";
+        document.getElementById("fecini").style.borderColor = "";
+        document.getElementById("fecfin").style.borderColor = "";
         submitBtn.disabled = false;
     }
 }
@@ -169,6 +176,40 @@ function contar() {
         mensaje.style.display = "none";
         boton.disabled = false;
     }
+}
+
+// ---------- Contraseña -----------
+function comparar(input) {
+    const pass = document.getElementById('pasper');
+    const pass1 = document.getElementById('newpasper');
+    const mensaje = document.getElementById('error-message');
+    const boton = document.getElementById('btncon');
+    
+    const longitud = pass.value.length;
+
+    if(input.id === "pasper"){
+        if (longitud < 6) {
+            pass.style.borderColor = "red";
+            mensaje.textContent = "Las contraseñas debe ser más larga.";
+            mensaje.style.display = "block";
+            boton.disabled = true;
+            return;
+        } else {
+            pass.style.borderColor = "";
+            mensaje.style.display = "none";
+            boton.disabled = false;
+    }}else{
+        if (pass.value !== pass1.value ) {
+            pass1.style.borderColor = "red";
+            mensaje.textContent = "Las contraseñas no coinciden.";
+            mensaje.style.display = "block";
+            boton.disabled = true;
+            return;
+        } else {
+            pass1.style.borderColor = "";
+            mensaje.style.display = "none";
+            boton.disabled = false;
+    }}
 }
 
 window.onload = function() {

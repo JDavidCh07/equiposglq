@@ -98,7 +98,7 @@ if($_SESSION['idpef']!=3){ ?>
             <div class="form-group col-md-4">
                 <label for="pasper"><strong>Contraseña:</strong></label>
                 <i class="fa fa-solid fa-rotate iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contra" title="Cambiar Contraseña"></i>
-                <input class="form-control" type="password" id="pasper" name="pasper" value="*********" <?php if($_SESSION['idpef']==3) echo " disabled "?>>
+                <input class="form-control" type="password" value="**********" <?php if($_SESSION['idpef']==3) echo " disabled "?>>
             </div>
         <?php } ?>
         <div class="form-group col-md-12" id="boxbtn">
@@ -224,25 +224,27 @@ if($_SESSION['idpef']!=3){ ?>
 <?php } ?>
 	<div class="modal fade" id="contra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<form action="home.php?pg=<?= $pg; ?>" method="POST">
+			<form action="controllers/colv.php" method="POST">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Cambiar Contraseña</strong></h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body" style="text-align: left;">
-						<label for="arc"><strong>Contraseña actual: </strong></label>
-                        <input class="form-control" type="password" id="pasper" name="pasper">
-                        <label for="arc"><strong>Nueva contraseña: </strong></label>
-                        <input class="form-control" type="password" id="pasper" name="pasper">
-                        <label for="arc"><strong>Confirmar contraseña: </strong></label>
-                        <input class="form-control" type="password" id="pasper" name="pasper">
+                        <div class="contra">
+                            <label for="pasper" class="labcon"><small><strong>Nueva contraseña: </strong></small></label>
+                            <input class="form-control" type="password" id="pasper" name="pasper" required oninput="comparar(this)">
+                        </div>
+                        <div class="contra">
+                            <label for="newpasper" class="labcon"><small><strong>Confirmar contraseña: </strong></small></label>
+                            <input class="form-control" type="password" id="newpasper" name="newpasper" required oninput="comparar(this)">
+                        </div>              
+                        <small><small id="error-message" style="color: red; display: none;"></small></small>
 					</div>
 					<div class="modal-footer">
-						<input type="hidden" value="'.$id.'" name="idprm">
-						<input type="hidden" value="'.$_SESSION['idper'].'" name="idrev">
-						<input type="hidden" value="4" name="estprm">
-						<button type="submit" class="btn btn-primary btnmd">Guardar</button>
+						<input type="hidden" value="<?=$_SESSION['idper']?>" name="idper">
+						<input type="hidden" value="changpass" name="ope">
+						<button type="submit" class="btn btn-primary btnmd" id="btncon">Reestablecer</button>
 						<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>
 					</div>
 				</div>

@@ -744,3 +744,20 @@ function arrstrprg($dt){
 	}
 	return $txt;
 }
+
+//------------Encriptar-----------
+function encripta($password) {
+    // Generar una sal aleatoria
+	$salt = bin2hex(random_bytes(16));
+    $iterations = 10000;
+    $length = 32; 
+	
+    // Derivar el hash de la contraseña
+    $hash = hash_pbkdf2("sha256", $password, $salt, $iterations, $length);
+	
+    $pass = [
+        'salt' => $salt,
+        'hash' => $hash,
+    ];
+    return $pass; // Devuelve el usuario (en un caso real, guarda en la base de datos)
+}

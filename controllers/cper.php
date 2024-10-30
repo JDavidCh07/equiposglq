@@ -16,11 +16,14 @@
     $emaper = isset($_POST['emaper']) ? strtolower($_POST['emaper']):NULL;
     $idvdpt = isset($_POST['idvdpt']) ? $_POST['idvdpt']:NULL;
     $cargo = isset($_POST['cargo']) ? $_POST['cargo']:NULL;
-    $usured = isset($_POST['usured']) ? $_POST['usured']:NULL;
+    $usured = isset($_POST['usured']) ? strtolower($_POST['usured']):NULL;
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
 
-    $pasper = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
-    
+    $pass = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
+    $pasper = encripta($pass);
+    $hash = $pasper['hash'];
+    $salt = $pasper['salt'];
+
     //------------Perfil-----------
     $idjef = isset($_POST['idjef']) ? $_POST['idjef']:NULL;
     
@@ -62,8 +65,9 @@
         $mper->setCargo($cargo);
         $mper->setUsured($usured);
         $mper->setActper($actper);
-        $mper->setPasper($pasper);
         $mper->setIdjef($idjef);
+        $mper->setHash($hash);
+        $mper->setSalt($salt);
         if(!$idper) {
             $mper->save();
             $per = $mper->getOneSPxF($ndper); 
@@ -199,6 +203,9 @@
             $idjefa = $mper->selectUsu(); 
             $idjefa = $idjefa[0]['idper'];
             $pasper = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
+            $pasper = encripta($pass);
+            $hash = $pasper['hash'];
+            $salt = $pasper['salt'];
     		$mper->setNomper($nomper);
             $mper->setApeper($apeper);
             $mper->setIdvtpd($idvtpd);
@@ -210,13 +217,14 @@
             $mper->setUsured($usured);
             $mper->setActper($actper);
             $mper->setIdpef($idpef);
+            $mper->setHash($hash);
+            $mper->setSalt($salt);
     		$existingData = $mper->selectUsu();
             $idper = $existingData[0]['idper'];
             $mper->setIdper($idper);
     		if ($idvsex && $idvdpt && $idvtpd && count($idpefA)==$pf && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
     		    if (!empty($ndper)) {
     		    	if ($existingData[0]['sum'] == 0) {
-                        $mper->setPasper($pasper);
     		    		$mper->save();
                         $per = $mper->getOneSPxF($ndper);
                         $mper->setIdper($per[0]['idper']);

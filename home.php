@@ -77,6 +77,8 @@ include("models/seguridad.php");
 		if ($rut) {
 			$mos = $rut[0]['mospag'];
 			if ($ope == "edi") $est = 1;
+			echo '<div id="cpass"></div>';
+			if (!$_SESSION['new']) echo "<script>cpass('Por favor, cambia tu contraseña para empezar');</script>";
 			titulo($rut[0]['icono'], $rut[0]['nompag'], $rut[0]['mospag'], $pg);
 			echo '<div id="err"></div>';
 			echo "<script>err();</script>";

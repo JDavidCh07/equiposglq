@@ -16,6 +16,6 @@
     // $diradm = "karenmendez@galqui.com";
     $diradm = "juanda.chapar@gmail.com";
     
-    // $url = "app2.galqui.local/app/";
+    // $url = "app.galqui.com/";
     $url = "http://localhost:8080/app/";
 ?>

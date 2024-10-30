@@ -234,6 +234,18 @@ function satf(mess=""){
 
 }
 
+function cpass(mess=""){
+  if(mess){
+      mess = "<strong>¡Bienvenido a nuestra app!</strong><br>"+mess;
+      document.getElementById("cpass").innerHTML = mess;
+      document.getElementById("cpass").style.display = "inline-block";
+  }else{
+      document.getElementById("cpass").innerHTML = "";
+      document.getElementById("cpass").style.display = "none";
+  }
+
+}
+
 // combobox1 JQeuryUI
 $(function() {
   $.widget("custom.combobox1", {
