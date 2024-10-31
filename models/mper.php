@@ -253,11 +253,11 @@ class Mper{
             $hash = $this->getHash();
             $salt = $this->getSalt();
             $sql = "INSERT INTO persona(nomper, apeper, idvtpd, idvsex, ndper, emaper, idvdpt, cargo, usured, actper";
-            if ($hash()) $sql .= ", hashl";
-            if ($salt()) $sql .= ", salt";
+            if ($hash) $sql .= ", hashl";
+            if ($salt) $sql .= ", salt";
             $sql .= ") VALUES (:nomper, :apeper, :idvtpd, :idvsex, :ndper, :emaper, :idvdpt, :cargo, :usured, :actper";
-            if ($hash()) $sql .= ", :hashl";
-            if ($salt()) $sql .= ", :salt";
+            if ($hash) $sql .= ", :hashl";
+            if ($salt) $sql .= ", :salt";
             $sql .= ")";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();

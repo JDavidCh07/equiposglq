@@ -1,24 +1,27 @@
 <?php
     require_once("models/mper.php");
+    include("models/datos.php");
     require ('vendor/autoload.php');
-
+    require ('controllers/sendemail.php');
+    
     use PhpOffice\PhpSpreadsheet\IOFactory;
 
     $mper = new Mper();
 
     //------------Persona-----------
     $idper = isset($_REQUEST['idper']) ? $_REQUEST['idper']:NULL;
-    $nomper = isset($_POST['nomper']) ? $_POST['nomper']:NULL;
-    $apeper = isset($_POST['apeper']) ? $_POST['apeper']:NULL;
+    $nomper = isset($_POST['nomper']) ? strtoupper($_POST['nomper']):NULL;
+    $apeper = isset($_POST['apeper']) ? strtoupper($_POST['apeper']):NULL;
     $idvsex = isset($_POST['idvsex']) ? $_POST['idvsex']:NULL;
     $idvtpd = isset($_POST['idvtpd']) ? $_POST['idvtpd']:NULL;
     $ndper = isset($_POST['ndper']) ? $_POST['ndper']:NULL;
     $emaper = isset($_POST['emaper']) ? strtolower($_POST['emaper']):NULL;
     $idvdpt = isset($_POST['idvdpt']) ? $_POST['idvdpt']:NULL;
-    $cargo = isset($_POST['cargo']) ? $_POST['cargo']:NULL;
+    $cargo = isset($_POST['cargo']) ? strtoupper($_POST['cargo']):NULL;
     $usured = isset($_POST['usured']) ? strtolower($_POST['usured']):NULL;
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
 
+    //------------Contraseña-----------
     $pass = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
     $pasper = encripta($pass);
     $hash = $pasper['hash'];
@@ -50,6 +53,19 @@
     $datJxP=NULL;
     $pg = 53;
 
+    //------------Correo-----------
+    $nombre = nombre($apeper." ".$nomper);
+    $template = "views/mail.html";
+    $mail_asun = "¡Bienvenido a nuestra app!";
+    $txt_mess = "Es un placer darle la bienvenida a nuestra nueva aplicación. A continuación, le proporcionamos sus credenciales de acceso:<br><br>
+    <strong>Usuario: </strong>".$ndper.(($emaper) ? "/".$emaper : "")."<br>
+    <strong>Contraseña: </strong>".$pass."<br><br>
+    Le solicitamos que, al iniciar sesión por primera vez, cambie su contraseña para garantizar la seguridad de su cuenta.<br><br>
+    Para acceder a la aplicación, ingrese en el siguiente enlace: <a href='".$url."'>App Galqui</a><br><br>
+    Si tiene alguna pregunta o requiere asistencia, no dude en ponerse en contacto con nosotros.<br><br>
+    Agradecemos su confianza y esperamos que disfrute de la nueva experiencia.<br><br>";
+    $fir_mail = '<strong>'.$nom.'</strong><br>Cra 1 Nº 4 - 02 Bdg 2 Parque Industrial K2<br>Chía - Cund<br>www.galqui.com';
+
     $mper->setIdper($idper);
     $mper->setIdtaj($idtaj);
     
@@ -71,9 +87,9 @@
         if(!$idper) {
             $mper->save();
             $per = $mper->getOneSPxF($ndper); 
-            $idper = $per[0]['idper'];
-            $mper->savePxFAut($idper, $idpef);
-            $mper->setIdper($idper);
+            $mper->savePxFAut($per[0]['idper'], $idpef);
+            $mper->setIdper($per[0]['idper']);
+            if($emaper) sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
         }
         else{
             $mper->edit();
@@ -202,10 +218,18 @@
             $mper->setNdper($ndjefa); 
             $idjefa = $mper->selectUsu(); 
             $idjefa = $idjefa[0]['idper'];
-            $pasper = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
+            $pass = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
             $pasper = encripta($pass);
             $hash = $pasper['hash'];
             $salt = $pasper['salt'];
+            $nombre = nombre($apeper." ".$nomper);
+            $txt_mess = "Es un placer darle la bienvenida a nuestra nueva aplicación. A continuación, le proporcionamos sus credenciales de acceso:<br><br>
+            <strong>Usuario: </strong>".$ndper.(($emaper) ? "/".$emaper : "")."<br>
+            <strong>Contraseña: </strong>".$pass."<br><br>
+            Le solicitamos que, al iniciar sesión por primera vez, cambie su contraseña para garantizar la seguridad de su cuenta.<br><br>
+            Para acceder a la aplicación, ingrese en el siguiente enlace: <a href='".$url."'>App Galqui</a><br><br>
+            Si tiene alguna pregunta o requiere asistencia, no dude en ponerse en contacto con nosotros.<br><br>
+            Agradecemos su confianza y esperamos que disfrute de la nueva experiencia.<br><br>";
     		$mper->setNomper($nomper);
             $mper->setApeper($apeper);
             $mper->setIdvtpd($idvtpd);
@@ -228,6 +252,8 @@
     		    		$mper->save();
                         $per = $mper->getOneSPxF($ndper);
                         $mper->setIdper($per[0]['idper']);
+                        if($emaper) sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+
     		    	}else {
     		    		$mper->edit();
                         $mper->delPxF();
@@ -322,5 +348,12 @@
         if($row>$highestRow+5) echo '<script>err("Ooops... Algo esta mal en la fila #'.$reg.', corrígelo y vuelve a subir el archivo");</script>';
         else echo '<script>satf("Todos los datos han sido registrados con exito, por favor espere un momento");</script>';
         echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 7000);</script>";
+    }
+
+    function nombre($nombre){
+        $partesp = explode(" ", $nombre);
+        $apefor = ucfirst(strtolower($partesp[0]));
+        $nomfor = ucfirst(strtolower($partesp[count($partesp) > 2 ? 2 : 1]));
+        return $nomfor." ".$apefor;
     }
 ?>

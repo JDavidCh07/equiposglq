@@ -246,28 +246,16 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $mprm->savePdf();
 
     //-------Datos jefe--------
-    $perd = $det['ajef']." ".$det['njef']; 
+    $nompd = nombre($det['ajef']." ".$det['njef']);
     $maild = $det['ejef'];
-    $partes = explode(" ", $perd);
-    $aped = ucfirst(strtolower($partes[0]));
-    $nomd = ucfirst(strtolower($partes[count($partes) > 2 ? 2 : 1]));
-    $nompd = $nomd." ".$aped;
 
     //-------Datos aprueba--------
-    $pera = $det['arev']." ".$det['nrev']; 
+    $nompa = nombre($det['arev']." ".$det['nrev']); 
     $maila = $det['erev'];
-    $partesa = explode(" ", $pera);
-    $apea = ucfirst(strtolower($partesa[0]));
-    $noma = ucfirst(strtolower($partesa[count($partesa) > 2 ? 2 : 1]));
-    $nompa = $noma." ".$apea;
     
     //-------Datos colaborador--------
-    $pprm = $det['aper']." ".$det['nper']; 
+    $nompp = nombre($det['aper']." ".$det['nper']); 
     $mailp = $det['eper'];
-    $partesp = explode(" ", $pprm);
-    $apep = ucfirst(strtolower($partesp[0]));
-    $nomp = ucfirst(strtolower($partesp[count($partesp) > 2 ? 2 : 1]));
-    $nompp = $nomp." ".$apep;
     
     $pfec = explode(' ', $det['fini']);
     $fec = $pfec[0].' de '.$pfec[2];
@@ -285,7 +273,7 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         Adjunto a este correo se encuentra el formato debidamente diligenciado.<br><br>
         En los siguientes enlaces podrá aceptar o rechazar la solicitud respectivamente";
         
-        sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link, $url);
+        sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link, $url, "../");
     } elseif($estprm==3 || $estprm==4){
         $template="../views/mail.html";
         
@@ -296,8 +284,8 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
             $txt_mess = "Informamos que ".$nompa." ha aprobado el permiso de ".$nompp." para el día ".$fec." de ".$det['hini']." a ".$det['hfin']."<br><br>
             Adjunto a este correo se encuentra el formato diligenciado con la aprobación.<br><br>.";
 
-            sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");
-            sendemail($ema, $psem, $nom, $diradm, $nomadm, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");
+            sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
+            sendemail($ema, $psem, $nom, $diradm, $nomadm, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
         }
         //-------Datos correo colaborador--------
         $mail_asun = (($estprm==3) ? "Aprobación" : "Rechazo"). " Permiso - ".$fec;
@@ -305,6 +293,14 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         $txt_mess = "Te informamos que el permiso solicitado para el día ".$fec." ha sido ".(($estprm==3) ? "aprobado" : "rechazado"). " por ".$nompa."<br><br>
         Adjunto a este correo se encuentra el formato con la respuesta.<br><br>.";
 
-        sendemail($ema, $psem, $nom, $mailp, $nompp, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "");
+        sendemail($ema, $psem, $nom, $mailp, $nompp, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
 }}
+
+function nombre($nombre){
+    $partesp = explode(" ", $nombre);
+    $apefor = ucfirst(strtolower($partesp[0]));
+    $nomfor = ucfirst(strtolower($partesp[count($partesp) > 2 ? 2 : 1]));
+    return $nomfor." ".$apefor;
+}
+
 ?>

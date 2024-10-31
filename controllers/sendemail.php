@@ -1,13 +1,16 @@
 <?php
 
+set_time_limit(300); // (5 minutos)
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../vendor/phpmailer/phpmailer/src/Exception.php';
-require '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require '../vendor/phpmailer/phpmailer/src/SMTP.php';
+function sendemail($mail_ema, $mail_upa, $nommail, $mail_sfe, $mail_name, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link_mail1, $link_mail2, $rut){
 
-function sendemail($mail_ema, $mail_upa, $nommail, $mail_sfe, $mail_name, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link_mail1, $link_mail2){
+	require_once $rut.'vendor/phpmailer/phpmailer/src/Exception.php';
+	require_once $rut.'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+	require_once $rut.'vendor/phpmailer/phpmailer/src/SMTP.php';
+
 
     $mail = new PHPMailer(true);
 	$mail->isSMTP();
@@ -28,7 +31,7 @@ function sendemail($mail_ema, $mail_upa, $nommail, $mail_sfe, $mail_name, $file_
 	$message = str_replace('{{first_name}}', $mail_name, $message);
 	$message = str_replace('{{message}}', $txt_mess, $message);
 	$message = str_replace('{{fir}}', $fir_mail, $message);
-	$mail->addEmbeddedImage('../img/firma.jpg', 'firma_cid');
+	$mail->addEmbeddedImage($rut.'img/firma.jpg', 'firma_cid');
 	
 	if($link_mail1 && $link_mail2){
 		$message = str_replace('{{link1}}', $link_mail1, $message);
@@ -44,13 +47,5 @@ function sendemail($mail_ema, $mail_upa, $nommail, $mail_sfe, $mail_name, $file_
 	if ($file_path) {
         $mail->addAttachment($file_path);
     }
-
-	if(!$mail->send()) {
-		echo '<p style="color:red">No se pudo enviar el mensaje..';
-		echo 'Error de correo: ' . $mail->ErrorInfo;
-		echo "</p>";
-	} else {
-		echo '<p style="color:green">Tu mensaje ha sido enviado!</p>';
-	}
 }
 ?>

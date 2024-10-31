@@ -18,16 +18,17 @@
     $salt = $pasper['salt'];
     
     $mper->setIdper($idper);
-
     if($ope=="changpass"){
         $mper->setHash($hash);
         $mper->setSalt($salt);
         $mper->setFeccam($feccam);
         $mper->updpass();
         echo "<script>alert('Cambio de contraseña exitoso!');</script>";
-        echo "<script>window.location='../';</script>";
-        session_destroy();
-		exit();
+        if($idper==$_SESSION['idper']){
+            echo "<script>window.location='../';</script>";
+            session_destroy();
+		    exit();
+        } else echo "<script>window.location='../home.php?pg=53';</script>";
     }
 
 ?>

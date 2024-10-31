@@ -639,6 +639,7 @@ function modalImp($nm, $pg, $tit, $ope, $asg){
 						$txt .= '<label for="arc" style="margin-bottom: 10px"><strong>Cargar archivo Excel:</strong></label>';
 						$txt .= '<input class="form-control" type="file" id="arc" name="arc" accept=".xls,.xlsx" required>';
 						$txt .= '<small><small><br>*Por favor, asegúrese de subir únicamente archivos con extensión .xls o .xlsx. Estos formatos son específicos de archivos de Excel y son necesarios para garantizar la correcta lectura y procesamiento de los datos.</small></small>';
+						if($pg==53) $txt .= '<small><small><br>*Si el archivo contiene muchos registros, el procesamiento puede tardar un poco más de lo habitual. Agradecemos su paciencia.</small></small>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
 						$txt .= '<input type="hidden" value="'.$ope.'" name="ope">';
@@ -725,6 +726,41 @@ function modalRecPrm($nm, $id, $tit){
 						$txt .= '<input type="hidden" value="'.$_SESSION['idper'].'" name="idrev">';
 						$txt .= '<input type="hidden" value="4" name="estprm">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
+						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+					$txt .= '</div>';
+				$txt .= '</div>';
+			$txt .= '</form>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
+//------------Modal vper, Cambiar contraseña-----------
+function modalCamPass($nm, $id, $tit){	
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $id .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<form action="controllers/colv.php" method="POST">';
+				$txt .= '<div class="modal-content">';
+					$txt .= '<div class="modal-header">';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Cambiar Contraseña'.(($id!=$_SESSION['idper']) ? ' - '.$tit : '').'</strong></h1>';
+						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-body" style="text-align: left;">';
+                        $txt .= '<div class="contra">';
+                            $txt .= '<label for="pasper" class="labcon"><small><strong>Nueva contraseña: </strong></small></label>';
+                            $txt .= '<input class="form-control" type="password" id="pasper" name="pasper" required>';
+                        $txt .= '</div>';
+                        $txt .= '<div class="contra">';
+                            $txt .= '<label for="newpasper" class="labcon"><small><strong>Confirmar contraseña: </strong></small></label>';
+                            $txt .= '<input class="form-control" type="password" id="newpasper" name="newpasper" required oninput="comparar(this)">';
+                        $txt .= '</div>              ';
+                        $txt .= '<small><small id="error-message" style="color: red; display: none;"></small></small>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" value="'.$id.'" name="idper">';
+						$txt .= '<input type="hidden" value="changpass" name="ope">';
+						$txt .= '<button type="submit" class="btn btn-primary btnmd" id="btncon">Reestablecer</button>';
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
 					$txt .= '</div>';
 				$txt .= '</div>';

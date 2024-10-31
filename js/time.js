@@ -179,42 +179,30 @@ function contar() {
 }
 
 // ---------- Contraseña -----------
-function comparar(input) {
+function comparar() {
     const pass = document.getElementById('pasper');
     const pass1 = document.getElementById('newpasper');
     const mensaje = document.getElementById('error-message');
     const boton = document.getElementById('btncon');
     
-    const longitud = pass.value.length;
-
-    if(input.id === "pasper"){
-        if (longitud < 6) {
-            pass.style.borderColor = "red";
-            mensaje.textContent = "Las contraseñas debe ser más larga.";
-            mensaje.style.display = "block";
-            boton.disabled = true;
-            return;
-        } else {
-            pass.style.borderColor = "";
-            mensaje.style.display = "none";
-            boton.disabled = false;
-    }}else{
-        if (pass.value !== pass1.value ) {
-            pass1.style.borderColor = "red";
-            mensaje.textContent = "Las contraseñas no coinciden.";
-            mensaje.style.display = "block";
-            boton.disabled = true;
-            return;
-        } else {
-            pass1.style.borderColor = "";
-            mensaje.style.display = "none";
-            boton.disabled = false;
-    }}
+    if (pass.value !== pass1.value ) {
+        pass1.style.borderColor = "red";
+        mensaje.textContent = "Las contraseñas no coinciden.";
+        mensaje.style.display = "block";
+        boton.disabled = true;
+        return;
+    } else {
+        pass1.style.borderColor = "";
+        mensaje.style.display = "none";
+        boton.disabled = false;
+    }
 }
+
 
 window.onload = function() {
     validarPermiso();
     actualizarMinMax(); // Asegurarse de que los límites min/max se actualicen al cargar
     actMinMax();
     contar();
+    comparar();
 };
