@@ -179,11 +179,11 @@ function contar() {
 }
 
 // ---------- Contraseña -----------
-function comparar() {
-    const pass = document.getElementById('pasper');
-    const pass1 = document.getElementById('newpasper');
-    const mensaje = document.getElementById('error-message');
-    const boton = document.getElementById('btncon');
+function comparar(id) {
+    const pass = document.getElementById('pasper'+id);
+    const pass1 = document.getElementById('newpasper'+id);
+    const mensaje = document.getElementById('error-message'+id);
+    const boton = document.getElementById('btncon'+id);
     
     if (pass.value !== pass1.value ) {
         pass1.style.borderColor = "red";

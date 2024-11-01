@@ -97,11 +97,7 @@ if($_SESSION['idpef']!=3){ ?>
         if ($datOne && $_SESSION['idpef'] == 3) { ?>
             <div class="form-group col-md-4">
                 <label for="pasper"><strong>Contraseña:</strong></label>
-                <?php
-                    $mper->setIdper($_SESSION['idper']);
-                    modalCamPass("contra", $_SESSION['idper'], "");
-                ?>
-                <i class="fa fa-solid fa-rotate iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contra<?= $_SESSION['idper']?>" title="Cambiar Contraseña"></i>
+                <i class="fa fa-solid fa-rotate iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pass<?=$_SESSION['idper']?>" title="Cambiar Contraseña"></i>
                 <input class="form-control" type="password" value="**********" <?php if($_SESSION['idpef']==3) echo " disabled "?>>
             </div>
         <?php } ?>
@@ -202,7 +198,7 @@ if($_SESSION['idpef']!=3){ ?>
                             ?>
                             <i class="fa fa-solid fa-id-card-clip fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcb<?= $dta['idper']; ?>" title="Asignar perfil"></i>
                             <i class="fa fa-solid fa-tarp fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tj<?= $dta['idper']; ?>" title="Asignar tarjetas"></i>
-                            <i class="fa fa-solid fa-key fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contra<?= $info['idper']?>" title="Cambiar Contraseña"></i>
+                            <i class="fa fa-solid fa-key fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contra<?= $info['idper']; ?>" title="Cambiar Contraseña"></i>
                             <?php
                             $pe = $mper->getExPE($dta['idper']);
                             $pr = $mper->getExPR($dta['idper']);
@@ -229,6 +225,35 @@ if($_SESSION['idpef']!=3){ ?>
     </tfoot>
 </table>
 <?php } ?>
+<div class="modal fade" id="pass<?=$_SESSION['idper']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<form action="controllers/colv.php" method="POST">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Cambiar Contraseña</strong></h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="text-align: left;">
+                    <div class="contra">
+                        <label for="pasper" class="labcon"><small><strong>Nueva contraseña: </strong></small></label>
+                        <input class="form-control" type="password" id="pasper<?=$_SESSION['idper']?>" name="pasper" required oninput="comparar(<?=$_SESSION['idper']?>)">
+                    </div>
+                    <div class="contra">
+                        <label for="newpasper" class="labcon"><small><strong>Confirmar contraseña: </strong></small></label>
+                        <input class="form-control" type="password" id="newpasper<?=$_SESSION['idper']?>" name="newpasper" required oninput="comparar(<?=$_SESSION['idper']?>)">
+                    </div>
+                    <small><small id="error-message<?=$_SESSION['idper']?>" style="color: red; display: none;"></small></small>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" value="<?=$_SESSION['idper']?>" name="idper">
+					<input type="hidden" value="changpass" name="ope">
+					<button type="submit" class="btn btn-primary btnmd" id="btncon<?=$_SESSION['idper']?>">Reestablecer</button>
+					<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 <style>
     .custom-combobox1,
     .custom-combobox2 {
