@@ -106,11 +106,6 @@ CREATE TABLE `jefxper` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `jefxper`
---
-
-INSERT INTO `jefxper` (`idjef`, `idper`, `tipjef`) VALUES
-(3, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -194,7 +189,9 @@ INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
 (2, 1),
 (4, 1),
 (6, 1),
-(7, 1);
+(7, 1),
+(53, 3),
+(101, 3);
 
 -- --------------------------------------------------------
 
@@ -215,9 +212,10 @@ CREATE TABLE `pefxmod` (
 INSERT INTO `pefxmod` (`idmod`, `idpef`, `idpag`) VALUES
 (1, 4, 53),
 (3, 4, 101),
-(3, 3, 101),
 (1, 2, 51),
-(2, 1, 1);
+(2, 1, 1),
+(1, 3, 53),
+(3, 3, 101);
 
 -- --------------------------------------------------------
 
@@ -272,6 +270,9 @@ CREATE TABLE `permiso` (
 INSERT INTO `permiso` (`idprm`, `noprm`, `fecini`, `fecfin`, `idjef`, `idvtprm`, `sptrut`, `desprm`, `obsprm`, `estprm`, `idper`, `idvubi`, `fecsol`, `fecrev`, `idrev`, `rutpdf`) VALUES
 (1, 1, '2024-10-26 00:00:00', '2024-10-26 17:30:00', 3, 42, '', 'No', '', 3, 4, 49, '2024-10-24', '2024-10-25', 3, 'arc/permisos/Permisos3 Colaborador1_333333/Diligencia personal_2024-10-26.pdf');
 
+-- Volcado de datos para la tabla `jefxper`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -286,23 +287,29 @@ CREATE TABLE `persona` (
   `idvtpd` bigint(11) NOT NULL,
   `ndper` varchar(12) NOT NULL,
   `emaper` varchar(255) DEFAULT NULL,
-  `pasper` text DEFAULT NULL,
   `idvdpt` bigint(11) NOT NULL,
   `cargo` varchar(100) NOT NULL,
   `usured` varchar(50) DEFAULT NULL,
-  `actper` tinyint(1) DEFAULT 1
+  `actper` tinyint(1) DEFAULT 1,
+  `hashl` text(50) DEFAULT NULL,
+  `salt` text(50) DEFAULT NULL,
+  `token` text(50) DEFAULT NULL,
+  `feccam` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `persona`
 --
 
-INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvsex`, `idvtpd`, `ndper`, `emaper`, `pasper`, `idvdpt`, `cargo`, `usured`, `actper`) VALUES
-(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 61, 1, '1072642921', 'soporteit@galqui.com', '0cb74ff365641dc0a2a164af11a019b303452cfesGlaqs2%', 51, 'AUXILIAR IT', 'soporteit', 1),
-(2, 'RRHH1', 'Permisos1', 61, 1, '111111', 'rrhh1@galqui.com', '45be0464f906eb29ab95729bb66c2a3a09bb6ad6sGlaqs2%', 51, 'Recursos Humanos', 'rrhh1', 1),
-(3, 'Jefe1', 'Permisos2', 61, 1, '222222', 'jefe@galqui.com', '5e2d0ce26c010e9f9f685663b5b8ffb4d103b247sGlaqs2%', 51, 'Jefe', 'jefe1', 1),
-(4, 'Colaborador1', 'Permisos3', 62, 1, '333333', 'colaborador@galqui.com', 'c633f08658136b680608a277c2dad9d9cde190b7sGlaqs2%', 51, 'colaborador', 'colaborador1', 1);
+INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvsex`, `idvtpd`, `ndper`, `emaper`, `idvdpt`, `cargo`, `usured`, `actper`, `hashl`, `salt`) VALUES
+(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 61, 1, '1072642921', 'soporteit@galqui.com', 51, 'AUXILIAR IT', 'soporteit', 1, '37e2d8bb3309b38708241d4b9ec04d5e', 'cc9db07913b47235bf4118ab5e3fb967'),
+(2, 'RRHH1', 'Permisos1', 61, 1, '111111', 'rrhh1@galqui.com', 51, 'Recursos Humanos', 'rrhh1', 1, '37e2d8bb3309b38708241d4b9ec04d5e', 'cc9db07913b47235bf4118ab5e3fb967'),
+(3, 'Jefe1', 'Permisos2', 61, 1, '222222', 'jefe@galqui.com', 51, 'Jefe', 'jefe1', 1, '37e2d8bb3309b38708241d4b9ec04d5e', 'cc9db07913b47235bf4118ab5e3fb967'),
+(4, 'Colaborador1', 'Permisos3', 60, 1, '333333', 'colaborador@galqui.com', 51, 'colaborador', 'colaborador1', 1, '37e2d8bb3309b38708241d4b9ec04d5e', 'cc9db07913b47235bf4118ab5e3fb967');
 
+
+INSERT INTO `jefxper` (`idjef`, `idper`, `tipjef`) VALUES
+(3, 4, 1);
 -- --------------------------------------------------------
 
 --
@@ -388,6 +395,7 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (9, 203, 'Torre', 2, 1),
 (10, 401, 'Propio', 4, 1),
 (11, 402, 'Alquiler', 4, 1),
+(12, 403, 'Tececor', 4, 1),
 (13, 301, 'Mouse', 3, 1),
 (14, 302, 'Teclado', 3, 1),
 (15, 303, 'Cargador', 3, 1),
@@ -432,9 +440,8 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (57, 1207, 'Tececor', 12, 1),
 (58, 1208, 'Telesolin', 12, 1),
 (59, 1209, 'GIA', 12, 1),
-(60, 403, 'Tececor', 4, 1),
-(61, 1301, 'Masculino', 13, 1),
-(62, 1302, 'Femenino', 13, 1);
+(60, 1302, 'Femenino', 13, 1),
+(61, 1301, 'Masculino', 13, 1);
 
 --
 -- Índices para tablas volcadas

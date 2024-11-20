@@ -187,7 +187,6 @@ INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
 (4, 1),
 (6, 1),
 (7, 1),
-(51, 3),
 (53, 3),
 (101, 3);
 
@@ -293,6 +292,9 @@ INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvsex`, `idvtpd`, `ndper`,
 (1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 61, 1, '1072642921', 'soporteit@galqui.com', 51, 'AUXILIAR IT', 'soporteit', 1, '37e2d8bb3309b38708241d4b9ec04d5e', 'cc9db07913b47235bf4118ab5e3fb967');
 -- --------------------------------------------------------
 
+INSERT INTO `jefxper` (`idjef`, `idper`, `tipjef`) VALUES (1, 1, 1);
+
+
 --
 -- Estructura de tabla para la tabla `perxpef`
 --
@@ -372,6 +374,7 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (9, 203, 'Torre', 2, 1),
 (10, 401, 'Propio', 4, 1),
 (11, 402, 'Alquiler', 4, 1),
+(12, 403, 'Tececor', 4, 1),
 (13, 301, 'Mouse', 3, 1),
 (14, 302, 'Teclado', 3, 1),
 (15, 303, 'Cargador', 3, 1),
@@ -416,9 +419,8 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (57, 1207, 'Tececor', 12, 1),
 (58, 1208, 'Telesolin', 12, 1),
 (59, 1209, 'GIA', 12, 1),
-(60, 403, 'Tececor', 4, 1),
-(61, 1301, 'Masculino', 13, 1),
-(62, 1302, 'Femenino', 13, 1);
+(60, 1302, 'Femenino', 13, 1),
+(61, 1301, 'Masculino', 13, 1);
 
 --
 -- Índices para tablas volcadas
@@ -581,7 +583,7 @@ ALTER TABLE `modulo`
 -- AUTO_INCREMENT de la tabla `pagina`
 --
 ALTER TABLE `pagina`
-  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `perfil`
@@ -593,13 +595,13 @@ ALTER TABLE `perfil`
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `idprm` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idprm` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tarjeta`
