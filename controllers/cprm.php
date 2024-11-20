@@ -43,8 +43,10 @@
         
         //-------Si es imagen la convierte--------
         if($ext == 'png' || $ext == 'jpeg' || $ext == 'jpg'){
-            $pdf->AddPage();
-            $pdf->Image($arcspt['tmp_name'], 10, 10, 0, 0, '', '', '', false, 300, '', false, false, 0, false, false, false);
+            $pdf->AddPage('P', 'Letter');
+            $width = $pdf->GetPageWidth();
+            $w = $width - 20;
+            $pdf->Image($arcspt['tmp_name'], 10, 10, $w, 0, '', '', '', false, 300, '', false, false, 0, false, false, false);
             $imgpdf = $pdf->Output('', 'S');
             file_put_contents($sptrut, $imgpdf); 
         } else if($ext == 'pdf') move_uploaded_file($arcspt['tmp_name'], $sptrut);        
@@ -79,6 +81,7 @@
         $mprm->setFecini($fecini);
         $mprm->setFecfin($fecfin);
         $mprm->setIdvdpt($idvdpt);
+        $mprm->setIdvtprm($idvtprm);
         $mprm->setEstprm($estprm);
         $datAll = $mprm->getAll("bus");
     } else if($_SESSION['idpef']==3) $datAll = $mprm->getAll("prop");
