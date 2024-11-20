@@ -64,7 +64,7 @@
 		text-align: center;
 		box-shadow: 0 4px 10px rgba(7, 54, 99, 0.2);
 		border: none;
-		width: 80%;
+		width: 70%;
 	}
 
 	.modulo1{
@@ -80,10 +80,14 @@
 		background-color: rgba(7, 54, 99, 0.2);
 	}
 
-	@media screen and (max-width: 1024px) {
+	@media screen and (min-width: 577px) and (max-width: 1280px) {
 		.secmod {
 			width: 90%;
-			gap: 15px;
+			gap: 12px;
+		}
+		.modulo,
+		.modulo1 {
+			width: 60%;
 		}
 	}
 
@@ -100,4 +104,5 @@
 		}
 
 	}
+
 </style>
