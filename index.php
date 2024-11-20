@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GALQUI SAS</title>
     <link rel="icon" href="img/logo.png">
@@ -43,9 +43,9 @@
             $pg = isset($_REQUEST['pg']) ? $_REQUEST['pg'] : NULL;
         ?>
     </header>
-    <section class="cont">
+    <section class="contses">
         <?php
-            if ($pg == 101 or !$pg) include('views/ses.php');
+            if (!$pg) include('views/ses.php');
             else echo "<script>window.location.href = '404.php';</script>";
         ?>
     </section>
