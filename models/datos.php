@@ -7,8 +7,9 @@
 
     $nom = "Soporte IT";
     $ema = "soporteit@galqui.com";
-	$psem = "lfze zoun hcxj ajov";
-
+	$psem = "itua siym bonz nwzk";
+	// $psemcom = "meun ffhv zxlf wybr";
+    
     $nomrh = "Dpto. Recursos Humanos";
     $rrhh = "juanda.chapar@gmail.com";
 
@@ -16,6 +17,6 @@
     // $diradm = "karenmendez@galqui.com";
     $diradm = "juanda.chapar@gmail.com";
     
-    // $url = "app.galqui.com/";
+    // $url = "http://app.galqui.com/";
     $url = "http://localhost:8080/app/";
 ?>
