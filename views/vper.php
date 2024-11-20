@@ -71,7 +71,7 @@ if($_SESSION['idpef']!=3){ ?>
         <?php if($_SESSION['idpef']!=3){ for($i=0; $i<=1; $i++){ ?>
             <div class="form-group col-md-4 ui-widget">
                 <label for="idjef"><strong>Jefe <?php if($i==0) echo "Inmediato"; else echo "Area";?></strong></label>
-                <select id="combobox<?=($i+1)?>" name="idjef[]" class="form-control form-select" <?php if($i==0) echo "required";?>>
+                <select id="combobox<?php ($i+1)?>" name="idjef[]" class="form-control form-select" <?php if($i==0) echo "required";?>>
                     <option value="0"></option>
                     <?php if ($datPer) { foreach ($datPer as $dpr) { ?>
                             <option value="<?= $dpr['idper']; ?>" <?php if ($datJxP){ foreach ($datJxP AS $dtj) { if($dpr['idper'] == $dtj['idjef'] && $dtj['tipjef'] == ($i+1)) echo " selected "; }}?>>
@@ -97,8 +97,8 @@ if($_SESSION['idpef']!=3){ ?>
         if ($datOne && $_SESSION['idpef'] == 3) { ?>
             <div class="form-group col-md-4">
                 <label for="pasper"><strong>Contraseña:</strong></label>
-                <i class="fa fa-solid fa-rotate iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pass<?=$_SESSION['idper']?>" title="Cambiar Contraseña"></i>
                 <input class="form-control" type="password" value="**********" <?php if($_SESSION['idpef']==3) echo " disabled "?>>
+                <span class="txtcontra" data-bs-toggle="modal" data-bs-target="#pass<?=$_SESSION['idper']?>">(Cambiar contraseña)</span>                   
             </div>
         <?php } ?>
         <div class="form-group col-md-12" id="boxbtn">
@@ -236,11 +236,13 @@ if($_SESSION['idpef']!=3){ ?>
 				<div class="modal-body" style="text-align: left;">
                     <div class="contra">
                         <label for="pasper" class="labcon"><small><strong>Nueva contraseña: </strong></small></label>
-                        <input class="form-control" type="password" id="pasper<?=$_SESSION['idper']?>" name="pasper" required oninput="comparar(<?=$_SESSION['idper']?>)">
+                        <input class="form-control" style="margin-right: 10px;" type="password" id="pasper<?=$_SESSION['idper']?>" name="pasper" required oninput="comparar(<?=$_SESSION['idper']?>)">
+					    <i id="vpass<?=$_SESSION['idper']?>" class="fas fa-eye" onclick="verpass('pasper', 'vpass', <?=$_SESSION['idper']?>)"></i>
                     </div>
                     <div class="contra">
                         <label for="newpasper" class="labcon"><small><strong>Confirmar contraseña: </strong></small></label>
-                        <input class="form-control" type="password" id="newpasper<?=$_SESSION['idper']?>" name="newpasper" required oninput="comparar(<?=$_SESSION['idper']?>)">
+                        <input class="form-control" style="margin-right: 10px;" type="password" id="newpasper<?=$_SESSION['idper']?>" name="newpasper" required oninput="comparar(<?=$_SESSION['idper']?>)">
+                        <i id="vpassc<?=$_SESSION['idper']?>" class="fas fa-eye" onclick="verpass('newpasper', 'vpassc', <?=$_SESSION['idper']?>)"></i>
                     </div>
                     <small><small id="error-message<?=$_SESSION['idper']?>" style="color: red; display: none;"></small></small>
 				</div>
