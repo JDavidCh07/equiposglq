@@ -110,7 +110,7 @@ function titulo3($tx="Sin titulo"){
 	$txt .= "</h1>";
 	$txt .= "<hr class='lintit'>";
 	return $txt;
-}*/
+}
 
 function ayuda($pg){
 	$txt = '<div class="btnayu">';
@@ -224,5 +224,5 @@ function txtVisita(){
             }
         }
         return $output;
-    }
+    }*/
 ?>
