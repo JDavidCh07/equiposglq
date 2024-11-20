@@ -33,13 +33,13 @@
         font-weight: bold;
     }
 
-.contenedor{
-    margin: 350px auto 100PX auto;
-    padding: 0;
-    text-align: center;
-    display: block;
-    width: 100%;
-}
+    .contenedor{
+        margin: 350px auto 100PX auto;
+        padding: 0;
+        text-align: center;
+        display: block;
+        width: 100%;
+    }
 
 /** CARGANDO **/
 @keyframes chars{
@@ -107,7 +107,6 @@
     margin: 0 auto;
     background-color: rgba(7,54,99);
     border: 4px solid rgba(7,54,99);
-;
 }
 
 .barra {
@@ -126,19 +125,25 @@
     }
 }
 
-@media(max-width: 459px) {
+@media screen and (min-width: 451px) and (max-width: 1280px){
+    .contenedor{
+        margin: 175px auto 50PX auto;
+    }
+}
+
+@media screen and (max-width: 450px) {
     body {
         font-size: 2.5em;
     }
     .contenedor{
         width: 80%;
-        margin: 350px auto 50PX auto;
+        margin: 275px auto 50PX auto;
     }
 
     .carga {
         width: 70%;
     }
-  }
+}
 </style>
 
 <?php echo "<script>setTimeout(function(){ window.location.href = '../pmod.php'; }, 1950);</script>";?>
