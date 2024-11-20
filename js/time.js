@@ -198,6 +198,21 @@ function comparar(id) {
     }
 }
 
+function verpass(idinp, idbtn, id) {
+    const passwordInput = document.getElementById(idinp+id);
+    const eyeIcon = document.getElementById(idbtn+id);
+  
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');  
+    } else if (passwordInput.type === 'text'){
+        passwordInput.type = 'password';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+    }
+  }
+
 
 window.onload = function() {
     validarPermiso();
