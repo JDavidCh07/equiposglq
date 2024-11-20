@@ -102,6 +102,7 @@
                     <td>
                         <div class="row">
                             <div class="form-group col-md-10">
+                                <span style="font-size: 0px;opacity: 0;"><?=$dta['fecent'];?></span>
                                 <BIG><strong><?=$dta['prec']." - ".$dta['marca']." ".$dta['modelo'];?></strong></BIG>
                                 <small>
                                     <div class="row">
