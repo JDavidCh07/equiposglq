@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>GALQUI SAS</title>
     <link rel="icon" href="img/logo.png">
@@ -42,6 +42,7 @@
 	<header>
 		<?php
 		$_SESSION["idpef"] = NULL;
+		$_SESSION["idmod"] = NULL;
 		$_SESSION["nompef"] = "Módulos";
 		date_default_timezone_set('America/Bogota');
 		setlocale(LC_TIME, 'es_ES.UTF-8');
@@ -52,7 +53,7 @@
 		$ope = isset($_REQUEST['ope']) ? $_REQUEST['ope'] : NULL;
 		?>
 	</header>
-	<section class="cont">
+	<section class="contmod">
 		<?php 
 			if(!$_SESSION["idper"]) echo "<script>window.location.href = '404.php';</script>";
 			else require_once ('views/vpmod.php');
@@ -64,5 +65,4 @@
 		?>
 	</footer>
 </body>
-<script type="text/javascript">ocul(<?=$mos;?>,<?=$est;?>);</script>
 </html>
