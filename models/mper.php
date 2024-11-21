@@ -219,7 +219,7 @@ class Mper{
     //------------Persona-----------
     function getAll()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, pf.idpef, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval";
         if($_SESSION['idpef']==3) $sql .= " WHERE p.idper=:idper ";
         $sql .= " GROUP BY p.idper";
         $modelo = new conexion();
@@ -236,7 +236,7 @@ class Mper{
 
     function getOne()
     {
-        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, pf.idpef, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt, p.salt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval LEFT JOIN perxpef AS pf ON p.idper=pf.idper WHERE p.idper=:idper";
+        $sql = "SELECT p.idper, p.nomper, p.apeper, p.idvtpd, p.ndper, p.emaper, p.idvdpt, p.idvsex, p.cargo, p.usured, p.actper, vs.nomval AS sex, vt.nomval AS doc, vd.nomval AS dpt, p.salt FROM persona AS p INNER JOIN valor AS vt ON p.idvtpd=vt.idval INNER JOIN valor AS vs ON p.idvsex=vs.idval INNER JOIN valor AS vd ON p.idvdpt=vd.idval WHERE p.idper=:idper";
         $modelo = new conexion();
         $conexion = $modelo->get_conexion();
         $result = $conexion->prepare($sql);
@@ -737,7 +737,7 @@ class Mper{
     }
 
     function selectUsu(){
-		$sql = "SELECT idper, COUNT(*) AS sum FROM persona WHERE ndper=:ndper";
+		$sql = "SELECT idper, COUNT(*) AS sum FROM persona WHERE ndper=:ndper GROUP BY idper";
 		$modelo = new conexion();
 		$conexion = $modelo->get_conexion();
 		$result = $conexion->prepare($sql);
@@ -749,7 +749,7 @@ class Mper{
 	}
 
     function selectTaj(){
-		$sql = "SELECT idtaj, idperrec, COUNT(*) AS sum FROM tarjeta WHERE (numtajofi=:numtajofi OR numtajpar=:numtajpar) AND idperrec=:idperrec";
+		$sql = "SELECT idtaj, idperrec, COUNT(*) AS sum FROM tarjeta WHERE (numtajofi=:numtajofi OR numtajpar=:numtajpar) AND idperrec=:idperrec GROUP BY idtaj";
 		$modelo = new conexion();
 		$conexion = $modelo->get_conexion();
 		$result = $conexion->prepare($sql);
@@ -765,7 +765,7 @@ class Mper{
 	}
 
     function CompPef(){
-		$sql = "SELECT idpef, COUNT(*) AS sum FROM perfil WHERE idpef=:idpef";
+		$sql = "SELECT idpef, COUNT(*) AS sum FROM perfil WHERE idpef=:idpef GROUP BY idpef";
 		$modelo = new conexion();
 		$conexion = $modelo->get_conexion();
 		$result = $conexion->prepare($sql);
@@ -777,7 +777,7 @@ class Mper{
 	}
 
     function CompVal($id){
-		$sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:id";
+		$sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:id GROUP BY idval";
 		$modelo = new conexion();
 		$conexion = $modelo->get_conexion();
 		$result = $conexion->prepare($sql);

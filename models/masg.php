@@ -500,7 +500,7 @@
 
         function selectAsg()
         {
-            $sql = "SELECT ideqxpr, idperrec, COUNT(*) AS sum FROM asignar WHERE idequ=:idequ AND idperrec=:idperrec";
+            $sql = "SELECT ideqxpr, COUNT(*) AS sum FROM asignar WHERE idequ=:idequ AND idperrec=:idperrec GROUP BY ideqxpr";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -514,7 +514,7 @@
         }
 
         function selectEqu(){
-            $sql = "SELECT idequ, COUNT(*) AS sum FROM equipo WHERE serialeq=:serialeq";
+            $sql = "SELECT idequ, COUNT(*) AS sum FROM equipo WHERE serialeq=:serialeq GROUP BY idequ";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -526,7 +526,7 @@
         }
 
         function selectUsu(){
-            $sql = "SELECT idper, COUNT(*) AS sum FROM persona WHERE ndper=:ndper";
+            $sql = "SELECT idper, COUNT(*) AS sum FROM persona WHERE ndper=:ndper GROUP BY idper";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -538,7 +538,7 @@
         }
 
         function CompValOp(){
-            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:opecel";
+            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:opecel GROUP BY idval";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -550,7 +550,7 @@
         }
 
         function CompValAc(){
-            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:idvacc";
+            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:idvacc GROUP BY idval";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);

@@ -370,7 +370,7 @@
         }
 
         function selectEqu(){
-            $sql = "SELECT idequ, COUNT(*) AS sum FROM equipo WHERE serialeq=:serialeq";
+            $sql = "SELECT idequ, COUNT(*) AS sum FROM equipo WHERE serialeq=:serialeq GROUP BY idequ";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -382,7 +382,7 @@
         }
 
         function CompValTq(){
-            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:idvtpeq";
+            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:idvtpeq GROUP BY idval";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -394,7 +394,7 @@
         }
 
         function CompValTc(){
-            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:tipcon";
+            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:tipcon GROUP BY idval";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
@@ -406,7 +406,7 @@
         }
 
         function CompValPrg(){
-            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:idvprg";
+            $sql = "SELECT idval, COUNT(*) AS sum FROM valor WHERE idval=:idvprg GROUP BY idval";
             $modelo = new conexion();
             $conexion = $modelo->get_conexion();
             $result = $conexion->prepare($sql);
