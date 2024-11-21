@@ -3,15 +3,21 @@ require_once 'models/mmod.php';
 
 $mmod = new Mmod();
 
-$idmod = isset($_POST['idmod']) ? $_POST['idmod']:NULL;
-$idper = isset($_SESSION["idper"]) ? $_SESSION["idper"]:NULL;
-$idpef = isset($_POST['idpef']) ? $_POST['idpef']:NULL;
 $ope = isset($_REQUEST['ope']) ? $_REQUEST['ope']:NULL;
+$idper = isset($_SESSION["idper"]) ? $_SESSION["idper"]:NULL;
+
+if($ope=="dircc"){
+    $idmod = isset($_POST['idmod']) ? $_POST['idmod']:NULL;
+    $idpef = isset($_POST['idpef']) ? $_POST['idpef']:NULL;
+}elseif($ope=="cg"){
+    $idmod = 1;
+    $idpef = 3;  
+}
 
 $mosmdl = false;
 $datPfPrMd = NULL;
 
-if ($ope == "dircc" && $idper && $idmod) {
+if ($ope && $idper && $idmod) {
     $mmod->setIdmod($idmod);
 	$mmod->setIdpef($idpef);
     $datPfPrMd = $mmod->getOnePfPrMd();
