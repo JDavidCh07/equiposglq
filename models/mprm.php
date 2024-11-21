@@ -139,6 +139,7 @@
             $fecfin = $this->getFecfin();
             $ndper = $this->getNdper();
             $idvdpt = $this->getIdvdpt();
+            $idvtprm = $this->getIdvtprm();
             $estprm = $this->getEstprm();
             $sql ="SELECT r.idprm, r.noprm, r.fecini, r.fecfin, r.idvtprm, r.idvubi, r.rutpdf, DATE_FORMAT(r.fecini, '%e de %M de %Y') AS fini, DATE_FORMAT(r.fecini, '%h:%i %p') AS hini, DATE_FORMAT(r.fecfin, '%e de %M de %Y') AS ffin, DATE_FORMAT(r.fecfin, '%h:%i %p') AS hfin, r.sptrut, r.desprm, r.obsprm, r.estprm, r.fecsol, r.fecrev,
     -- Ajuste de duración con condiciones
@@ -155,6 +156,7 @@
             if($id=="prop") $sql .= " WHERE r.idper=:id";
             if($id=="rrhhf") $sql .= " WHERE r.estprm=3 OR r.estprm=4";
             if($id=="rrhhp") $sql .= " WHERE r.estprm=2";
+            if($id=="rrhhx") $sql .= " WHERE r.estprm=3 AND (r.idvtprm=41 OR r.idvtprm=42 OR r.idvtprm=43 OR r.idvtprm=44 OR r.idvtprm=48)";
             if($id==$_SESSION['idper']) $sql .= " WHERE r.idjef=:id AND r.estprm!=1";
             if($id=="bus"){
                 $sql .= " WHERE (r.estprm=3 OR r.estprm=4)";
@@ -162,6 +164,7 @@
 		        if($fecfin) $sql .= " AND DATE(r.fecini)<=:fecfin";
 		        if($ndper) $sql .= " AND pp.ndper LIKE CONCAT('%', :ndper, '%')";
 		        if($idvdpt) $sql .= " AND pp.idvdpt=:idvdpt";
+		        if($idvtprm) $sql .= " AND r.idvtprm=:idvtprm";
 		        if($estprm) $sql .= " AND r.estprm=:estprm";
                 $sql .= " ORDER BY r.fecini ASC";
             }
@@ -176,6 +179,7 @@
 		        if($fecfin) $result->bindParam(":fecfin", $fecfin);
 		        if($ndper) $result->bindParam(":ndper", $ndper);
 		        if($idvdpt) $result->bindParam(":idvdpt", $idvdpt);
+		        if($idvtprm) $result->bindParam(":idvtprm", $idvtprm);
 		        if($estprm) $result->bindParam(":estprm", $estprm);
             }
             $result->execute();
@@ -371,10 +375,12 @@
         function getAllGraf(){
             $fecini = $this->getFecini();
             $fecfin = $this->getFecfin();
+            $idvtprm = $this->getIdvtprm();
             $estprm = $this->getEstprm();
             $sql = "SELECT d.nomval AS dpto, COUNT(p.idvdpt) AS cn FROM permiso AS r INNER JOIN persona AS p ON r.idper=p.idper INNER JOIN valor AS d ON p.idvdpt=d.idval WHERE (r.estprm=3 OR r.estprm=4)";
             if($fecini) $sql .= " AND DATE(r.fecini)>=:fecini";
 		    if($fecfin) $sql .= " AND DATE(r.fecini)<=:fecfin";
+            if($idvtprm) $sql .= " AND r.idvtprm=:idvtprm";
 		    if($estprm) $sql .= " AND r.estprm=:estprm";
             $sql .= " GROUP BY d.idval, d.nomval";
             $modelo = new conexion();
@@ -382,6 +388,7 @@
             $result = $conexion->prepare($sql);
             if($fecini) $result->bindParam(":fecini", $fecini);
 		    if($fecfin) $result->bindParam(":fecfin", $fecfin);
+            if($idvtprm) $result->bindParam(":idvtprm", $idvtprm);
 		    if($estprm) $result->bindParam(":estprm", $estprm);
             $result->execute();
             $res = $result->fetchall(PDO::FETCH_ASSOC);
