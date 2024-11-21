@@ -20,7 +20,7 @@
     $cargo = isset($_POST['cargo']) ? strtoupper($_POST['cargo']):NULL;
     $usured = isset($_POST['usured']) ? strtolower($_POST['usured']):NULL;
     $actper = isset($_REQUEST['actper']) ? $_REQUEST['actper']:1;
-
+    
     //------------Contraseña-----------
     $pass = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
     $pasper = encripta($pass);
@@ -52,13 +52,13 @@
     $datOne=NULL;
     $datJxP=NULL;
     $pg = 53;
-
+    
     //------------Correo-----------
     $nombre = nombre($apeper." ".$nomper);
     $template = "views/mail.html";
     $mail_asun = "¡Bienvenido a nuestra app!";
-    $txt_mess = "Es un placer darle la bienvenida a nuestra nueva aplicación. A continuación, le proporcionamos sus credenciales de acceso:<br><br>
-    <strong>Usuario: </strong>".$ndper.(($emaper) ? "/".$emaper : "")."<br>
+    $txt_mess = "Es un placer darle la bienvenida a nuestra nueva aplicación, diseñada para que pueda solicitar y gestionar sus permisos laborales, como ausentismo o trabajo desde casa. A continuación, le proporcionamos sus credenciales de acceso:<br><br>
+    <strong>Usuario: </strong>".$ndper.(($emaper) ? " / ".$emaper : "")."<br>
     <strong>Contraseña: </strong>".$pass."<br><br>
     Le solicitamos que, al iniciar sesión por primera vez, cambie su contraseña para garantizar la seguridad de su cuenta.<br><br>
     Para acceder a la aplicación, ingrese en el siguiente enlace: <a href='".$url."'>App Galqui</a><br><br>
@@ -89,7 +89,10 @@
             $per = $mper->getOneSPxF($ndper); 
             $mper->savePxFAut($per[0]['idper'], $idpef);
             $mper->setIdper($per[0]['idper']);
-            if($emaper) sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+            if($emaper){ 
+                $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+                while ($exito==2) $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+            }
         }
         else{
             $mper->edit();
@@ -107,7 +110,7 @@
                 $mper->setIdjef($jf);
                 $mper->saveJxP($i+1);
             }
-        }}
+        }}            
         echo "<script>window.location='home.php?pg=".$pg."';</script>";
     }
 
@@ -185,6 +188,9 @@
     		// obtengo el valor de la celda
             $pf = 0;
             $idpefA = [];
+            $idjefi = NULL;
+            $idjefa = NULL;
+            $idper = NULL;
     		$nomper = $sheet->getCell("B" . $row)->getValue();
     		$apeper = $sheet->getCell("C" . $row)->getValue();
             $idvsex = $sheet->getCell("D" . $row)->getValue(); 
@@ -212,19 +218,19 @@
             }
     		$ndjefi = $sheet->getCell("M" . $row)->getValue();
             $mper->setNdper($ndjefi); 
-            $idjefi = $mper->selectUsu(); 
-            $idjefi = $idjefi[0]['idper'];
-    		$ndjefa = $sheet->getCell("O" . $row)->getValue();
+            $idjefia = $mper->selectUsu(); 
+            if($idjefia) $idjefi = $idjefia[0]['idper'];
+            $ndjefa = $sheet->getCell("O" . $row)->getValue();
             $mper->setNdper($ndjefa); 
-            $idjefa = $mper->selectUsu(); 
-            $idjefa = $idjefa[0]['idper'];
+            $idjefaa = $mper->selectUsu(); 
+            if($idjefaa) $idjefa = $idjefaa[0]['idper'];
             $pass = strtoupper(substr($nomper, 0, 1)).strtolower(substr($apeper, 0, 1)).$ndper."GLQ";
             $pasper = encripta($pass);
             $hash = $pasper['hash'];
             $salt = $pasper['salt'];
             $nombre = nombre($apeper." ".$nomper);
-            $txt_mess = "Es un placer darle la bienvenida a nuestra nueva aplicación. A continuación, le proporcionamos sus credenciales de acceso:<br><br>
-            <strong>Usuario: </strong>".$ndper.(($emaper) ? "/".$emaper : "")."<br>
+            $txt_mess = "Es un placer darle la bienvenida a nuestra nueva aplicación, diseñada para que pueda solicitar y gestionar sus permisos laborales, como ausentismo o trabajo desde casa. A continuación, le proporcionamos sus credenciales de acceso:<br><br>
+            <strong>Usuario: </strong>".$ndper.(($emaper) ? " / ".$emaper : "")."<br>
             <strong>Contraseña: </strong>".$pass."<br><br>
             Le solicitamos que, al iniciar sesión por primera vez, cambie su contraseña para garantizar la seguridad de su cuenta.<br><br>
             Para acceder a la aplicación, ingrese en el siguiente enlace: <a href='".$url."'>App Galqui</a><br><br>
@@ -244,16 +250,19 @@
             $mper->setHash($hash);
             $mper->setSalt($salt);
     		$existingData = $mper->selectUsu();
-            $idper = $existingData[0]['idper'];
-            $mper->setIdper($idper);
-    		if ($idvsex && $idvdpt && $idvtpd && count($idpefA)==$pf && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
+            if($existingData){
+                $idper = $existingData[0]['idper'];
+                $mper->setIdper($idper);
+    		} if($idvsex && $idvdpt && $idvtpd && count($idpefA)==$pf && (!$ndjefi OR ($ndjefi && $idjefi)) && (!$ndjefa OR ($ndjefa && $idjefa))) {
     		    if (!empty($ndper)) {
-    		    	if ($existingData[0]['sum'] == 0) {
+    		    	if (!$idper) {
     		    		$mper->save();
                         $per = $mper->getOneSPxF($ndper);
                         $mper->setIdper($per[0]['idper']);
-                        if($emaper) sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
-
+                        if($emaper){
+                            $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+                            while ($exito==2) $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+                        }
     		    	}else {
     		    		$mper->edit();
                         $mper->delPxF();
