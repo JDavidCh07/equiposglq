@@ -207,6 +207,14 @@ function ocul(mos=0,est=0){
             document.getElementById("mas").style.display = "inherit";
             document.getElementById("menos").style.display = "none";
         }
+    }else if(mos==2){
+      document.getElementById("frmins").style.display = "inherit";
+      document.getElementById("mas").style.display = "none";
+      document.getElementById("menos").style.display = "none";
+    } else {
+      document.getElementById("frmins").style.display = "none";
+      document.getElementById("mas").style.display = "none";
+      document.getElementById("menos").style.display = "none";
     }
 }
 

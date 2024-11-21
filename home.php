@@ -3,10 +3,9 @@ include("models/seguridad.php");
 ?>
 
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>GALQUI SAS</title>
     <link rel="icon" href="img/logo.png">
@@ -75,13 +74,16 @@ include("models/seguridad.php");
 		$est = 0;
 		$rut = validar($pg);
 		if ($rut) {
-			$mos = $rut[0]['mospag'];
+			if ($_SESSION['idpef']==3 && $pg==51) $mos = 0;
+			elseif ($_SESSION['idpef']==3 && $pg==53) $mos = 2;
+			elseif ($_SESSION['idpef']!=3 && $pg==101) $mos = 0;
+			else $mos = $rut[0]['mospag'];
 			if ($ope == "edi") $est = 1;
 			if (!$_SESSION['new']){
 				echo '<div id="cpass"></div>';
-				echo "<script>cpass('Para empezar, por favor cambia tu contraseña');</script>";
+				echo "<script>cpass('Para empezar, por favor <a class=\"lcon\" href=\"pmod.php?ope=cg\">cambia tu contraseña');</script>";
 			}
-			titulo($rut[0]['icono'], $rut[0]['nompag'], $rut[0]['mospag'], $pg);
+			titulo($rut[0]['icono'], $rut[0]['nompag'], $mos, $pg);
 			echo '<div id="err"></div>';
 			echo "<script>err();</script>";
 			echo '<div id="satf"></div>';

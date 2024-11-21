@@ -2,13 +2,8 @@
 
 //------------Titulos-----------
 function titulo($ico, $tit, $mos, $pg){
-	if($_SESSION['idpef']==3 && $pg==51){
-		$tit = "Asignaciones";
-		$mos = 0;
-	}if($_SESSION['idpef']==3 && $pg==53){
-		$tit = "Datos Personales";
-		$mos = 0;
-	}if($_SESSION['idpef']!=3 && $pg==101) $mos = 0;
+	if($_SESSION['idpef']==3 && $pg==51) $tit = "Asignaciones";
+	if($_SESSION['idpef']==3 && $pg==53) $tit = "Datos Personales";
 	$txt = '';
 	$txt .= '<div class="titu">';
 		$txt .= '<div class="titaju">';
@@ -19,7 +14,7 @@ function titulo($ico, $tit, $mos, $pg){
 		if ($mos == 1) {
 			$txt .= '<div class="titaju" style="float: right;">';
 				$txt .= '<i class="fa-solid fa-circle-plus" id="mas" onclick="ocul(' . $mos . ',1);"></i>';
-				$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ');"></i>';
+				$txt .= '<i class="fa-solid fa-circle-minus" id="menos" onclick="ocul(' . $mos . ',0);"></i>';
 			$txt .= '</div>';
 		}
 	$txt .= '</div>';
