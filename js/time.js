@@ -6,6 +6,8 @@ function validarHora(input) {
     const selectedDate = new Date(input.value);
     const horaini = fecini.getHours();
     const horafin = fecfin.getHours();
+    const minini = fecini.getMinutes();
+    const minfin = fecfin.getMinutes();
     const hora = selectedDate.getHours();
     const minutos = selectedDate.getMinutes();
     
@@ -26,19 +28,6 @@ function validarHora(input) {
         submitBtn.disabled = false;
     }
 
-    // Validar que fecfin no sea menor que fecini
-    if (fecfin < fecini) {
-        document.getElementById("fecfin").style.borderColor = "red";
-        document.getElementById("error-message-fecfin").textContent = "La fecha final no puede ser menor que la fecha inicial.";
-        document.getElementById("error-message-fecfin").style.display = "block";
-        submitBtn.disabled = true;
-        return; // Salir si hay un error
-    } else {
-        document.getElementById("fecfin").style.borderColor = "";
-        document.getElementById("error-message-fecfin").style.display = "none";
-        submitBtn.disabled = false;
-    }
-
     // Validar que la hora esté en intervalos de 30 minutos
     if (minutos % 30 !== 0) {
         input.style.borderColor = "red";
@@ -52,18 +41,47 @@ function validarHora(input) {
         submitBtn.disabled = false;
     }
 
+    // Validar que fecfin no sea menor que fecini
+    if (fecfin.getTime() < fecini.getTime()) {
+        input.style.borderColor = "red";
+        errorMessage.textContent = "La fecha final no puede ser menor que la fecha inicial.";
+        errorMessage.style.display = "block";
+        submitBtn.disabled = true;
+        return; // Salir si hay un error
+    } else if (fecfin.getTime() === fecini.getTime()){
+        input.style.borderColor = "red";
+        errorMessage.textContent = "Las fechas no pueden ser iguales.";
+        errorMessage.style.display = "block";
+        submitBtn.disabled = true;
+        return; // Salir si hay un error
+    }else {
+        input.style.borderColor = "";
+        errorMessage.style.display = "none";
+        submitBtn.disabled = false;
+    }
+
+    if ((hora === 13 && (minutos > 0 && minutos <= 59))) {
+        input.style.borderColor = "red";
+        errorMessage.textContent = "Es hora de almuerzo (1:00 PM - 2:00 PM).";
+        errorMessage.style.display = "block";
+        submitBtn.disabled = true;
+        return; // Salir si hay un error
+    } else {
+        input.style.borderColor = "";
+        errorMessage.style.display = "none";
+        submitBtn.disabled = false;
+    }
+
     // Verificar si es hora de almuerzo (entre 1:00 PM y 2:00 PM)
-    if (horaini === 13 && horafin === 14) {
+    if ((horaini === 13 && (minini>=0 && minini<=59)) && ((horafin === 14 && minfin === 0) || (horafin === 13 && minfin>=0 && minfin<=59))) {
         input.style.borderColor = "red";
         errorMessage.textContent = "Es hora de almuerzo (1:00 PM - 2:00 PM).";
         errorMessage.style.display = "block";
         submitBtn.disabled = true;
         return; // Salir si es hora de almuerzo
     } else {
-        document.getElementById("error-message-fecini").style.display = "none";
-        document.getElementById("error-message-fecfin").style.display = "none";
-        document.getElementById("fecini").style.borderColor = "";
-        document.getElementById("fecfin").style.borderColor = "";
+        input.style.borderColor = "";
+        errorMessage.style.display = "none";
         submitBtn.disabled = false;
     }
 
@@ -88,10 +106,8 @@ function validarHora(input) {
         submitBtn.disabled = true;
         return;
     } else {
-        document.getElementById("error-message-fecini").style.display = "none";
-        document.getElementById("error-message-fecfin").style.display = "none";
-        document.getElementById("fecini").style.borderColor = "";
-        document.getElementById("fecfin").style.borderColor = "";
+        input.style.borderColor = "";
+        errorMessage.style.display = "none";
         submitBtn.disabled = false;
     }
 }
@@ -215,6 +231,8 @@ function verpass(idinp, idbtn, id) {
 
 
 window.onload = function() {
+    validarHora("fecini");
+    validarHora("fecfin");
     validarPermiso();
     actualizarMinMax(); // Asegurarse de que los límites min/max se actualicen al cargar
     actMinMax();
