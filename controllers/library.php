@@ -730,6 +730,30 @@ function modalRecPrm($nm, $id, $tit){
 	echo $txt;
 }
 
+//------------Modal vprm, excel-----------
+function modalExport($fi, $ff, $n, $d) {
+    $txt = '';
+	$txt .= '<div class="modal fade" id="export" tabindex="-1" aria-labelledby="" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog modal-dialog-centered">';
+			$txt .= '<div class="modal-content">';
+				$txt .= '<div class="modal-header">';
+					$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #000;font-weight: bold !important;"><strong>Exportar excel</strong></h1>';
+					$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+				$txt .= '</div>';
+				$txt .= '<div class="modal-body">';
+					$txt .= '<div>';
+                	    $txt .= '<li><a style="color: #000" href="excel/xprm.php?exl=aus&'.(($d) ? "d=".$d."&" : "").(($fi) ? "fi=".$fi."&" : "").(($n) ? "n=".$n."&" : "").(($ff) ? "ff=".$ff : "").'"><big>Ausentismos</big></a></li>';
+                	    $txt .= '<li><a style="color: #000" href="excel/xprm.php?exl=prm"><big>Permisos</big></a></li>';
+                	$txt .= '</div>';
+				$txt .= '</div>';
+				$txt .= '<div class="modal-footer">';
+				$txt .= '</div>';
+			$txt .= '</div>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
 //------------Modal vper, Cambiar contraseña-----------
 function modalCamPass($nm, $id, $tit){	
 	$txt = '';

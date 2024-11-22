@@ -56,14 +56,10 @@ if($_SESSION['idpef']==4){?>
                     </button>
                 </div>
                 <div>
-                    <a href="excel/xprma.php?<?php if($idvdpt)echo"d=".$idvdpt."&";if($fecini)echo"fi=".$fecini."&";if($ndper)echo"n=".$ndper."&";if($fecfin)echo"ff=".$fecfin; ?>" title="Exportar ausentismos">
-                        <i class="fa fa-solid fa-file-export fa-2x ext"></i>
-                    </a>
-                </div>
-                <div>
-                    <a href="excel/xprmt.php" title="Exportar permisos">
-                        <i class="fa fa-solid fa-file-export fa-2x ext"></i>
-                    </a>
+                    <?php 
+                        modalExport($fecini, $fecfin, $ndper, $idvdpt);
+                    ?>
+                    <i class="fa fa-solid fa-file-export fa-2x act" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#export" title="Exportar"></i>                                
                 </div>
                 <?php if($datGra){ ?>
                     <div>
