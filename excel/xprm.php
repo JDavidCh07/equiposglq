@@ -38,7 +38,7 @@
             $mprm->setEstprm(3);
             $datAll = $mprm->getAll("bus");
        } else $datAll = $mprm->getAll("rrhhx");
-    } else if ($excel == "prm") $datAll = $mprm->getAll("rrhhx");
+    } else if ($excel == "prm") $datAll = $mprm->getAll("rrhhf");
 
     // Crear o seleccionar la hoja
     $sheet = $spreadsheet->getActiveSheet();
