@@ -309,6 +309,7 @@ INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvsex`, `idvtpd`, `ndper`,
 
 
 INSERT INTO `jefxper` (`idjef`, `idper`, `tipjef`) VALUES
+(1, 1, 1),
 (3, 4, 1);
 -- --------------------------------------------------------
 
