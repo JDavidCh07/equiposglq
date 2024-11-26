@@ -58,9 +58,10 @@
     $template = "views/mail.html";
     $mail_asun = "¡Bienvenido a nuestra app!";
     $txt_mess = "Es un placer darle la bienvenida a nuestra nueva aplicación, diseñada para que pueda solicitar y gestionar sus permisos laborales, como ausentismo o trabajo desde casa. A continuación, le proporcionamos sus credenciales de acceso:<br><br>
-    <strong>Usuario: </strong>".$ndper.(($emaper) ? " / ".$emaper : "")."<br>
-    <strong>Contraseña: </strong>".$pass."<br><br>
-    Le solicitamos que, al iniciar sesión por primera vez, cambie su contraseña para garantizar la seguridad de su cuenta.<br><br>
+    <li><strong>Usuario: </strong>".$ndper.(($emaper) ? " / ".$emaper : "")."</li>
+    <li><strong>Contraseña: </strong>".$pass."</li><br>
+    <mark><strong>Importante:</strong></mark><br><br>
+    Para garantizar la seguridad de su cuenta, se le solicita el cambio de contraseña la primera vez que inicie sesión.<br><br>
     Para acceder a la aplicación, ingrese en el siguiente enlace: <a href='".$url."'>App Galqui</a><br><br>
     Si tiene alguna pregunta o requiere asistencia, no dude en ponerse en contacto con nosotros.<br><br>
     Agradecemos su confianza y esperamos que disfrute de la nueva experiencia.<br><br>";
@@ -230,9 +231,10 @@
             $salt = $pasper['salt'];
             $nombre = nombre($apeper." ".$nomper);
             $txt_mess = "Es un placer darle la bienvenida a nuestra nueva aplicación, diseñada para que pueda solicitar y gestionar sus permisos laborales, como ausentismo o trabajo desde casa. A continuación, le proporcionamos sus credenciales de acceso:<br><br>
-            <strong>Usuario: </strong>".$ndper.(($emaper) ? " / ".$emaper : "")."<br>
-            <strong>Contraseña: </strong>".$pass."<br><br>
-            Le solicitamos que, al iniciar sesión por primera vez, cambie su contraseña para garantizar la seguridad de su cuenta.<br><br>
+            <li><strong>Usuario: </strong>".$ndper.(($emaper) ? " / ".$emaper : "")."</li>
+            <li><strong>Contraseña: </strong>".$pass."</li><br>
+            <mark><strong>Importante:</strong></mark><br><br>
+            Para garantizar la seguridad de su cuenta, se le solicita el cambio de contraseña la primera vez que inicie sesión.<br><br>
             Para acceder a la aplicación, ingrese en el siguiente enlace: <a href='".$url."'>App Galqui</a><br><br>
             Si tiene alguna pregunta o requiere asistencia, no dude en ponerse en contacto con nosotros.<br><br>
             Agradecemos su confianza y esperamos que disfrute de la nueva experiencia.<br><br>";
