@@ -660,10 +660,10 @@ function modalInfPrm($nm, $id, $det){
 				$txt .= '</div>';
 				$txt .= '<div class="modal-body" style="margin: 0px 25px;">';
 					$txt .= '<div class="row">';
-						if($det[0]["ijef"] && $det[0]["ijef"]==$_SESSION['idper']){
+						if($det[0]["iper"]==$_SESSION['idper'] OR $_SESSION['idpef']==3){
 							$txt .= '<div class="form-group col-md-4"><strong>Solicitado a: </strong></div>';
 							$txt .= '<div class="form-group col-md-8">'.$det[0]["njef"].' '.$det[0]["ajef"].'</div>';
-						}if($det[0]["iper"] && $det[0]["iper"]==$_SESSION['idper']){
+						}if($det[0]["ijef"]==$_SESSION['idper'] OR $_SESSION['idpef']==3){
 							$txt .= '<div class="form-group col-md-4"><strong>Solicitado por: </strong></div>';
 							$txt .= '<div class="form-group col-md-8">'.$det[0]["nper"].' '.$det[0]["aper"].'</div>';
 						}
