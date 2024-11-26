@@ -1,5 +1,35 @@
 // ---------- Permisos -----------
 
+document.getElementById("fecfin").addEventListener("change", validarFormulario);
+document.getElementById("fecini").addEventListener("change", function() {
+    validarFormulario();
+    actualizarMinMax();
+});
+
+function validarFormulario() {
+    const feciniInput = document.getElementById("fecini");
+    const fecfinInput = document.getElementById("fecfin");
+    
+    const submitBtn = document.getElementById("btns");
+
+    submitBtn.disabled = true;
+    
+    let feciniValido = true
+    let fecfinValido = true
+
+    if(feciniInput.value){
+        feciniValido = validarHora(feciniInput);
+    }
+    
+    if(fecfinInput.value){
+        fecfinValido = validarHora(fecfinInput);
+    }
+
+    if (feciniValido && fecfinValido) {
+        submitBtn.disabled = false;
+    }
+}
+
 function validarHora(input) {
     const fecini = new Date(document.getElementById("fecini").value);
     const fecfin = new Date(document.getElementById("fecfin").value);
@@ -10,79 +40,40 @@ function validarHora(input) {
     const minfin = fecfin.getMinutes();
     const hora = selectedDate.getHours();
     const minutos = selectedDate.getMinutes();
-    
+
     let errorMessageId = (input.id === "fecini") ? "error-message-fecini" : "error-message-fecfin";
     const errorMessage = document.getElementById(errorMessageId);
-    const submitBtn = document.getElementById("btns");
 
     // Validar que la hora esté entre 8:00 AM y 5:30 PM
     if (hora < 8 || (hora === 17 && minutos > 30) || hora > 17) {
-        input.style.borderColor = "red";
-        errorMessage.textContent = "La hora debe estar entre las 8:00 AM y las 5:30 PM.";
-        errorMessage.style.display = "block";
-        submitBtn.disabled = true;
-        return; // Salir si hay un error
-    } else {
-        input.style.borderColor = "";
-        errorMessage.style.display = "none";
-        submitBtn.disabled = false;
+        mostrarError(input, errorMessage, "La hora debe estar entre las 8:00 AM y las 5:30 PM.")
+        return false;
     }
 
-    // Validar que la hora esté en intervalos de 30 minutos
-    if (minutos % 30 !== 0) {
-        input.style.borderColor = "red";
-        errorMessage.textContent = "La hora debe estar en intervalos de 30 minutos.";
-        errorMessage.style.display = "block";
-        submitBtn.disabled = true;
-        return; // Salir si hay un error
-    } else {
-        input.style.borderColor = "";
-        errorMessage.style.display = "none";
-        submitBtn.disabled = false;
+    // Validar que la hora esté en intervalos 15 minutos
+    if (minutos % 15 !== 0) {
+        mostrarError(input, errorMessage, "La hora debe estar en intervalos de 15 minutos.");
+        return false;
     }
 
     // Validar que fecfin no sea menor que fecini
     if (fecfin.getTime() < fecini.getTime()) {
-        input.style.borderColor = "red";
-        errorMessage.textContent = "La fecha final no puede ser menor que la fecha inicial.";
-        errorMessage.style.display = "block";
-        submitBtn.disabled = true;
-        return; // Salir si hay un error
+        mostrarError(input, errorMessage, "La fecha final no puede ser menor que la fecha inicial.");
+        return false;
     } else if (fecfin.getTime() === fecini.getTime()){
-        input.style.borderColor = "red";
-        errorMessage.textContent = "Las fechas no pueden ser iguales.";
-        errorMessage.style.display = "block";
-        submitBtn.disabled = true;
-        return; // Salir si hay un error
-    }else {
-        input.style.borderColor = "";
-        errorMessage.style.display = "none";
-        submitBtn.disabled = false;
+        mostrarError(input, errorMessage, "Las fechas no pueden ser iguales.");
+        return false;
     }
 
     if ((hora === 13 && (minutos > 0 && minutos <= 59))) {
-        input.style.borderColor = "red";
-        errorMessage.textContent = "Es hora de almuerzo (1:00 PM - 2:00 PM).";
-        errorMessage.style.display = "block";
-        submitBtn.disabled = true;
-        return; // Salir si hay un error
-    } else {
-        input.style.borderColor = "";
-        errorMessage.style.display = "none";
-        submitBtn.disabled = false;
+        mostrarError(input, errorMessage, "Es hora de almuerzo (1:00 PM - 2:00 PM).");
+        return false;
     }
 
     // Verificar si es hora de almuerzo (entre 1:00 PM y 2:00 PM)
     if ((horaini === 13 && (minini>=0 && minini<=59)) && ((horafin === 14 && minfin === 0) || (horafin === 13 && minfin>=0 && minfin<=59))) {
-        input.style.borderColor = "red";
-        errorMessage.textContent = "Es hora de almuerzo (1:00 PM - 2:00 PM).";
-        errorMessage.style.display = "block";
-        submitBtn.disabled = true;
-        return; // Salir si es hora de almuerzo
-    } else {
-        input.style.borderColor = "";
-        errorMessage.style.display = "none";
-        submitBtn.disabled = false;
+        mostrarError(input, errorMessage, "Es hora de almuerzo (1:00 PM - 2:00 PM).");
+        return false;
     }
 
     // Validar jornada laboral
@@ -100,17 +91,24 @@ function validarHora(input) {
 
     // Verificar si la duración total supera las 8 horas y 30 minutos
     if (totalMinutes > (8 * 60 + 30)) { // 8 horas y 30 minutos en minutos
-        input.style.borderColor = "red";
-        errorMessage.textContent = "El permiso no puede ser mayor a la jornada laboral.";
-        errorMessage.style.display = "block";
-        submitBtn.disabled = true;
-        return;
-    } else {
-        input.style.borderColor = "";
-        errorMessage.style.display = "none";
-        submitBtn.disabled = false;
+        mostrarError(input, errorMessage, "El permiso no puede ser mayor a la jornada laboral.");
+        return false;
     }
+
+    input.style.borderColor = "";
+    errorMessage.style.display = "none";
+    return true;    
 }
+
+function mostrarError(input, errorMessage, mensaje) {
+    const submitBtn = document.getElementById("btns");
+
+    input.style.borderColor = "red";
+    errorMessage.textContent = mensaje;
+    errorMessage.style.display = "block";
+    submitBtn.disabled = true;
+}
+
 
 function validarPermiso() {
     const select = document.getElementById("idvtprm");
@@ -231,8 +229,6 @@ function verpass(idinp, idbtn, id) {
 
 
 window.onload = function() {
-    validarHora("fecini");
-    validarHora("fecfin");
     validarPermiso();
     actualizarMinMax(); // Asegurarse de que los límites min/max se actualicen al cargar
     actMinMax();
