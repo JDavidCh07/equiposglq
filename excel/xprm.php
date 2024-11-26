@@ -198,14 +198,11 @@
         $totmindia = (8*60) + 30;
         list($h, $m, $s) = explode(':', $time);
         $totminreg = ($h * 60) + $m + ($s / 60);
+        $minxdia = $days * $totmindia;
 
-        if($num==1){
-            $minxdia = $days * $totmindia;
-            $tot = ($totminreg + $minxdia)/$totmindia;
-        }else if($num==2){
-            $minxdia = $days * $totmindia;
-            $tot = ($totminreg + $minxdia)/60;
-        }
+        if($num==1) $tot = ($totminreg + $minxdia)/$totmindia;
+        else if($num==2) $tot = ($totminreg + $minxdia)/60;
+        
         return number_format($tot, 2, ",", "");
     }
 ?>
