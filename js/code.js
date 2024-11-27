@@ -124,13 +124,15 @@ function confirmar(nom, url) {
   }
 }
 
-function pdf(pdfPath) {
+function pdf(idpdf, arc, nom) {
   var w = window.innerWidth * 0.8;
   var h = window.innerHeight * 0.8;
   var l = (window.innerWidth - w) / 2;
   var t = (window.innerHeight - h) / 2;
 
-  window.open(pdfPath, 'Vista Previa', 'width=' + w + ',height=' + h + ',left=' + l + ',top=' + t);
+  var pdfPath = 'pdf.php?id='+idpdf+'&arc='+arc+'';
+  var windownom = window.open(pdfPath, nom, 'width=' + w + ',height=' + h + ',left=' + l + ',top=' + t);
+  windownom.document.title = nom;
 }
 
 $('ul li').on('click', function() {

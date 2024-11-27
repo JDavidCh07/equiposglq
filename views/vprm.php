@@ -179,9 +179,9 @@ if($_SESSION['idpef']==4){?>
                                 $det = $mprm->getOne();
                                 modalInfPrm("mcbprm", $dta['idprm'], $det);
                             if($_SESSION['idpef']==3 && $dta['sptrut'] && file_exists($dta['sptrut'])) { ?>
-                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['sptrut'] ?>')"></i>
+                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'spt', '<?= basename($dta['sptrut']) ?>')"></i>
                             <?php } elseif($_SESSION['idpef']==4 && $dta['rutpdf'] && file_exists($dta['rutpdf'])) { ?>
-                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['rutpdf'] ?>')"></i>
+                                <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'pdf', '<?= basename($dta['rutpdf']) ?>')"></i>
                             <?php } ?>
                         </div>
                     </div>
@@ -294,7 +294,7 @@ if($_SESSION['idpef']==4){?>
                                     $det = $mprm->getOne();
                                     modalInfPrm("mcbprm", $slp['idprm'], $det);
                                 if($slp['rutpdf'] && file_exists($slp['rutpdf'])) { ?>
-                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $slp['rutpdf'] ?>')"></i>
+                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'pdf', '<?= basename($dta['rutpdf']) ?>')"></i>
                                 <?php } ?>
                             </div>
                         </div>

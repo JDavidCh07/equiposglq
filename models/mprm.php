@@ -372,6 +372,21 @@
             return $res;
         }
 
+        function getPdf($arc){
+            $sql = "SELECT";
+            if($arc=="spt") $sql .= " sptrut";
+            elseif($arc=="pdf") $sql .= " rutpdf";
+            $sql .= " AS rut FROM permiso WHERE idprm=:idprm";
+            $modelo = new conexion();
+            $conexion = $modelo->get_conexion();
+            $result = $conexion->prepare($sql);
+            $idprm = $this->getIdprm();
+            $result->bindParam(":idprm", $idprm);
+            $result->execute();
+            $res = $result->fetchall(PDO::FETCH_ASSOC);
+            return $res;
+        }
+
         function getAllGraf(){
             $fecini = $this->getFecini();
             $fecfin = $this->getFecfin();
