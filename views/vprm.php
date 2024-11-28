@@ -294,7 +294,7 @@ if($_SESSION['idpef']==4){?>
                                     $det = $mprm->getOne();
                                     modalInfPrm("mcbprm", $slp['idprm'], $det);
                                 if($slp['rutpdf'] && file_exists($slp['rutpdf'])) { ?>
-                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $dta['idprm'] ?>', 'pdf', '<?= basename($dta['rutpdf']) ?>')"></i>
+                                    <i class="fa fa-solid fa-file-pdf iconi" onclick="pdf('<?= $slp['idprm'] ?>', 'pdf', '<?= basename($slp['rutpdf']) ?>')"></i>
                                 <?php } ?>
                             </div>
                         </div>

@@ -180,7 +180,6 @@ CREATE TABLE `pagxpef` (
 INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
 (53, 4),
 (101, 4),
-(101, 3),
 (51, 2),
 (52, 2),
 (53, 2),

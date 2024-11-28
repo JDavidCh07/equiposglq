@@ -46,6 +46,8 @@ $logob64 = "data:image/png;base64,".base64_encode(file_get_contents($logo));
 $mprm->setIdprm($idprm);
 $comest = $mprm->getOne();
 
+$intentos = 5;
+
 if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
     $mprm->setNoprm($noprm);
     $mprm->setEstprm($estprm);
@@ -273,9 +275,13 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
         Adjunto a este correo se encuentra el formato debidamente diligenciado.<br><br>
         En los siguientes enlaces podrá aceptar o rechazar la solicitud respectivamente";
         
+        $c = 0;
         $exito = sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link, $url, "../");
-        while ($exito==2) $exito = sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link, $url, "../");
-    } elseif($estprm==3 || $estprm==4){
+        while ($exito==2 && $c<$intentos){
+            $exito = sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link, $url, "../");
+            sleep(5);
+            $c++;
+    }} elseif($estprm==3 || $estprm==4){
         $template="../views/mail.html";
         
         if($estprm==3){
@@ -285,20 +291,34 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
             $txt_mess = "Informamos que ".$nompa." ha aprobado el permiso de ".$nompp." para el día ".$fec." de ".$det['hini']." a ".$det['hfin']."<br><br>
             Adjunto a este correo se encuentra el formato diligenciado con la aprobación.<br><br>.";
 
+            $c = 0;
             $exito = sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
-            while ($exito==2) sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
+            while ($exito==2 && $c<$intentos){
+                $exito = sendemail($ema, $psem, $nom, $rrhh, $nomrh, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
+                sleep(5);
+                $c++;
+            }
+
+            $c = 0;
             $exito = sendemail($ema, $psem, $nom, $diradm, $nomadm, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
-            while ($exito==2) sendemail($ema, $psem, $nom, $diradm, $nomadm, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
-        }
+            while ($exito==2 && $c<$intentos){
+                $exito = sendemail($ema, $psem, $nom, $diradm, $nomadm, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
+                sleep(5);
+                $c++;
+        }}
         //-------Datos correo colaborador--------
         $mail_asun = (($estprm==3) ? "Aprobación" : "Rechazo"). " Permiso - ".$fec;
         $txt_mess = "";
         $txt_mess = "Te informamos que el permiso solicitado para el día ".$fec." ha sido ".(($estprm==3) ? "aprobado" : "rechazado"). " por ".$nompa."<br><br>
         Adjunto a este correo se encuentra el formato con la respuesta.<br><br>.";
 
+        $c = 0;
         $exito = sendemail($ema, $psem, $nom, $mailp, $nompp, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
-        while ($exito==2) sendemail($ema, $psem, $nom, $mailp, $nompp, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
-}}
+        while ($exito==2 && $c<$intentos){
+            $exito = sendemail($ema, $psem, $nom, $mailp, $nompp, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
+            sleep(5);
+            $c++;
+}}}
 
 function nombre($nombre){
     $partesp = explode(" ", $nombre);

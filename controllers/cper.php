@@ -52,6 +52,7 @@
     $datOne=NULL;
     $datJxP=NULL;
     $pg = 53;
+    $intentos = 5;
     
     //------------Correo-----------
     $nombre = nombre($apeper." ".$nomper);
@@ -91,9 +92,15 @@
             $mper->savePxFAut($per[0]['idper'], $idpef);
             $mper->setIdper($per[0]['idper']);
             if($emaper){ 
+                $c = 0;
                 $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
-                while ($exito==2) $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+                while ($exito==2 && $c<$intentos){
+                    $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+                    sleep(5);
+                    $c++;
             }
+            echo '<script>err("Ooops... No se pudo enviar el correo.");</script>';
+        }
         }
         else{
             $mper->edit();
@@ -111,8 +118,8 @@
                 $mper->setIdjef($jf);
                 $mper->saveJxP($i+1);
             }
-        }}            
-        echo "<script>window.location='home.php?pg=".$pg."';</script>";
+        }}           
+        echo "<script>setTimeout(function(){ window.location='home.php?pg=".$pg."';}, 5000);</script>";
     }
 
     if($ope=="act" && $idper && $actper){
@@ -262,9 +269,13 @@
                         $per = $mper->getOneSPxF($ndper);
                         $mper->setIdper($per[0]['idper']);
                         if($emaper){
+                            $c = 0;
                             $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
-                            while ($exito==2) $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
-                        }
+                            while ($exito==2 && $c<$intentos){
+                                $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
+                                sleep(5);
+                                $c++;
+                        }}
     		    	}else {
     		    		$mper->edit();
                         $mper->delPxF();
