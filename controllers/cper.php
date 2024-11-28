@@ -98,11 +98,9 @@
                     $exito = sendemail($ema, $psem, $nom, $emaper, $nombre, "", $txt_mess, $mail_asun, $fir_mail, $template, "", "", "");
                     sleep(5);
                     $c++;
-            }
-            echo '<script>err("Ooops... No se pudo enviar el correo.");</script>';
-        }
-        }
-        else{
+                }
+                if($exito==2) echo '<script>err("Ooops... No se pudo enviar el correo.");</script>';
+        }}else{
             $mper->edit();
             if($idper == $_SESSION["idper"]){
                 $_SESSION['nomper'] = $nomper;
