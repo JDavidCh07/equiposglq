@@ -244,7 +244,7 @@ if($_SESSION['idpef']!=3){ ?>
                         <input class="form-control" style="margin-right: 10px;" type="password" id="newpasper<?=$_SESSION['idper']?>" name="newpasper" required oninput="comparar(<?=$_SESSION['idper']?>)">
                         <i id="vpassc<?=$_SESSION['idper']?>" class="fas fa-eye" onclick="verpass('newpasper', 'vpassc', <?=$_SESSION['idper']?>)"></i>
                     </div>
-                    <small><small id="error-message<?=$_SESSION['idper']?>" style="color: red; display: none;"></small></small>
+                    <small><small id="error-message<?=$_SESSION['idper']?>" style=" display: none;"></small></small>
 				</div>
 				<div class="modal-footer">
 					<input type="hidden" value="<?=$_SESSION['idper']?>" name="idper">

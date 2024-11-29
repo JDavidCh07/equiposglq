@@ -185,10 +185,11 @@ function contar() {
     const textarea = document.getElementById('desprm');
     const boton = document.getElementById('btns');
     const mensaje = document.getElementById('error-message-des');
+    const content = textarea.value;
 
-    const longitud = textarea.value.length;
+    const regex = /^(?!\s|0)(?!.*\s{2,}$)(?!\s*$|0$|null$).{20,}$/;
 
-    if (longitud <= 20) {
+    if (!regex.test(content)) {
         textarea.style.borderColor = "red";
         mensaje.textContent = "La justificación debe ser mas larga.";
         mensaje.style.display = "block";
@@ -207,10 +208,23 @@ function comparar(id) {
     const mensaje = document.getElementById('error-message'+id);
     const boton = document.getElementById('btncon'+id);
     
+    const regex = /^(?!\s|0|null$)(?!.*\bnull\b)(?=(.*[a-z]))(?=(.*[A-Z]))(?=(.*\d))(?=(.*[\W_])).{6,}$/;
+
+    if (!regex.test(pass.value)) {
+        mensaje.innerHTML = "La contraseña debe tener al menos 6 caracteres y contener:<li>Una letra mayúscula.</li><li>Una letra minúscula.</li><li>Un número.</li><li>Un carácter especial,</li>";
+        mensaje.style.display = "block";
+        mensaje.style.color = "black";
+        mensaje.style.opacity = "0.8";
+        boton.disabled = true;
+        return; // Detener ejecución si alguna contraseña no es válida
+    }
+
     if (pass.value !== pass1.value ) {
         pass1.style.borderColor = "red";
         mensaje.textContent = "Las contraseñas no coinciden.";
         mensaje.style.display = "block";
+        mensaje.style.color = "red";
+        mensaje.style.opacity = "1";
         boton.disabled = true;
         return;
     } else {
