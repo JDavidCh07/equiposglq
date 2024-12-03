@@ -30,7 +30,7 @@ $idprm = isset($_REQUEST['idprm']) ? $_REQUEST['idprm']:NULL;
 $estprm = isset($_REQUEST['estprm']) ? $_REQUEST['estprm']:NULL;
 $obsprm = isset($_POST['obsprm']) ? $_POST['obsprm']:NULL;
 $idrev = isset($_REQUEST['idrev']) ? $_REQUEST['idrev']:NULL;
-$numprm = array_reverse($mprm->getAll(3));
+$numprm = array_reverse($mprm->getAll("prop"));
 
 if ($numprm){
     foreach($numprm AS $np){
