@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS equiposglq;
-CREATE DATABASE equiposglq;
-USE equiposglq;
+DROP DATABASE IF EXISTS glqapp;
+CREATE DATABASE glqapp;
+USE glqapp;
 --
--- Base de datos: `equiposglq`
+-- Base de datos: `glqapp`
 --
 
 -- --------------------------------------------------------
@@ -12,9 +12,34 @@ USE equiposglq;
 --
 
 CREATE TABLE `accxequi` (
-  `idacxeq` bigint(11) NOT NULL,
   `ideqxpr` bigint(11) NOT NULL,
   `idvacc` bigint(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asignar`
+--
+
+CREATE TABLE `asignar` (
+  `ideqxpr` bigint(11) NOT NULL,
+  `idequ` bigint(11) DEFAULT NULL,
+  `idperent` bigint(11) NOT NULL,
+  `idperrec` bigint(11) NOT NULL,
+  `fecent` date DEFAULT NULL,
+  `observ` varchar(1000) DEFAULT NULL,
+  `firent` varchar(255) DEFAULT NULL,
+  `idperentd` bigint(11) DEFAULT NULL,
+  `idperrecd` bigint(11) DEFAULT NULL,
+  `fecdev` date DEFAULT NULL,
+  `observd` varchar(1000) DEFAULT NULL,
+  `firdev` varchar(255) DEFAULT NULL,
+  `numcel` int(10) DEFAULT NULL,
+  `opecel` bigint(11) DEFAULT NULL,
+  `estexp` tinyint(1) DEFAULT 1,
+  `rutpdf` varchar(255) DEFAULT NULL,
+  `difasg` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -40,7 +65,12 @@ INSERT INTO `dominio` (`iddom`, `nomdom`) VALUES
 (5, 'Accesorios Móvil'),
 (6, 'Office'),
 (7, 'Windows'),
-(8, 'T. Mantenimiento');
+(8, 'T. Mantenimiento'),
+(9, 'Operador'),
+(10, 'T. Permiso'),
+(11, 'Ubicación'),
+(12, 'Departamento'),
+(13, 'Sexo');
 
 -- --------------------------------------------------------
 
@@ -53,48 +83,45 @@ CREATE TABLE `equipo` (
   `marca` varchar(50) NOT NULL,
   `modelo` varchar(50) NOT NULL,
   `serialeq` varchar(50) NOT NULL,
-  `nomred` varchar(50) NOT NULL,
-  `idvtpeq` bigint(11) NOT NULL,
-  `capgb` float NOT NULL,
+  `nomred` varchar(50) DEFAULT NULL,
+  `idvtpeq` bigint(11) DEFAULT NULL,
+  `capgb` bigint(5) NOT NULL,
   `ram` bigint(11) NOT NULL,
-  `procs` varchar(11) NOT NULL,
-  `fecultman` date DEFAULT NULL,
-  `fecproman` date DEFAULT NULL,
+  `procs` varchar(100) DEFAULT NULL,
   `actequ` tinyint(1) DEFAULT 1,
   `tipcon` bigint(11) DEFAULT NULL,
-  `contrato` varchar(250) DEFAULT NULL,
-  `valrcont` float DEFAULT NULL
+  `pagequ` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `asignar`
+-- Estructura de tabla para la tabla `jefxper`
 --
 
-CREATE TABLE `asignar` (
-  `ideqxpr` bigint(11) NOT NULL,
-  `idequ` bigint(11) NOT NULL,
-  `idperent` bigint(11) NOT NULL,
-  `idperrec` bigint(11) NOT NULL,
-  `fecent` date DEFAULT NULL,
-  `fecdev` date DEFAULT NULL,
-  `observ` varchar(512) DEFAULT NULL,
-  `estexp` tinyint(1) DEFAULT 1
+CREATE TABLE `jefxper` (
+  `idjef` bigint(11) DEFAULT NULL,
+  `idper` bigint(11) DEFAULT NULL,
+  `tipjef` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `mantenimiento`
+-- Estructura de tabla para la tabla `licencia`
 --
 
-CREATE TABLE `mantenimiento` (
-  `idman` bigint(11) NOT NULL,
-  `idequ` bigint(11) NOT NULL,
-  `idvtpm` bigint(11) NOT NULL,
-  `fecman` date DEFAULT NULL,
-  `observ` varchar(512) DEFAULT NULL
+CREATE TABLE `licencia` (
+  `idlic` bigint(11) NOT NULL,
+  `nomlic` varchar(100) NOT NULL,
+  `idvtlic` bigint(11) NOT NULL,
+  `clvlic` varchar(50) DEFAULT NULL,
+  `feccom` date DEFAULT NULL,
+  `fecven` date DEFAULT NULL,
+  `costo` bigint(10) DEFAULT NULL,
+  `cantlic` int(5) DEFAULT NULL,
+  `idprv` bigint(11) NOT NULL,
+  `idprg` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -107,17 +134,17 @@ CREATE TABLE `modulo` (
   `idmod` int(5) NOT NULL,
   `nommod` varchar(100) NOT NULL,
   `imgmod` varchar(255) DEFAULT NULL,
-  `actmod` tinyint(1) NOT NULL DEFAULT 1,
-  `idpag` bigint(11) DEFAULT NULL
+  `actmod` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `modulo`
 --
 
-INSERT INTO `modulo` (`idmod`, `nommod`, `imgmod`, `actmod`, `idpag`) VALUES
-(1, 'Registro', NULL, 1, 51),
-(2, 'Configuración', 'img/mod_20240509081844.png', 1, 1);
+INSERT INTO `modulo` (`idmod`, `nommod`, `imgmod`, `actmod`) VALUES
+(1, 'Registro', NULL, 1),
+(2, 'Configuración', NULL, 1),
+(3, 'Permisos', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -143,14 +170,14 @@ CREATE TABLE `pagina` (
 INSERT INTO `pagina` (`idpag`, `icono`, `nompag`, `arcpag`, `ordpag`, `menpag`, `mospag`, `idmod`) VALUES
 (1, 'fa fa-solid fa-cubes', 'Módulos', 'views/vmod.php', 1, 'home.php', 1, 2),
 (2, 'fa fa-regular fa-file', 'Páginas', 'views/vpag.php', 2, 'home.php', 1, 2),
-(3, 'fa fa-solid fa-user', 'PagxPef', 'views/vpgxf.php', 3, 'home.php', 2, 2),
 (4, 'fa fa-solid fa-address-card', 'Perfiles', 'views/vpef.php', 4, 'home.php', 1, 2),
-(5, 'fa fa-solid fa-user', 'PerxPef', 'views/vperxf.php', 5, 'home.php', 2, 2),
 (6, 'fa fa-solid fa-boxes-stacked', 'Dominio', 'views/vdom.php', 6, 'home.php', 1, 2),
 (7, 'fa fa-solid fa-dollar-sign', 'Valor', 'views/vval.php', 7, 'home.php', 1, 2),
 (51, 'fa fa-solid fa-arrows-turn-to-dots', 'Asignar', 'views/vasg.php', 51, 'home.php', 1, 1),
 (52, 'fa fa-solid fa-laptop', 'Equipos', 'views/vequ.php', 52, 'home.php', 1, 1),
-(53, 'fa fa-solid fa-user', 'Personas', 'views/vper.php', 53, 'home.php', 1, 1);
+(53, 'fa fa-solid fa-user', 'Personas', 'views/vper.php', 54, 'home.php', 1, 1),
+(54, 'fa fa-solid fa-mobile', 'Celulares', 'views/vequ.php', 53, 'home.php', 1, 1),
+(101, 'fa fa-solid fa-file-circle-check', 'Permisos', 'views/vprm.php', 101, 'home.php', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -168,18 +195,43 @@ CREATE TABLE `pagxpef` (
 --
 
 INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
-(2, 1),
-(4, 1),
-(6, 1),
-(1, 1),
-(7, 1),
-(3, 1),
-(5, 1),
+(53, 4),
+(101, 4),
 (51, 2),
 (52, 2),
 (53, 2),
-(51, 3),
-(53, 3);
+(54, 2),
+(1, 1),
+(2, 1),
+(4, 1),
+(6, 1),
+(7, 1),
+(53, 3),
+(101, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pefxmod`
+--
+
+CREATE TABLE `pefxmod` (
+  `idmod` int(5) NOT NULL,
+  `idpef` bigint(11) NOT NULL,
+  `idpag` bigint(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pefxmod`
+--
+
+INSERT INTO `pefxmod` (`idmod`, `idpef`, `idpag`) VALUES
+(1, 4, 53),
+(3, 4, 101),
+(1, 2, 51),
+(2, 1, 1),
+(1, 3, 53),
+(3, 3, 101);
 
 -- --------------------------------------------------------
 
@@ -189,19 +241,43 @@ INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
 
 CREATE TABLE `perfil` (
   `idpef` bigint(11) NOT NULL,
-  `nompef` varchar(100) NOT NULL,
-  `idmod` int(5) NOT NULL,
-  `idpag` bigint(11) DEFAULT NULL
+  `nompef` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `perfil`
 --
 
-INSERT INTO `perfil` (`idpef`, `nompef`, `idmod`, `idpag`) VALUES
-(1, 'Administrador', 2, 1),
-(2, 'Sistemas', 1, 51),
-(3, 'Empleado', 1, 51);
+INSERT INTO `perfil` (`idpef`, `nompef`) VALUES
+(1, 'Administrador'),
+(2, 'Sistemas'),
+(3, 'Colaborador'),
+(4, 'Recursos Humanos');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `permiso`
+--
+
+CREATE TABLE `permiso` (
+  `idprm` bigint(11) NOT NULL,
+  `noprm` bigint(11) DEFAULT NULL,
+  `fecini` datetime DEFAULT NULL,
+  `fecfin` datetime DEFAULT NULL,
+  `idjef` bigint(11) NOT NULL,
+  `idvtprm` bigint(11) NOT NULL,
+  `sptrut` varchar(255) DEFAULT NULL,
+  `desprm` varchar(250) DEFAULT NULL,
+  `obsprm` varchar(250) DEFAULT NULL,
+  `estprm` tinyint(1) DEFAULT NULL,
+  `idper` bigint(11) NOT NULL,
+  `idvubi` bigint(11) NOT NULL,
+  `fecsol` date DEFAULT NULL,
+  `fecrev` date DEFAULT NULL,
+  `idrev` bigint(11) DEFAULT NULL,
+  `rutpdf` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -213,24 +289,30 @@ CREATE TABLE `persona` (
   `idper` bigint(11) NOT NULL,
   `nomper` varchar(100) NOT NULL,
   `apeper` varchar(100) NOT NULL,
+  `idvsex` bigint(11) NOT NULL,
   `idvtpd` bigint(11) NOT NULL,
   `ndper` varchar(12) NOT NULL,
-  `emaper` varchar(255) NOT NULL,
-  `pasper` text DEFAULT NULL,
+  `emaper` varchar(255) DEFAULT NULL,
+  `idvdpt` bigint(11) NOT NULL,
   `cargo` varchar(100) NOT NULL,
-  `usured` varchar(50) NOT NULL,
-  `actper` tinyint(1) DEFAULT 1
+  `usured` varchar(50) DEFAULT NULL,
+  `actper` tinyint(1) DEFAULT 1,
+  `hashl` text(50) DEFAULT NULL,
+  `salt` text(50) DEFAULT NULL,
+  `token` text(50) DEFAULT NULL,
+  `feccam` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `persona`
 --
 
-INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvtpd`, `ndper`, `emaper`, `pasper`, `cargo`, `usured`, `actper`) VALUES
-(1, 'David', 'Chaparro', 1, '1072642921', 'soporteit@galqui.com', 'b37276a94dfc2d512045932d36c8df69b8c2c729sGlaqs2%', 'Aprendiz Sena', 'soporteit', 1),
-(2, 'Prueba', 'Persona', 1, '1987654', 'persona@prueba.com', '305244cc2d9afd44b7ffc6bd96b605151739a5absGlaqs2%', 'Intento', 'prupersona', 1);
-
+INSERT INTO `persona` (`idper`, `nomper`, `apeper`, `idvsex`, `idvtpd`, `ndper`, `emaper`, `idvdpt`, `cargo`, `usured`, `actper`, `hashl`, `salt`) VALUES
+(1, 'JUAN DAVID', 'CHAPARRO DOMINGUEZ', 61, 1, '1072642921', 'soporteit@galqui.com', 51, 'AUXILIAR IT', 'soporteit', 1, '37e2d8bb3309b38708241d4b9ec04d5e', 'cc9db07913b47235bf4118ab5e3fb967');
 -- --------------------------------------------------------
+
+INSERT INTO `jefxper` (`idjef`, `idper`, `tipjef`) VALUES (1, 1, 1);
+
 
 --
 -- Estructura de tabla para la tabla `perxpef`
@@ -248,7 +330,8 @@ CREATE TABLE `perxpef` (
 INSERT INTO `perxpef` (`idper`, `idpef`) VALUES
 (1, 1),
 (1, 2),
-(2, 3);
+(1, 3),
+(1, 4);
 
 -- --------------------------------------------------------
 
@@ -257,10 +340,9 @@ INSERT INTO `perxpef` (`idper`, `idpef`) VALUES
 --
 
 CREATE TABLE `prgxequi` (
-  `idprxeq` bigint(11) NOT NULL,
   `idequ` bigint(11) NOT NULL,
   `idvprg` bigint(11) NOT NULL,
-  `espprg` varchar(50) NOT NULL
+  `verprg` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -276,6 +358,8 @@ CREATE TABLE `tarjeta` (
   `idperent` bigint(11) NOT NULL,
   `idperrec` bigint(11) NOT NULL,
   `fecent` date DEFAULT NULL,
+  `idperentd` bigint(11) DEFAULT NULL,
+  `idperrecd` bigint(11) DEFAULT NULL,
   `fecdev` date DEFAULT NULL,
   `esttaj` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -304,23 +388,24 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (4, 103, 'TI', 1, 1),
 (5, 104, 'DNI', 1, 1),
 (6, 105, 'PEP', 1, 1),
-(7, 201, 'Portátil', 2, 1),
+(7, 201, 'Portatil', 2, 1),
 (8, 202, 'All in One', 2, 1),
 (9, 203, 'Torre', 2, 1),
 (10, 401, 'Propio', 4, 1),
 (11, 402, 'Alquiler', 4, 1),
+(12, 403, 'Tececor', 4, 1),
 (13, 301, 'Mouse', 3, 1),
 (14, 302, 'Teclado', 3, 1),
 (15, 303, 'Cargador', 3, 1),
-(16, 304, 'Funda', 3, 1),
-(17, 305, 'Pad Mouse', 3, 1),
-(18, 502, 'Cable de datos', 5, 1),
-(19, 503, 'Audífonos', 5, 1),
-(20, 505, 'Protector', 5, 1),
-(21, 504, 'SIM', 5, 1),
-(22, 506, 'Caja', 5, 1),
-(23, 507, 'Manuales', 5, 1),
-(26, 501, 'Cargador', 5, 1),
+(16, 304, 'Mouse Vertical', 3, 1),
+(17, 305, 'Diademas', 3, 1),
+(18, 306, 'Monitor', 3, 1),
+(19, 501, 'Cable de datos', 5, 1),
+(20, 502, 'Audifonos', 5, 1),
+(21, 503, 'Protector', 5, 1),
+(22, 504, 'SIM', 5, 1),
+(23, 505, 'Caja', 5, 1),
+(24, 506, 'Cargador', 5, 1),
 (27, 601, 'Standard', 6, 1),
 (28, 602, 'Home & Business', 6, 1),
 (29, 604, 'Professional Plus', 6, 1),
@@ -329,9 +414,32 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (32, 701, 'Home', 7, 1),
 (33, 702, 'Pro', 7, 1),
 (34, 703, 'Enterprise', 7, 1),
-(35, 801, 'Preventivo', 8, 1),
-(36, 802, 'Correctivo', 8, 1),
-(37, 803, 'Predictivo', 8, 1);
+(35, 606, 'Standard LTSC', 6, 1),
+(36, 607, 'Standard VL', 6, 1),
+(38, 901, 'N/A', 9, 1),
+(39, 902, 'Claro', 9, 1),
+(40, 903, 'Movistar', 9, 1),
+(41, 1001, 'Cita Medica', 10, 1),
+(42, 1002, 'Diligencia personal', 10, 1),
+(43, 1003, 'Calamidad Domestica', 10, 1),
+(44, 1004, 'Compensatorio Jornada Electoral', 10, 1),
+(45, 1005, 'Dia de Descanso Ley 1857 (Dia de la Familia)', 10, 1),
+(46, 1006, 'Trabajo en Casa', 10, 1),
+(47, 1007, 'Licencia No Remunerada', 10, 1),
+(48, 1008, 'Otro', 10, 1),
+(49, 1101, 'Chia - Cundinamarca', 11, 1),
+(50, 1102, 'Madrid - Cundinamarca', 11, 1),
+(51, 1201, 'Administrativo', 12, 1),
+(52, 1202, 'Proyectos', 12, 1),
+(53, 1203, 'Abastecimiento y Logistica', 12, 1),
+(54, 1204, 'Financiero y Contable', 12, 1),
+(55, 1205, 'Innovacion y Desarrollo', 12, 1),
+(56, 1206, 'Power Services', 12, 1),
+(57, 1207, 'Tececor', 12, 1),
+(58, 1208, 'Telesolin', 12, 1),
+(59, 1209, 'GIA', 12, 1),
+(60, 1302, 'Femenino', 13, 1),
+(61, 1301, 'Masculino', 13, 1);
 
 --
 -- Índices para tablas volcadas
@@ -341,9 +449,19 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 -- Indices de la tabla `accxequi`
 --
 ALTER TABLE `accxequi`
-  ADD PRIMARY KEY (`idacxeq`),
   ADD KEY `ideqxpr` (`ideqxpr`),
   ADD KEY `idvacc` (`idvacc`);
+
+--
+-- Indices de la tabla `asignar`
+--
+ALTER TABLE `asignar`
+  ADD PRIMARY KEY (`ideqxpr`),
+  ADD KEY `idequ` (`idequ`),
+  ADD KEY `idperent` (`idperent`),
+  ADD KEY `idperrec` (`idperrec`),
+  ADD KEY `idperentd` (`idperentd`),
+  ADD KEY `idperrecd` (`idperrecd`);
 
 --
 -- Indices de la tabla `dominio`
@@ -360,20 +478,11 @@ ALTER TABLE `equipo`
   ADD KEY `tipcon` (`tipcon`);
 
 --
--- Indices de la tabla `asignar`
+-- Indices de la tabla `jefxper`
 --
-ALTER TABLE `asignar`
-  ADD PRIMARY KEY (`ideqxpr`),
-  ADD KEY `idequ` (`idequ`),
-  ADD KEY `idperent` (`idperent`),
-  ADD KEY `idperrec` (`idperrec`);
-
---
--- Indices de la tabla `mantenimiento`
---
-ALTER TABLE `mantenimiento`
-  ADD PRIMARY KEY (`idman`),
-  ADD KEY `idequ` (`idequ`);
+ALTER TABLE `jefxper`
+  ADD KEY `idper` (`idper`),
+  ADD KEY `idjef` (`idjef`);
 
 --
 -- Indices de la tabla `modulo`
@@ -396,19 +505,38 @@ ALTER TABLE `pagxpef`
   ADD KEY `idpef` (`idpef`);
 
 --
+-- Indices de la tabla `pefxmod`
+--
+ALTER TABLE `pefxmod`
+  ADD KEY `idmod` (`idmod`),
+  ADD KEY `idpef` (`idpef`),
+  ADD KEY `idpag` (`idpag`);
+
+--
 -- Indices de la tabla `perfil`
 --
 ALTER TABLE `perfil`
-  ADD PRIMARY KEY (`idpef`),
-  ADD KEY `idmod` (`idmod`),
-  ADD KEY `idpag` (`idpag`);
+  ADD PRIMARY KEY (`idpef`);
+
+--
+-- Indices de la tabla `permiso`
+--
+ALTER TABLE `permiso`
+  ADD PRIMARY KEY (`idprm`),
+  ADD KEY `idjef` (`idjef`),
+  ADD KEY `idvtprm` (`idvtprm`),
+  ADD KEY `idper` (`idper`),
+  ADD KEY `idvubi` (`idvubi`),
+  ADD KEY `idrev` (`idrev`);
 
 --
 -- Indices de la tabla `persona`
 --
 ALTER TABLE `persona`
   ADD PRIMARY KEY (`idper`),
-  ADD KEY `idvtpd` (`idvtpd`);
+  ADD KEY `idvsex` (`idvsex`),
+  ADD KEY `idvtpd` (`idvtpd`),
+  ADD KEY `idvdpt` (`idvdpt`);
 
 --
 -- Indices de la tabla `perxpef`
@@ -421,7 +549,6 @@ ALTER TABLE `perxpef`
 -- Indices de la tabla `prgxequi`
 --
 ALTER TABLE `prgxequi`
-  ADD PRIMARY KEY (`idprxeq`),
   ADD KEY `idequ` (`idequ`),
   ADD KEY `idvprg` (`idvprg`);
 
@@ -431,7 +558,9 @@ ALTER TABLE `prgxequi`
 ALTER TABLE `tarjeta`
   ADD PRIMARY KEY (`idtaj`),
   ADD KEY `idperent` (`idperent`),
-  ADD KEY `idperrec` (`idperrec`);
+  ADD KEY `idperrec` (`idperrec`),
+  ADD KEY `idperentd` (`idperentd`),
+  ADD KEY `idperrecd` (`idperrecd`);
 
 --
 -- Indices de la tabla `valor`
@@ -446,16 +575,16 @@ ALTER TABLE `valor`
 --
 
 --
--- AUTO_INCREMENT de la tabla `accxequi`
+-- AUTO_INCREMENT de la tabla `asignar`
 --
-ALTER TABLE `accxequi`
-  MODIFY `idacxeq` bigint(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `asignar`
+  MODIFY `ideqxpr` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `dominio`
 --
 ALTER TABLE `dominio`
-  MODIFY `iddom` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `iddom` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `equipo`
@@ -464,58 +593,34 @@ ALTER TABLE `equipo`
   MODIFY `idequ` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `asignar`
---
-ALTER TABLE `asignar`
-  MODIFY `ideqxpr` bigint(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `mantenimiento`
---
-ALTER TABLE `mantenimiento`
-  MODIFY `idman` bigint(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `idmod` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idmod` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `pagina`
 --
 ALTER TABLE `pagina`
-  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
-
---
--- AUTO_INCREMENT de la tabla `pagxpef`
---
-ALTER TABLE `pagxpef`
-  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `idpag` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `perfil`
 --
 ALTER TABLE `perfil`
-  MODIFY `idpef` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idpef` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `permiso`
+--
+ALTER TABLE `permiso`
+  MODIFY `idprm` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `perxpef`
---
-ALTER TABLE `perxpef`
-  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `prgxequi`
---
-ALTER TABLE `prgxequi`
-  MODIFY `idprxeq` bigint(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idper` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tarjeta`
@@ -527,7 +632,7 @@ ALTER TABLE `tarjeta`
 -- AUTO_INCREMENT de la tabla `valor`
 --
 ALTER TABLE `valor`
-  MODIFY `idval` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `idval` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- Restricciones para tablas volcadas
@@ -544,14 +649,17 @@ ALTER TABLE `accxequi`
 --
 ALTER TABLE `asignar`
   ADD CONSTRAINT `asignar_ibfk_1` FOREIGN KEY (`idequ`) REFERENCES `equipo` (`idequ`),
-  ADD CONSTRAINT `asignar_ibfk_2` FOREIGN KEY (`idperent`) REFERENCES `persona` (`idper`),
-  ADD CONSTRAINT `asignar_ibfk_3` FOREIGN KEY (`idperrec`) REFERENCES `persona` (`idper`);
+  ADD CONSTRAINT `asignar_ibfk_3` FOREIGN KEY (`idperent`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `asignar_ibfk_4` FOREIGN KEY (`idperrec`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `asignar_ibfk_5` FOREIGN KEY (`idperentd`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `asignar_ibfk_6` FOREIGN KEY (`idperrecd`) REFERENCES `persona` (`idper`);
 
 --
--- Filtros para la tabla `mantenimiento`
+-- Filtros para la tabla `jefxper`
 --
-ALTER TABLE `mantenimiento`
-  ADD CONSTRAINT `mantenimiento__ibfk_1` FOREIGN KEY (`idequ`) REFERENCES `equipo` (`idequ`);
+ALTER TABLE `jefxper`
+  ADD CONSTRAINT `jefxper_ibfk_1` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `jefxper_ibfk_2` FOREIGN KEY (`idjef`) REFERENCES `persona` (`idper`);
 
 --
 -- Filtros para la tabla `pagina`
@@ -567,10 +675,19 @@ ALTER TABLE `pagxpef`
   ADD CONSTRAINT `pagxpef_ibfk_2` FOREIGN KEY (`idpef`) REFERENCES `perfil` (`idpef`);
 
 --
--- Filtros para la tabla `perfil`
+-- Filtros para la tabla `pefxmod`
 --
-ALTER TABLE `perfil`
-  ADD CONSTRAINT `perfil_ibfk_1` FOREIGN KEY (`idmod`) REFERENCES `modulo` (`idmod`);
+ALTER TABLE `pefxmod`
+  ADD CONSTRAINT `pefxmod_ibfk_1` FOREIGN KEY (`idmod`) REFERENCES `modulo` (`idmod`),
+  ADD CONSTRAINT `pefxmod_ibfk_2` FOREIGN KEY (`idpef`) REFERENCES `perfil` (`idpef`);
+
+--
+-- Filtros para la tabla `permiso`
+--
+ALTER TABLE `permiso`
+  ADD CONSTRAINT `permiso_ibfk_1` FOREIGN KEY (`idjef`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `permiso_ibfk_2` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `permiso_ibfk_3` FOREIGN KEY (`idrev`) REFERENCES `persona` (`idper`);
 
 --
 -- Filtros para la tabla `perxpef`
@@ -590,7 +707,9 @@ ALTER TABLE `prgxequi`
 --
 ALTER TABLE `tarjeta`
   ADD CONSTRAINT `tarjeta_ibfk_1` FOREIGN KEY (`idperent`) REFERENCES `persona` (`idper`),
-  ADD CONSTRAINT `tarjeta_ibfk_2` FOREIGN KEY (`idperrec`) REFERENCES `persona` (`idper`);
+  ADD CONSTRAINT `tarjeta_ibfk_2` FOREIGN KEY (`idperrec`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `tarjeta_ibfk_3` FOREIGN KEY (`idperentd`) REFERENCES `persona` (`idper`),
+  ADD CONSTRAINT `tarjeta_ibfk_4` FOREIGN KEY (`idperrecd`) REFERENCES `persona` (`idper`);
 
 --
 -- Filtros para la tabla `valor`
