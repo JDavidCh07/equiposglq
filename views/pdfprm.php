@@ -1,5 +1,4 @@
 <?php
-echo "<script>window.close();</script>";
 require_once ("../models/seguridad.php");
 require_once ('../models/conexion.php');
 require_once ('../models/mprm.php');
@@ -20,6 +19,7 @@ $fpdi = new Fpdi();
  
 date_default_timezone_set('America/Bogota');
 $nmfl = date('d-m-Y H-i-s');
+$comph = date('Y-m-d H:i:s');
 $hoy = date("Y-m-d");
 $sptrut = NULL;
 
@@ -48,7 +48,7 @@ $comest = $mprm->getOne();
 
 $intentos = 5;
 
-if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
+if($idprm && (($comest[0]['estprm']!=3 && $comest[0]['estprm']!=4) && $comest[0]['fecini']>=$comph)){
     $mprm->setNoprm($noprm);
     $mprm->setEstprm($estprm);
     $mprm->setObsprm($obsprm);
@@ -281,7 +281,9 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
             $exito = sendemail($ema, $psem, $nom, $maild, $nompd, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, $link, $url, "../");
             sleep(5);
             $c++;
-    }} elseif($estprm==3 || $estprm==4){
+        }
+        echo "<script>window.location='../send.php';</script>";
+    } elseif($estprm==3 || $estprm==4){
         $template="../views/mail.html";
         
         if($estprm==3){
@@ -318,7 +320,10 @@ if($idprm && ($comest[0]['estprm']!=3 || $comest[0]['estprm']!=4)){
             $exito = sendemail($ema, $psem, $nom, $mailp, $nompp, $file_path, $txt_mess, $mail_asun, $fir_mail, $template, "", "", "../");
             sleep(5);
             $c++;
-}}}
+        }
+        echo "<script>window.location='../success.php';</script>";
+    }
+} else echo "<script>window.location='../error.php';</script>";
 
 function nombre($nombre){
     $partesp = explode(" ", $nombre);
