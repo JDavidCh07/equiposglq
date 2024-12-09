@@ -128,7 +128,7 @@
 
                 $filaDatos[] = tot($dat['hdif'], $dat['ddif'], 2);
             } else {
-                $filaDatos = [date('H:i d/m/y', strtotime($dat['fecini'])), date('H:i d/m/y', strtotime($dat['fecfin'])), $dat['dper'], $dat['aper']." ".$dat['nper'], $dat['cper'], strtoupper($dat['dpt']), strtoupper($dat['tprm']), tot($dat['hdif'], $dat['ddif'], 2), (($dta['estprm']==3) ? 'APROBADO' : 'RECHAZADO')];
+                $filaDatos = [date('H:i d/m/y', strtotime($dat['fecini'])), date('H:i d/m/y', strtotime($dat['fecfin'])), $dat['dper'], $dat['aper']." ".$dat['nper'], $dat['cper'], strtoupper($dat['dpt']), strtoupper($dat['tprm']), tot($dat['hdif'], $dat['ddif'], 2), (($dat['estprm']==3) ? 'APROBADO' : 'RECHAZADO')];
             }
             // Agregar la fila completa al array $datos
             $datos[] = $filaDatos;
