@@ -3,22 +3,21 @@
     <head>
     	<meta charset="UTF-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-    	<title>Página no encontrada - GALQUI SAS</title>
+    	<title>GALQUI SAS</title>
         <link rel="icon" href="img/logo.png">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	    <script type="text/javascript" src="js/bootstrap.js"></script>
-
     </head>
     <body>
         <div class="contenedor-login">
             <div class="contenido-login">
     	        <div class="row">
                     <div class="img form-group col-md-4">
-                        <img class="imgerr" src="img/404.jpg" alt="">
+                        <img class="imgerr" src="img/error.jpg" alt="">
                     </div>
                     <div class="text form-group col-md-8">
-                        <h1><strong>Ooops... Error 404</strong></h1>
-                        <h3>Lo sentimos, pero la página que busca no existe.</h3>
+                        <h1><strong>Ooops... Ya no puedes aprobar el permiso</strong></h1>
+                        <h3>El permiso ya tiene respuesta o ha superado el tiempo de aprobación.</h3>
                     </div>
                 </div>
             </div>

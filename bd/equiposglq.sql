@@ -124,6 +124,75 @@ CREATE TABLE `licencia` (
   `idprg` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `licxper`
+--
+
+CREATE TABLE `licxper` (
+  `idlic` bigint(11) NOT NULL,
+  `idper` bigint(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `programa`
+--
+
+CREATE TABLE `programa` (
+  `idprg` bigint(11) NOT NULL,
+  `nompro` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `proveedor`
+--
+
+CREATE TABLE `proveedor` (
+  `idprv` bigint(11) NOT NULL,
+  `idvtpd` bigint(11) NOT NULL,
+  `ndprv` varchar(11) NOT NULL,
+  `nomprv` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- --------------------------------------------------------
+
+ALTER TABLE `licencia`
+  ADD PRIMARY KEY `idlic` (`idlic`),
+  ADD KEY `idvtlic` (`idvtlic`),
+  ADD KEY `idprv` (`idprv`),
+  ADD KEY `idprg` (`idprg`);
+
+ALTER TABLE `licxper`
+  ADD KEY `idlic` (`idlic`),
+  ADD KEY `idper` (`idper`);
+
+ALTER TABLE `programa`
+  ADD PRIMARY KEY `idprg` (`idprg`);
+
+ALTER TABLE `proveedor`
+  ADD PRIMARY KEY `idprv` (`idprv`),
+  ADD KEY `idvtpd` (`idvtpd`);
+
+ALTER TABLE `licencia`
+  MODIFY `idlic` bigint(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `programa`
+  MODIFY `idprg` bigint(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `proveedor`
+  MODIFY `idprv` bigint(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `licencia`
+  ADD CONSTRAINT `licencia__ibfk_1` FOREIGN KEY (`idprv`) REFERENCES `proveedor` (`idprv`),
+  ADD CONSTRAINT `licencia__ibfk_2` FOREIGN KEY (`idprg`) REFERENCES `programa` (`idprg`);
+
 -- --------------------------------------------------------
 
 --
@@ -177,6 +246,9 @@ INSERT INTO `pagina` (`idpag`, `icono`, `nompag`, `arcpag`, `ordpag`, `menpag`, 
 (52, 'fa fa-solid fa-laptop', 'Equipos', 'views/vequ.php', 52, 'home.php', 1, 1),
 (53, 'fa fa-solid fa-user', 'Personas', 'views/vper.php', 54, 'home.php', 1, 1),
 (54, 'fa fa-solid fa-mobile', 'Celulares', 'views/vequ.php', 53, 'home.php', 1, 1),
+(55, 'fa fa-solid fa-compact-disc', 'Programas', 'views/vprg.php', 55, 'home.php', 1, 1),
+(56, 'fa fa-solid fa-key', 'Licencias', 'views/vlic.php', 56, 'home.php', 1, 1),
+(57, 'fa fa-solid fa-truck-ramp-box', 'Proveedor', 'views/vprv.php', 57, 'home.php', 1, 1),
 (101, 'fa fa-solid fa-file-circle-check', 'Permisos', 'views/vprm.php', 101, 'home.php', 1, 3);
 
 -- --------------------------------------------------------
@@ -201,6 +273,9 @@ INSERT INTO `pagxpef` (`idpag`, `idpef`) VALUES
 (52, 2),
 (53, 2),
 (54, 2),
+(55, 2),
+(56, 2),
+(57, 2),
 (1, 1),
 (2, 1),
 (4, 1),
@@ -637,7 +712,9 @@ ALTER TABLE `valor`
 --
 -- Restricciones para tablas volcadas
 --
-
+ALTER TABLE `licxper`
+  ADD CONSTRAINT `licxper__ibfk_1` FOREIGN KEY (`idlic`) REFERENCES `licencia` (`idlic`),
+  ADD CONSTRAINT `licxper__ibfk_2` FOREIGN KEY (`idper`) REFERENCES `persona` (`idper`);
 --
 -- Filtros para la tabla `accxequi`
 --
