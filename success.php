@@ -16,8 +16,8 @@
                         <img class="imgerr" src="img/success.jpg" alt="">
                     </div>
                     <div class="text form-group col-md-8">
-                        <h1><strong>Excelente!!! Permiso aprobado con éxito</strong></h1>
-                        <h3>Le hemos enviado la confirmación a nuestro colaborador.</h3>
+                        <h1><strong>Excelente!!! Permiso respondido con éxito</strong></h1>
+                        <h3>Le hemos enviado la notificación a nuestro colaborador.</h3>
                     </div>
                 </div>
             </div>
