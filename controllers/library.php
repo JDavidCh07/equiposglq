@@ -158,7 +158,7 @@ function modalCmb($nm, $id, $tit, $pef, $dga, $pg){
 			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
 				$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: left;"><strong>Perfiles - ' . $tit . '</strong></h1>';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: left;"><strong>PERFILES - ' . $tit . '</strong></h1>';
 						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-body">';
@@ -405,7 +405,7 @@ function modalDev($nm, $id, $acc, $det, $pg, $asg){
 							}
 							$txt .= '<strong><br>Devolución:</strong><hr>';
 							$txt .= '<div class="form-group col-md-6">';
-								$txt .= '<label for="fecdev" class="titulo"><strong>F. Devolución: </strong></label>';
+								$txt .= '<label for="fecdev" class="titulo"><strong>Devolución: </strong></label>';
 								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecdev" name="fecdev" value="'.$hoy.'" required>';
 							$txt .= '</div>';
 							$txt .= '<div class="form-group col-md-12">';
@@ -565,14 +565,14 @@ function modalTj($nm, $id, $perent, $pg){
 								$txt .= '>';
 							$txt .= '</div> ';
 							$txt .= '<div class="form-group col-md-6" style="text-align: left;">';
-								$txt .= '<label for="fecent" class="titulo"><strong>F. Entrega</strong></label>';
+								$txt .= '<label for="fecent" class="titulo"><strong>Entrega</strong></label>';
 								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecent" name="fecent"';
 									if ($dtj && $dtj[0]['fecent']) $txt .= ' value="'.$dtj[0]['fecent'].'" disabled';
 									else $txt .= ' value="'.$hoy.'" required';
 								$txt .= '>';
 							$txt .= '</div> ';
 							$txt .= '<div class="form-group col-md-6" style="text-align: left;">';
-								$txt .= '<label for="fecdev" class="titulo"><strong>F. Devolución</strong></label>';
+								$txt .= '<label for="fecdev" class="titulo"><strong>Devolución</strong></label>';
 								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecdev" name="fecdev"'.((!$dtj) ? ' disabled' : '').'>';
 							$txt .= '</div>';
 						$txt .= '</div><br>';
@@ -680,10 +680,10 @@ function modalInfPrm($nm, $id, $det){
 								$txt .= '<div class="form-group col-md-4"><strong>'.(($det[0]["estprm"] == 3) ? 'Aprobado' : 'Rechazado').' por: </strong></div>';
 								$txt .= '<div class="form-group col-md-8">'.$det[0]["nrev"].' '.$det[0]["arev"].'</div>';
 							}
-							$txt .= '<div class="form-group col-md-4"><strong>F. Solicitud: </strong></div>';
+							$txt .= '<div class="form-group col-md-4"><strong>Solicitud: </strong></div>';
 							$txt .= '<div class="form-group col-md-8">'.$det[0]["fsol"].'</div>';
 							if($det[0]["estprm"] != 2){
-								$txt .= '<div class="form-group col-md-4"><strong>F. Revisión: </strong></div>';
+								$txt .= '<div class="form-group col-md-4"><strong>Revisión: </strong></div>';
 								$txt .= '<div class="form-group col-md-8">'.$det[0]["frev"].'</div>';
 							}
 						}
@@ -786,6 +786,42 @@ function modalCamPass($nm, $id, $tit){
 	echo $txt;
 }
 
+//------------Modal vlic, llave-----------
+function modalLlave($nm, $id, $tit, $cant, $llaves, $pg){
+	$txt = '';
+	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+		$txt .= '<div class="modal-dialog">';
+			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
+				$txt .= '<div class="modal-content">';
+					$txt .= '<div class="modal-header">';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: left;"><strong>LLAVES - ' . $tit . '</strong></h1>';
+						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-body">';
+						$txt .= '<div class="row">';
+						if ($cant) { for($i=1; $i<=$cant; $i++){
+							$txt .= '<div class="form-group col-sm-6" style="text-align: left;">';
+								$txt .= '<label><strong>Llave '.$i.':</strong></label>';
+								$txt .= '<input class="form-control" type="text" id="llave" name="llave[]" value="';
+								if ($llaves && count($llaves)>=$i) $txt .= $llaves[($i-1)]['llave'];
+								$txt .= '" required>';
+							$txt .= '</div>';
+						}}
+						$txt .= '</div>';
+					$txt .= '</div>';
+					$txt .= '<div class="modal-footer">';
+						$txt .= '<input type="hidden" value="savelxl" name="ope">';
+						$txt .= '<input type="hidden" value="' . $id . '" name="idlic">';
+						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
+						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
+					$txt .= '</div>';
+				$txt .= '</div>';
+			$txt .= '</form>';
+		$txt .= '</div>';
+	$txt .= '</div>';
+	echo $txt;
+}
+
 //------------Array-string vequ, prgxequi-----------
 function arrstrprg($dt){
 	$txt = "";
@@ -795,6 +831,12 @@ function arrstrprg($dt){
 		}
 	}
 	return $txt;
+}
+
+//------------Formatear fecha-----------
+function formatfec($fec){
+	$fecha = date('d/m/Y', strtotime($fec));
+	return $fecha;
 }
 
 //------------Encriptar-----------

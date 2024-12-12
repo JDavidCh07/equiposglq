@@ -1,5 +1,4 @@
 <?php
-require_once 'models/conexion.php';
 require_once 'models/mdom.php';
 
 $mdom = new Mdom();
@@ -16,8 +15,8 @@ $mdom->setIddom($iddom);
 
 if ($ope == "save") {
     $mdom->setNomdom($nomdom);
-    if (!$nomdom) $mdom->save();
-    else $mdom->save();
+    if (!$iddom) $mdom->save();
+    else $mdom->edit();
     echo "<script>window.location='home.php?pg=".$pg."';</script>";
 }
 

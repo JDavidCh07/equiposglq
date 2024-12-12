@@ -64,7 +64,7 @@
                 </div>
             <?php } ?>
             <div class="form-group col-md-4">
-                <label for="fecent"><strong>F. Entrega:</strong></label>
+                <label for="fecent"><strong>Entrega:</strong></label>
                 <input class="form-control" type="date" id="fecent" name="fecent" max=<?php echo $hoy;?> <?php if ($datOneA) echo 'value="'.$datOneA[0]['fecent'].'" disabled'; else echo 'value="'.$hoy.'" required';?>>
             </div>
             <div class="form-group col-md-12"><br></div>
@@ -120,11 +120,11 @@
                                             </div>
                                         <?php } if ($dta['fecent']) { ?>
                                             <div class="form-group col-md-6">
-                                                <strong>F. Entrega: </strong> <?= $dta['fecent']; ?>
+                                                <strong>Entrega: </strong> <?= formatfec($dta['fecent']); ?>
                                             </div>
                                         <?php } if ($dta['fecdev']) { ?>
                                             <div class="form-group col-md-6">
-                                                <strong>F. Devolución: </strong> <?= $dta['fecdev']; ?>
+                                                <strong>Devolución: </strong> <?= formatfec($dta['fecdev']); ?>
                                             </div>
                                         <?php } ?>
                                     </div>
@@ -140,7 +140,7 @@
                                     $det = $masg->getOne();
                                     modalInfAsg("mcbdet", $dta['ideqxpr'], $prgs, $acc, $det, $asg);
                                     modalFir("mcbfir", $dta['ideqxpr'], $det, $pg, $asg);
-                                     if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'] && $dta['fecdev'])){
+                                    if(!$dta['firent'] OR ($dta['firent'] && !$dta['firdev'] && $dta['fecdev'])){
                                 ?>
                                 <i class="fa fa-solid fa-pen-clip iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbfir<?= $dta['ideqxpr']; ?>" title="Firmar"></i>
                                 <?php } if($_SESSION['idpef']!=3){ if(($dta['firent'] && !$dta['firdev'] && !$dta['fecdev']) OR ($dta['firent'] && $dta['firdev'])){ 

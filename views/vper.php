@@ -188,17 +188,15 @@ if($_SESSION['idpef']!=3){ ?>
                         </a>
                         <?php if ($_SESSION['idpef'] == 2) { 
                             $mper->setIdper($dta['idper']);
-                            $i = $mper->getOne();
                             $dga = $mper->getOnePxF();
                             $pef = $mper->getPef();
-                            $info = $i[0];
                             modalCmb("mcb", $dta['idper'], $dta['nomper'] . " " . $dta['apeper'], $pef, $dga, $pg);
-                            modalCamPass("contra", $info['idper'], $info['nomper'] . " " . $info['apeper']);
+                            modalCamPass("contra", $dta['idper'], $dta['nomper'] . " " . $dta['apeper']);
                             modalTj("tj",  $dta['idper'], $_SESSION['idper'], $pg);
                             ?>
                             <i class="fa fa-solid fa-id-card-clip fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcb<?= $dta['idper']; ?>" title="Asignar perfil"></i>
                             <i class="fa fa-solid fa-tarp fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tj<?= $dta['idper']; ?>" title="Asignar tarjetas"></i>
-                            <i class="fa fa-solid fa-key fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contra<?= $info['idper']; ?>" title="Cambiar Contraseña"></i>
+                            <i class="fa fa-solid fa-key fa-2x iconi" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contra<?= $dta['idper']; ?>" title="Cambiar Contraseña"></i>
                             <?php
                             $pe = $mper->getExPE($dta['idper']);
                             $pr = $mper->getExPR($dta['idper']);

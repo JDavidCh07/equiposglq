@@ -96,5 +96,5 @@
     $datGra = $mprm->getAllGraf();
     
     if($_SESSION['idpef']==4) $solper = $mprm->getAll("rrhhp");
-    else $solper = $mprm->getAll($_SESSION['idper']);
+    else $solper = $mprm->getAll("soli");
 ?>

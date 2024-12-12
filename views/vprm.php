@@ -188,9 +188,8 @@ if($_SESSION['idpef']==4){?>
                 </td>
                 <td style="text-align: left;">
                     <?php
-                    $fecini = date("Y-m-d", strtotime($dta['fecini'])); 
-                    if($dta['idvtprm']==43) $fecha = $hoy; 
-                    else $fecha = $mañana;
+                    if($dta['idvtprm']==43) $fecha = $hoyh; 
+                    else $fecha = $mañanah;
                     if ($dta['estprm'] == 1){
                         if ($fecha<=$fecini) { ?>
                             <span style="font-size: 1px;opacity: 0;">1</span>
@@ -301,9 +300,7 @@ if($_SESSION['idpef']==4){?>
                     </td>
                     <td style="text-align: left;">
                         <?php if ($slp['estprm'] == 2){
-                            $fecini = date("Y-m-d", strtotime($slp['fecini'])); 
-                            $fecha = $hoy;
-                            if ($fecha<=$fecini) { 
+                            if ($hoyh<=$fecini) { 
                                 $mprm->setIdprm($slp['idprm']);
                                 $inf = $mprm->getOne();
                                 $pfec = explode(' ', $inf[0]['fini']);
@@ -314,7 +311,14 @@ if($_SESSION['idpef']==4){?>
                                     <i class="fa fa-solid fa-circle-check fa-2x act"></i>
                                 </a>
                                 <i class="fa fa-solid fa-circle-xmark fa-2x desact" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcbrprm<?= $slp['idprm']; ?>" title="Rechazar"></i>
-                            <?php }else{ ?>
+                            <?php }else{ 
+                                $obs = "Tiempo de espera excedido";
+                                $mprm->setIdprm($slp['idprm']);
+                                $mprm->setEstprm(4);
+                                $mprm->setFecrev($hoy);
+                                $mprm->setObsprm($obs);
+                                $mprm->editAct();
+                            ?>
                                 <span style="font-size: 1px;opacity: 0;">5</span>
                                 <i class="fa fa-solid fa-circle-exclamation fa-2x iconi" title="Fuera de Tiempo"></i>
                         <?php }} else if ($slp['estprm'] == 3) { ?>

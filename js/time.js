@@ -211,7 +211,7 @@ function comparar(id) {
     const regex = /^(?!\s|0|null$)(?!.*\bnull\b)(?=(.*[a-z]))(?=(.*[A-Z]))(?=(.*\d))(?=(.*[\W_])).{6,}$/;
 
     if (!regex.test(pass.value)) {
-        mensaje.innerHTML = "La contraseña debe tener al menos 6 caracteres y contener:<li>Una letra mayúscula.</li><li>Una letra minúscula.</li><li>Un número.</li><li>Un carácter especial,</li>";
+        mensaje.innerHTML = "La contraseña debe tener al menos 6 caracteres y contener:<li>Una letra mayúscula.</li><li>Una letra minúscula.</li><li>Un número.</li><li>Un carácter especial.</li>";
         mensaje.style.display = "block";
         mensaje.style.color = "black";
         mensaje.style.opacity = "0.8";

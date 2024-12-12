@@ -30,21 +30,21 @@ $idprm = isset($_REQUEST['idprm']) ? $_REQUEST['idprm']:NULL;
 $estprm = isset($_REQUEST['estprm']) ? $_REQUEST['estprm']:NULL;
 $obsprm = isset($_POST['obsprm']) ? $_POST['obsprm']:NULL;
 $idrev = isset($_REQUEST['idrev']) ? $_REQUEST['idrev']:NULL;
-$numprm = array_reverse($mprm->getAll("prop"));
 
-if ($numprm){
-    foreach($numprm AS $np){
-        if($np['noprm']){
-            $noprm = ($np['noprm']) + 1;
-            break;
-        }else $noprm = 1; 
-}}else $noprm = 1;
+$mprm->setIdprm($idprm);
+$comest = $mprm->getOne();
+
+$numprm = $mprm->getAll("smtp".$comest[0]['iper']);
+
+if ($numprm) $noprm = ($numprm[0]['noprm']) + 1;
+else $noprm = 1;
+
+var_dump($numprm, $noprm);
 
 $logo = "../img/logoynombre.png";
 $logob64 = "data:image/png;base64,".base64_encode(file_get_contents($logo));
 
-$mprm->setIdprm($idprm);
-$comest = $mprm->getOne();
+
 
 $intentos = 5;
 

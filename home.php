@@ -59,6 +59,8 @@ include("models/seguridad.php");
 		$nomarc = date('d-m-Y_His');
 		$hoy = date("Y-m-d");
     	$mañana = date("Y-m-d", strtotime($hoy . ' +1 day'));
+		$hoyh = date("Y-m-d H:i");
+    	$mañanah = date("Y-m-d H:i", strtotime($hoy . ' +1 day'));
 		$pasadom = date("Y-m-d", strtotime($hoy . ' +2 days'));
 		require_once("models/conexion.php");
 		include("controllers/optimg.php");
