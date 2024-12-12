@@ -136,7 +136,7 @@ foreach($asgs AS $index=>$asg){
             }
 
             // Agregar datos finales
-            $filaDatos = array_merge($filaDatos, [ $dat['fecent'], $dat['pent'], $dat['cpent'], $dat['prec'], $dat['cprec'], $dat['observ'], $dat['fecdev'], $dat['pentd'], $dat['cpentd'], $dat['precd'], $dat['cprecd'], $dat['observd'],
+            $filaDatos = array_merge($filaDatos, [date('d/m/Y', strtotime($dat['fecent'])), $dat['pent'], $dat['cpent'], $dat['prec'], $dat['cprec'], $dat['observ'], date('d/m/Y', strtotime($dat['fecdev'])), $dat['pentd'], $dat['cpentd'], $dat['precd'], $dat['cprecd'], $dat['observd'],
             ]);
 
             // Agregar la fila completa al array $datos
