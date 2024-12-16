@@ -248,7 +248,7 @@ INSERT INTO `pagina` (`idpag`, `icono`, `nompag`, `arcpag`, `ordpag`, `menpag`, 
 (52, 'fa fa-solid fa-laptop', 'Equipos', 'views/vequ.php', 52, 'home.php', 1, 1),
 (53, 'fa fa-solid fa-user', 'Personas', 'views/vper.php', 54, 'home.php', 1, 1),
 (54, 'fa fa-solid fa-mobile', 'Celulares', 'views/vequ.php', 53, 'home.php', 1, 1),
-(55, 'fa fa-solid fa-compact-disc', 'Programas', 'views/vprg.php', 55, 'home.php', 1, 1),
+(55, 'fa fa-solid fa-compact-disc', 'Software', 'views/vprg.php', 55, 'home.php', 1, 1),
 (56, 'fa fa-solid fa-key', 'Licencias', 'views/vlic.php', 56, 'home.php', 1, 1),
 (57, 'fa fa-solid fa-truck-ramp-box', 'Proveedor', 'views/vprv.php', 57, 'home.php', 1, 1),
 (101, 'fa fa-solid fa-file-circle-check', 'Permisos', 'views/vprm.php', 101, 'home.php', 1, 3);
