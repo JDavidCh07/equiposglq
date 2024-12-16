@@ -70,7 +70,8 @@ INSERT INTO `dominio` (`iddom`, `nomdom`) VALUES
 (10, 'T. Permiso'),
 (11, 'Ubicación'),
 (12, 'Departamento'),
-(13, 'Sexo');
+(13, 'Sexo'),
+(14, 'Doc. Proveedor');
 
 -- --------------------------------------------------------
 
@@ -119,7 +120,7 @@ CREATE TABLE `licencia` (
   `feccom` date DEFAULT NULL,
   `fecven` date DEFAULT NULL,
   `costo` bigint(10) DEFAULT NULL,
-  `cantlic` int(5) DEFAULT NULL,
+  `actlic` tinyint(1) DEFAULT 1,
   `idprv` bigint(11) NOT NULL,
   `idprg` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -133,7 +134,8 @@ CREATE TABLE `licencia` (
 
 CREATE TABLE `licxper` (
   `idlic` bigint(11) NOT NULL,
-  `idper` bigint(11) NOT NULL
+  `idper` bigint(11) NOT NULL,
+  `fecent` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -144,7 +146,7 @@ CREATE TABLE `licxper` (
 
 CREATE TABLE `programa` (
   `idprg` bigint(11) NOT NULL,
-  `nompro` varchar(100) NOT NULL
+  `nomprg` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -481,6 +483,8 @@ INSERT INTO `valor` (`idval`, `codval`, `nomval`, `iddom`, `actval`) VALUES
 (22, 504, 'SIM', 5, 1),
 (23, 505, 'Caja', 5, 1),
 (24, 506, 'Cargador', 5, 1),
+(25, 1401, 'NIT', 14, 1),
+(26, 1402, 'CC', 14, 1),
 (27, 601, 'Standard', 6, 1),
 (28, 602, 'Home & Business', 6, 1),
 (29, 604, 'Professional Plus', 6, 1),

@@ -787,30 +787,42 @@ function modalCamPass($nm, $id, $tit){
 }
 
 //------------Modal vlic, llave-----------
-function modalLlave($nm, $id, $tit, $cant, $llaves, $pg){
+function modalLic($nm, $id, $tit, $info, $datPer, $pg){
+	$hoy = date("Y-m-d");
 	$txt = '';
 	$txt .= '<div class="modal fade" id="' . $nm . $id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 		$txt .= '<div class="modal-dialog">';
 			$txt .= '<form action="home.php?pg=' . $pg . '" method="POST">';
 				$txt .= '<div class="modal-content">';
 					$txt .= '<div class="modal-header">';
-						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: left;"><strong>LLAVES - ' . $tit . '</strong></h1>';
+						$txt .= '<h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: left;"><strong>Asignar '.$tit.' a:</strong></h1>';
 						$txt .= '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-body">';
 						$txt .= '<div class="row">';
-						if ($cant) { for($i=1; $i<=$cant; $i++){
-							$txt .= '<div class="form-group col-sm-6" style="text-align: left;">';
-								$txt .= '<label><strong>Llave '.$i.':</strong></label>';
-								$txt .= '<input class="form-control" type="text" id="llave" name="llave[]" value="';
-								if ($llaves && count($llaves)>=$i) $txt .= $llaves[($i-1)]['llave'];
-								$txt .= '" required>';
+							$txt .= '<div class="form-group col-md-6 ui-widget" style="text-align: left !important;">';
+								$txt .= '<label for="idper"><strong>Usuario:</strong></label>';
+            					$txt .= '<select id="combobox'.$id.'" name="idper" class="form-control form-select" required>';
+            					    $txt .= '<option value="0"></option>';
+            					    if ($datPer) { foreach ($datPer as $dpr) {
+            					        $txt .= '<option value="'.$dpr['idper'].'"';
+										if ($info && $dpr['idper'] == $info['idper']) $txt .= ' selected>';
+            					            $txt .= $dpr['apeper']." ".$dpr['nomper'];
+            					        $txt .= '</option>';
+            					    }}
+            					$txt .= '</select>';
 							$txt .= '</div>';
-						}}
+							$txt .= '<div class="form-group col-sm-6" style="text-align: left !important;">';
+								$txt .= '<label for="fecent"><strong>Entrega:</strong></label>';
+								$txt .= '<input class="form-control" max='.$hoy.' type="date" id="fecent" name="fecent"';
+									if ($info && $info['fecent']) $txt .= ' value="'.$info['fecent'].'" disabled';
+									else $txt .= ' value="'.$hoy.'" required';
+								$txt .= '>';
+							$txt .= '</div>';
 						$txt .= '</div>';
 					$txt .= '</div>';
 					$txt .= '<div class="modal-footer">';
-						$txt .= '<input type="hidden" value="savelxl" name="ope">';
+						$txt .= '<input type="hidden" value="savelxp" name="ope">';
 						$txt .= '<input type="hidden" value="' . $id . '" name="idlic">';
 						$txt .= '<button type="submit" class="btn btn-primary btnmd">Guardar</button>';
 						$txt .= '<button type="button" class="btn btn-secondary btnmd" data-bs-dismiss="modal">Cerrar</button>';
@@ -819,6 +831,169 @@ function modalLlave($nm, $id, $tit, $cant, $llaves, $pg){
 			$txt .= '</form>';
 		$txt .= '</div>';
 	$txt .= '</div>';
+	$txt .= '
+	<style>
+    	.custom-combobox'.$id.' {
+    	    position: relative;
+    	    display: inline-block;
+    	    width: 100%;
+    	    text-align: left;
+    	}
+
+    	.custom-combobox'.$id.'-toggle {
+    	    position: absolute;
+    	    top: 0;
+    	    bottom: 0;
+    	    margin-left: -1px;
+    	    padding: 0;
+    	}
+
+    	.custom-combobox'.$id.'-input {
+    	    margin: 0;
+    	    padding: 5px 10px;
+    	    width: 100%;
+    	    text-align: left;
+    	    border-radius: 5px;
+    	    border: 1px solid #ced4da;
+    	    background-color: #fff;
+    	}
+	</style>';
+	$txt .= '<script>$(function() {
+  $.widget("custom.combobox'.$id.'", {
+      _create: function() {
+          this.wrapper = $("<span>")
+              .addClass("custom-combobox'.$id.'")
+              .insertAfter(this.element);
+
+          this.element.hide();
+          this._createAutocomplete();
+          this._createShowAllButton();
+      },
+
+      _createAutocomplete: function() {
+          var selected = this.element.children(":selected"),
+              value = selected.val() ? selected.text().trim() : "";
+
+          this.input = $("<input>")
+              .appendTo(this.wrapper)
+              .val(value)
+              .attr("title", "")
+              .attr("required", this.element.attr("required") ? "required" : null) // Sync "required"
+              .prop("disabled", this.element.prop("disabled")) // Sync "disabled"
+              .addClass("custom-combobox'.$id.'-input ui-widget ui-widget-content ui-state-default ui-corner-left")
+              .autocomplete({
+                  delay: 0,
+                  minLength: 0,
+                  source: this._source.bind(this)
+              })
+              .tooltip({
+                  classes: {
+                      "ui-tooltip": "ui-state-highlight"
+                  }
+              });
+
+          this._on(this.input, {
+              autocompleteselect: function(event, ui) {
+                  ui.item.option.selected = true;
+                  this._trigger("select", event, {
+                      item: ui.item.option
+                  });
+              },
+              autocompletechange: "_removeIfInvalid"
+          });
+      },
+
+      _createShowAllButton: function() {
+          var input = this.input,
+              wasOpen = false;
+
+          $("<a>")
+              .attr("tabIndex", -1)
+              .attr("title", "Show All Items")
+              .tooltip()
+              .appendTo(this.wrapper)
+              .button({
+                  icons: {
+                      primary: "ui-icon-triangle-1-s"
+                  },
+                  text: false
+              })
+              .removeClass("ui-corner-all")
+              .addClass("custom-combobox'.$id.'-toggle ui-corner-right")
+              .on("mousedown", function() {
+                  wasOpen = input.autocomplete("widget").is(":visible");
+              })
+              .on("click", function() {
+                  input.trigger("focus");
+
+                  // Close if already visible
+                  if (wasOpen) {
+                      return;
+                  }
+
+                  // Pass empty string as value to search for, displaying all results
+                  input.autocomplete("search", "");
+              });
+      },
+
+      _source: function(request, response) {
+          var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+          response(this.element.children("option").map(function() {
+              var text = $(this).text().trim();
+              if (this.value && (!request.term || matcher.test(text)))
+                  return {
+                      label: text,
+                      value: text,
+                      option: this
+                  };
+          }));
+      },
+
+      _removeIfInvalid: function(event, ui) {
+          // Selected an item, nothing to do
+          if (ui.item) {
+              return;
+          }
+
+          // Search for a match (case-insensitive)
+          var value = this.input.val().trim(),
+              valueLowerCase = value.toLowerCase(),
+              valid = false;
+          this.element.children("option").each(function() {
+              if ($(this).text().trim().toLowerCase() === valueLowerCase) {
+                  this.selected = valid = true;
+                  return false;
+              }
+          });
+
+          // Found a match, nothing to do
+          if (valid) {
+              return;
+          }
+
+          // Remove invalid value
+          this.input
+              .val("")
+              .attr("title", value + " didnt match any item")
+              .tooltip("open");
+          this.element.val("");
+          this._delay(function() {
+              this.input.tooltip("close").attr("title", "");
+          }, 2500);
+          this.input.autocomplete("instance").term = "";
+      },
+
+      _destroy: function() {
+          this.wrapper.remove();
+          this.element.show();
+      }
+  });
+
+  $("#combobox'.$id.'").combobox'.$id.'();
+  $("#toggle").on("click", function() {
+      $("#combobox'.$id.'").toggle();
+  });
+});</script>';
 	echo $txt;
 }
 
