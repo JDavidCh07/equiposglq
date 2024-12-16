@@ -191,7 +191,7 @@ if($_SESSION['idpef']==4){?>
                     if($dta['idvtprm']==43) $fecha = $hoyh; 
                     else $fecha = $mañanah;
                     if ($dta['estprm'] == 1){
-                        if ($fecha<=$fecini) { ?>
+                        if ($fecha<=$dta['fecini']) { ?>
                             <span style="font-size: 1px;opacity: 0;">1</span>
                             <a href="views/pdfprm.php?idprm=<?=$dta['idprm'];?>&estprm=2" title="Enviar solicitud" target="_blank" onclick="setTimeout(() => location.reload(), 1000);">
                                 <i class="fa fa-solid fa-paper-plane fa-2x iconi" title="Enviar"></i>
@@ -200,7 +200,7 @@ if($_SESSION['idpef']==4){?>
                             <span style="font-size: 1px;opacity: 0;">5</span>
                             <i class="fa fa-solid fa-circle-exclamation fa-2x iconi" title="Fuera de Tiempo"></i>
                     <?php }} else if ($dta['estprm'] == 2){
-                        if ($fecha<=$fecini) { ?>
+                        if ($fecha<=$dta['fecini']) { ?>
                             <span style="font-size: 1px;">2</span>
                             <i class="fa fa-solid fa-clock fa-2x iconi" title="Enviado/Pendiente"></i>
                         <?php } else {
@@ -300,7 +300,7 @@ if($_SESSION['idpef']==4){?>
                     </td>
                     <td style="text-align: left;">
                         <?php if ($slp['estprm'] == 2){
-                            if ($hoyh<=$fecini) { 
+                            if ($hoyh<=$slp['fecini']) { 
                                 $mprm->setIdprm($slp['idprm']);
                                 $inf = $mprm->getOne();
                                 $pfec = explode(' ', $inf[0]['fini']);
